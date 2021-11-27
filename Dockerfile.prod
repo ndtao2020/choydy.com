@@ -1,0 +1,80 @@
+# --------------> The build image
+FROM debian as builder
+# ARG
+ARG JAVA_VERSION="21.3.0.r11-grl"
+ARG MAVEN_VERSION="3.8.3"
+# Update
+RUN apt-get update
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN apt-get -qq -y install curl wget unzip zip build-essential libz-dev zlib1g-dev g++ libfreetype6-dev
+RUN wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64
+# Maven
+# ARG MAVEN_VERSION="3.8.4"
+# RUN curl -fsSL https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/$MAVEN_VERSION/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - -C /usr/share \
+#   && mv /usr/share/apache-maven-$MAVEN_VERSION /usr/share/maven \
+#   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+# ENV MAVEN_VERSION=${MAVEN_VERSION}
+# ENV M2_HOME /usr/share/maven
+# ENV maven.home $M2_HOME
+# ENV M2 $M2_HOME/bin
+# ENV PATH $M2:$PATH
+WORKDIR /app
+COPY ./pom.xml ./pom.xml
+COPY ./src ./src
+
+RUN curl 'https://get.sdkman.io' | bash \
+    && source "$HOME/.sdkman/bin/sdkman-init.sh" \
+    && sdk install java $JAVA_VERSION \
+    && sdk install maven $MAVEN_VERSION \
+    && gu install native-image \
+    && native-image --version \
+    && mvn -Pnative package
+RUN rm -rf ./src
+RUN rm -f ./pom.xml
+
+# --------------> The production image
+FROM redhat/ubi8-minimal
+WORKDIR /work
+# Update
+RUN microdnf update -y && microdnf clean all && rm -rf /var/cache/yum
+RUN chown 1001 /work && chmod "g+rwX" /work && chown 1001:root /work
+# Copy
+COPY --chown=1001:root ./key /work/key
+COPY --chown=1001:root --from=builder /app/target/*-runner /work/application
+COPY --from=builder /usr/bin/dumb-init /usr/bin/dumb-init
+RUN chmod +x /usr/bin/dumb-init
+
+ARG PORT
+
+EXPOSE ${PORT}
+USER 1001
+
+ARG QUARKUS_KEYSTORE_PATH
+ARG QUARKUS_KEYSTORE_ALIAS
+ARG QUARKUS_KEYSTORE_PASS
+ARG QUARKUS_SENDGRID_SENDER
+ARG QUARKUS_SENDGRID_API_KEY
+
+ARG PGHOST
+ARG PGPORT
+ARG PGDATABASE
+ARG PGUSER
+ARG PGPASSWORD
+
+ARG REDISHOST
+ARG REDISPORT
+ARG REDISUSER
+ARG REDISPASSWORD
+
+ENV SERVER_PORT=${PORT}
+ENV QUARKUS_KEYSTORE_PATH=${QUARKUS_KEYSTORE_PATH}
+ENV QUARKUS_KEYSTORE_ALIAS=${QUARKUS_KEYSTORE_ALIAS}
+ENV QUARKUS_KEYSTORE_PASS=${QUARKUS_KEYSTORE_PASS}
+ENV QUARKUS_SENDGRID_SENDER=${QUARKUS_SENDGRID_SENDER}
+ENV QUARKUS_SENDGRID_API_KEY=${QUARKUS_SENDGRID_API_KEY}
+ENV QUARKUS_DATASOURCE_USERNAME=${PGUSER}
+ENV QUARKUS_DATASOURCE_PASSWORD=${PGPASSWORD}
+ENV QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
+ENV QUARKUS_REDIS_HOSTS=redis://${REDISUSER}:${REDISPASSWORD}@${REDISHOST}:${REDISPORT}
+
+CMD ["/usr/bin/dumb-init", "./application", "-Dquarkus.http.host=0.0.0.0"]

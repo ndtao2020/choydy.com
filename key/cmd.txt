@@ -1,0 +1,19 @@
+keytool -genkey -keyalg RSA -alias nhactuvung -keystore keystore.jks -validity 5000 -keysize 2048 -storepass ********
+
+keytool -list -v -keystore keystore.jks -storepass ********
+
+keytool -export -alias nhactuvung -keystore keystore.jks -file publicKey.pem -storepass ********
+
+keytool -export -alias nhactuvung -keystore keystore.jks -file publicKey.cer signFiles -storepass ********
+
+keytool -export -alias nhactuvung -file nhactuvung.crt -keystore keystore.jks -storepass ********
+
+keytool -list -rfc -keystore keystore.jks -alias nhactuvung -storepass ********
+
+keytool -export -file certificate.cer -keystore keystore.jks -alias nhactuvung -keypass ********
+
+openssl x509 -inform der -in certificate.cer -out certificate.pem
+
+openssl rsa -in certificate.cer -pubout -out pubkey.pem
+
+ssh-keygen -y -f certificate.pem > certificate.pub
