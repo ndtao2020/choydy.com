@@ -25,7 +25,7 @@ RUN microdnf update -y && microdnf clean all && rm -rf /var/cache/yum
 RUN chown 1001 /work && chmod "g+rwX" /work && chown 1001:root /work
 # Copy
 COPY --chown=1001:root ./key /work/key
-COPY --chown=1001:root --from=builder /app/target/*-runner /work/application
+COPY --chown=1001:root --from=builder /app/target/*-runner /work/app
 COPY --from=downloader /usr/dumb-init /usr/dumb-init
 RUN chmod +x /usr/dumb-init
 
@@ -55,4 +55,4 @@ ENV QUARKUS_DATASOURCE_PASSWORD=${PGPASSWORD}
 ENV QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
 ENV QUARKUS_REDIS_HOSTS=redis://${REDISUSER}:${REDISPASSWORD}@${REDISHOST}:${REDISPORT}
 
-CMD ["/usr/dumb-init", "./application", "-Dquarkus.http.host=0.0.0.0"]
+CMD ["/usr/dumb-init", "./app", "-Dquarkus.http.host=0.0.0.0"]
