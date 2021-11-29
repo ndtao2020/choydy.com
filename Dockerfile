@@ -5,11 +5,12 @@ WORKDIR /app
 # copy
 COPY ./.mvn ./.mvn
 COPY ./src ./src
+COPY ./webapp ./webapp
 COPY ./mvnw ./mvnw
 COPY ./pom.xml ./pom.xml
 # build
 USER root
-RUN chmod +x mvnw && ./mvnw package -Pnative && rm -rf ./src && rm -f ./pom.xml
+RUN chmod +x mvnw && ./mvnw package -Pnative && rm -rf ./src && rm -rf ./webapp && rm -f ./pom.xml
 
 # --------------> The download image
 FROM alpine as downloader
