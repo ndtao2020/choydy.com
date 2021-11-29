@@ -52,7 +52,7 @@
 import { socialvue } from '../../config/pluginInit'
 
 export default {
-  name: 'Pricing1',
+  name: 'PricingVue',
   mounted () {
     socialvue.index()
   },

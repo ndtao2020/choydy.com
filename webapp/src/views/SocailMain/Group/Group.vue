@@ -37,7 +37,7 @@
 <script>
 import { socialvue } from '../../../config/pluginInit'
 export default {
-  name: 'Group',
+  name: 'GroupVue',
   mounted () {
     socialvue.index()
   },

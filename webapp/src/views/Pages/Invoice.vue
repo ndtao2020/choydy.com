@@ -113,7 +113,7 @@
 import { socialvue } from '../../config/pluginInit'
 
 export default {
-  name: 'Invoice',
+  name: 'InvoiceVue',
   mounted () {
     socialvue.index()
   },

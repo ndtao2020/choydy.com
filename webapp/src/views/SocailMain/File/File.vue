@@ -97,7 +97,7 @@
 <script>
 import { socialvue } from '../../../config/pluginInit'
 export default {
-  name: 'File',
+  name: 'FileVue',
   mounted () {
     socialvue.index()
   },

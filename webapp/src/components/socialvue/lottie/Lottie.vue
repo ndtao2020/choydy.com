@@ -4,7 +4,7 @@
 <script>
 import lottie from 'lottie-web'
 export default {
-  name: 'lottie',
+  name: 'lottieT',
   props: {
     option: {
       type: Object,

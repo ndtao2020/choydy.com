@@ -44,7 +44,7 @@
 import { socialvue } from '../../../config/pluginInit'
 
 export default {
-  name: 'Notification',
+  name: 'NotificationVue',
   mounted () {
     socialvue.index()
   },

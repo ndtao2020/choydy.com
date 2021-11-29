@@ -10,7 +10,7 @@
 import lightLogo from '../../../assets/images/loader.png'
 import darkLogo from '../../../assets/images/logo-white.png'
 export default {
-  name: 'Loader',
+  name: 'LoaderVue',
   props: {
     dark: { type: Boolean, default: false }
   },

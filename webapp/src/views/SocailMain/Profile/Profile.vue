@@ -200,7 +200,7 @@ import Post from '../../../Model/Post'
 import { Posts } from '../../../FackApi/api/SocialPost'
 import SocialPost from '../../Apps/Social/Components/SocialPost'
 export default {
-  name: 'Profile',
+  name: 'ProfileOriginal',
   mounted () {
     socialvue.index()
   },

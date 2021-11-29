@@ -14,7 +14,7 @@
           <div class="col-md-6 text-center pt-5">
             <div class="sign-in-detail text-white">
               <a class="sign-in-logo mb-5" href="#"><img src="../../assets/images/logo-full.png" class="img-fluid" alt="logo"></a>
-              <Slick :option="slickOptions">
+              <slick-comp :option="slickOptions">
                 <div class="item">
                   <img src="../../assets/images/login/1.png" class="img-fluid mb-4" alt="logo">
                   <h4 class="mb-1 text-white">Manage your orders</h4>
@@ -30,7 +30,7 @@
                   <h4 class="mb-1 text-white">Manage your orders</h4>
                   <p>It is a long established fact that a reader will be distracted by the readable content.</p>
                 </div>
-              </Slick>
+              </slick-comp>
             </div>
           </div>
           <div class="col-sm-6 bg-white pt-5">

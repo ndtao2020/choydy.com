@@ -195,7 +195,7 @@
 <script>
 import { socialvue } from '../../../../config/pluginInit'
 export default {
-  name: 'About',
+  name: 'AboutVue',
   mounted () {
     socialvue.index()
   },

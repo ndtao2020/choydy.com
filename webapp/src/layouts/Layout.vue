@@ -69,7 +69,7 @@ import { socialvue } from '../config/pluginInit'
 import { Users } from '../FackApi/api/chat'
 import { mapActions } from 'vuex'
 export default {
-  name: 'Layout1',
+  name: 'LayoutK',
   components: {
     Loader,
     SideBarStyle1,

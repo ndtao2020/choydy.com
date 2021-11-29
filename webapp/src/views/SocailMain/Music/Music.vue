@@ -110,7 +110,7 @@
 <script>
 import { socialvue } from '../../../config/pluginInit'
 export default {
-  name: 'Music',
+  name: 'MusicVue',
   mounted () {
     socialvue.index()
   },

@@ -48,7 +48,7 @@
 import { socialvue } from '../../config/pluginInit'
 
 export default {
-  name: 'Maintenance',
+  name: 'MaintenanceVue',
   mounted () {
     socialvue.index()
   }

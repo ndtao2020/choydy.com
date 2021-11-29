@@ -74,7 +74,7 @@ import * as am4maps from '@amcharts/amcharts4/maps'
 import am4themesAnimated from '@amcharts/amcharts4/themes/animated'
 import am4geodataWorldLow from '@amcharts/amcharts4-geodata/worldLow'
 export default {
-  name: 'Weather',
+  name: 'WeatherVue',
   mounted () {
     socialvue.index()
     am4core.useTheme(am4themesAnimated)

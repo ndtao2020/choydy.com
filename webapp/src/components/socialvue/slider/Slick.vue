@@ -6,7 +6,7 @@
 <script>
 import VueSlick from 'vue-slick'
 export default {
-  name: 'Slick',
+  name: 'SlickT',
   components: {
     VueSlick
   },

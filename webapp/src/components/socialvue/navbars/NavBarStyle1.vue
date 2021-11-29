@@ -72,7 +72,7 @@
                   </li>
                   <li class="nav-item">
                     <a href="#" class="search-toggle iq-waves-effect">
-                      <lottie :option="require('../../../assets/images/small/lottie-bell')" id="lottie-beil" />
+                      <lottie-comp :option="require('../../../assets/images/small/lottie-bell')" id="lottie-beil" />
                         <span class="bg-danger dots"></span>
                     </a>
                     <div class="iq-sub-dropdown">

@@ -446,8 +446,9 @@
 </template>
 <script>
 import { socialvue } from '../../config/pluginInit'
+
 export default {
-  name: 'Profile',
+  name: 'ProfileVue',
   mounted () {
     socialvue.index()
   },

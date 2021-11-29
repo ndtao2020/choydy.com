@@ -213,7 +213,7 @@ import { Users, MessagesUser1 } from '../../../FackApi/api/chat'
 import User from '../../../Model/User'
 
 export default {
-  name: 'Index',
+  name: 'IndexT',
   components: { ChatItem, ToggleButton, ToggleContent },
   mounted () {
     socialvue.index()
