@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 const Layout = () => import('../layouts/Layout')
 const Default = () => import('../layouts/BlankLayout')
 const AuthLayout = () => import('../layouts/AuthLayouts/AuthLayout')
-
 /* all routes */
 const SocialProfile = () => import('../views/SocailMain/Profile/Profile')
 const ProfileImage = () => import('../views/SocailMain/Profile/ProfileImage')
@@ -16,7 +15,6 @@ const Group = () => import('../views/SocailMain/Group/Group')
 const Birthday = () => import('../views/SocailMain/Bithdate/Bithdate')
 const Music = () => import('../views/SocailMain/Music/Music')
 const Notification = () => import('../views/SocailMain/Notifications/Notification')
-const Weather = () => import('../views/SocailMain/Weather/Weather')
 const FriendRequest = () => import('../views/SocailMain/Friends/FriendRequest')
 /* UIElements View */
 const UiAlerts = () => import('../views/core/UiAlerts.vue')
@@ -58,7 +56,6 @@ const Invoice = () => import('../views/Pages/Invoice')
 /* Apps Views */
 const EmailListing = () => import('../views/Apps/Email/EmailListing')
 const EmailCompose = () => import('../views/Apps/Email/EmailCompose')
-const Calendar = () => import('../views/Apps/Calendar/Calendar')
 /* Icon Views */
 const IconDripicons = () => import('../views/Icons/IconDripicons')
 const IconFontawesome5 = () => import('../views/Icons/IconFontawesome5')
@@ -149,12 +146,6 @@ const childRoutes = (prop, mode) => [
     name: prop + '.birthday',
     meta: { auth: true, name: 'Birthday', img: require('../assets/images/page-img/profile-bg4.jpg') },
     component: Birthday
-  },
-  {
-    path: 'weather',
-    name: prop + '.weather',
-    meta: { auth: true, name: 'Weather', img: require('../assets/images/page-img/profile-bg2.jpg') },
-    component: Weather
   },
   {
     path: 'music',
@@ -374,12 +365,6 @@ const iconChildRoute = (prop, mode = false) => [
 ]
 
 const appChildRoute = (prop, mode = false) => [
-  {
-    path: 'calendar',
-    name: prop + '.calendar',
-    meta: { auth: true, name: 'Calendar', img: require('../assets/images/page-img/profile-bg6.jpg') },
-    component: Calendar
-  },
   {
     path: 'chat',
     name: prop + '.chat',

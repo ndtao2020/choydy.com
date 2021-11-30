@@ -182,18 +182,6 @@
     ]
   },
   {
-    "title": "Calendar",
-    "name": "sidebar.calendar",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name" : "dark.app.calendar"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "ri-calendar-2-line"
-  },
-  {
     "title": "User",
     "name": "sidebar.user",
     "is_heading": false,
@@ -726,7 +714,6 @@
   {
     "title": "Plugins",
     "name": "sidebar.plugins",
-    "name": "sidebar.plugins",
     "is_heading": false,
     "is_active": false,
     "link": "",
@@ -739,7 +726,6 @@
       {
         "title": "Datepicker",
         "name": "sidebar.datepicker",
-        "name": "sidebar.datepicker",
         "is_active": false,
         "link": {
           "name": "dark.plugins.datepicker"
@@ -750,7 +736,6 @@
       },
       {
         "title": "Select",
-        "name": "sidebar.select",
         "name": "sidebar.select",
         "is_active": false,
         "link": {
@@ -763,7 +748,6 @@
       {
         "title": "Draggable",
         "name": "sidebar.draggable",
-        "name": "sidebar.draggable",
         "is_active": false,
         "link": {
           "name": "dark.plugins.draggable"
@@ -774,7 +758,6 @@
       },
       {
         "title": "TreeView",
-        "name": "sidebar.treeView",
         "name": "sidebar.treeView",
         "is_heading": false,
         "is_active": false,

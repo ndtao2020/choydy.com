@@ -144,18 +144,6 @@
     "icon": "las la-check-circle"
   },
   {
-    "title": "Calendar",
-    "name": "sidebar.calendar",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name" : "app.calendar"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-calendar"
-  },
-  {
     "title": "Birthday",
     "name": "sidebar.birthday",
     "is_heading": false,
@@ -166,18 +154,6 @@
     "class_name": "",
     "is_icon_class": true,
     "icon": "las la-birthday-cake"
-  },
-  {
-    "title": "Weather",
-    "name": "sidebar.weather",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "social.weather"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "ri-snowy-line"
   },
   {
     "title": "Music",

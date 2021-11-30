@@ -1,5 +1,5 @@
 {
-  "name": "vue-dashboard",
+  "name": "web-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,6 @@
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
   },
   "dependencies": {
-    "@amcharts/amcharts4": "^4.7.18",
-    "@amcharts/amcharts4-geodata": "^4.1.9",
-    "@toast-ui/vue-calendar": "^1.1.1",
     "autoprefixer": "latest",
     "bootstrap-vue": "^2.21.2",
     "classnames": "^2.3.1",
@@ -24,7 +21,6 @@
     "raphael": "^2.3.0",
     "register-service-worker": "^1.6.2",
     "smooth-scrollbar": "^8.5.1",
-    "swiper": "^5.3.0",
     "vee-validate": "^3.2.2",
     "vue": "^2.6.14",
     "vue-flatpickr-component": "^9.0.5",
@@ -40,14 +36,12 @@
     "@babel/eslint-parser": "^7.16.3",
     "@vue/cli-plugin-babel": "^4.5.15",
     "@vue/cli-plugin-eslint": "^4.5.15",
-    "@vue/cli-plugin-router": "^4.5.15",
-    "@vue/cli-plugin-vuex": "^4.5.15",
     "@vue/cli-service": "^4.5.15",
     "babel-eslint": "^10.1.0",
     "bootstrap": "^4.6.1",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.1.1",
-    "lint-staged": "^9.5.0",
+    "lint-staged": "^12.1.2",
     "sass": "^1.43.5",
     "sass-loader": "^10.2.0",
     "vue-eslint-parser": "^8.0.1",
