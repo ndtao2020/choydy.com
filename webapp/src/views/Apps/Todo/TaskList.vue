@@ -2,97 +2,80 @@
   <b-row>
     <b-col sm="12">
       <iq-card>
-        <template v-slot:body>
+        <template #body>
           <div class="d-flex justify-content-between align-items-center">
             <div class="todo-date d-flex mr-3">
               <i :class="`ri-calendar-2-line text-${category.color} mr-2`"></i>
               <span>{{ project.project_name }}</span>
             </div>
             <div class="todo-notification d-flex align-items-center">
-              <b-button variant=" iq-bg-primary iq-waves-effect" v-b-modal.add_task size="lg">Add Task</b-button>
-              <TaskForm :new-id="taskList.length" :category="categoryList"/>
+              <b-button v-b-modal.add_task variant=" iq-bg-primary iq-waves-effect" size="lg">Add Task</b-button>
+              <TaskForm :new-id="taskList.length" :category="categoryList" />
             </div>
           </div>
         </template>
       </iq-card>
     </b-col>
     <b-col md="8">
-      <iq-card body-class="p-0" v-if="filteredList.length > 0">
-        <template v-slot:body>
+      <iq-card v-if="filteredList.length > 0" body-class="p-0">
+        <template #body>
           <ul class="todo-task-lists m-0 p-0">
-              <template v-for="(item,index) in filteredList">
-                <li class="d-flex align-items-center p-3" v-if="(category.isHidden || item.category_id === category.id) && item.project_id === project.id" :key="index">
-                  <div class="user-img img-fluid">
-                    <img :src="checkUser(item.user_id,'image')" alt="story-img" class="rounded-circle avatar-40">
+            <template v-for="(item, index) in filteredList">
+              <li
+                v-if="(category.isHidden || item.category_id === category.id) && item.project_id === project.id"
+                :key="index"
+                class="d-flex align-items-center p-3"
+              >
+                <div class="user-img img-fluid">
+                  <img :src="checkUser(item.user_id, 'image')" alt="story-img" class="rounded-circle avatar-40" />
+                </div>
+                <div class="media-support-info ml-3">
+                  <h6 class="d-inline-block">
+                    <del v-if="item.task_status"> {{ item.task_title }} for {{ project.project_name }} </del>
+                    <template v-else> {{ item.task_title }} for {{ project.project_name }} </template>
+                  </h6>
+                  <span v-if="item.status === 'Expiring'" class="badge badge-danger ml-3 text-white">{{ item.status }}</span>
+                  <span v-if="item.status === 'Complete'" class="badge badge-primary ml-3 text-white">{{ item.status }}</span>
+                  <span v-if="item.status === 'Urgent'" class="badge badge-info ml-3 text-white">{{ item.status }}</span>
+                  <p class="mb-0">by {{ checkUser(item.user_id, 'name') }}</p>
+                </div>
+                <div class="iq-card-header-toolbar d-flex align-items-center">
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      :id="'check' + index"
+                      type="checkbox"
+                      name="todo-check"
+                      class="custom-control-input"
+                      :checked="item.task_status"
+                      @change="updateStatue(item)"
+                    />
+                    <label class="custom-control-label" :for="'check' + index"></label>
                   </div>
-                  <div class="media-support-info ml-3">
-                    <h6 class="d-inline-block">
-                      <del v-if="item.task_status">
-                        {{ item.task_title }} for {{ project.project_name }}
-                      </del>
-                      <template v-else>
-                        {{ item.task_title }} for {{ project.project_name }}
-                      </template>
-                    </h6>
-                    <span class="badge badge-danger ml-3 text-white" v-if="item.status === 'Expiring'">{{ item.status }}</span>
-                    <span class="badge badge-primary ml-3 text-white" v-if="item.status === 'Complete'">{{ item.status }}</span>
-                    <span class="badge badge-info ml-3 text-white" v-if="item.status === 'Urgent'">{{ item.status }}</span>
-                    <p class="mb-0">by {{ checkUser(item.user_id,'name') }}</p>
-                  </div>
-                  <div class="iq-card-header-toolbar d-flex align-items-center">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" name="todo-check" class="custom-control-input" @change="updateStatue(item)" :id="'check' + index" :checked="item.task_status">
-                      <label class="custom-control-label" :for="'check' + index"></label>
-                    </div>
-                  </div>
-                </li>
-              </template>
+                </div>
+              </li>
+            </template>
           </ul>
         </template>
       </iq-card>
       <template v-else>
         <div class="text-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            width="138"
-            height="138"
-            class="hits-empty-state-image"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="138" height="138" class="hits-empty-state-image">
             <defs>
               <linearGradient id="c" x1="50%" x2="50%" y1="100%" y2="0%">
                 <stop offset="0%" stop-color="#F5F5FA" />
                 <stop offset="100%" stop-color="#FFF" />
               </linearGradient>
-              <path
-                id="b"
-                d="M68.71 114.25a45.54 45.54 0 1 1 0-91.08 45.54 45.54 0 0 1 0 91.08z"
-              />
-              <filter
-                id="a"
-                width="140.6%"
-                height="140.6%"
-                x="-20.3%"
-                y="-15.9%"
-                filterUnits="objectBoundingBox"
-              >
+              <path id="b" d="M68.71 114.25a45.54 45.54 0 1 1 0-91.08 45.54 45.54 0 0 1 0 91.08z" />
+              <filter id="a" width="140.6%" height="140.6%" x="-20.3%" y="-15.9%" filterUnits="objectBoundingBox">
                 <feOffset dy="4" in="SourceAlpha" result="shadowOffsetOuter1" />
-                <feGaussianBlur
-                  in="shadowOffsetOuter1"
-                  result="shadowBlurOuter1"
-                  stdDeviation="5.5"
-                />
+                <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="5.5" />
                 <feColorMatrix
                   in="shadowBlurOuter1"
                   result="shadowMatrixOuter1"
                   values="0 0 0 0 0.145098039 0 0 0 0 0.17254902 0 0 0 0 0.380392157 0 0 0 0.15 0"
                 />
                 <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2" />
-                <feGaussianBlur
-                  in="shadowOffsetOuter2"
-                  result="shadowBlurOuter2"
-                  stdDeviation="1.5"
-                />
+                <feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="1.5" />
                 <feColorMatrix
                   in="shadowBlurOuter2"
                   result="shadowMatrixOuter2"
@@ -105,20 +88,8 @@
               </filter>
             </defs>
             <g fill="none" fill-rule="evenodd">
-              <circle
-                cx="68.85"
-                cy="68.85"
-                r="68.85"
-                fill="#5468FF"
-                opacity=".07"
-              />
-              <circle
-                cx="68.85"
-                cy="68.85"
-                r="52.95"
-                fill="#5468FF"
-                opacity=".08"
-              />
+              <circle cx="68.85" cy="68.85" r="68.85" fill="#5468FF" opacity=".07" />
+              <circle cx="68.85" cy="68.85" r="52.95" fill="#5468FF" opacity=".08" />
               <use fill="#000" filter="url(#a)" xlink:href="#b" />
               <use fill="url(#c)" xlink:href="#b" />
               <path
@@ -132,43 +103,43 @@
         </div>
       </template>
     </b-col>
-     <div class="col-md-4">
-        <div class="iq-card">
-          <div class="iq-card-body">
-              <div class="iq-todo-right">
-                <form class="position-relative">
-                    <div class="form-group mb-0">
-                      <input type="text" class="form-control todo-search" id="exampleInputEmail001" placeholder="Search">
-                      <a class="search-link" href="#"><i class="ri-search-line"></i></a>
-                    </div>
-                </form>
-                <div class="iq-todo-friendlist mt-3">
-                    <ul class="suggestions-lists m-0 p-0">
-                      <li class="d-flex mb-4 align-items-center" v-for="(item,index) in friendList" :key=index>
-                          <div class="user-img img-fluid"><img :src="item.img" alt="story-img" class="rounded-circle avatar-40"></div>
-                          <div class="media-support-info ml-3">
-                            <h6>{{item.name}}</h6>
-                            <p class="mb-0">{{item.work}}</p>
-                          </div>
-                          <div class="iq-card-header-toolbar d-flex align-items-center">
-                            <div class="dropdown">
-                                <span class="dropdown-toggle text-primary" id="dropdownMenuButton41" data-toggle="dropdown">
-                                <i class="ri-more-2-line"></i>
-                                </span>
-                                <div class="dropdown-menu dropdown-menu-right" style="">
-                                  <a class="dropdown-item" href="#"><i class="ri-user-unfollow-line mr-2"></i>Unfollow</a>
-                                  <a class="dropdown-item" href="#"><i class="ri-close-circle-line mr-2"></i>Unfriend</a>
-                                  <a class="dropdown-item" href="#"><i class="ri-lock-line mr-2"></i>block</a>
-                                </div>
-                            </div>
-                          </div>
-                      </li>
-                    </ul>
-                    <a href="javascript:void();" class="btn btn-primary d-block"><i class="ri-add-line"></i> Load More</a>
-                </div>
+    <div class="col-md-4">
+      <div class="iq-card">
+        <div class="iq-card-body">
+          <div class="iq-todo-right">
+            <form class="position-relative">
+              <div class="form-group mb-0">
+                <input id="exampleInputEmail001" type="text" class="form-control todo-search" placeholder="Search" />
+                <a class="search-link" href="#"><i class="ri-search-line"></i></a>
               </div>
+            </form>
+            <div class="iq-todo-friendlist mt-3">
+              <ul class="suggestions-lists m-0 p-0">
+                <li v-for="(item, index) in friendList" :key="index" class="d-flex mb-4 align-items-center">
+                  <div class="user-img img-fluid"><img :src="item.img" alt="story-img" class="rounded-circle avatar-40" /></div>
+                  <div class="media-support-info ml-3">
+                    <h6>{{ item.name }}</h6>
+                    <p class="mb-0">{{ item.work }}</p>
+                  </div>
+                  <div class="iq-card-header-toolbar d-flex align-items-center">
+                    <div class="dropdown">
+                      <span id="dropdownMenuButton41" class="dropdown-toggle text-primary" data-toggle="dropdown">
+                        <i class="ri-more-2-line"></i>
+                      </span>
+                      <div class="dropdown-menu dropdown-menu-right" style="">
+                        <a class="dropdown-item" href="#"><i class="ri-user-unfollow-line mr-2"></i>Unfollow</a>
+                        <a class="dropdown-item" href="#"><i class="ri-close-circle-line mr-2"></i>Unfriend</a>
+                        <a class="dropdown-item" href="#"><i class="ri-lock-line mr-2"></i>block</a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <a href="javascript:void();" class="btn btn-primary d-block"><i class="ri-add-line"></i> Load More</a>
+            </div>
           </div>
         </div>
+      </div>
     </div>
   </b-row>
 </template>
@@ -179,24 +150,19 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'TaskList',
   components: { TaskForm },
-  props: [
-    'taskList',
-    'project',
-    'category'
-  ],
-  mounted () {
-  },
+  props: ['taskList', 'project', 'category'],
+  mounted() {},
   computed: {
     ...mapGetters({
       categoryList: 'Todo/categoryState'
     }),
-    filteredList () {
-      return this.taskList.filter(item => {
+    filteredList() {
+      return this.taskList.filter((item) => {
         return item.task_title.toLowerCase().includes(this.search.toLowerCase())
       })
     }
   },
-  data () {
+  data() {
     return {
       search: '',
       friendList: [
@@ -224,8 +190,8 @@ export default {
     }
   },
   methods: {
-    checkUser (item, type) {
-      let user = Users.find(user => user.id === item)
+    checkUser(item, type) {
+      let user = Users.find((user) => user.id === item)
       let final
       if (user !== undefined) {
         switch (type) {
@@ -243,7 +209,7 @@ export default {
       }
       return false
     },
-    updateStatue (item) {
+    updateStatue(item) {
       this.$store.dispatch('Todo/updateStatusAction', item)
     }
   }

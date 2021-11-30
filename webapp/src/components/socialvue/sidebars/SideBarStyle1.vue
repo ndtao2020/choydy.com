@@ -1,10 +1,10 @@
 <template>
   <div class="iq-sidebar">
     <div id="sidebar-scrollbar">
-        <nav class="iq-sidebar-menu">
-           <List :items="items" :open="true" :horizontal="horizontal"/>
-        </nav>
-        <div class="p-3"></div>
+      <nav class="iq-sidebar-menu">
+        <List :items="items" :open="true" :horizontal="horizontal" />
+      </nav>
+      <div class="p-3"></div>
     </div>
   </div>
 </template>
@@ -22,13 +22,12 @@ export default {
   components: {
     List
   },
-  methods: {
-    miniSidebar () {
-      this.$emit('toggle')
-    }
+  data() {
+    return {}
   },
-  data () {
-    return {
+  methods: {
+    miniSidebar() {
+      this.$emit('toggle')
     }
   }
 }

@@ -1,17 +1,17 @@
 export default {
-  authUserAction (context, payload) {
+  authUserAction(context, payload) {
     context.commit('authUserCommit', payload)
   },
-  addUserAction (context, payload) {
+  addUserAction(context, payload) {
     context.commit('addUserCommit', payload)
   },
-  activePageAction (context, payload) {
+  activePageAction(context, payload) {
     context.commit('activePageCommit', payload)
   },
-  setLangAction (context, payload) {
+  setLangAction(context, payload) {
     context.commit('setLangCommit', payload)
   },
-  layoutModeAction (context, payload) {
+  layoutModeAction(context, payload) {
     let dark = payload.dark ? 'dark' : 'light'
     let rtl = payload.rtl ? 'rtl' : 'ltr'
     document.getElementsByTagName('html')[0].setAttribute('mode', dark)

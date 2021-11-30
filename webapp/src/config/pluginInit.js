@@ -11,13 +11,13 @@ if (typeof window !== 'undefined') {
 }
 
 export const socialvue = {
-  index () {
+  index() {
     this.loaderInit()
     this.activeRoute()
     this.SmoothScrollbar()
     this.Accordian()
   },
-  mainIndex () {
+  mainIndex() {
     this.ripple()
     this.fullscreen()
     this.sideBarToggle()
@@ -31,7 +31,7 @@ export const socialvue = {
     this.customizerButton1()
     this.customizerButton2()
   },
-  customizerButton1 () {
+  customizerButton1() {
     $('.btn-chat-data').click(function () {
       $(this).toggleClass('active')
       $('.iq-chat-data-block').addClass('active-block')
@@ -39,7 +39,7 @@ export const socialvue = {
       $('.btn-customizer-data').removeClass('active')
     })
   },
-  customizerButton2 () {
+  customizerButton2() {
     $('.btn-customizer-data').click(function () {
       $(this).toggleClass('active')
       $('.iq-customizer-block').addClass('active-block')
@@ -48,24 +48,24 @@ export const socialvue = {
       $('.iq-search-hidden').hide()
     })
   },
-  openMenu () {
+  openMenu() {
     $('.dropdown').click(function () {
       $('.dropdown-menu').toggleClass('show')
     })
   },
-  mainMenutoogle () {
+  mainMenutoogle() {
     $('.wrapper-menu').click(function () {
       $(this).toggleClass('open')
       $('body').toggleClass('sidebar-main')
     })
   },
-  rightSideBarMini () {
+  rightSideBarMini() {
     $('.right-sidebar-toggle').click(function () {
       $('body').toggleClass('right-sidebar-close')
       $('.right-sidebar-mini ').toggleClass('right-sidebar')
     })
   },
-  loaderInit () {
+  loaderInit() {
     let load = document.getElementById('loading')
     animation.fadeOut(load, { duration: 0 })
     animation.fadeOut(load, { duration: 1400 })
@@ -74,7 +74,7 @@ export const socialvue = {
     }, 2000)
     // $('#loading').delay(1000).fadeOut('slow')
   },
-  activeRoute () {
+  activeRoute() {
     let obj = {
       name: Route.currentRoute.meta.name,
       breadCrumb: [
@@ -91,7 +91,7 @@ export const socialvue = {
     }
     Store.dispatch('Setting/activePageAction', obj)
   },
-  ripple () {
+  ripple() {
     $(document).on('click', '.iq-waves-effect', function (e) {
       // Remove any old one
       $('.ripple').remove()
@@ -116,24 +116,23 @@ export const socialvue = {
       let y = e.pageY - posY - buttonHeight / 2
 
       // Add the ripples CSS and start the animation
-      $('.ripple').css({
-        width: buttonWidth,
-        height: buttonHeight,
-        top: y + 'px',
-        left: x + 'px'
-      }).addClass('rippleEffect')
+      $('.ripple')
+        .css({
+          width: buttonWidth,
+          height: buttonHeight,
+          top: y + 'px',
+          left: x + 'px'
+        })
+        .addClass('rippleEffect')
     })
   },
 
-  fullscreen () {
+  fullscreen() {
     const elementExist = this.checkElement('class', 'iq-full-screen')
     if (elementExist) {
       $(document).on('click', '.iq-full-screen', function () {
         let elem = $(this)
-        if (!document.fullscreenElement &&
-          !document.mozFullScreenElement &&
-          !document.webkitFullscreenElement &&
-          !document.msFullscreenElement) {
+        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
           if (document.documentElement.requestFullscreen) {
             document.documentElement.requestFullscreen()
           } else if (document.documentElement.mozRequestFullScreen) {
@@ -158,7 +157,7 @@ export const socialvue = {
       })
     }
   },
-  triggerSet () {
+  triggerSet() {
     const elementExist = this.checkElement('class', 'wrapper-menu')
     if (elementExist) {
       let wrapperMenu = document.querySelector('.wrapper-menu')
@@ -169,11 +168,11 @@ export const socialvue = {
     }
   },
 
-  sidebarMiniSetEvent (element, target) {
+  sidebarMiniSetEvent(element, target) {
     element.classList.toggle('open')
     target.classList.toggle('sidebar-main')
   },
-  checkClass (ele, type, className) {
+  checkClass(ele, type, className) {
     switch (type) {
       case 'addClass':
         if (!ele.hasClass(className)) {
@@ -191,24 +190,26 @@ export const socialvue = {
     }
   },
 
-  sideBarToggle () {
+  sideBarToggle() {
     // eslint-disable-next-line no-unused-vars
     const elementExist = this.checkElement('class', 'iq-sidebar-menu')
     if (elementExist) {
-      $(document).on('click', '.iq-sidebar-menu li', function () {
-
-      })
+      $(document).on('click', '.iq-sidebar-menu li', function () {})
     }
   },
 
-  navBarAction () {
+  navBarAction() {
     $(document).on('click', '.iq-sub-dropdown', function (e) {
       e.stopPropagation()
     })
     $(document).on('click', function (e) {
       let myTargetElement = e.target
       let selector, mainElement
-      if ($(myTargetElement).hasClass('search-toggle') || $(myTargetElement).parent().hasClass('search-toggle') || $(myTargetElement).parent().parent().hasClass('search-toggle')) {
+      if (
+        $(myTargetElement).hasClass('search-toggle') ||
+        $(myTargetElement).parent().hasClass('search-toggle') ||
+        $(myTargetElement).parent().parent().hasClass('search-toggle')
+      ) {
         if ($(myTargetElement).hasClass('search-toggle')) {
           selector = $(myTargetElement).parent()
           mainElement = $(myTargetElement)
@@ -228,14 +229,15 @@ export const socialvue = {
         mainElement.toggleClass('active')
 
         e.preventDefault()
-      } else if ($(myTargetElement).is('.search-input')) {} else {
+      } else if ($(myTargetElement).is('.search-input')) {
+      } else {
         $('.navbar-list li').removeClass('iq-show')
         $('.navbar-list li .search-toggle').removeClass('active')
       }
     })
   },
 
-  checkElement (type, element) {
+  checkElement(type, element) {
     let found = false
     let elements
     switch (type) {
@@ -257,10 +259,9 @@ export const socialvue = {
     return found
   },
 
-  owlCarousel () {
-  },
+  owlCarousel() {},
 
-  SmoothScrollbar () {
+  SmoothScrollbar() {
     const elementExistMain = this.checkElement('id', 'sidebar-scrollbar')
     if (elementExistMain) {
       Scrollbar.init(document.querySelector('#sidebar-scrollbar'))
@@ -271,12 +272,12 @@ export const socialvue = {
     }
   },
 
-  Accordian () {
+  Accordian() {
     $('.iq-accordion .iq-accordion-block .accordion-details').hide()
     $('.iq-accordion .iq-accordion-block:first').addClass('accordion-active').children().slideDown('slow')
   },
 
-  AccordianInit () {
+  AccordianInit() {
     $(document).on('click', '.iq-accordion .iq-accordion-block', function () {
       if ($(this).children('div.accordion-details ').is(':hidden')) {
         $('.iq-accordion .iq-accordion-block').removeClass('accordion-active').children('div.accordion-details ').slideUp('slow')
@@ -285,7 +286,7 @@ export const socialvue = {
     })
   },
 
-  getActiveLink (item, activeRoute) {
+  getActiveLink(item, activeRoute) {
     let active = false
     if (item.children !== undefined) {
       item.children.filter(function (child) {
@@ -300,7 +301,7 @@ export const socialvue = {
     }
     return active
   },
-  showSnackbar (type, data = {}) {
+  showSnackbar(type, data = {}) {
     if (type !== null) {
       switch (type) {
         case 'success':
@@ -314,10 +315,10 @@ export const socialvue = {
       Snackbar.show(data)
     }
   },
-  Snackbar (data) {
+  Snackbar(data) {
     Snackbar.show(data)
   },
-  chat () {
+  chat() {
     $('#chat-start').click(function () {
       $('.chat-data-left').toggleClass('show')
     })
@@ -331,7 +332,7 @@ export const socialvue = {
       $('.chat-data-left').addClass('show')
     })
   },
-  random (length) {
+  random(length) {
     let result = ''
     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     let charactersLength = characters.length
@@ -340,7 +341,7 @@ export const socialvue = {
     }
     return result
   },
-  applyDrag (arr, dragResult) {
+  applyDrag(arr, dragResult) {
     const { removedIndex, addedIndex, payload } = dragResult
     if (removedIndex === null && addedIndex === null) return arr
 
@@ -357,14 +358,14 @@ export const socialvue = {
 
     return result
   },
-  generateItems (count, creator) {
+  generateItems(count, creator) {
     const result = []
     for (let i = 0; i < count; i++) {
       result.push(creator(i))
     }
     return result
   },
-  bodyClassCheck (className, modeName = 'light') {
+  bodyClassCheck(className, modeName = 'light') {
     let body = document.querySelector('body')
     body.classList = ''
     // body.classList.add(className)
@@ -398,7 +399,7 @@ export const animation = {
       }
     },
     elastic: function (progress, x) {
-      return Math.pow(2, 10 * (progress - 1)) * Math.cos(20 * Math.PI * x / 3 * progress)
+      return Math.pow(2, 10 * (progress - 1)) * Math.cos(((20 * Math.PI * x) / 3) * progress)
     }
   },
   animate: function (options) {

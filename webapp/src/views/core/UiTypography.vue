@@ -2,29 +2,33 @@
   <b-container fluid>
     <b-row>
       <div class="col-sm-12">
-          <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px;">
-            <div class="inner-page-title">
-                <h3 class="text-white">Typography Page</h3>
-                <p class="text-white">lorem ipsum</p>
-            </div>
+        <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px">
+          <div class="inner-page-title">
+            <h3 class="text-white">Typography Page</h3>
+            <p class="text-white">lorem ipsum</p>
           </div>
+        </div>
       </div>
       <b-col sm="12">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Display headings</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-1  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-1 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Traditional heading elements are designed to work best in the meat of your page content. When you need a heading to stand out, consider using a <strong>display heading</strong>—a larger, slightly more opinionated heading style. Keep in mind these headings are not responsive by default, but it’s possible to enable <a href="https://getbootstrap.com/" target="_blank">responsive font sizes</a>.</p>
+          <template #body>
+            <p>
+              Traditional heading elements are designed to work best in the meat of your page content. When you need a heading to stand out, consider
+              using a <strong>display heading</strong>—a larger, slightly more opinionated heading style. Keep in mind these headings are not
+              responsive by default, but it’s possible to enable <a href="https://getbootstrap.com/" target="_blank">responsive font sizes</a>.
+            </p>
             <b-collapse id="collapse-1" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="display-headings">
+                  <pre id="display-headings" class="text-white">
                     <code>
 &lt;h1 class="display-1"&gt;Display headings&lt;/h1&gt;
 &lt;h1 class="display-2"&gt;Display headings&lt;/h1&gt;
@@ -47,20 +51,20 @@
       </b-col>
       <b-col lg="6" sm="12">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Typography</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-2  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-2 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>All HTML headings, <code>&lt;h1&gt;</code> through <code>&lt;h6&gt;</code>, are available.</p>
             <b-collapse id="collapse-2" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="typography">
+                  <pre id="typography" class="text-white">
                     <code>
 &lt;h1&gt;h1. Bootstrap heading&lt;/h1&gt;
 &lt;h2&gt;h2. Bootstrap heading&lt;/h2&gt;
@@ -81,20 +85,20 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Inline text elements</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-3  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-3 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Styling for common inline HTML5 elements.</p>
             <b-collapse id="collapse-3" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="inline-text-element">
+                  <pre id="inline-text-element" class="text-white">
                     <code>
 &lt;p&gt;You can use the mark tag to &lt;mark&gt;highlight&lt;/mark&gt; text.&lt;/p&gt;
 &lt;p&gt;&lt;del&gt;This line of text is meant to be treated as deleted text.&lt;/del&gt;&lt;/p&gt;
@@ -119,20 +123,23 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Lists Inline</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-4  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-4 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Remove a list’s bullets and apply some light <code>margin</code> with a combination of two classes, <code>.list-inline</code> and <code>.list-inline-item</code>.</p>
+          <template #body>
+            <p>
+              Remove a list’s bullets and apply some light <code>margin</code> with a combination of two classes, <code>.list-inline</code> and
+              <code>.list-inline-item</code>.
+            </p>
             <b-collapse id="collapse-4" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="lists-inline">
+                  <pre id="lists-inline" class="text-white">
                     <code>
 &lt;ul class="list-inline"&gt;
   &lt;li class="list-inline-item"&gt;Lorem ipsum&lt;/li&gt;
@@ -153,20 +160,23 @@
       </b-col>
       <b-col lg="6" sm="12">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Headings</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-5  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-5 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p><code>.h1</code> through <code>.h6</code> classes are also available, for when you want to match the font styling of a heading but cannot use the associated HTML element.</p>
+          <template #body>
+            <p>
+              <code>.h1</code> through <code>.h6</code> classes are also available, for when you want to match the font styling of a heading but
+              cannot use the associated HTML element.
+            </p>
             <b-collapse id="collapse-5" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="headings">
+                  <pre id="headings" class="text-white">
                     <code>
 &lt;p class="h1 mb-3"&gt;h1. Bootstrap heading&lt;/p&gt;
 &lt;p class="h2 mb-3"&gt;h2. Bootstrap heading&lt;/p&gt;
@@ -187,20 +197,24 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Lists Unstyled</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-6  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-6 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Remove the default <code>list-style</code> and left margin on list items (immediate children only). <strong>This only applies to immediate children list items</strong>, meaning you will need to add the class for any nested lists as well.</p>
+          <template #body>
+            <p>
+              Remove the default <code>list-style</code> and left margin on list items (immediate children only).
+              <strong>This only applies to immediate children list items</strong>, meaning you will need to add the class for any nested lists as
+              well.
+            </p>
             <b-collapse id="collapse-6" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="lists-unstyled">
+                  <pre id="lists-unstyled" class="text-white">
                     <code>
 &lt;ul class="list-unstyled"&gt;
   &lt;li&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
@@ -225,40 +239,43 @@
               </div>
             </b-collapse>
             <ul class="list-unstyled">
-                <li>Lorem ipsum dolor sit amet</li>
-                <li>Consectetur adipiscing elit</li>
-                <li>Integer molestie lorem at massa</li>
-                <li>Facilisis in pretium nisl aliquet</li>
-                <li>
-                    Nulla volutpat aliquam velit
-                    <ul>
-                      <li>Phasellus iaculis neque</li>
-                      <li>Purus sodales ultricies</li>
-                      <li>Vestibulum laoreet porttitor sem</li>
-                      <li>Ac tristique libero volutpat at</li>
-                    </ul>
-                </li>
-                <li>Faucibus porta lacus fringilla vel</li>
-                <li>Aenean sit amet erat nunc</li>
-                <li>Eget porttitor lorem</li>
-              </ul>
+              <li>Lorem ipsum dolor sit amet</li>
+              <li>Consectetur adipiscing elit</li>
+              <li>Integer molestie lorem at massa</li>
+              <li>Facilisis in pretium nisl aliquet</li>
+              <li>
+                Nulla volutpat aliquam velit
+                <ul>
+                  <li>Phasellus iaculis neque</li>
+                  <li>Purus sodales ultricies</li>
+                  <li>Vestibulum laoreet porttitor sem</li>
+                  <li>Ac tristique libero volutpat at</li>
+                </ul>
+              </li>
+              <li>Faucibus porta lacus fringilla vel</li>
+              <li>Aenean sit amet erat nunc</li>
+              <li>Eget porttitor lorem</li>
+            </ul>
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Blockquotes</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-7  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-7 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>For quoting blocks of content from another source within your document. Wrap <code>&lt;blockquote class="blockquote"&gt;</code> around any <abbr title="HyperText Markup Language">HTML</abbr> as the quote.</p>
+          <template #body>
+            <p>
+              For quoting blocks of content from another source within your document. Wrap <code>&lt;blockquote class="blockquote"&gt;</code> around
+              any <abbr title="HyperText Markup Language">HTML</abbr> as the quote.
+            </p>
             <b-collapse id="collapse-7" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="blockquotes">
+                  <pre id="blockquotes" class="text-white">
                     <code>
 &lt;blockquote class="blockquote"&gt;
   &lt;p class="mb-0"&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.&lt;/p&gt;
@@ -277,20 +294,23 @@
       </b-col>
       <b-col sm="12">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Description list alignment</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-8  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-8 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Align terms and descriptions horizontally by using our grid system’s predefined classes (or semantic mixins). For longer terms, you can optionally add a <code>.text-truncate</code> class to truncate the text with an ellipsis.</p>
+          <template #body>
+            <p>
+              Align terms and descriptions horizontally by using our grid system’s predefined classes (or semantic mixins). For longer terms, you can
+              optionally add a <code>.text-truncate</code> class to truncate the text with an ellipsis.
+            </p>
             <b-collapse id="collapse-8" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="description-list-alignment">
+                  <pre id="description-list-alignment" class="text-white">
                     <code>
 &lt;dl class="row"&gt;
   &lt;dt class="col-sm-3"&gt;Description lists&lt;/dt&gt;
@@ -327,7 +347,9 @@
               <dt class="col-sm-3">Malesuada porta</dt>
               <dd class="col-sm-9">Etiam porta sem malesuada magna mollis euismod.</dd>
               <dt class="col-sm-3 text-truncate">Truncated term is truncated</dt>
-              <dd class="col-sm-9">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</dd>
+              <dd class="col-sm-9">
+                Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+              </dd>
               <dt class="col-sm-3">Nesting</dt>
               <dd class="col-sm-9">
                 <dl class="row">
@@ -347,7 +369,7 @@ import { socialvue } from '../../config/pluginInit'
 
 export default {
   name: 'UiTypography',
-  mounted () {
+  mounted() {
     socialvue.index()
   }
 }

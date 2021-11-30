@@ -2,9 +2,23 @@ import User from '../../Model/User'
 import Message from '../../Model/Message'
 
 export const Users = [
-  new User({ id: 1, name: 'Anna Sthesia', role: 'Developer', isPrivate: true, image: require('../../assets/images/user/user-01.jpg'), isActive: true }),
+  new User({
+    id: 1,
+    name: 'Anna Sthesia',
+    role: 'Developer',
+    isPrivate: true,
+    image: require('../../assets/images/user/user-01.jpg'),
+    isActive: true
+  }),
   new User({ id: 2, name: 'Paul Molive', role: 'Web Designer', image: require('../../assets/images/user/user-05.jpg'), isActive: false }),
-  new User({ id: 3, name: 'Bob Frapples', role: 'App Developer', isPrivate: true, image: require('../../assets/images/user/user-03.jpg'), isActive: true }),
+  new User({
+    id: 3,
+    name: 'Bob Frapples',
+    role: 'App Developer',
+    isPrivate: true,
+    image: require('../../assets/images/user/user-03.jpg'),
+    isActive: true
+  }),
   new User({ id: 4, name: 'Barb Ackue', role: 'Ios Developer', image: require('../../assets/images/user/user-04.jpg'), isActive: true }),
   new User({ id: 5, name: 'Greta Life', role: 'Game Developer', image: require('../../assets/images/user/user-05.jpg'), isActive: false }),
   new User({ id: 6, name: 'Ira Membrit', role: 'Software Developer', image: require('../../assets/images/user/user-06.jpg'), isActive: true }),
@@ -20,14 +34,24 @@ export const Users = [
 ]
 
 export const MessagesUser1 = [
-  new Message({ text: 'How can we help? We\'re here for you! 😄', userId: 5, me: true, time: '6:45' }),
-  new Message({ text: 'Hey John, I am looking for the best admin template. Could you please help me to find it out?🤔', userId: 15, me: false, time: '6:48' }),
+  new Message({ text: "How can we help? We're here for you! 😄", userId: 5, me: true, time: '6:45' }),
+  new Message({
+    text: 'Hey John, I am looking for the best admin template. Could you please help me to find it out?🤔',
+    userId: 15,
+    me: false,
+    time: '6:48'
+  }),
   new Message({ text: 'Absolutely!\n' + 'SocialV Dashboard is the responsive bootstrap 4 admin template.', userId: 5, me: true, time: '6:50' }),
   new Message({ text: 'Looks clean and fresh UI.', userId: 15, me: false, time: '6:55' }),
   new Message({ text: 'Thanks, from ThemeForest.', userId: 5, me: true, time: '6:59' }),
   new Message({ text: 'I will purchase it for sure.', userId: 15, me: false, time: '7:05' }),
   new Message({ text: 'Okay Thanks...', userId: 5, me: true, time: '7:07' }),
-  new Message({ text: 'Hey John, I am looking for the best admin template. Could you please help me to find it out?', userId: 15, me: false, time: '7:08' }),
+  new Message({
+    text: 'Hey John, I am looking for the best admin template. Could you please help me to find it out?',
+    userId: 15,
+    me: false,
+    time: '7:08'
+  }),
   new Message({ text: 'Absolutely!\n' + 'SocialV Dashboard is the responsive bootstrap 4 admin template.', userId: 5, me: true, time: '7:10' }),
   new Message({ text: 'Looks clean and fresh UI.', userId: 15, me: false, time: '7:12' }),
   new Message({ text: 'Okay Thanks...', userId: 5, me: true, time: '7:20' })

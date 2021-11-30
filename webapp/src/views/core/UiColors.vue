@@ -2,29 +2,33 @@
   <b-container fluid>
     <b-row>
       <div class="col-sm-12">
-          <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px;">
-            <div class="inner-page-title">
-                <h3 class="text-white">Color Page</h3>
-                <p class="text-white">lorem ipsum</p>
-            </div>
+        <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px">
+          <div class="inner-page-title">
+            <h3 class="text-white">Color Page</h3>
+            <p class="text-white">lorem ipsum</p>
           </div>
+        </div>
       </div>
       <b-col lg="12">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">SocialV Color</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-1  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-1 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Similar to the contextual text color classes, easily set the background of an element to any contextual class. Anchor components will darken on hover, just like the text classes. Background utilities <strong>do not set <code>color</code></strong>, so in some cases you’ll want to use <code>.text-*</code> utilities.</p>
+          <template #body>
+            <p>
+              Similar to the contextual text color classes, easily set the background of an element to any contextual class. Anchor components will
+              darken on hover, just like the text classes. Background utilities <strong>do not set <code>color</code></strong
+              >, so in some cases you’ll want to use <code>.text-*</code> utilities.
+            </p>
             <b-collapse id="collapse-1" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="socialvue-color1">
+                  <pre id="socialvue-color1" class="text-white">
                     <code>
   &lt;p class="bg-primary pt-5 pb-5 text-center rounded"&gt;&lt;/p&gt;
   &lt;h6&gt;Primary&lt;/h6&gt;
@@ -90,20 +94,24 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">SocialV Color</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-2  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-2 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Similar to the contextual text color classes, easily set the background of an element to any contextual class. Anchor components will darken on hover, just like the text classes. Background utilities <strong>do not set <code>color</code></strong>, so in some cases you’ll want to use <code>.text-*</code> utilities.</p>
+          <template #body>
+            <p>
+              Similar to the contextual text color classes, easily set the background of an element to any contextual class. Anchor components will
+              darken on hover, just like the text classes. Background utilities <strong>do not set <code>color</code></strong
+              >, so in some cases you’ll want to use <code>.text-*</code> utilities.
+            </p>
             <b-collapse id="collapse-2" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="socialvue-color2">
+                  <pre id="socialvue-color2" class="text-white">
                     <code>
 &lt;p class="iq-bg-primary pt-5 pb-5 text-center rounded font-size-18"&gt;Primary&lt;/p&gt;
 
@@ -150,20 +158,25 @@
       </b-col>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">SocialV Text Color</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-3  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-3 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Contextual text classes also work well on anchors with the provided hover and focus states. <strong>Note that the <code>.text-white</code> and <code>.text-muted</code> class has no additional link styling beyond underline.</strong></p>
+          <template #body>
+            <p>
+              Contextual text classes also work well on anchors with the provided hover and focus states.
+              <strong
+                >Note that the <code>.text-white</code> and <code>.text-muted</code> class has no additional link styling beyond underline.</strong
+              >
+            </p>
             <b-collapse id="collapse-3" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="socialvue-text-color1">
+                  <pre id="socialvue-text-color1" class="text-white">
                     <code>
 &lt;p class="text-primary"&gt;.text-primary&lt;/p&gt;
 &lt;p class="text-secondary"&gt;.text-secondary&lt;/p&gt;
@@ -198,20 +211,25 @@
       </b-col>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">SocialV Text Color</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-4  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-4 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Contextual text classes also work well on anchors with the provided hover and focus states. <strong>Note that the <code>.text-white</code> and <code>.text-muted</code> class has no additional link styling beyond underline.</strong></p>
+          <template #body>
+            <p>
+              Contextual text classes also work well on anchors with the provided hover and focus states.
+              <strong
+                >Note that the <code>.text-white</code> and <code>.text-muted</code> class has no additional link styling beyond underline.</strong
+              >
+            </p>
             <b-collapse id="collapse-4" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="socialvue-text-color2">
+                  <pre id="socialvue-text-color2" class="text-white">
                     <code>
 &lt;p&gt;&lt;a href="#" class="text-primary"&gt;Primary link&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="#" class="text-secondary"&gt;Secondary link&lt;/a&gt;&lt;/p&gt;
@@ -242,20 +260,25 @@
       </b-col>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">SocialV Text Color</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-5  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-5 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Contextual text classes also work well on anchors with the provided hover and focus states. <strong>Note that the <code>.text-white</code> and <code>.text-muted</code> class has no additional link styling beyond underline.</strong></p>
+          <template #body>
+            <p>
+              Contextual text classes also work well on anchors with the provided hover and focus states.
+              <strong
+                >Note that the <code>.text-white</code> and <code>.text-muted</code> class has no additional link styling beyond underline.</strong
+              >
+            </p>
             <b-collapse id="collapse-5" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="socialvue-text-color3">
+                  <pre id="socialvue-text-color3" class="text-white">
                     <code>
 &lt;p class="iq-bg-primary pl-3 pr-3 pt-2 pb-2 rounded"&gt;Primary link&lt;/p&gt;
 &lt;p class="iq-bg-secondary pl-3 pr-3 pt-2 pb-2 rounded"&gt;Secondary link&lt;/p&gt;
@@ -280,20 +303,25 @@
       </b-col>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">SocialV Text Color</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-6  role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-6 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Contextual text classes also work well on anchors with the provided hover and focus states. <strong>Note that the <code>.text-white</code> and <code>.text-muted</code> class has no additional link styling beyond underline.</strong></p>
+          <template #body>
+            <p>
+              Contextual text classes also work well on anchors with the provided hover and focus states.
+              <strong
+                >Note that the <code>.text-white</code> and <code>.text-muted</code> class has no additional link styling beyond underline.</strong
+              >
+            </p>
             <b-collapse id="collapse-6" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="socialvue-text-color4">
+                  <pre id="socialvue-text-color4" class="text-white">
                     <code>
 &lt;p&gt;&lt;a href="#" class="iq-bg-primary pl-3 pr-3 pt-2 pb-2 rounded d-inline-block"&gt;Primary link&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="#" class="iq-bg-secondary pl-3 pr-3 pt-2 pb-2 rounded d-inline-block"&gt;Secondary link&lt;/a&gt;&lt;/p&gt;
@@ -316,7 +344,6 @@
           </template>
         </iq-card>
       </b-col>
-
     </b-row>
   </b-container>
 </template>
@@ -325,7 +352,7 @@ import { socialvue } from '../../config/pluginInit'
 
 export default {
   name: 'UiColor',
-  mounted () {
+  mounted() {
     socialvue.index()
   }
 }

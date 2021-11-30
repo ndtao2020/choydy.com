@@ -9,8 +9,12 @@
           </div>
         </b-col>
         <b-col md="3" class="text-right">
-          <b-button variant="none" class="text-primary" @click="addToBookmark(currentRoute)" v-if="!selectedBookmark"><i class="ri-star-line font-size-24"></i></b-button>
-          <b-button variant="none" class="text-warning" @click="removeToBookmark(currentRoute)" v-else><i class="ri-star-fill font-size-24"></i></b-button>
+          <b-button v-if="!selectedBookmark" variant="none" class="text-primary" @click="addToBookmark(currentRoute)"
+            ><i class="ri-star-line font-size-24"></i
+          ></b-button>
+          <b-button v-else variant="none" class="text-warning" @click="removeToBookmark(currentRoute)"
+            ><i class="ri-star-fill font-size-24"></i
+          ></b-button>
         </b-col>
       </b-row>
     </iq-card>
@@ -26,13 +30,13 @@ export default {
     }
   },
   watch: {
-    $route (to, from) {
+    $route(to, from) {
       this.checkRoute()
     }
   },
-  mounted () {
-    this.currentRoute = this.navList.find(item => item.link.name === this.$route.name)
-    let book = this.bookmark.find(item => item.link.name === this.$route.name)
+  mounted() {
+    this.currentRoute = this.navList.find((item) => item.link.name === this.$route.name)
+    let book = this.bookmark.find((item) => item.link.name === this.$route.name)
     if (book !== undefined) {
       this.selectedBookmark = true
     }
@@ -44,7 +48,7 @@ export default {
       bookmark: 'Setting/bookmarkState'
     })
   },
-  data () {
+  data() {
     return {
       bookmarkSearch: '',
       currentRoute: {},
@@ -56,17 +60,17 @@ export default {
       addToBookmarkState: 'Setting/addBookmarkAction',
       removeToBookmarkState: 'Setting/removeBookmarkAction'
     }),
-    removeToBookmark (item) {
+    removeToBookmark(item) {
       this.removeToBookmarkState(item)
       this.selectedBookmark = false
     },
-    addToBookmark (item) {
+    addToBookmark(item) {
       this.addToBookmarkState(item)
       this.selectedBookmark = true
     },
-    checkRoute () {
-      this.currentRoute = this.navList.find(item => item.link.name === this.$route.name)
-      let book = this.bookmark.find(item => item.link.name === this.$route.name)
+    checkRoute() {
+      this.currentRoute = this.navList.find((item) => item.link.name === this.$route.name)
+      let book = this.bookmark.find((item) => item.link.name === this.$route.name)
       if (book !== undefined) {
         this.selectedBookmark = true
       } else {

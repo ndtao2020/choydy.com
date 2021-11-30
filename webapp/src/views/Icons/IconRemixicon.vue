@@ -2,19 +2,19 @@
   <b-container fluid>
     <b-row>
       <div class="col-sm-12">
-          <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px;">
-            <div class="inner-page-title">
-                <h3 class="text-white">Remixicon</h3>
-                <p class="text-white">lorem ipsum</p>
-            </div>
+        <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px">
+          <div class="inner-page-title">
+            <h3 class="text-white">Remixicon</h3>
+            <p class="text-white">lorem ipsum</p>
           </div>
+        </div>
       </div>
       <b-col sm="12">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Remixicon Icon</h4>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Use Class <code>&lt;i class="ri-4k-fill"&gt;&lt;/i&gt;</code></p>
             <b-row class="mt-3">
               <b-col lg="2" md="4" sm="6">
@@ -157,7 +157,7 @@
 import { socialvue } from '../../config/pluginInit'
 export default {
   name: 'IconRemixicon',
-  mounted () {
+  mounted() {
     socialvue.index()
   }
 }

@@ -2,22 +2,22 @@
   <b-container fluid>
     <b-row>
       <div class="col-sm-12">
-          <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px;">
-            <div class="inner-page-title">
-                <h3 class="text-white">Form Checkbox Page</h3>
-                <p class="text-white">lorem ipsum</p>
-            </div>
+        <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px">
+          <div class="inner-page-title">
+            <h3 class="text-white">Form Checkbox Page</h3>
+            <p class="text-white">lorem ipsum</p>
           </div>
+        </div>
       </div>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Basic Checkbox</h4>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate, ex ac venenatis mollis, diam nibh finibus leo</p>
-            <div class="checkbox d-inline-block mr-2" v-for="(item,index) in state" :key="index">
-              <input type="checkbox" class="checkbox-input" :id="`basic-checkbox-${index}`" v-model="item.checked" :disabled="item.disabled">
+            <div v-for="(item, index) in state" :key="index" class="checkbox d-inline-block mr-2">
+              <input :id="`basic-checkbox-${index}`" v-model="item.checked" type="checkbox" class="checkbox-input" :disabled="item.disabled" />
               <label :for="`basic-checkbox-${index}`" class="ml-2">{{ item.label }}</label>
             </div>
           </template>
@@ -25,13 +25,21 @@
       </b-col>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Custom Checkbox</h4>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate, ex ac venenatis mollis, diam nibh finibus leo</p>
-            <template v-for="(item,index) in state">
-              <b-checkbox class="custom-switch-color" :color="item.color" v-model="item.checked" :disabled="item.disabled" name="check-button" inline :key="index">
+            <template v-for="(item, index) in state">
+              <b-checkbox
+                :key="index"
+                v-model="item.checked"
+                class="custom-switch-color"
+                :color="item.color"
+                :disabled="item.disabled"
+                name="check-button"
+                inline
+              >
                 {{ item.label }}
               </b-checkbox>
             </template>
@@ -40,13 +48,21 @@
       </b-col>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Custom Color</h4>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate, ex ac venenatis mollis, diam nibh finibus leo</p>
-            <template v-for="(item,index) in color">
-              <b-checkbox v-model="item.checked" class="custom-checkbox-color" :color="item.color" :disabled="item.disabled" name="check-button" inline :key="index">
+            <template v-for="(item, index) in color">
+              <b-checkbox
+                :key="index"
+                v-model="item.checked"
+                class="custom-checkbox-color"
+                :color="item.color"
+                :disabled="item.disabled"
+                name="check-button"
+                inline
+              >
                 {{ item.label }}
               </b-checkbox>
             </template>
@@ -55,13 +71,21 @@
       </b-col>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Color</h4>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate, ex ac venenatis mollis, diam nibh finibus leo</p>
-            <template v-for="(item,index) in color">
-              <b-checkbox v-model="item.checked" class="custom-checkbox-color-check" :color="item.color" :disabled="item.disabled" name="check-button" inline :key="index">
+            <template v-for="(item, index) in color">
+              <b-checkbox
+                :key="index"
+                v-model="item.checked"
+                class="custom-checkbox-color-check"
+                :color="item.color"
+                :disabled="item.disabled"
+                name="check-button"
+                inline
+              >
                 {{ item.label }}
               </b-checkbox>
             </template>
@@ -70,13 +94,13 @@
       </b-col>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Boolean Checkbox</h4>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate, ex ac venenatis mollis, diam nibh finibus leo</p>
-            <template v-for="(item,index) in bool">
-              <b-checkbox v-model="item.checked" :disabled="item.disabled" name="check-button" inline :key="index">
+            <template v-for="(item, index) in bool">
+              <b-checkbox :key="index" v-model="item.checked" :disabled="item.disabled" name="check-button" inline>
                 {{ item.label }}
               </b-checkbox>
             </template>
@@ -85,14 +109,14 @@
       </b-col>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Change Icon</h4>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate, ex ac venenatis mollis, diam nibh finibus leo</p>
-            <template v-for="(item,index) in icon">
-              <div class="custom-control custom-checkbox checkbox-icon custom-control-inline" :key="index">
-                <input type="checkbox" class="custom-control-input" :id="`customSwitch-1-${index}`" v-model="item.checked">
+            <template v-for="(item, index) in icon">
+              <div :key="index" class="custom-control custom-checkbox checkbox-icon custom-control-inline">
+                <input :id="`customSwitch-1-${index}`" v-model="item.checked" type="checkbox" class="custom-control-input" />
                 <label class="custom-control-label" :for="`customSwitch-1-${index}`" v-html="item.label"></label>
               </div>
             </template>
@@ -107,10 +131,7 @@ import { socialvue } from '../../config/pluginInit'
 
 export default {
   name: 'FormCheckboxes',
-  mounted () {
-    socialvue.index()
-  },
-  data () {
+  data() {
     return {
       state: [
         {
@@ -230,6 +251,9 @@ export default {
         }
       ]
     }
+  },
+  mounted() {
+    socialvue.index()
   }
 }
 </script>

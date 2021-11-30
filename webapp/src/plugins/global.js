@@ -1,11 +1,11 @@
 import Vue from 'vue'
 
-Vue.component('iq-card', require('../components/socialvue/cards/iq-card').default)
-Vue.component('lottie-comp', require('../components/socialvue/lottie/Lottie').default)
-Vue.component('slick-comp', require('../components/socialvue/slider/Slick').default)
+Vue.component('IqCard', require('../components/socialvue/cards/iq-card').default)
+Vue.component('LottieComp', require('../components/socialvue/lottie/Lottie').default)
+Vue.component('SlickComp', require('../components/socialvue/slider/Slick').default)
 
-Vue.component('tab-nav', require('../components/socialvue/tab/tab-nav').default)
-Vue.component('tab-nav-items', require('../components/socialvue/tab/tab-nav-items').default)
-Vue.component('tab-content', require('../components/socialvue/tab/tab-content').default)
-Vue.component('tab-content-item', require('../components/socialvue/tab/tab-content-item').default)
+Vue.component('TabNav', require('../components/socialvue/tab/tab-nav').default)
+Vue.component('TabNavItems', require('../components/socialvue/tab/tab-nav-items').default)
+Vue.component('TabContent', require('../components/socialvue/tab/tab-content').default)
+Vue.component('TabContentItem', require('../components/socialvue/tab/tab-content-item').default)
 Vue.component('TimeLine', require('../components/socialvue/timeline/TimeLine').default)

@@ -6,24 +6,16 @@
           <div class="iq-edit-list">
             <ul class="iq-edit-profile d-flex nav nav-pills">
               <li class="col-md-3 p-0">
-                <a class="nav-link active" data-toggle="pill" href="#personal-information">
-                  Personal Information
-                </a>
+                <a class="nav-link active" data-toggle="pill" href="#personal-information"> Personal Information </a>
               </li>
               <li class="col-md-3 p-0">
-                <a class="nav-link" data-toggle="pill" href="#chang-pwd">
-                  Change Password
-                </a>
+                <a class="nav-link" data-toggle="pill" href="#chang-pwd"> Change Password </a>
               </li>
               <li class="col-md-3 p-0">
-                <a class="nav-link" data-toggle="pill" href="#emailandsms">
-                  Email and SMS
-                </a>
+                <a class="nav-link" data-toggle="pill" href="#emailandsms"> Email and SMS </a>
               </li>
               <li class="col-md-3 p-0">
-                <a class="nav-link" data-toggle="pill" href="#manage-contact">
-                  Manage Contact
-                </a>
+                <a class="nav-link" data-toggle="pill" href="#manage-contact"> Manage Contact </a>
               </li>
             </ul>
           </div>
@@ -33,7 +25,7 @@
     <div class="col-lg-12">
       <div class="iq-edit-list-data">
         <div class="tab-content">
-          <div class="tab-pane fade active show" id="personal-information" role="tabpanel">
+          <div id="personal-information" class="tab-pane fade active show" role="tabpanel">
             <div class="iq-card">
               <div class="iq-card-header d-flex justify-content-between">
                 <div class="iq-header-title">
@@ -45,69 +37,69 @@
                   <div class="form-group row align-items-center">
                     <div class="col-md-12">
                       <div class="profile-img-edit">
-                        <img class="profile-pic" src="../../assets/images/user/11.png" alt="profile-pic">
+                        <img class="profile-pic" src="../../assets/images/user/11.png" alt="profile-pic" />
                         <div class="p-image">
                           <i class="ri-pencil-line upload-button"></i>
-                          <input class="file-upload" type="file" accept="image/*"/>
+                          <input class="file-upload" type="file" accept="image/*" />
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class=" row align-items-center">
+                  <div class="row align-items-center">
                     <div class="form-group col-sm-6">
                       <label for="fname">First Name:</label>
-                      <input type="text" class="form-control" id="fname" value="Bni">
+                      <input id="fname" type="text" class="form-control" value="Bni" />
                     </div>
                     <div class="form-group col-sm-6">
                       <label for="lname">Last Name:</label>
-                      <input type="text" class="form-control" id="lname" value="Jhon">
+                      <input id="lname" type="text" class="form-control" value="Jhon" />
                     </div>
                     <div class="form-group col-sm-6">
                       <label for="uname">User Name:</label>
-                      <input type="text" class="form-control" id="uname" value="Bni@01">
+                      <input id="uname" type="text" class="form-control" value="Bni@01" />
                     </div>
                     <div class="form-group col-sm-6">
                       <label for="cname">City:</label>
-                      <input type="text" class="form-control" id="cname" value="Atlanta">
+                      <input id="cname" type="text" class="form-control" value="Atlanta" />
                     </div>
                     <div class="form-group col-sm-6">
                       <label class="d-block">Gender:</label>
                       <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadio6" name="customRadio1" class="custom-control-input" checked="">
+                        <input id="customRadio6" type="radio" name="customRadio1" class="custom-control-input" checked="" />
                         <label class="custom-control-label" for="customRadio6"> Male </label>
                       </div>
                       <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="customRadio7" name="customRadio1" class="custom-control-input">
+                        <input id="customRadio7" type="radio" name="customRadio1" class="custom-control-input" />
                         <label class="custom-control-label" for="customRadio7"> Female </label>
                       </div>
                     </div>
                     <div class="form-group col-sm-6">
                       <label for="dob">Date Of Birth:</label>
-                      <input  class="form-control" id="dob" value="1984-01-24">
+                      <input id="dob" class="form-control" value="1984-01-24" />
                     </div>
                     <div class="form-group col-sm-6">
                       <label>Marital Status:</label>
-                      <select class="form-control" id="exampleFormControlSelect1">
+                      <select id="exampleFormControlSelect1" class="form-control">
                         <option selected="">Single</option>
                         <option>Married</option>
                         <option>Widowed</option>
                         <option>Divorced</option>
-                        <option>Separated </option>
+                        <option>Separated</option>
                       </select>
                     </div>
                     <div class="form-group col-sm-6">
                       <label>Age:</label>
-                      <select class="form-control" id="exampleFormControlSelect2">
+                      <select id="exampleFormControlSelect2" class="form-control">
                         <option>12-18</option>
                         <option>19-32</option>
                         <option selected="">33-45</option>
                         <option>46-62</option>
-                        <option>63 > </option>
+                        <option>63 ></option>
                       </select>
                     </div>
                     <div class="form-group col-sm-6">
                       <label>Country:</label>
-                      <select class="form-control" id="exampleFormControlSelect3">
+                      <select id="exampleFormControlSelect3" class="form-control">
                         <option>Caneda</option>
                         <option>Noida</option>
                         <option selected="">USA</option>
@@ -117,7 +109,7 @@
                     </div>
                     <div class="form-group col-sm-6">
                       <label>State:</label>
-                      <select class="form-control" id="exampleFormControlSelect4">
+                      <select id="exampleFormControlSelect4" class="form-control">
                         <option>California</option>
                         <option>Florida</option>
                         <option selected="">Georgia</option>
@@ -127,12 +119,13 @@
                     </div>
                     <div class="form-group col-sm-12">
                       <label>Address:</label>
-                      <textarea class="form-control" name="address" rows="5" style="line-height: 22px;">
+                      <textarea class="form-control" name="address" rows="5" style="line-height: 22px">
                                              37 Cardinal Lane
                                              Petersburg, VA 23803
                                              United States of America
                                              Zip Code: 85001
-                                             </textarea>
+                                             </textarea
+                      >
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -141,7 +134,7 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane fade" id="chang-pwd" role="tabpanel">
+          <div id="chang-pwd" class="tab-pane fade" role="tabpanel">
             <div class="iq-card">
               <div class="iq-card-header d-flex justify-content-between">
                 <div class="iq-header-title">
@@ -153,15 +146,15 @@
                   <div class="form-group">
                     <label for="cpass">Current Password:</label>
                     <a href="javascripe:void();" class="float-right">Forgot Password</a>
-                    <input type="Password" class="form-control" id="cpass" value="">
+                    <input id="cpass" type="Password" class="form-control" value="" />
                   </div>
                   <div class="form-group">
                     <label for="npass">New Password:</label>
-                    <input type="Password" class="form-control" id="npass" value="">
+                    <input id="npass" type="Password" class="form-control" value="" />
                   </div>
                   <div class="form-group">
                     <label for="vpass">Verify Password:</label>
-                    <input type="Password" class="form-control" id="vpass" value="">
+                    <input id="vpass" type="Password" class="form-control" value="" />
                   </div>
                   <button type="submit" class="btn btn-primary mr-2">Submit</button>
                   <button type="reset" class="btn iq-bg-danger">Cancle</button>
@@ -169,7 +162,7 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane fade" id="emailandsms" role="tabpanel">
+          <div id="emailandsms" class="tab-pane fade" role="tabpanel">
             <div class="iq-card">
               <div class="iq-card-header d-flex justify-content-between">
                 <div class="iq-header-title">
@@ -181,14 +174,14 @@
                   <div class="form-group row align-items-center">
                     <label class="col-md-3" for="emailnotification">Email Notification:</label>
                     <div class="col-md-9 custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" id="emailnotification" checked="">
+                      <input id="emailnotification" type="checkbox" class="custom-control-input" checked="" />
                       <label class="custom-control-label" for="emailnotification"></label>
                     </div>
                   </div>
                   <div class="form-group row align-items-center">
                     <label class="col-md-3" for="smsnotification">SMS Notification:</label>
                     <div class="col-md-9 custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" id="smsnotification" checked="">
+                      <input id="smsnotification" type="checkbox" class="custom-control-input" checked="" />
                       <label class="custom-control-label" for="smsnotification"></label>
                     </div>
                   </div>
@@ -196,15 +189,15 @@
                     <label class="col-md-3" for="npass">When To Email</label>
                     <div class="col-md-9">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="email01">
+                        <input id="email01" type="checkbox" class="custom-control-input" />
                         <label class="custom-control-label" for="email01">You have new notifications.</label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="email02">
+                        <input id="email02" type="checkbox" class="custom-control-input" />
                         <label class="custom-control-label" for="email02">You're sent a direct message</label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="email03" checked="">
+                        <input id="email03" type="checkbox" class="custom-control-input" checked="" />
                         <label class="custom-control-label" for="email03">Someone adds you as a connection</label>
                       </div>
                     </div>
@@ -213,15 +206,15 @@
                     <label class="col-md-3" for="npass">When To Escalate Emails</label>
                     <div class="col-md-9">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="email04">
+                        <input id="email04" type="checkbox" class="custom-control-input" />
                         <label class="custom-control-label" for="email04"> Upon new order.</label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="email05">
+                        <input id="email05" type="checkbox" class="custom-control-input" />
                         <label class="custom-control-label" for="email05"> New membership approval</label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="email06" checked="">
+                        <input id="email06" type="checkbox" class="custom-control-input" checked="" />
                         <label class="custom-control-label" for="email06"> Member registration</label>
                       </div>
                     </div>
@@ -232,7 +225,7 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane fade" id="manage-contact" role="tabpanel">
+          <div id="manage-contact" class="tab-pane fade" role="tabpanel">
             <div class="iq-card">
               <div class="iq-card-header d-flex justify-content-between">
                 <div class="iq-header-title">
@@ -243,15 +236,15 @@
                 <form>
                   <div class="form-group">
                     <label for="cno">Contact Number:</label>
-                    <input type="text" class="form-control" id="cno" value="001 2536 123 458">
+                    <input id="cno" type="text" class="form-control" value="001 2536 123 458" />
                   </div>
                   <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="text" class="form-control" id="email" value="Bnijone@demo.com">
+                    <input id="email" type="text" class="form-control" value="Bnijone@demo.com" />
                   </div>
                   <div class="form-group">
                     <label for="url">Url:</label>
-                    <input type="text" class="form-control" id="url" value="https://getbootstrap.com">
+                    <input id="url" type="text" class="form-control" value="https://getbootstrap.com" />
                   </div>
                   <button type="submit" class="btn btn-primary mr-2">Submit</button>
                   <button type="reset" class="btn iq-bg-danger">Cancle</button>
@@ -269,10 +262,7 @@ import { socialvue } from '../../config/pluginInit'
 
 export default {
   name: 'ProfileEdit',
-  mounted () {
-    socialvue.index()
-  },
-  data () {
+  data() {
     return {
       user: {
         fname: '',
@@ -312,8 +302,11 @@ export default {
       ]
     }
   },
+  mounted() {
+    socialvue.index()
+  },
   methods: {
-    onSubmit () {
+    onSubmit() {
       this.user.name = this.user.fname + ' ' + this.user.lname
       this.$router.replace('/user/user-list')
     },
@@ -330,8 +323,7 @@ export default {
         reader.readAsDataURL(input.files[0])
       }
     },
-    changePassword: function () {
-    }
+    changePassword: function () {}
   }
 }
 </script>

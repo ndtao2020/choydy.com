@@ -1,16 +1,17 @@
 <template>
-    <b-row>
-      <b-col lg="3">
-        <ProjectList
-          :project-list="projectList"
-          :category-list="categoryList"
-          :selected-category="selectedCategory"
-          :selected-project="selectedProject"/>
-      </b-col>
-      <b-col lg="9">
-        <TaskList :task-list="taskList" :project="selectedProject" :category="selectedCategory"/>
-      </b-col>
-    </b-row>
+  <b-row>
+    <b-col lg="3">
+      <ProjectList
+        :project-list="projectList"
+        :category-list="categoryList"
+        :selected-category="selectedCategory"
+        :selected-project="selectedProject"
+      />
+    </b-col>
+    <b-col lg="9">
+      <TaskList :task-list="taskList" :project="selectedProject" :category="selectedCategory" />
+    </b-col>
+  </b-row>
 </template>
 <script>
 import { socialvue } from '../../../config/pluginInit'
@@ -21,13 +22,13 @@ import Todo from '../../../store/Todo'
 export default {
   name: 'TodoListing',
   components: { ProjectList, TaskList },
-  mounted () {
+  mounted() {
     socialvue.index()
   },
-  beforeMount () {
+  beforeMount() {
     this.$store.registerModule('Todo', Todo)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$store.unregisterModule('Todo')
   },
   computed: {
@@ -41,5 +42,4 @@ export default {
   }
 }
 </script>
-<style>
-</style>
+<style></style>

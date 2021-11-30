@@ -2,29 +2,32 @@
   <b-container fluid>
     <b-row>
       <div class="col-sm-12">
-          <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px;">
-            <div class="inner-page-title">
-                <h3 class="text-white">ListGroup Page</h3>
-                <p class="text-white">lorem ipsum</p>
-            </div>
+        <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px">
+          <div class="inner-page-title">
+            <h3 class="text-white">ListGroup Page</h3>
+            <p class="text-white">lorem ipsum</p>
           </div>
+        </div>
       </div>
       <b-col lg="6" sm="12">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">List group</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-1 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-1 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>The most basic list group is an unordered list with list items and the proper classes. Build upon it with the options that follow, or with your own CSS as needed.</p>
+          <template #body>
+            <p>
+              The most basic list group is an unordered list with list items and the proper classes. Build upon it with the options that follow, or
+              with your own CSS as needed.
+            </p>
             <b-collapse id="collapse-1" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="list-group">
+                  <pre id="list-group" class="text-white">
                     <code>
 &lt;b-list-group&gt;
   &lt;b-list-group-item&gt;Cras justo odio&lt;/b-list-group-item&gt;
@@ -47,20 +50,23 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Disabled items</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-2 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-2 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Add <code>.disabled</code> to a <code>.list-group-item</code> to make it <em>appear</em> disabled. Note that some elements with <code>.disabled</code> will also require custom JavaScript to fully disable their click events (e.g., links).</p>
+          <template #body>
+            <p>
+              Add <code>.disabled</code> to a <code>.list-group-item</code> to make it <em>appear</em> disabled. Note that some elements with
+              <code>.disabled</code> will also require custom JavaScript to fully disable their click events (e.g., links).
+            </p>
             <b-collapse id="collapse-2" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="disabled-items">
+                  <pre id="disabled-items" class="text-white">
                     <code>
 &lt;b-list-group&gt;
   &lt;b-list-group-item disabled&gt;Cras justo odio&lt;/b-list-group-item&gt;
@@ -83,20 +89,23 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Flush</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-3 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-3 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Add <code class="highlighter-rouge">.list-group-flush</code> to remove some borders and rounded corners to render list group items edge-to-edge in a parent container (e.g., cards).</p>
+          <template #body>
+            <p>
+              Add <code class="highlighter-rouge">.list-group-flush</code> to remove some borders and rounded corners to render list group items
+              edge-to-edge in a parent container (e.g., cards).
+            </p>
             <b-collapse id="collapse-3" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="flush">
+                  <pre id="flush" class="text-white">
                     <code>
 &lt;b-list-group flush&gt;
   &lt;b-list-group-item&gt;Cras justo odio&lt;/b-list-group-item&gt;
@@ -119,20 +128,20 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Contextual classes</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-4 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-4 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Use contextual classes to style list items with a stateful background and color.</p>
             <b-collapse id="collapse-4" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="contextual-classes">
+                  <pre id="contextual-classes" class="text-white">
                     <code>
  &lt;b-list-group&gt;
   &lt;b-list-group-item&gt;Dapibus ac facilisis in&lt;/b-list-group-item&gt;
@@ -163,20 +172,23 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">With badges</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-5 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-5 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Add badges to any list group item to show unread counts, activity, and more with the help of some <a href="/docs/4.3/utilities/flex/">utilities</a>.</p>
+          <template #body>
+            <p>
+              Add badges to any list group item to show unread counts, activity, and more with the help of some
+              <a href="/docs/4.3/utilities/flex/">utilities</a>.
+            </p>
             <b-collapse id="collapse-5" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="with-badges-1">
+                  <pre id="with-badges-1" class="text-white">
                     <code>
 &lt;b-list-group&gt;
   &lt;b-list-group-item class="d-flex justify-content-between align-items-center"&gt;
@@ -213,20 +225,23 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">With badges</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-6 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-6 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Add badges to any list group item to show unread counts, activity, and more with the help of some <a href="/docs/4.3/utilities/flex/">utilities</a>.</p>
+          <template #body>
+            <p>
+              Add badges to any list group item to show unread counts, activity, and more with the help of some
+              <a href="/docs/4.3/utilities/flex/">utilities</a>.
+            </p>
             <b-collapse id="collapse-6" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="with-badges-2">
+                  <pre id="with-badges-2" class="text-white">
                     <code>
 &lt;b-list-group&gt;
   &lt;b-list-group-item class="d-flex justify-content-between align-items-center iq-bg-primary"&gt;
@@ -265,20 +280,20 @@
       </b-col>
       <b-col lg="6" sm="12">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">List Active</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-7 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-7 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Add <code>.active</code> to a <code>.list-group-item</code> to indicate the current active selection.</p>
             <b-collapse id="collapse-7" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="list-active">
+                  <pre id="list-active" class="text-white">
                     <code>
 &lt;b-list-group&gt;
   &lt;b-list-group-item active&gt;Cras justo odio&lt;/b-list-group-item&gt;
@@ -301,21 +316,27 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Links and buttons</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-8 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-8 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Use <code>&lt;a&gt;</code>s or <code>&lt;button&gt;</code>s to create <em>actionable</em> list group items with hover, disabled, and active states by adding <code>.list-group-item-action</code>. We separate these pseudo-classes to ensure list groups made of non-interactive elements (like <code>&lt;li&gt;</code>s or <code>&lt;div&gt;</code>s) don’t provide a click or tap affordance.</p>
-            <p>Be sure to <strong>not use the standard <code>.btn</code> classes here</strong>.</p>
+          <template #body>
+            <p>
+              Use <code>&lt;a&gt;</code>s or <code>&lt;button&gt;</code>s to create <em>actionable</em> list group items with hover, disabled, and
+              active states by adding <code>.list-group-item-action</code>. We separate these pseudo-classes to ensure list groups made of
+              non-interactive elements (like <code>&lt;li&gt;</code>s or <code>&lt;div&gt;</code>s) don’t provide a click or tap affordance.
+            </p>
+            <p>
+              Be sure to <strong>not use the standard <code>.btn</code> classes here</strong>.
+            </p>
             <b-collapse id="collapse-8" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="links-buttons">
+                  <pre id="links-buttons" class="text-white">
                     <code>
 &lt;b-list-group&gt;
   &lt;b-list-group-item href="#" active&gt;Cras justo odio&lt;/b-list-group-item&gt;
@@ -338,21 +359,25 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Horizontal</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-9 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-9 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Add <code>.list-group-horizontal</code> to change the layout of list group items from vertical to horizontal across all breakpoints. Alternatively, choose a responsive variant <code>.list-group-horizontal-{sm|md|lg|xl}</code> to make a list group horizontal starting at that breakpoint’s <code>min-width</code>. Currently <strong>horizontal list groups cannot be combined with flush list groups.</strong></p>
+          <template #body>
+            <p>
+              Add <code>.list-group-horizontal</code> to change the layout of list group items from vertical to horizontal across all breakpoints.
+              Alternatively, choose a responsive variant <code>.list-group-horizontal-{sm|md|lg|xl}</code> to make a list group horizontal starting at
+              that breakpoint’s <code>min-width</code>. Currently <strong>horizontal list groups cannot be combined with flush list groups.</strong>
+            </p>
             <p><strong>ProTip:</strong> Want equal-width list group items when horizontal? Add <code>.flex-fill</code> to each list group item.</p>
             <b-collapse id="collapse-9" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="horizontal">
+                  <pre id="horizontal" class="text-white">
                     <code>
 &lt;b-list-group horizontal&gt;
   &lt;b-list-group-item&gt;Cras justo odio&lt;/b-list-group-item&gt;
@@ -371,20 +396,20 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Contextual classes Action</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-10 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-10 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Use contextual classes to style list items with a stateful background and color.</p>
             <b-collapse id="collapse-10" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="contextual-action">
+                  <pre id="contextual-action" class="text-white">
                     <code>
 &lt;b-list-group&gt;
   &lt;b-list-group-item href="#"&gt;Dapibus ac facilisis in&lt;/b-list-group-item&gt;
@@ -415,20 +440,23 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Links and buttons</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-12 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-12 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Add nearly any HTML within, even for linked list groups like the one below, with the help of <a href="/docs/4.3/utilities/flex/">flexbox utilities</a>.</p>
+          <template #body>
+            <p>
+              Add nearly any HTML within, even for linked list groups like the one below, with the help of
+              <a href="/docs/4.3/utilities/flex/">flexbox utilities</a>.
+            </p>
             <b-collapse id="collapse-12" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="links-buttons">
+                  <pre id="links-buttons" class="text-white">
                     <code>
 &lt;b-list-group&gt;
   &lt;b-list-group-item href="#" active class="flex-column align-items-start"&gt;
@@ -497,7 +525,7 @@ import { socialvue } from '../../config/pluginInit'
 
 export default {
   name: 'UiListGroup',
-  mounted () {
+  mounted() {
     socialvue.index()
   }
 }

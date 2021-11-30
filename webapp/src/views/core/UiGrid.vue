@@ -2,42 +2,42 @@
   <b-container fluid>
     <b-row>
       <div class="col-sm-12">
-          <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px;">
-            <div class="inner-page-title">
-                <h3 class="text-white">Grid Page</h3>
-                <p class="text-white">lorem ipsum</p>
-            </div>
+        <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px">
+          <div class="inner-page-title">
+            <h3 class="text-white">Grid Page</h3>
+            <p class="text-white">lorem ipsum</p>
           </div>
+        </div>
       </div>
       <b-col sm="12">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Grid options</h4>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>See how aspects of the Bootstrap grid system work across multiple devices with a handy table..</p>
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th></th>
                   <th class="text-center">
-                    Extra small<br>
+                    Extra small<br />
                     <small>&lt;576px</small>
                   </th>
                   <th class="text-center">
-                    Small<br>
+                    Small<br />
                     <small>≥576px</small>
                   </th>
                   <th class="text-center">
-                    Medium<br>
+                    Medium<br />
                     <small>≥768px</small>
                   </th>
                   <th class="text-center">
-                    Large<br>
+                    Large<br />
                     <small>≥992px</small>
                   </th>
                   <th class="text-center">
-                    Extra large<br>
+                    Extra large<br />
                     <small>≥1200px</small>
                   </th>
                 </tr>
@@ -92,20 +92,23 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Equal-width</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-2 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-2 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>For example, here are two grid layouts that apply to every device and viewport, from <code>xs</code> to <code>xl</code>. Add any number of unit-less classes for each breakpoint you need and every column will be the same width.</p>
+          <template #body>
+            <p>
+              For example, here are two grid layouts that apply to every device and viewport, from <code>xs</code> to <code>xl</code>. Add any number
+              of unit-less classes for each breakpoint you need and every column will be the same width.
+            </p>
             <b-collapse id="collapse-2" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="grid-2">
+                  <pre id="grid-2" class="text-white">
                     <code>
 &lt;div class="iq-example-row"&gt;
   &lt;b-container fluid&gt;
@@ -154,20 +157,24 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Setting one column width</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-3 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-3 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Auto-layout for flexbox grid columns also means you can set the width of one column and have the sibling columns automatically resize around it. You may use predefined grid classes (as shown below), grid mixins, or inline widths. Note that the other columns will resize no matter the width of the center column.</p>
+          <template #body>
+            <p>
+              Auto-layout for flexbox grid columns also means you can set the width of one column and have the sibling columns automatically resize
+              around it. You may use predefined grid classes (as shown below), grid mixins, or inline widths. Note that the other columns will resize
+              no matter the width of the center column.
+            </p>
             <b-collapse id="collapse-3" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="grid-3">
+                  <pre id="grid-3" class="text-white">
                     <code>
 &lt;div class="iq-example-row"&gt;
   &lt;b-container fluid&gt;
@@ -204,20 +211,20 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Variable width content</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-4 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-4 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Use <code>col-{breakpoint}-auto</code> classes to size columns based on the natural width of their content.</p>
             <b-collapse id="collapse-4" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="grid-4">
+                  <pre id="grid-4" class="text-white">
                     <code>
 &lt;div class="iq-example-row"&gt;
   &lt;b-container fluid&gt;
@@ -254,20 +261,24 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Equal-width multi-row</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-5 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-5 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Create equal-width columns that span multiple rows by inserting a <code>.w-100</code> where you want the columns to break to a new line. Make the breaks responsive by mixing the <code>.w-100</code> with some <a href="/docs/4.3/utilities/display/">responsive display utilities</a>.</p>
+          <template #body>
+            <p>
+              Create equal-width columns that span multiple rows by inserting a <code>.w-100</code> where you want the columns to break to a new line.
+              Make the breaks responsive by mixing the <code>.w-100</code> with some
+              <a href="/docs/4.3/utilities/display/">responsive display utilities</a>.
+            </p>
             <b-collapse id="collapse-5" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="grid-5">
+                  <pre id="grid-5" class="text-white">
                     <code>
 &lt;div class="iq-example-row"&gt;
   &lt;b-container fluid&gt;
@@ -298,22 +309,28 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Responsive classes</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-6 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-6 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Bootstrap’s grid includes five tiers of predefined classes for building complex responsive layouts. Customize the size of your columns on extra small, small, medium, large, or extra large devices however you see fit.</p>
+          <template #body>
+            <p>
+              Bootstrap’s grid includes five tiers of predefined classes for building complex responsive layouts. Customize the size of your columns
+              on extra small, small, medium, large, or extra large devices however you see fit.
+            </p>
             <h4 class="card-title">All breakpoints</h4>
-            <p>For grids that are the same from the smallest of devices to the largest, use the <code>.col</code> and <code>.col-*</code> classes. Specify a numbered class when you need a particularly sized column; otherwise, feel free to stick to <code>.col</code>.</p>
+            <p>
+              For grids that are the same from the smallest of devices to the largest, use the <code>.col</code> and <code>.col-*</code> classes.
+              Specify a numbered class when you need a particularly sized column; otherwise, feel free to stick to <code>.col</code>.
+            </p>
             <b-collapse id="collapse-6" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="grid-6">
+                  <pre id="grid-6" class="text-white">
                     <code>
 &lt;div class="iq-example-row"&gt;
   &lt;b-container fluid&gt;
@@ -350,20 +367,23 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Stacked to horizontal</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-7 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-7 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Using a single set of <code>.col-sm-*</code> classes, you can create a basic grid system that starts out stacked and becomes horizontal at the small breakpoint (<code>sm</code>).</p>
+          <template #body>
+            <p>
+              Using a single set of <code>.col-sm-*</code> classes, you can create a basic grid system that starts out stacked and becomes horizontal
+              at the small breakpoint (<code>sm</code>).
+            </p>
             <b-collapse id="collapse-7" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="grid-7">
+                  <pre id="grid-7" class="text-white">
                     <code>
 &lt;div class="iq-example-row"&gt;
   &lt;b-container fluid&gt;
@@ -398,20 +418,23 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Mix and match</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-8 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-8 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Don’t want your columns to simply stack in some grid tiers? Use a combination of different classes for each tier as needed. See the example below for a better idea of how it all works.</p>
+          <template #body>
+            <p>
+              Don’t want your columns to simply stack in some grid tiers? Use a combination of different classes for each tier as needed. See the
+              example below for a better idea of how it all works.
+            </p>
             <b-collapse id="collapse-8" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="grid-8">
+                  <pre id="grid-8" class="text-white">
                     <code>
 &lt;div class="iq-example-row"&gt;
   &lt;b-container fluid&gt;
@@ -460,21 +483,30 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Gutters</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-9 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-9 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Gutters can be responsively adjusted by breakpoint-specific padding and negative margin utility classes. To change the gutters in a given row, pair a negative margin utility on the <code>.row</code> and matching padding utilities on the <code>.col</code>s. The <code>.container</code> or <code>.container-fluid</code> parent may need to be adjusted too to avoid unwanted overflow, using again matching padding utility.</p>
-            <p>Here’s an example of customizing the Bootstrap grid at the large (<code>lg</code>) breakpoint and above. We’ve increased the <code>.col</code> padding with <code>.px-lg-5</code>, counteracted that with <code>.mx-lg-n5</code> on the parent <code>.row</code> and then adjusted the <code>.container</code> wrapper with <code>.px-lg-5</code>.</p>
+          <template #body>
+            <p>
+              Gutters can be responsively adjusted by breakpoint-specific padding and negative margin utility classes. To change the gutters in a
+              given row, pair a negative margin utility on the <code>.row</code> and matching padding utilities on the <code>.col</code>s. The
+              <code>.container</code> or <code>.container-fluid</code> parent may need to be adjusted too to avoid unwanted overflow, using again
+              matching padding utility.
+            </p>
+            <p>
+              Here’s an example of customizing the Bootstrap grid at the large (<code>lg</code>) breakpoint and above. We’ve increased the
+              <code>.col</code> padding with <code>.px-lg-5</code>, counteracted that with <code>.mx-lg-n5</code> on the parent <code>.row</code> and
+              then adjusted the <code>.container</code> wrapper with <code>.px-lg-5</code>.
+            </p>
             <b-collapse id="collapse-9" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="grid-9">
+                  <pre id="grid-9" class="text-white">
                     <code>
 &lt;div class="iq-example-row"&gt;
   &lt;b-container fluid class="px-lg-5"&gt;
@@ -499,21 +531,28 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Alignment</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-10 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-10 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-            <p>Use flexbox alignment utilities to vertically and horizontally align columns. <strong>Internet Explorer 10-11 do not support vertical alignment of flex items when the flex container has a <code>min-height</code> as shown below.</strong> <a href="https://github.com/philipwalton/flexbugs#flexbug-3">See Flexbugs #3 for more details.</a></p>
+          <template #body>
+            <p>
+              Use flexbox alignment utilities to vertically and horizontally align columns.
+              <strong
+                >Internet Explorer 10-11 do not support vertical alignment of flex items when the flex container has a <code>min-height</code> as
+                shown below.</strong
+              >
+              <a href="https://github.com/philipwalton/flexbugs#flexbug-3">See Flexbugs #3 for more details.</a>
+            </p>
             <h4 class="mb-3">Vertical alignment</h4>
             <b-collapse id="collapse-10" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="grid-10">
+                  <pre id="grid-10" class="text-white">
                     <code>
 &lt;div class="iq-example-row iq-example-row-flex-cols"&gt;
   &lt;b-container fluid&gt;
@@ -574,20 +613,24 @@
           </template>
         </iq-card>
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Horizontal alignment</h4>
           </template>
-          <template v-slot:headerAction>
-            <a class="text-primary float-right" v-b-toggle.collapse-11 role="button">
+          <template #headerAction>
+            <a v-b-toggle.collapse-11 class="text-primary float-right" role="button">
               <i class="ri-code-s-slash-line" />
             </a>
           </template>
-          <template v-slot:body>
-          <p>Create equal-width columns that span multiple rows by inserting a <code>.w-100</code> where you want the columns to break to a new line. Make the breaks responsive by mixing the <code>.w-100</code> with some <a href="/docs/4.3/utilities/display/">responsive display utilities</a>.</p>
+          <template #body>
+            <p>
+              Create equal-width columns that span multiple rows by inserting a <code>.w-100</code> where you want the columns to break to a new line.
+              Make the breaks responsive by mixing the <code>.w-100</code> with some
+              <a href="/docs/4.3/utilities/display/">responsive display utilities</a>.
+            </p>
             <b-collapse id="collapse-11" class="mb-2">
               <div class="card">
                 <kbd class="bg-dark">
-                  <pre class="text-white" id="grid-11">
+                  <pre id="grid-11" class="text-white">
                     <code>
 &lt;div class="iq-example-row"&gt;
   &lt;b-container fluid&gt;
@@ -651,7 +694,7 @@
 import { socialvue } from '../../config/pluginInit'
 export default {
   name: 'UiGrid',
-  mounted () {
+  mounted() {
     socialvue.index()
   }
 }

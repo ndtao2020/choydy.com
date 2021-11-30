@@ -1,189 +1,194 @@
 <template>
-    <b-row>
-      <b-col sm="12">
-        <b-row class=" m-0 p-0">
-          <b-col lg="8">
-            <tab-content id="pills-tabContent-2">
-              <tab-content-item :active="true" id="profile-feed" aria-labelled-by="pills-feed-tab">
-                <AddSocialPost @addPost="addPost"></AddSocialPost>
-                <div  v-for="post in socialPosts" :key="post.id">
-                  <social-post :post="post"></social-post>
-                </div>
-              </tab-content-item>
-              <tab-content-item :active="false" id="profile-activity" aria-labelled-by="pills-activity-tab">
-                <iq-card>
-                  <template v-slot:headerTitle>
-                    <h4 class="card-title">Activity timeline</h4>
-                  </template>
-                  <template v-slot:headerAction>
-                    <b-dropdown id="dropdownMenuButton5" right variant="none">
-                      <template v-slot:button-content>
-                        <span class="text-primary">View All</span>
-                      </template>
-                      <b-dropdown-item href="#"><i class="ri-eye-fill mr-2"></i>View</b-dropdown-item>
-                      <b-dropdown-item href="#"><i class="ri-close-circle-line mr-2"></i>Delete</b-dropdown-item>
-                      <b-dropdown-item href="#"><i class="ri-pencil-fill mr-2"></i>Edit</b-dropdown-item>
-                      <b-dropdown-item href="#"><i class="ri-printer-fill mr-2"></i>Print</b-dropdown-item>
-                      <b-dropdown-item href="#"><i class="ri-file-download-fill mr-2"></i>Download</b-dropdown-item>
-                    </b-dropdown>
-                  </template>
-                  <template v-slot:body>
-                    <TimeLine :items="timelineItems" />
-                  </template>
-                </iq-card>
-              </tab-content-item>
-              <tab-content-item :active="false" id="profile-friends" aria-labelled-by="pills-friend-tab">
-                <iq-card>
-                  <template v-slot:headerTitle>
-                    <h4 class="card-title">Friends</h4>
-                  </template>
-                  <template v-slot:body>
-                    <ul class="suggestions-lists m-0 p-0">
-                      <li v-for="(item,index) in friends" :key="index" class="d-flex mb-4 align-items-center">
-                        <div class="user-img img-fluid">
-                          <b-img :src="item.image" alt="story-img" rounded="circle" class="avatar-40" />
-                        </div>
-                        <div class="media-support-info ml-3">
-                          <h6>{{ item.name }}</h6>
-                          <p class="mb-0">{{ item.role }}</p>
-                        </div>
-                        <div class="iq-card-header-toolbar d-flex align-items-center">
-                          <b-dropdown id="dropdownMenuButton40" right variant="none" menu-class="p-0">
-                            <template v-slot:button-content>
-                              <i class="ri-more-2-line"></i>
-                            </template>
-                            <b-dropdown-item href="#"><i class="ri-user-unfollow-line mr-2"></i>Unfollow</b-dropdown-item>
-                            <b-dropdown-item href="#"><i class="ri-share-forward-line mr-2"></i>Share</b-dropdown-item>
-                            <b-dropdown-item href="#"><i class="ri-file-copy-line mr-2"></i>Copy Link</b-dropdown-item>
-                          </b-dropdown>
-                        </div>
-                      </li>
-                    </ul>
-                    <b-button href="javascript:void(0);" variant="primary" class="d-block"><i class="ri-add-line"></i> Load More</b-button>
-                  </template>
-                </iq-card>
-              </tab-content-item>
-              <tab-content-item :active="false" id="profile-profile" aria-labelled-by="pills-profile-tab">
-                <iq-card>
-                  <template v-slot:headerTitle>
-                    <h4 class="card-title">Profile</h4>
-                  </template>
-                  <template v-slot:body>
-                    <div class="user-detail text-center">
-                      <div class="user-profile">
-                        <b-img :src="require('../../../assets/images/user/user-11.png')" alt="profile-img" fluid class="avatar-130" />
+  <b-row>
+    <b-col sm="12">
+      <b-row class="m-0 p-0">
+        <b-col lg="8">
+          <tab-content id="pills-tabContent-2">
+            <tab-content-item id="profile-feed" :active="true" aria-labelled-by="pills-feed-tab">
+              <AddSocialPost @addPost="addPost"></AddSocialPost>
+              <div v-for="post in socialPosts" :key="post.id">
+                <social-post :post="post"></social-post>
+              </div>
+            </tab-content-item>
+            <tab-content-item id="profile-activity" :active="false" aria-labelled-by="pills-activity-tab">
+              <iq-card>
+                <template #headerTitle>
+                  <h4 class="card-title">Activity timeline</h4>
+                </template>
+                <template #headerAction>
+                  <b-dropdown id="dropdownMenuButton5" right variant="none">
+                    <template #button-content>
+                      <span class="text-primary">View All</span>
+                    </template>
+                    <b-dropdown-item href="#"><i class="ri-eye-fill mr-2"></i>View</b-dropdown-item>
+                    <b-dropdown-item href="#"><i class="ri-close-circle-line mr-2"></i>Delete</b-dropdown-item>
+                    <b-dropdown-item href="#"><i class="ri-pencil-fill mr-2"></i>Edit</b-dropdown-item>
+                    <b-dropdown-item href="#"><i class="ri-printer-fill mr-2"></i>Print</b-dropdown-item>
+                    <b-dropdown-item href="#"><i class="ri-file-download-fill mr-2"></i>Download</b-dropdown-item>
+                  </b-dropdown>
+                </template>
+                <template #body>
+                  <TimeLine :items="timelineItems" />
+                </template>
+              </iq-card>
+            </tab-content-item>
+            <tab-content-item id="profile-friends" :active="false" aria-labelled-by="pills-friend-tab">
+              <iq-card>
+                <template #headerTitle>
+                  <h4 class="card-title">Friends</h4>
+                </template>
+                <template #body>
+                  <ul class="suggestions-lists m-0 p-0">
+                    <li v-for="(item, index) in friends" :key="index" class="d-flex mb-4 align-items-center">
+                      <div class="user-img img-fluid">
+                        <b-img :src="item.image" alt="story-img" rounded="circle" class="avatar-40" />
                       </div>
-                      <div class="profile-detail mt-3">
-                        <h3 class="d-inline-block">Nik Jone</h3>
-                        <p class="d-inline-block pl-3"> - Web designer</p>
-                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 500s</p>
+                      <div class="media-support-info ml-3">
+                        <h6>{{ item.name }}</h6>
+                        <p class="mb-0">{{ item.role }}</p>
                       </div>
-                    </div>
-                  </template>
-                </iq-card>
-                <iq-card>
-                  <template v-slot:headerTitle>
-                    <h4 class="card-title">About User</h4>
-                  </template>
-                  <template v-slot:body>
-                    <div class="user-bio">
-                      <p>Tart I love sugar plum I love oat cake. Sweet roll caramels I love jujubes.Topping cake wafer.</p>
-                    </div>
-                    <div v-for="(item,index) in userBio" :key="index" class="mt-2">
-                      <h6>{{ item.title }}:</h6>
-                      <p v-html="item.description"></p>
-                    </div>
-                  </template>
-                </iq-card>
-              </tab-content-item>
-            </tab-content>
-          </b-col>
-          <b-col lg="4" >
-            <iq-card>
-              <template v-slot:headerTitle>
-                <h4 class="card-title">Stories</h4>
-              </template>
-              <template v-slot:body>
-                <ul class="media-story m-0 p-0">
-                  <li class="d-flex mb-4 align-items-center">
-                    <i class="ri-add-line font-size-18"></i>
-                    <div class="stories-data ml-3">
-                      <h5>Creat Your Story</h5>
-                      <p class="mb-0">time to story</p>
-                    </div>
-                  </li>
-                  <li v-for="(item,index) in story" :key="index" class="d-flex align-items-center" :class="item.isActive +' '+ item.class">
-                    <b-img :src="item.image" alt="story-img" rounded="circle" fluid />
-                    <div class="stories-data ml-3">
-                      <h5>{{ item.title }}</h5>
-                      <p class="mb-0">{{ item.time }}</p>
-                    </div>
-                  </li>
-                </ul>
-                <b-link href="javascript:void(0);" class="btn btn-primary d-block mt-3"><i class="ri-add-line"></i> See All</b-link>
-              </template>
-            </iq-card>
-            <iq-card>
-              <template v-slot:headerTitle>
-                <h4 class="card-title">Events</h4>
-              </template>
-              <template v-slot:body>
-                <ul class="media-story m-0 p-0">
-                  <li class="d-flex mb-4 align-items-center " v-for="(event,index) in event" :key="index">
-                    <img :src="event.img" alt="story-img" class="rounded-circle img-fluid">
-                    <div class="stories-data ml-3">
-                      <h5>{{event.heading}}</h5>
-                      <p class="mb-0">{{event.time}}</p>
-                    </div>
-                  </li>
-                </ul>
-              </template>
-            </iq-card>
-            <iq-card>
-              <template v-slot:headerTitle>
-                <h4 class="card-title">Upcomming Birthday</h4>
-              </template>
-              <template v-slot:body>
-                <ul class="suggestions-lists m-0 p-0">
-                  <li v-for="(item,index) in suggestions" :key="index" class="d-flex mb-4 align-items-center">
-                    <div class="user-img img-fluid">
-                      <b-img :src="item.image" alt="story-img" rounded="circle" class="avatar-40" />
-                    </div>
-                    <div class="media-support-info ml-3">
-                      <h6>{{ item.name }}</h6>
-                      <p class="mb-0">{{ item.mutual_friend }}</p>
-                    </div>
-                  </li>
-                </ul>
-              </template>
-            </iq-card>
-            <iq-card>
-              <template v-slot:headerTitle>
-                <h4 class="card-title">Suggested Pages</h4>
-              </template>
-              <template v-slot:body>
-                <ul class="suggested-page-story m-0 p-0 list-inline">
-                  <li class="mb-3" v-for="(post,index) in suggestionEvent" :key="index">
-                    <div class="d-flex align-items-center mb-3">
-                      <img :src="post.img" alt="story-img" class="rounded-circle img-fluid avatar-50">
-                      <div class="stories-data ml-3">
-                        <h5>{{post.title}}</h5>
-                        <p class="mb-0">{{post.des}}</p>
+                      <div class="iq-card-header-toolbar d-flex align-items-center">
+                        <b-dropdown id="dropdownMenuButton40" right variant="none" menu-class="p-0">
+                          <template #button-content>
+                            <i class="ri-more-2-line"></i>
+                          </template>
+                          <b-dropdown-item href="#"><i class="ri-user-unfollow-line mr-2"></i>Unfollow</b-dropdown-item>
+                          <b-dropdown-item href="#"><i class="ri-share-forward-line mr-2"></i>Share</b-dropdown-item>
+                          <b-dropdown-item href="#"><i class="ri-file-copy-line mr-2"></i>Copy Link</b-dropdown-item>
+                        </b-dropdown>
                       </div>
+                    </li>
+                  </ul>
+                  <b-button href="javascript:void(0);" variant="primary" class="d-block"><i class="ri-add-line"></i> Load More</b-button>
+                </template>
+              </iq-card>
+            </tab-content-item>
+            <tab-content-item id="profile-profile" :active="false" aria-labelled-by="pills-profile-tab">
+              <iq-card>
+                <template #headerTitle>
+                  <h4 class="card-title">Profile</h4>
+                </template>
+                <template #body>
+                  <div class="user-detail text-center">
+                    <div class="user-profile">
+                      <b-img :src="require('../../../assets/images/user/user-11.png')" alt="profile-img" fluid class="avatar-130" />
                     </div>
-                    <img :src="post.otherImg" class="img-fluid rounded" alt="Responsive image">
-                    <div class="mt-3"><a href="#" class="btn d-block"><i class="ri-thumb-up-line mr-2"></i> Like Page</a></div>
-                  </li>
-                </ul>
-              </template>
-            </iq-card>
-          </b-col>
-        </b-row>
-      </b-col>
-       <div class="col-sm-12 text-center">
-          <img src="../../../assets/images/page-img/page-load-loader.gif" alt="loader" style="height: 100px;">
-        </div>
-    </b-row>
+                    <div class="profile-detail mt-3">
+                      <h3 class="d-inline-block">Nik Jone</h3>
+                      <p class="d-inline-block pl-3">- Web designer</p>
+                      <p class="mb-0">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+                        text ever since the 500s
+                      </p>
+                    </div>
+                  </div>
+                </template>
+              </iq-card>
+              <iq-card>
+                <template #headerTitle>
+                  <h4 class="card-title">About User</h4>
+                </template>
+                <template #body>
+                  <div class="user-bio">
+                    <p>Tart I love sugar plum I love oat cake. Sweet roll caramels I love jujubes.Topping cake wafer.</p>
+                  </div>
+                  <div v-for="(item, index) in userBio" :key="index" class="mt-2">
+                    <h6>{{ item.title }}:</h6>
+                    <p v-html="item.description"></p>
+                  </div>
+                </template>
+              </iq-card>
+            </tab-content-item>
+          </tab-content>
+        </b-col>
+        <b-col lg="4">
+          <iq-card>
+            <template #headerTitle>
+              <h4 class="card-title">Stories</h4>
+            </template>
+            <template #body>
+              <ul class="media-story m-0 p-0">
+                <li class="d-flex mb-4 align-items-center">
+                  <i class="ri-add-line font-size-18"></i>
+                  <div class="stories-data ml-3">
+                    <h5>Creat Your Story</h5>
+                    <p class="mb-0">time to story</p>
+                  </div>
+                </li>
+                <li v-for="(item, index) in story" :key="index" class="d-flex align-items-center" :class="item.isActive + ' ' + item.class">
+                  <b-img :src="item.image" alt="story-img" rounded="circle" fluid />
+                  <div class="stories-data ml-3">
+                    <h5>{{ item.title }}</h5>
+                    <p class="mb-0">{{ item.time }}</p>
+                  </div>
+                </li>
+              </ul>
+              <b-link href="javascript:void(0);" class="btn btn-primary d-block mt-3"><i class="ri-add-line"></i> See All</b-link>
+            </template>
+          </iq-card>
+          <iq-card>
+            <template #headerTitle>
+              <h4 class="card-title">Events</h4>
+            </template>
+            <template #body>
+              <ul class="media-story m-0 p-0">
+                <li v-for="(event, index) in event" :key="index" class="d-flex mb-4 align-items-center">
+                  <img :src="event.img" alt="story-img" class="rounded-circle img-fluid" />
+                  <div class="stories-data ml-3">
+                    <h5>{{ event.heading }}</h5>
+                    <p class="mb-0">{{ event.time }}</p>
+                  </div>
+                </li>
+              </ul>
+            </template>
+          </iq-card>
+          <iq-card>
+            <template #headerTitle>
+              <h4 class="card-title">Upcomming Birthday</h4>
+            </template>
+            <template #body>
+              <ul class="suggestions-lists m-0 p-0">
+                <li v-for="(item, index) in suggestions" :key="index" class="d-flex mb-4 align-items-center">
+                  <div class="user-img img-fluid">
+                    <b-img :src="item.image" alt="story-img" rounded="circle" class="avatar-40" />
+                  </div>
+                  <div class="media-support-info ml-3">
+                    <h6>{{ item.name }}</h6>
+                    <p class="mb-0">{{ item.mutual_friend }}</p>
+                  </div>
+                </li>
+              </ul>
+            </template>
+          </iq-card>
+          <iq-card>
+            <template #headerTitle>
+              <h4 class="card-title">Suggested Pages</h4>
+            </template>
+            <template #body>
+              <ul class="suggested-page-story m-0 p-0 list-inline">
+                <li v-for="(post, index) in suggestionEvent" :key="index" class="mb-3">
+                  <div class="d-flex align-items-center mb-3">
+                    <img :src="post.img" alt="story-img" class="rounded-circle img-fluid avatar-50" />
+                    <div class="stories-data ml-3">
+                      <h5>{{ post.title }}</h5>
+                      <p class="mb-0">{{ post.des }}</p>
+                    </div>
+                  </div>
+                  <img :src="post.otherImg" class="img-fluid rounded" alt="Responsive image" />
+                  <div class="mt-3">
+                    <a href="#" class="btn d-block"><i class="ri-thumb-up-line mr-2"></i> Like Page</a>
+                  </div>
+                </li>
+              </ul>
+            </template>
+          </iq-card>
+        </b-col>
+      </b-row>
+    </b-col>
+    <div class="col-sm-12 text-center">
+      <img src="../../../assets/images/page-img/page-load-loader.gif" alt="loader" style="height: 100px" />
+    </div>
+  </b-row>
 </template>
 <script>
 import { socialvue } from '../../../config/pluginInit'
@@ -195,10 +200,7 @@ import IqCard from '../../../components/socialvue/cards/iq-card'
 export default {
   name: 'SocialApp',
   components: { IqCard, AddSocialPost, SocialPost },
-  mounted () {
-    socialvue.index()
-  },
-  data () {
+  data() {
     return {
       suggestionEvent: [
         {
@@ -279,8 +281,7 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         },
         {
@@ -290,8 +291,7 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         },
         {
@@ -318,8 +318,7 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         },
         {
@@ -329,8 +328,7 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         }
       ],
@@ -342,7 +340,10 @@ export default {
         { title: 'Joined', description: 'November 15, 2012' },
         { title: 'Lives', description: 'United States of America' },
         { title: 'Email', description: '<a href="mailto:nikjone@gmail.com"> nikjone@gmail.com</a>' },
-        { title: 'Url', description: '<a href="https://getbootstrap.com/docs/4.0/getting-started/introduction/" target="_blank"> www.bootstrap.com </a>' },
+        {
+          title: 'Url',
+          description: '<a href="https://getbootstrap.com/docs/4.0/getting-started/introduction/" target="_blank"> www.bootstrap.com </a>'
+        },
         { title: 'Contact', description: '<a href="tel:001 4544 565 456">(001) 4544 565 456</a>' }
       ],
       story: [
@@ -400,8 +401,11 @@ export default {
       ]
     }
   },
+  mounted() {
+    socialvue.index()
+  },
   methods: {
-    addPost (post) {
+    addPost(post) {
       this.socialPosts.unshift(post)
     }
   }

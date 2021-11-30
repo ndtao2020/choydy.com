@@ -1,11 +1,11 @@
 export default {
-  activePageCommit (state, data) {
+  activePageCommit(state, data) {
     state.activePage = data
   },
-  setLangCommit (state, data) {
+  setLangCommit(state, data) {
     state.lang = data
   },
-  layoutModeCommit (state, data) {
+  layoutModeCommit(state, data) {
     state.layoutMode = data
   }
 }

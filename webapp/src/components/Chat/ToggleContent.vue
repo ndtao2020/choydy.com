@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-user-detail-popup scroller" ref="removeContent">
+  <div ref="removeContent" class="chat-user-detail-popup scroller">
     <div class="user-profile" :class="center ? 'text-center' : ''">
       <button type="submit" class="close-popup p-3" @click="dismiss"><i class="ri-close-fill" /></button>
       <div class="user text-center mb-4">
@@ -8,8 +8,8 @@
         </a>
         <slot name="title" />
       </div>
-      <hr>
-      <div class="user-detail mt-4 pl-4 pr-4" :class="center ? ' text-center '+bodyClass : bodyClass">
+      <hr />
+      <div class="user-detail mt-4 pl-4 pr-4" :class="center ? ' text-center ' + bodyClass : bodyClass">
         <slot name="body" />
       </div>
     </div>
@@ -23,7 +23,7 @@ export default {
     center: { type: Boolean }
   },
   methods: {
-    dismiss () {
+    dismiss() {
       this.$refs.removeContent.classList.remove('show')
     }
   }

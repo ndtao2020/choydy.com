@@ -1,14 +1,22 @@
 <template>
   <li :class="liClass">
-    <a :class="'nav-link '+className" :id="id" :data-toggle="dataToggle" :href="url" :role="role" :aria-controls="ariaControls" :aria-selected="ariaSelected">
-      <slot name="title" v-if="hasTitleSlot"/>
+    <a
+      :id="id"
+      :class="'nav-link ' + className"
+      :data-toggle="dataToggle"
+      :href="url"
+      :role="role"
+      :aria-controls="ariaControls"
+      :aria-selected="ariaSelected"
+    >
+      <slot v-if="hasTitleSlot" name="title" />
       <template v-else>{{ title }}</template>
     </a>
   </li>
 </template>
 <script>
 export default {
-  name: 'tab-nav-items',
+  name: 'TabNavItems',
   props: {
     id: { type: String, default: 'myTab' },
     active: { type: Boolean, default: false },
@@ -20,25 +28,25 @@ export default {
     title: { type: String, default: '' },
     liClass: { type: String, default: 'nav-item' }
   },
-  mounted () {
-    if (this.active) {
-      this.className = 'show active'
+  data() {
+    return {
+      className: ''
     }
   },
   computed: {
-    hasTitleSlot () {
+    hasTitleSlot() {
       return !!this.$slots.title
     },
-    url () {
+    url() {
       if (this.href === '') {
         return '#' + this.ariaControls
       }
       return this.href
     }
   },
-  data () {
-    return {
-      className: ''
+  mounted() {
+    if (this.active) {
+      this.className = 'show active'
     }
   }
 }

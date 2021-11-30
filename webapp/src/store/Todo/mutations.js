@@ -1,8 +1,8 @@
 export default {
-  addProjectCommit (state, data) {
+  addProjectCommit(state, data) {
     state.projectList.push(data)
   },
-  selectedCommit (state, data) {
+  selectedCommit(state, data) {
     switch (data.type) {
       case 'project':
         state.selectedProject = data.data
@@ -12,11 +12,11 @@ export default {
         break
     }
   },
-  addTaskCommit (state, data) {
+  addTaskCommit(state, data) {
     state.taskList.push(data)
   },
-  updateStatusCommit (state, data) {
-    let taskIndex = state.taskList.findIndex(task => task.id === data.id)
+  updateStatusCommit(state, data) {
+    let taskIndex = state.taskList.findIndex((task) => task.id === data.id)
     if (data.task_status) {
       data.task_status = false
     } else {

@@ -572,7 +572,6 @@ const routes = [
     meta: { auth: true },
     children: formChildRoute('form')
   }
-
 ]
 
 const router = new VueRouter({

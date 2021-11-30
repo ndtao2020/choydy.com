@@ -2,7 +2,7 @@
   <div>
     <Loader />
     <div class="wrapper">
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
@@ -14,14 +14,14 @@ export default {
   components: {
     Loader
   },
-  mounted () {
+  mounted() {
     socialvue.mainIndex()
   }
 }
 </script>
 <style>
-  @import url("../assets/css/custom.css");
-  .modal-backdrop {
-    opacity: .5;
-  }
+@import url('../assets/css/custom.css');
+.modal-backdrop {
+  opacity: 0.5;
+}
 </style>

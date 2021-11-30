@@ -6,7 +6,7 @@ import { socialvue } from '../../config/pluginInit'
 
 export default {
   name: 'BlankPage',
-  mounted () {
+  mounted() {
     socialvue.index()
   }
 }

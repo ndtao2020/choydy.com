@@ -11,37 +11,40 @@ export default {
     VueSlick
   },
   props: {
-    option: { type: Object,
+    option: {
+      type: Object,
       default: () => {
         return {
           slidesToShow: 6,
           slidesToScroll: 1,
           focusOnSelect: true,
           arrows: false,
-          responsive: [{
-            breakpoint: 992,
-            settings: {
-              arrows: false,
-              centerMode: true,
-              slidesToShow: 3
+          responsive: [
+            {
+              breakpoint: 992,
+              settings: {
+                arrows: false,
+                centerMode: true,
+                slidesToShow: 3
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                arrows: false,
+                centerMode: true,
+                slidesToShow: 1
+              }
             }
-          }, {
-            breakpoint: 480,
-            settings: {
-              arrows: false,
-              centerMode: true,
-              slidesToShow: 1
-            }
-          }],
+          ],
           nextArrow: '<a href="#" class="ri-arrow-left-s-line left"></a>',
           prevArrow: '<a href="#" class="ri-arrow-right-s-line right"></a>'
         }
       }
     }
   },
-  data () {
-    return {
-    }
+  data() {
+    return {}
   }
 }
 </script>

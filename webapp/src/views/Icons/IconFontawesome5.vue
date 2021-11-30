@@ -2,19 +2,19 @@
   <b-container fluid>
     <b-row>
       <div class="col-sm-12">
-          <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px;">
-            <div class="inner-page-title">
-                <h3 class="text-white">Font Awwsome</h3>
-                <p class="text-white">lorem ipsum</p>
-            </div>
+        <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px">
+          <div class="inner-page-title">
+            <h3 class="text-white">Font Awwsome</h3>
+            <p class="text-white">lorem ipsum</p>
           </div>
+        </div>
       </div>
       <b-col sm="12">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Fontawesome Icon</h4>
           </template>
-          <template v-slot:body>
+          <template #body>
             <p>Use Class <code>&lt;i class="fa fa-address-book"&gt;&lt;/i&gt;</code></p>
             <b-row class="mt-3">
               <b-col lg="2" md="2" sm="2">
@@ -157,7 +157,7 @@
 import { socialvue } from '../../config/pluginInit'
 export default {
   name: 'IconFontAwesome5',
-  mounted () {
+  mounted() {
     socialvue.index()
   }
 }

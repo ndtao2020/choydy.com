@@ -4,11 +4,25 @@ module.exports = {
     node: true
   },
   extends: [
-    'plugin:vue/essential'
+    'eslint:recommended',
+    'plugin:vue/essential',
+    'plugin:vue/recommended',
+    'plugin:vue/strongly-recommended',
+    'plugin:prettier/recommended'
   ],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-console': 'warn',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'security/detect-object-injection': 'off',
+    'vue/require-default-prop': 'off',
+    'prettier/prettier': ['error', require('./.prettierrc.js')]
   },
-  parser: 'vue-eslint-parser'
+  parser: 'vue-eslint-parser',
+  parserOptions: {
+    parser: 'babel-eslint',
+    sourceType: 'module'
+  },
+  globals: {
+    importScripts: true
+  }
 }

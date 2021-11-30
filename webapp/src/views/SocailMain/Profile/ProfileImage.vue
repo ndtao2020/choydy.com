@@ -1,33 +1,31 @@
 <template>
-      <b-row class="row">
-        <b-col v-for="(item,index) in profileImages" :key="index" md="6" lg="3" class="mb-3">
-          <div class="user-images position-relative overflow-hidden">
-            <a href="#">
-              <img :src="item.img" class="img-fluid rounded" alt="Responsive image">
-            </a>
-            <div class="image-hover-data">
-              <div class="product-elements-icon">
-                <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                  <li v-for="(item,index1) in item.otherInfo" :key="index1">
-                    <a href="#" class="pr-3 text-white"> {{item.value}} <i :class="item.class"></i> </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <a href="#" class="image-edit-btn" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit or Remove"><i class="ri-edit-2-fill"></i></a>
+  <b-row class="row">
+    <b-col v-for="(item, index) in profileImages" :key="index" md="6" lg="3" class="mb-3">
+      <div class="user-images position-relative overflow-hidden">
+        <a href="#">
+          <img :src="item.img" class="img-fluid rounded" alt="Responsive image" />
+        </a>
+        <div class="image-hover-data">
+          <div class="product-elements-icon">
+            <ul class="d-flex align-items-center m-0 p-0 list-inline">
+              <li v-for="(item, index1) in item.otherInfo" :key="index1">
+                <a href="#" class="pr-3 text-white"> {{ item.value }} <i :class="item.class"></i> </a>
+              </li>
+            </ul>
           </div>
-        </b-col>
-
-      </b-row>
+        </div>
+        <a href="#" class="image-edit-btn" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit or Remove"
+          ><i class="ri-edit-2-fill"></i
+        ></a>
+      </div>
+    </b-col>
+  </b-row>
 </template>
 <script>
 import { socialvue } from '../../../config/pluginInit'
 export default {
   name: 'ProfileImage',
-  mounted () {
-    socialvue.index()
-  },
-  data () {
+  data() {
     return {
       profileImages: [
         {
@@ -40,7 +38,6 @@ export default {
             {
               class: 'ri-chat-3-line',
               value: 2
-
             },
             {
               class: 'ri-share-forward-line',
@@ -58,7 +55,6 @@ export default {
             {
               class: 'ri-chat-3-line',
               value: 2
-
             },
             {
               class: 'ri-share-forward-line',
@@ -76,7 +72,6 @@ export default {
             {
               class: 'ri-chat-3-line',
               value: 21
-
             },
             {
               class: 'ri-share-forward-line',
@@ -94,7 +89,6 @@ export default {
             {
               class: 'ri-chat-3-line',
               value: 20
-
             },
             {
               class: 'ri-share-forward-line',
@@ -112,7 +106,6 @@ export default {
             {
               class: 'ri-chat-3-line',
               value: 20
-
             },
             {
               class: 'ri-share-forward-line',
@@ -130,7 +123,6 @@ export default {
             {
               class: 'ri-chat-3-line',
               value: 25
-
             },
             {
               class: 'ri-share-forward-line',
@@ -148,7 +140,6 @@ export default {
             {
               class: 'ri-chat-3-line',
               value: 27
-
             },
             {
               class: 'ri-share-forward-line',
@@ -166,7 +157,6 @@ export default {
             {
               class: 'ri-chat-3-line',
               value: 26
-
             },
             {
               class: 'ri-share-forward-line',
@@ -184,7 +174,6 @@ export default {
             {
               class: 'ri-chat-3-line',
               value: 24
-
             },
             {
               class: 'ri-share-forward-line',
@@ -202,7 +191,6 @@ export default {
             {
               class: 'ri-chat-3-line',
               value: 24
-
             },
             {
               class: 'ri-share-forward-line',
@@ -212,6 +200,9 @@ export default {
         }
       ]
     }
+  },
+  mounted() {
+    socialvue.index()
   }
 }
 </script>

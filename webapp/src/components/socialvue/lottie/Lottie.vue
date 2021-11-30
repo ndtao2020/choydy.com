@@ -1,10 +1,10 @@
 <template>
-  <div :class="className" ref="lavContainer"></div>
+  <div ref="lavContainer" :class="className"></div>
 </template>
 <script>
 import lottie from 'lottie-web'
 export default {
-  name: 'lottieT',
+  name: 'LottieT',
   props: {
     option: {
       type: Object,
@@ -15,7 +15,7 @@ export default {
       default: 'bodymovin'
     }
   },
-  mounted () {
+  mounted() {
     lottie.loadAnimation({
       container: this.$refs.lavContainer,
       renderer: 'svg',

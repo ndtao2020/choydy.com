@@ -9,13 +9,9 @@ export default new Vuex.Store({
   modules: {
     Setting
   },
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  getters: {
-  },
+  state: {},
+  mutations: {},
+  actions: {},
+  getters: {},
   strict: debug
 })

@@ -2,29 +2,29 @@
   <b-container fluid>
     <b-row>
       <div class="col-sm-12">
-          <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px;">
-            <div class="inner-page-title">
-                <h3 class="text-white">TimeLine Page</h3>
-                <p class="text-white">lorem ipsum</p>
-            </div>
+        <div class="iq-card position-relative inner-page-bg bg-primary" style="height: 150px">
+          <div class="inner-page-title">
+            <h3 class="text-white">TimeLine Page</h3>
+            <p class="text-white">lorem ipsum</p>
           </div>
+        </div>
       </div>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Product Order</h4>
           </template>
-          <template v-slot:body>
+          <template #body>
             <TimeLine :items="timelineItems" />
           </template>
         </iq-card>
       </b-col>
       <b-col lg="6">
         <iq-card>
-          <template v-slot:headerTitle>
+          <template #headerTitle>
             <h4 class="card-title">Product Order</h4>
           </template>
-          <template v-slot:body>
+          <template #body>
             <TimeLine :items="timelineItems" />
           </template>
         </iq-card>
@@ -37,10 +37,7 @@ import { socialvue } from '../../config/pluginInit'
 
 export default {
   name: 'TimeLines',
-  mounted () {
-    socialvue.index()
-  },
-  data () {
+  data() {
     return {
       timelineItems: [
         {
@@ -50,8 +47,7 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         },
         {
@@ -61,8 +57,7 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         },
         {
@@ -89,8 +84,7 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         },
         {
@@ -100,8 +94,7 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         },
         {
@@ -111,8 +104,7 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         },
         {
@@ -122,8 +114,7 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         },
         {
@@ -133,8 +124,7 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         },
         {
@@ -144,12 +134,14 @@ export default {
           description: 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
           child: {
             type: 'img',
-            items: [
-            ]
+            items: []
           }
         }
       ]
     }
+  },
+  mounted() {
+    socialvue.index()
   }
 }
 </script>

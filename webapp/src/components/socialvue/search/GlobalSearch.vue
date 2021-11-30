@@ -1,14 +1,13 @@
 <template>
-  <div :class="`searchbox-datalink`" id="searchbox-datalink">
+  <div id="searchbox-datalink" :class="`searchbox-datalink`">
     <ul class="m-0 p-3">
       <h6>Page</h6>
       <template v-if="filteredList.length > 0">
-        <li v-for="(item,index) in filteredList" :key="index" class="iq-bg-primary-hover rounded" @click="removeClass">
-          <template v-if="!item.is_heading && !item.children" >
-            <router-link :to="item.link" v-if="!item.is_heading" class="nav-link  pr-2" @click="removeClass">
-              <i :class="item.icon" v-if="item.is_icon_class"/>
-              <template v-else v-html="item.icon">
-              </template>
+        <li v-for="(item, index) in filteredList" :key="index" class="iq-bg-primary-hover rounded" @click="removeClass">
+          <template v-if="!item.is_heading && !item.children">
+            <router-link v-if="!item.is_heading" :to="item.link" class="nav-link pr-2" @click="removeClass">
+              <i v-if="item.is_icon_class" :class="item.icon" />
+              <template v-else v-html="item.icon"> </template>
               <span>{{ item.title }}</span>
               <i v-if="item.children" class="ri-arrow-right-s-line iq-arrow-right" />
             </router-link>
@@ -33,21 +32,20 @@ export default {
     ...mapGetters({
       sidebar: 'Setting/globalSearchState'
     }),
-    filteredList () {
-      return this.sidebar.filter(item => {
+    filteredList() {
+      return this.sidebar.filter((item) => {
         return item.title.toLowerCase().includes(this.search.toLowerCase())
       })
     }
   },
-  mounted () {
-  },
-  data () {
+  mounted() {},
+  data() {
     return {
       globalSearch: ''
     }
   },
   methods: {
-    removeClass () {
+    removeClass() {
       document.getElementById('searchbox-datalink').classList.remove('show-data')
       this.$emit('closeSearch', true)
     }

@@ -5,7 +5,7 @@
         <div class="col-sm-9 text-center">
           <div class="iq-comingsoon-info">
             <a href="#">
-              <img :src="require('../../assets/images/logo.png')" class="img-fluid w-25" alt="logo">
+              <img :src="require('../../assets/images/logo.png')" class="img-fluid w-25" alt="logo" />
             </a>
             <h2 class="mt-4 mb-1">Stay tunned, we're launching very soon</h2>
             <p>We are working very hard to give you the best experience possible!</p>
@@ -22,7 +22,7 @@
         <div class="col-lg-4">
           <form class="iq-comingsoon-form mt-5">
             <div class="form-group">
-              <input type="email" class="form-control mb-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email address">
+              <input id="exampleInputEmail1" type="email" class="form-control mb-0" aria-describedby="emailHelp" placeholder="Enter email address" />
             </div>
             <button type="submit" class="btn btn-primary">Subscribe</button>
           </form>
@@ -36,7 +36,7 @@ import { socialvue } from '../../config/pluginInit'
 
 export default {
   name: 'ComingSoon',
-  mounted () {
+  mounted() {
     socialvue.index()
   }
 }
