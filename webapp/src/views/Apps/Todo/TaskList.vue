@@ -150,18 +150,8 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'TaskList',
   components: { TaskForm },
+  // eslint-disable-next-line vue/require-prop-types
   props: ['taskList', 'project', 'category'],
-  mounted() {},
-  computed: {
-    ...mapGetters({
-      categoryList: 'Todo/categoryState'
-    }),
-    filteredList() {
-      return this.taskList.filter((item) => {
-        return item.task_title.toLowerCase().includes(this.search.toLowerCase())
-      })
-    }
-  },
   data() {
     return {
       search: '',
@@ -189,6 +179,17 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters({
+      categoryList: 'Todo/categoryState'
+    }),
+    filteredList() {
+      return this.taskList.filter((item) => {
+        return item.task_title.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
+  },
+  mounted() {},
   methods: {
     checkUser(item, type) {
       let user = Users.find((user) => user.id === item)

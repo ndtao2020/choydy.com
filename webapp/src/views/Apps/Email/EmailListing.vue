@@ -261,13 +261,13 @@ export default {
       this.active = true
       this.dataItem = items
     },
-    closeDetail(items) {
+    closeDetail() {
       this.active = false
     },
-    updateTab(event) {
+    updateTab() {
       this.active = false
     },
-    closeModal(value) {
+    closeModal() {
       this.show = false
     }
   }

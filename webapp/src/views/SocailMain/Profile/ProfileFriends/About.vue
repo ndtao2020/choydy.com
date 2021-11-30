@@ -164,11 +164,11 @@
                 <h6>Add Work Place</h6>
               </div>
             </li>
-            <li v-for="(work, index) in work" :key="index" class="d-flex mb-4 align-items-center">
-              <div class="user-img img-fluid"><img :src="work.img" alt="story-img" class="rounded-circle avatar-40" /></div>
+            <li v-for="(workC, index) in work" :key="index" class="d-flex mb-4 align-items-center">
+              <div class="user-img img-fluid"><img :src="workC.img" alt="story-img" class="rounded-circle avatar-40" /></div>
               <div class="media-support-info ml-3">
-                <h6>{{ work.name }}</h6>
-                <p class="mb-0">{{ work.dec }}</p>
+                <h6>{{ workC.name }}</h6>
+                <p class="mb-0">{{ workC.dec }}</p>
               </div>
               <div class="edit-relation">
                 <a href="javascript:void();"><i class="ri-edit-line mr-2"></i>Edit</a>

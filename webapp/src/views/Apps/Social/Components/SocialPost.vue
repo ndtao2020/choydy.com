@@ -229,7 +229,9 @@
 <script>
 export default {
   name: 'SocialPost',
-  props: ['post'],
+  props: {
+    post: Object
+  },
   data() {
     return {
       commentMessage: ''
@@ -245,19 +247,21 @@ export default {
         // this.post.likes -= 1
       }
     },
-    isFollowed(follow) {
+    // isFollowed(follow) {
+    isFollowed() {
       // this.post.is_follow = follow
     },
-    isLikedComment(index, like) {
+    // isLikedComment(index, like) {
+    isLikedComment() {
       // this.post.comments[index].is_commentLike = like
     },
-    saveComment(postComment) {
+    // saveComment(postComment) {
+    saveComment() {
       // this.post.comments.push({
       //   image: require('../../../../assets/images/user/user-04.jpg'),
       //   user: { name: 'Sandy S', msg: postComment, time: new Date() },
       //   is_commentLike: false
       // })
-
       this.commentMessage = ''
     }
   }

@@ -163,8 +163,8 @@
               <b-col lg="8">
                 <div id="post-modal-data" class="iq-card">
                   <AddSocialPost @addPost="addPost"></AddSocialPost>
-                  <div v-for="post in socialPosts" :key="post.id">
-                    <social-post :post="post"></social-post>
+                  <div v-for="postK in socialPosts" :key="postK.id">
+                    <social-post :post="postK"></social-post>
                   </div>
                 </div>
               </b-col>
@@ -223,8 +223,8 @@
                         <div class="image-hover-data">
                           <div class="product-elements-icon">
                             <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                              <li v-for="(item, index1) in item.otherInfo" :key="index1">
-                                <a href="#" class="pr-3 text-white"> {{ item.value }} <i :class="item.class"></i> </a>
+                              <li v-for="(itemM, index1) in item.otherInfo" :key="index1">
+                                <a href="#" class="pr-3 text-white"> {{ itemM.value }} <i :class="itemM.class"></i> </a>
                               </li>
                             </ul>
                           </div>

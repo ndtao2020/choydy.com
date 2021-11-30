@@ -80,7 +80,7 @@ const TodoListing = () => import('../views/Apps/Todo/TodoListing')
 const ChatIndex = () => import('../views/Apps/Chat/Index')
 const AccountSettings = () => import('../views/User/AccountSetting')
 Vue.use(VueRouter)
-const childRoutes = (prop, mode) => [
+const childRoutes = (prop) => [
   {
     path: '/',
     name: prop + '.list',
@@ -161,7 +161,7 @@ const childRoutes = (prop, mode) => [
   }
 ]
 
-const coreChildRoute = (prop, mode) => [
+const coreChildRoute = (prop) => [
   {
     path: 'ui-colors',
     name: prop + '.color',
@@ -283,7 +283,7 @@ const coreChildRoute = (prop, mode) => [
     component: UiTabs
   }
 ]
-const formChildRoute = (prop, mode = false) => [
+const formChildRoute = (prop) => [
   {
     path: 'form-layout',
     name: prop + '.layout',
@@ -316,7 +316,7 @@ const formChildRoute = (prop, mode = false) => [
   }
 ]
 
-const tableChildRoute = (prop, mode = false) => [
+const tableChildRoute = (prop) => [
   {
     path: 'tables-basic',
     name: prop + '.basic',
@@ -331,7 +331,7 @@ const tableChildRoute = (prop, mode = false) => [
   }
 ]
 
-const iconChildRoute = (prop, mode = false) => [
+const iconChildRoute = (prop) => [
   {
     path: 'dripicons',
     name: prop + '.dripicons',
@@ -364,7 +364,7 @@ const iconChildRoute = (prop, mode = false) => [
   }
 ]
 
-const appChildRoute = (prop, mode = false) => [
+const appChildRoute = (prop) => [
   {
     path: 'chat',
     name: prop + '.chat',
@@ -391,7 +391,7 @@ const appChildRoute = (prop, mode = false) => [
   }
 ]
 
-const authChildRoutes = (prop, mode = false) => [
+const authChildRoutes = (prop) => [
   {
     path: 'sign-in1',
     name: prop + '.sign-in1',
@@ -423,7 +423,7 @@ const authChildRoutes = (prop, mode = false) => [
     component: ConfirmMail1
   }
 ]
-const defaultlayout = (prop, mode = false) => [
+const defaultlayout = (prop) => [
   {
     path: 'timeline',
     name: prop + '.timeline',
@@ -462,7 +462,7 @@ const defaultlayout = (prop, mode = false) => [
   }
 ]
 
-const pagesChildRoutes = (prop, mode = false) => [
+const pagesChildRoutes = (prop) => [
   {
     path: 'error/:code',
     name: prop + '.error',
@@ -482,7 +482,7 @@ const pagesChildRoutes = (prop, mode = false) => [
     component: Maintenance
   }
 ]
-const userChildRoute = (prop, mode = false) => [
+const userChildRoute = (prop) => [
   {
     path: 'profile',
     name: prop + '.profile',

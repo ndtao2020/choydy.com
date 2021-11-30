@@ -271,23 +271,15 @@ import { mapGetters } from 'vuex'
 import Lottie from '../../../components/socialvue/lottie/Lottie'
 export default {
   name: 'NavBarStyle1',
+  components: {
+    Lottie
+  },
   props: {
     homeURL: { type: Object, default: () => ({ name: 'layout1.dashboard' }) },
     title: { type: String, default: 'Dashboard' },
     logo: { type: String, default: require('../../../assets/images/logo.png') },
     horizontal: { type: Boolean, default: false },
     items: { type: Array }
-  },
-  mounted() {
-    document.addEventListener('click', this.closeSearch, true)
-  },
-  components: {
-    Lottie
-  },
-  computed: {
-    ...mapGetters({
-      bookmark: 'Setting/bookmarkState'
-    })
   },
   data() {
     return {
@@ -318,6 +310,14 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapGetters({
+      bookmark: 'Setting/bookmarkState'
+    })
+  },
+  mounted() {
+    document.addEventListener('click', this.closeSearch, true)
   },
   methods: {
     miniSidebar() {

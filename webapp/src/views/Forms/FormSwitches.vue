@@ -98,8 +98,8 @@
                     :class="`bg-${item.color}`"
                   />
                   <label class="custom-control-label" :for="`customSwitch-1-${index}`">
-                    <span class="switch-icon-left" v-html="item.activeLabel"></span>
-                    <span class="switch-icon-right" v-html="item.inactiveLabel"></span>
+                    <span class="switch-icon-left">{{ item.activeLabel }}</span>
+                    <span class="switch-icon-right">{{ item.inactiveLabel }}</span>
                   </label>
                 </div>
               </div>

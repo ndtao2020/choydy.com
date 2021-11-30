@@ -33,10 +33,10 @@
                       <span class="badge badge-danger">Unpaid</span>
                     </template>
                     <template #cell(billingAddress)="data">
-                      <p v-html="data.value"></p>
+                      <p>{{ data.value }}</p>
                     </template>
                     <template #cell(shippingAddress)="data">
-                      <p v-html="data.value"></p>
+                      <p>{{ data.value }}</p>
                     </template>
                   </b-table>
                 </div>

@@ -37,6 +37,7 @@
 <script>
 export default {
   name: 'EmailItem',
+  // eslint-disable-next-line vue/require-prop-types
   props: ['items'],
   methods: {
     openDetail(items) {

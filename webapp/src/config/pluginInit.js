@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Scrollbar from 'smooth-scrollbar'
 import Snackbar from 'node-snackbar'
 import Store from '../store/index'
@@ -230,6 +231,8 @@ export const socialvue = {
 
         e.preventDefault()
       } else if ($(myTargetElement).is('.search-input')) {
+        // eslint-disable-next-line no-console
+        console.log(123)
       } else {
         $('.navbar-list li').removeClass('iq-show')
         $('.navbar-list li .search-toggle').removeClass('active')
@@ -392,6 +395,7 @@ export const animation = {
     },
     bounce: function (progress) {
       // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-constant-condition
       for (let a = 0, b = 1, result; 1; a += b, b /= 2) {
         if (progress >= (7 - 4 * a) / 11) {
           return -Math.pow((11 - 6 * a - 11 * progress) / 4, 2) + Math.pow(b, 2)

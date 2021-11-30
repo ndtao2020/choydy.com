@@ -14,10 +14,10 @@
         :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`"
       >
         <i v-if="item.is_icon_class" :class="item.icon" />
-        <div v-else v-html="item.icon" />
+        <div v-else>{{ item.icon }}</div>
         <span>{{ $t(item.name) }}</span>
         <i v-if="item.children" class="ri-arrow-right-s-line iq-arrow-right" />
-        <small :class="item.append_class" v-html="item.append" />
+        <small :class="item.append_class">{{ item.append }}</small>
       </router-link>
       <List
         v-if="item.children"

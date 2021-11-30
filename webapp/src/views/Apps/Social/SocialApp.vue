@@ -94,7 +94,7 @@
                   </div>
                   <div v-for="(item, index) in userBio" :key="index" class="mt-2">
                     <h6>{{ item.title }}:</h6>
-                    <p v-html="item.description"></p>
+                    <p>{{ item.description }}</p>
                   </div>
                 </template>
               </iq-card>
@@ -132,11 +132,11 @@
             </template>
             <template #body>
               <ul class="media-story m-0 p-0">
-                <li v-for="(event, index) in event" :key="index" class="d-flex mb-4 align-items-center">
-                  <img :src="event.img" alt="story-img" class="rounded-circle img-fluid" />
+                <li v-for="(eventR, index) in event" :key="index" class="d-flex mb-4 align-items-center">
+                  <img :src="eventR.img" alt="story-img" class="rounded-circle img-fluid" />
                   <div class="stories-data ml-3">
-                    <h5>{{ event.heading }}</h5>
-                    <p class="mb-0">{{ event.time }}</p>
+                    <h5>{{ eventR.heading }}</h5>
+                    <p class="mb-0">{{ eventR.time }}</p>
                   </div>
                 </li>
               </ul>

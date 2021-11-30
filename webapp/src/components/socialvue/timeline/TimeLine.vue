@@ -2,10 +2,10 @@
   <ul class="iq-timeline">
     <li v-for="(item, index) in items" :key="index">
       <div class="timeline-dots" :class="'border-' + item.color"></div>
-      <h6 class="float-left mb-1" v-html="item.title"></h6>
-      <small class="float-right mt-1" v-html="item.right"></small>
+      <h6 class="float-left mb-1">{{ item.title }}</h6>
+      <small class="float-right mt-1">{{ item.right }}</small>
       <div class="d-inline-block w-100">
-        <p v-html="item.description"></p>
+        <p>{{ item.description }}</p>
         <template v-if="item.child.items.length > 0 && item.child.type === 'img'">
           <div class="iq-media-group">
             <a v-for="(childItem, childIndex) in item.child.items" :key="childIndex" href="#" class="iq-media">

@@ -117,7 +117,7 @@
             <template v-for="(item, index) in icon">
               <div :key="index" class="custom-control custom-checkbox checkbox-icon custom-control-inline">
                 <input :id="`customSwitch-1-${index}`" v-model="item.checked" type="checkbox" class="custom-control-input" />
-                <label class="custom-control-label" :for="`customSwitch-1-${index}`" v-html="item.label"></label>
+                <label class="custom-control-label" :for="`customSwitch-1-${index}`">{{ item.label }}</label>
               </div>
             </template>
           </template>

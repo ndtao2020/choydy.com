@@ -77,132 +77,123 @@
               >
                 <tab-content id="v-pills-tabContent">
                   <tab-content-item id="v-pills-default" :active="true" aria-labelled-by="v-pills-default">
-                    <template>
-                      <ToggleButton :mini-toggle="true" :close-button="false" toggle-show="#chat-user-detail-popup" media-class="chat-user-profile">
-                        <template #media> </template>
-                        <template #body> </template>
-                      </ToggleButton>
+                    <ToggleButton :mini-toggle="true" :close-button="false" toggle-show="#chat-user-detail-popup" media-class="chat-user-profile">
+                      <template #media> </template>
+                      <template #body> </template>
+                    </ToggleButton>
+                    <div class="chat-start">
                       <div class="chat-start">
-                        <div class="chat-start">
-                          <span class="iq-start-icon text-primary"><i class="ri-message-3-line"></i></span>
-                          <button id="chat-start" class="btn bg-white mt-3">Start Conversation!</button>
-                        </div>
+                        <span class="iq-start-icon text-primary"><i class="ri-message-3-line"></i></span>
+                        <button id="chat-start" class="btn bg-white mt-3">Start Conversation!</button>
                       </div>
-                    </template>
+                    </div>
                   </tab-content-item>
                   <tab-content-item id="v-pills-home" aria-labelled-by="v-pills-default">
-                    <template>
-                      <div class="chat-head">
-                        <header class="d-flex justify-content-between align-items-center bg-white pt-3 pr-3 pb-3">
-                          <ToggleButton
-                            :mini-toggle="true"
-                            :close-button="false"
-                            toggle-show="#chat-user-detail-popup"
-                            media-class="chat-user-profile"
-                          >
-                            <template #media>
-                              <img :src="checkUser(5, 'image')" alt="avatar" class="avatar-50" />
-                              <span class="avatar-status"><i class="ri-checkbox-blank-circle-fill text-success" /></span>
-                            </template>
-                            <template #body>
-                              <h5 class="mb-0">{{ checkUser(5, 'name') }}</h5>
-                            </template>
-                          </ToggleButton>
-                          <ToggleContent id="chat-user-detail-popup" body-class="chatuser-detail" center>
-                            <template #media>
-                              <img :src="checkUser(5, 'image')" alt="avatar" />
-                            </template>
-                            <template #title>
-                              <div class="user-name mt-4">
-                                <h4>{{ checkUser(5, 'name') }}</h4>
-                              </div>
-                              <div class="user-desc"><p>Cape Town, RSA</p></div>
-                            </template>
-                            <template #body>
-                              <div class="row">
-                                <div class="col-6 col-md-6 title">Nik Name:</div>
-                                <div class="col-6 col-md-6 text-right">{{ checkUser(5, 'name') }}</div>
-                              </div>
-                              <hr />
-                              <div class="row">
-                                <div class="col-6 col-md-6 title">Tel:</div>
-                                <div class="col-6 col-md-6 text-right">072 143 9920</div>
-                              </div>
-                              <hr />
-                              <div class="row">
-                                <div class="col-6 col-md-6 title">Date Of Birth:</div>
-                                <div class="col-6 col-md-6 text-right">July 12, 1989</div>
-                              </div>
-                              <hr />
-                              <div class="row">
-                                <div class="col-6 col-md-6 title">Gender:</div>
-                                <div class="col-6 col-md-6 text-right">Male</div>
-                              </div>
-                              <hr />
-                              <div class="row">
-                                <div class="col-6 col-md-6 title">Language:</div>
-                                <div class="col-6 col-md-6 text-right">Engliah</div>
-                              </div>
-                            </template>
-                          </ToggleContent>
-                          <div class="chat-header-icons d-flex">
-                            <a class="iq-bg-primary iq-waves-effect mr-1 chat-icon-phone"><i class="ri-phone-line mr-0" /></a>
-                            <a class="iq-bg-primary iq-waves-effect mr-1 chat-icon-video"><i class="ri-vidicon-line mr-0" /></a>
-                            <a class="iq-bg-primary iq-waves-effect mr-1 chat-icon-delete"><i class="ri-delete-bin-line mr-0" /></a>
-                            <b-dropdown id="dropdownMenuButton2" right variant="none iq-bg-primary iq-waves-effect remove-toggle">
-                              <template #button-content>
-                                <i class="ri-more-2-line mr-0" />
-                              </template>
-                              <b-dropdown-item href="#"><i class="fa fa-thumb-tack mr-0" aria-hidden="true"></i> Pin to top</b-dropdown-item>
-                              <b-dropdown-item href="#"><i class="fa fa-trash-o mr-0" aria-hidden="true"></i> Delete chat</b-dropdown-item>
-                              <b-dropdown-item href="#"><i class="fa fa-ban mr-0" aria-hidden="true"></i> Block</b-dropdown-item>
-                            </b-dropdown>
-                          </div>
-                        </header>
-                      </div>
-                      <div class="chat-content scroller">
-                        <template v-for="(item, index) in chat">
-                          <div v-if="!item.me" :key="index" class="chat">
-                            <div class="chat-user">
-                              <a class="avatar m-0">
-                                <img :src="checkUser(item.userId, 'image')" alt="avatar" class="avatar-35" />
-                              </a>
-                              <span class="chat-time mt-1">{{ item.time }}</span>
+                    <div class="chat-head">
+                      <header class="d-flex justify-content-between align-items-center bg-white pt-3 pr-3 pb-3">
+                        <ToggleButton :mini-toggle="true" :close-button="false" toggle-show="#chat-user-detail-popup" media-class="chat-user-profile">
+                          <template #media>
+                            <img :src="checkUser(5, 'image')" alt="avatar" class="avatar-50" />
+                            <span class="avatar-status"><i class="ri-checkbox-blank-circle-fill text-success" /></span>
+                          </template>
+                          <template #body>
+                            <h5 class="mb-0">{{ checkUser(5, 'name') }}</h5>
+                          </template>
+                        </ToggleButton>
+                        <ToggleContent id="chat-user-detail-popup" body-class="chatuser-detail" center>
+                          <template #media>
+                            <img :src="checkUser(5, 'image')" alt="avatar" />
+                          </template>
+                          <template #title>
+                            <div class="user-name mt-4">
+                              <h4>{{ checkUser(5, 'name') }}</h4>
                             </div>
-                            <div class="chat-detail">
-                              <div class="chat-message">
-                                <p>{{ item.text }}</p>
-                              </div>
+                            <div class="user-desc"><p>Cape Town, RSA</p></div>
+                          </template>
+                          <template #body>
+                            <div class="row">
+                              <div class="col-6 col-md-6 title">Nik Name:</div>
+                              <div class="col-6 col-md-6 text-right">{{ checkUser(5, 'name') }}</div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                              <div class="col-6 col-md-6 title">Tel:</div>
+                              <div class="col-6 col-md-6 text-right">072 143 9920</div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                              <div class="col-6 col-md-6 title">Date Of Birth:</div>
+                              <div class="col-6 col-md-6 text-right">July 12, 1989</div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                              <div class="col-6 col-md-6 title">Gender:</div>
+                              <div class="col-6 col-md-6 text-right">Male</div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                              <div class="col-6 col-md-6 title">Language:</div>
+                              <div class="col-6 col-md-6 text-right">Engliah</div>
+                            </div>
+                          </template>
+                        </ToggleContent>
+                        <div class="chat-header-icons d-flex">
+                          <a class="iq-bg-primary iq-waves-effect mr-1 chat-icon-phone"><i class="ri-phone-line mr-0" /></a>
+                          <a class="iq-bg-primary iq-waves-effect mr-1 chat-icon-video"><i class="ri-vidicon-line mr-0" /></a>
+                          <a class="iq-bg-primary iq-waves-effect mr-1 chat-icon-delete"><i class="ri-delete-bin-line mr-0" /></a>
+                          <b-dropdown id="dropdownMenuButton2" right variant="none iq-bg-primary iq-waves-effect remove-toggle">
+                            <template #button-content>
+                              <i class="ri-more-2-line mr-0" />
+                            </template>
+                            <b-dropdown-item href="#"><i class="fa fa-thumb-tack mr-0" aria-hidden="true"></i> Pin to top</b-dropdown-item>
+                            <b-dropdown-item href="#"><i class="fa fa-trash-o mr-0" aria-hidden="true"></i> Delete chat</b-dropdown-item>
+                            <b-dropdown-item href="#"><i class="fa fa-ban mr-0" aria-hidden="true"></i> Block</b-dropdown-item>
+                          </b-dropdown>
+                        </div>
+                      </header>
+                    </div>
+                    <div class="chat-content scroller">
+                      <template v-for="(item, index) in chat">
+                        <div v-if="!item.me" :key="index" class="chat">
+                          <div class="chat-user">
+                            <a class="avatar m-0">
+                              <img :src="checkUser(item.userId, 'image')" alt="avatar" class="avatar-35" />
+                            </a>
+                            <span class="chat-time mt-1">{{ item.time }}</span>
+                          </div>
+                          <div class="chat-detail">
+                            <div class="chat-message">
+                              <p>{{ item.text }}</p>
                             </div>
                           </div>
-                          <div v-else :key="index" class="chat chat-left">
-                            <div class="chat-user">
-                              <a class="avatar m-0">
-                                <img :src="checkUser(item.userId, 'image')" alt="avatar" class="avatar-35" />
-                              </a>
-                              <span class="chat-time mt-1">{{ item.time }}</span>
-                            </div>
-                            <div class="chat-detail">
-                              <div class="chat-message">
-                                <p>{{ item.text }}</p>
-                              </div>
+                        </div>
+                        <div v-else :key="index" class="chat chat-left">
+                          <div class="chat-user">
+                            <a class="avatar m-0">
+                              <img :src="checkUser(item.userId, 'image')" alt="avatar" class="avatar-35" />
+                            </a>
+                            <span class="chat-time mt-1">{{ item.time }}</span>
+                          </div>
+                          <div class="chat-detail">
+                            <div class="chat-message">
+                              <p>{{ item.text }}</p>
                             </div>
                           </div>
-                        </template>
-                      </div>
-                      <div class="chat-footer p-3 bg-white">
-                        <form class="d-flex align-items-center" action="javascript:void(0);">
-                          <div class="chat-attagement d-flex">
-                            <a href="javascript:void(0)"><i class="fa fa-smile-o pr-3" aria-hidden="true"></i></a>
-                            <a href="javascript:void(0)"><i class="fa fa-paperclip pr-3" aria-hidden="true"></i></a>
-                          </div>
-                          <input type="text" class="form-control mr-3" placeholder="Type your message" />
-                          <button type="submit" class="btn btn-primary d-flex align-items-center p-2">
-                            <i class="far fa-paper-plane"></i><span class="d-none d-lg-block ml-1">Send</span>
-                          </button>
-                        </form>
-                      </div>
-                    </template>
+                        </div>
+                      </template>
+                    </div>
+                    <div class="chat-footer p-3 bg-white">
+                      <form class="d-flex align-items-center" action="javascript:void(0);">
+                        <div class="chat-attagement d-flex">
+                          <a href="javascript:void(0)"><i class="fa fa-smile-o pr-3" aria-hidden="true"></i></a>
+                          <a href="javascript:void(0)"><i class="fa fa-paperclip pr-3" aria-hidden="true"></i></a>
+                        </div>
+                        <input type="text" class="form-control mr-3" placeholder="Type your message" />
+                        <button type="submit" class="btn btn-primary d-flex align-items-center p-2">
+                          <i class="far fa-paper-plane"></i><span class="d-none d-lg-block ml-1">Send</span>
+                        </button>
+                      </form>
+                    </div>
                   </tab-content-item>
                 </tab-content>
               </div>

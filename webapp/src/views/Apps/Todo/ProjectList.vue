@@ -49,7 +49,7 @@
 <script>
 export default {
   name: 'ProjectList',
-  // props: ['projectList', 'categoryList'],
+  // eslint-disable-next-line vue/require-prop-types
   props: ['selectedProject', 'selectedCategory', 'projectList', 'categoryList'],
   data() {
     return {

@@ -22,15 +22,6 @@ import Todo from '../../../store/Todo'
 export default {
   name: 'TodoListing',
   components: { ProjectList, TaskList },
-  mounted() {
-    socialvue.index()
-  },
-  beforeMount() {
-    this.$store.registerModule('Todo', Todo)
-  },
-  beforeDestroy() {
-    this.$store.unregisterModule('Todo')
-  },
   computed: {
     ...mapGetters({
       taskList: 'Todo/taskState',
@@ -39,6 +30,16 @@ export default {
       selectedCategory: 'Todo/selectedCategoryState',
       selectedProject: 'Todo/selectedProjectState'
     })
+  },
+  mounted() {
+    socialvue.index()
+  },
+
+  beforeMount() {
+    this.$store.registerModule('Todo', Todo)
+  },
+  beforeDestroy() {
+    this.$store.unregisterModule('Todo')
   }
 }
 </script>

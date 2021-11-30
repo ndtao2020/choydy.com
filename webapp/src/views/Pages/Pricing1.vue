@@ -26,16 +26,14 @@
       </b-col>
       <b-col v-for="(item, index) in bgCards" :key="item.amount + index" lg="3">
         <b-card overlay :img-src="item.bgImage" img-alt="Card Image" text-variant="white" bg-variant="dark" class="text-white text-center iq-mb-3">
-          <template>
-            <h2 class="mb-4 display-3 font-weight-bolder text-white">
-              {{ item.amount }}
-              <small class="font-size-14 text-white">{{ item.duration }}</small>
-            </h2>
-            <ul class="list-unstyled line-height-4 mb-0">
-              <li>{{ item.description }}</li>
-            </ul>
-            <b-button :variant="item.active ? 'light' : 'primary'" class="mt-5" :class="item.buttonClass">{{ item.button }}</b-button>
-          </template>
+          <h2 class="mb-4 display-3 font-weight-bolder text-white">
+            {{ item.amount }}
+            <small class="font-size-14 text-white">{{ item.duration }}</small>
+          </h2>
+          <ul class="list-unstyled line-height-4 mb-0">
+            <li>{{ item.description }}</li>
+          </ul>
+          <b-button :variant="item.active ? 'light' : 'primary'" class="mt-5" :class="item.buttonClass">{{ item.button }}</b-button>
         </b-card>
       </b-col>
     </b-row>

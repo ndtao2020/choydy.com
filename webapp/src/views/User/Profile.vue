@@ -87,7 +87,7 @@
               <ul class="m-0 p-0">
                 <li v-for="(list, index) in news" :key="index" class="d-flex" :class="{ 'mb-2': index === 0 }">
                   <div class="news-icon" :class="{ 'mb-0': index == news.length - 1 }"><i class="ri-chat-4-fill"></i></div>
-                  <p class="news-detail mb-0" v-html="list.description"></p>
+                  <p class="news-detail mb-0">{{ list.description }}</p>
                 </li>
               </ul>
             </template>
@@ -418,7 +418,7 @@
                   </div>
                   <div v-for="(item, index) in userBio" :key="index" class="mt-2">
                     <h6>{{ item.title }}:</h6>
-                    <p v-html="item.description"></p>
+                    <p>{{ item.description }}</p>
                   </div>
                 </template>
               </iq-card>

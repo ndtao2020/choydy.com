@@ -15,16 +15,16 @@
           </div>
           <div class="group-details d-inline-block pb-3">
             <ul class="d-flex align-items-center justify-content-between list-inline m-0 p-0">
-              <li v-for="(item, index) in item.otherinfo" :key="index" class="pl-3 pr-3">
-                <p class="mb-0">{{ item.info }}</p>
-                <h6>{{ item.value }}</h6>
+              <li v-for="(itemJ, indexJ) in item.otherinfo" :key="indexJ" class="pl-3 pr-3">
+                <p class="mb-0">{{ itemJ.info }}</p>
+                <h6>{{ itemJ.value }}</h6>
               </li>
             </ul>
           </div>
           <div class="group-member mb-3">
             <div class="iq-media-group">
-              <a v-for="(item, index) in item.groupMember" :key="index" href="#" class="iq-media">
-                <img class="img-fluid avatar-40 rounded-circle" :src="item" alt="" />
+              <a v-for="(itemI, indexI) in item.groupMember" :key="indexI" href="#" class="iq-media">
+                <img class="img-fluid avatar-40 rounded-circle" :src="itemI" alt="" />
               </a>
             </div>
           </div>

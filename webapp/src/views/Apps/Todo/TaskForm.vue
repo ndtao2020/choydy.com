@@ -26,6 +26,7 @@
 import { Users } from '../../../FackApi/api/chat'
 export default {
   name: 'TaskForm',
+  // eslint-disable-next-line vue/require-prop-types
   props: ['newId', 'category'],
   data() {
     return {

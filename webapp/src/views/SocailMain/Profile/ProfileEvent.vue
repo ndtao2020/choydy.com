@@ -18,7 +18,7 @@
               <p>{{ item.text }}</p>
               <div class="event-member">
                 <div class="iq-media-group">
-                  <a v-for="(user, index) in seenUser" :key="index" href="#" class="iq-media">
+                  <a v-for="(user, k) in seenUser" :key="k" href="#" class="iq-media">
                     <img class="img-fluid avatar-40 rounded-circle" :src="user" alt="" />
                   </a>
                 </div>

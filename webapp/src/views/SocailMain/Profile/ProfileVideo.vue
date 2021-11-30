@@ -8,8 +8,8 @@
         <div class="image-hover-data">
           <div class="product-elements-icon">
             <ul class="d-flex align-items-center m-0 p-0 list-inline">
-              <li v-for="(item, index1) in item.otherInfo" :key="index1">
-                <a href="#" class="pr-3 text-white"> {{ item.value }} <i :class="item.class"></i> </a>
+              <li v-for="(itemC, index1) in item.otherInfo" :key="index1">
+                <a href="#" class="pr-3 text-white"> {{ itemC.value }} <i :class="itemC.class"></i> </a>
               </li>
             </ul>
           </div>
