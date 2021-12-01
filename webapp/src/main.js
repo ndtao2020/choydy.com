@@ -3,11 +3,11 @@ import './Utils/fliter'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Raphael from 'raphael/raphael'
+// import Raphael from 'raphael/raphael'
 import './plugins'
 import i18n from './i18n'
 
-global.Raphael = Raphael
+// global.Raphael = Raphael
 
 Vue.config.productionTip = false
 

@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import Scrollbar from 'smooth-scrollbar'
-import Snackbar from 'node-snackbar'
 import Store from '../store/index'
 import Route from '../router/index'
 const $ = require('jquery')
@@ -303,23 +302,6 @@ export const socialvue = {
       }
     }
     return active
-  },
-  showSnackbar(type, data = {}) {
-    if (type !== null) {
-      switch (type) {
-        case 'success':
-          Snackbar.show({ text: data, backgroundColor: '#323232' })
-          break
-        case 'error':
-          Snackbar.show({ text: data, backgroundColor: '#b21f2d', actionTextColor: '#ffffff' })
-          break
-      }
-    } else {
-      Snackbar.show(data)
-    }
-  },
-  Snackbar(data) {
-    Snackbar.show(data)
   },
   chat() {
     $('#chat-start').click(function () {

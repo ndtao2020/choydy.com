@@ -1,48 +1,47 @@
-import { is } from 'ramda'
-
 export default class Event {
   constructor(event = {}) {
-    this.id = is(String, event.id) ? event.id : this.uuidv4()
-    this.calendarId = is(String, event.calendarId) ? event.calendarId : '1'
-    this.title = is(String, event.title) ? event.title : ''
-    this.body = is(String, event.body) ? event.body : ''
-    this.isAllday = is(Boolean, event.isAllday) ? event.isAllday : false
-    this.start = is(Object, event.start) ? new Date(event.start._date).toISOString() : event.start
-    this.end = is(Object, event.end) ? new Date(event.end._date).toISOString() : event.end
-    this.category = is(String, event.category) ? event.category : 'time'
-    this.dueDateClass = is(String, event.dueDateClass) ? event.dueDateClass : ''
+    this.id = typeof event.id === 'string' ? event.id : this.uuidv4()
+    this.calendarId = typeof event.calendarId === 'string' ? event.calendarId : '1'
+    this.title = typeof event.title === 'string' ? event.title : ''
+    this.body = typeof event.body === 'string' ? event.body : ''
+    this.isAllday = typeof event.isAllday === 'boolean' ? event.isAllday : false
+    this.start = typeof event.start === 'object' ? new Date(event.start._date).toISOString() : event.start
+    this.end = typeof event.end === 'object' ? new Date(event.end._date).toISOString() : event.end
+    this.category = typeof event.category === 'string' ? event.category : 'time'
+    this.dueDateClass = typeof event.dueDateClass === 'string' ? event.dueDateClass : ''
     this.color = this.eventColor(event.calendarId).color
     this.bgColor = this.eventColor(event.calendarId).bgColor
     this.dragBgColor = this.eventColor(event.calendarId).dragBgColor
     this.borderColor = this.eventColor(event.calendarId).borderColor
-    this.customStyle = is(String, event.customStyle) ? event.customStyle : ''
-    this.isFocused = is(Boolean, event.isFocused) ? event.isFocused : false
-    this.isPending = is(Boolean, event.isPending) ? event.isPending : false
-    this.isVisible = is(Boolean, event.isVisible) ? event.isVisible : true
-    this.isReadOnly = is(Boolean, event.isReadOnly) ? event.isReadOnly : false
-    this.goingDuration = is(String, event.goingDuration) ? event.goingDuration : ''
-    this.comingDuration = is(String, event.comingDuration) ? event.comingDuration : ''
-    this.recurrenceRule = is(String, event.recurrenceRule) ? event.recurrenceRule : ''
-    this.state = is(String, event.state) ? event.state : 'Busy'
-    this.raw = is(Object, event.raw)
-      ? {
-          memo: 'Sano zauhi buhbol igjodok ri figraipo akicaho ogramoz huwcic guisuar azpusofi fecje jeni rug.',
-          hasToOrCc: false,
-          hasRecurrenceRule: false,
-          location: null,
-          class: 'public',
-          creator: {
-            name: 'Albert McKinney',
-            avatar: '//www.gravatar.com/avatar/93c7ab8252e7d7100ce7835b0fbd3937',
-            company: 'Rohm & Haas Co.',
-            email: 'koonesuc@epigujto.kz',
-            phone: '(622) 497-8105'
+    this.customStyle = typeof event.customStyle === 'string' ? event.customStyle : ''
+    this.isFocused = typeof event.isFocused === 'boolean' ? event.isFocused : false
+    this.isPending = typeof event.isPending === 'boolean' ? event.isPending : false
+    this.isVisible = typeof event.isVisible === 'boolean' ? event.isVisible : true
+    this.isReadOnly = typeof event.isReadOnly === 'boolean' ? event.isReadOnly : false
+    this.goingDuration = typeof event.goingDuration === 'string' ? event.goingDuration : ''
+    this.comingDuration = typeof event.comingDuration === 'string' ? event.comingDuration : ''
+    this.recurrenceRule = typeof event.recurrenceRule === 'string' ? event.recurrenceRule : ''
+    this.state = typeof event.state === 'string' ? event.state : 'Busy'
+    this.raw =
+      typeof event.raw === 'object'
+        ? {
+            memo: 'Sano zauhi buhbol igjodok ri figraipo akicaho ogramoz huwcic guisuar azpusofi fecje jeni rug.',
+            hasToOrCc: false,
+            hasRecurrenceRule: false,
+            location: null,
+            class: 'public',
+            creator: {
+              name: 'Albert McKinney',
+              avatar: '//www.gravatar.com/avatar/93c7ab8252e7d7100ce7835b0fbd3937',
+              company: 'Rohm & Haas Co.',
+              email: 'koonesuc@epigujto.kz',
+              phone: '(622) 497-8105'
+            }
           }
-        }
-      : {}
-    this.isPrivate = is(Boolean, event.isPrivate) ? event.isPrivate : false
-    this.location = is(String, event.location) ? event.location : '1'
-    this.attendees = is(Array, event.attendees) ? event.attendees : []
+        : {}
+    this.isPrivate = typeof event.isPrivate === 'boolean' ? event.isPrivate : false
+    this.location = typeof event.location === 'string' ? event.location : '1'
+    this.attendees = Array.isArray(event.attendees) ? event.attendees : []
   }
 
   uuidv4() {

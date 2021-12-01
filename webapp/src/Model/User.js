@@ -1,14 +1,12 @@
-import { is } from 'ramda'
-
 export default class User {
   constructor(user = {}) {
-    this.id = is(Number, user.id) ? user.id : 0
-    this.name = is(String, user.name) ? user.name : ''
-    this.image = is(String, user.image) ? user.image : ''
-    this.role = is(String, user.role) ? user.role : ''
-    this.about = is(String, user.about) ? user.about : ''
-    this.dob = is(String, user.dob) ? user.dob : ''
-    this.isActive = is(Boolean, user.isActive) ? user.isActive : false
-    this.isPrivate = is(Boolean, user.isPrivate) ? user.isPrivate : false
+    this.id = typeof user.id === 'number' ? user.id : 0
+    this.name = typeof user.name === 'string' ? user.name : ''
+    this.image = typeof user.image === 'string' ? user.image : ''
+    this.role = typeof user.role === 'string' ? user.role : ''
+    this.about = typeof user.about === 'string' ? user.about : ''
+    this.dob = typeof user.dob === 'string' ? user.dob : ''
+    this.isActive = typeof user.isActive === 'boolean' ? user.isActive : false
+    this.isPrivate = typeof user.isPrivate === 'boolean' ? user.isPrivate : false
   }
 }
