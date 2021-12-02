@@ -11,9 +11,11 @@ import org.jboss.resteasy.core.ServerResponse;
 
 import javax.inject.Inject;
 import javax.security.sasl.AuthenticationException;
+import javax.ws.rs.HttpMethod;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.ext.Provider;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -24,6 +26,9 @@ import java.util.UUID;
 @Provider
 @PreMatching
 public class SecurityOverrideFilter implements ContainerRequestFilter {
+
+    public static final String CSRF_TOKEN_COOKIE_NAME = "csrf";
+    private static final String CSRF_TOKEN_HEADER_NAME = "X-XSRF-TOKEN";
 
     @Inject
     JwtUtil jwtUtil;
@@ -40,6 +45,14 @@ public class SecurityOverrideFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) {
         String path = requestContext.getUriInfo().getPath();
+        if (!Objects.equals(requestContext.getMethod(), HttpMethod.GET)) {
+            Cookie csrfTokenCookie = requestContext.getCookies().get(CSRF_TOKEN_COOKIE_NAME);
+            List<String> csrfTokenHeader = requestContext.getHeaders().get(CSRF_TOKEN_HEADER_NAME);
+            if (csrfTokenCookie == null || csrfTokenHeader == null || csrfTokenHeader.size() != 1 || !csrfTokenHeader.get(0).equals(csrfTokenCookie.getValue())) {
+                requestContext.abortWith(ACCESS_DENIED);
+                return;
+            }
+        }
         if (path.startsWith(SecurityPath.AUTH_API_URL)) {
             final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
             if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {

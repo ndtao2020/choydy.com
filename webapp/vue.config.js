@@ -15,8 +15,8 @@ module.exports = {
     clientLogLevel: 'warning',
     port: parseInt(process.env.PORT, 10) || 3000,
     proxy: {
-      '^/api': {
-        target: 'http://localhost:8181/api',
+      '^/a': {
+        target: 'http://localhost:8181/a',
         ws: true,
         changeOrigin: false
       }
