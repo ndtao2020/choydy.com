@@ -1,13 +1,12 @@
 package org.acme.base.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.redis.client.RedisClient;
 import io.vertx.redis.client.Response;
 import org.acme.base.BaseId;
 
 import javax.inject.Inject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseCacheService<T extends BaseId<I>, D extends BaseId<I>, I> extends BaseService<T, D, I> {
@@ -41,7 +40,7 @@ public abstract class BaseCacheService<T extends BaseId<I>, D extends BaseId<I>,
         D data;
         try {
             Response response = redisClient.hget(getRedisKey(), key);
-            data = mapper.readValue(response.toBytes(), getDtoClass());
+            data = mapper.readValue(response.toString(), getDtoClass());
         } catch (Exception e) {
             data = null;
         }
@@ -51,11 +50,8 @@ public abstract class BaseCacheService<T extends BaseId<I>, D extends BaseId<I>,
     protected List<D> fetchListFromCache(String key) {
         try {
             Response response = redisClient.hget(getRedisListKey(), key);
-            List<D> list = new ArrayList<>();
-            for (Object obj : mapper.readValue(response.toBytes(), List.class)) {
-                list.add((D) obj);
-            }
-            return list;
+            return mapper.readValue(response.toString(), new TypeReference<>() {
+            });
         } catch (Exception e) {
             return List.of();
         }

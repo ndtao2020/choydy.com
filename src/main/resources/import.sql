@@ -97,11 +97,6 @@ CREATE TABLE public.user_authority (
 
 ALTER TABLE public.user_authority OWNER TO postgres;
 
---
--- TOC entry 256 (class 1259 OID 17713)
--- Name: user_detail; Type: TABLE; Schema: public; Owner: postgres
---
-
 CREATE TABLE public.user_detail (
     id uuid NOT NULL,
     about text,
@@ -114,13 +109,7 @@ CREATE TABLE public.user_detail (
     country_iso character varying(2) NOT NULL
 );
 
-
 ALTER TABLE public.user_detail OWNER TO postgres;
-
---
--- TOC entry 257 (class 1259 OID 17743)
--- Name: user_social_network; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.user_social_network (
     id uuid NOT NULL,
@@ -132,13 +121,7 @@ CREATE TABLE public.user_social_network (
     user_id uuid NOT NULL
 );
 
-
 ALTER TABLE public.user_social_network OWNER TO postgres;
-
---
--- TOC entry 258 (class 1259 OID 17749)
--- Name: user_sys; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.user_sys (
     id uuid NOT NULL,
@@ -156,13 +139,7 @@ CREATE TABLE public.user_sys (
     timezone character varying(255) NOT NULL
 );
 
-
 ALTER TABLE public.user_sys OWNER TO postgres;
-
---
--- TOC entry 259 (class 1259 OID 17755)
--- Name: vocabulary; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.vocabulary (
     id uuid NOT NULL,
@@ -180,45 +157,17 @@ CREATE TABLE public.vocabulary (
     color character varying(50)
 );
 
-
 ALTER TABLE public.vocabulary OWNER TO postgres;
-
---
--- TOC entry 260 (class 1259 OID 17764)
--- Name: word_type; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.word_type (
     id character varying(255) NOT NULL
 );
 
-
 ALTER TABLE public.word_type OWNER TO postgres;
-
---
--- TOC entry 3409 (class 0 OID 17486)
--- Dependencies: 247
--- Data for Name: authority; Type: TABLE DATA; Schema: public; Owner: postgres
---
 
 INSERT INTO public.authority VALUES ('ADMIN', 'Quản trị viên');
 INSERT INTO public.authority VALUES ('USER', 'Người dùng');
 INSERT INTO public.authority VALUES ('EDITOR', 'Biên tập');
-
-
---
--- TOC entry 3410 (class 0 OID 17501)
--- Dependencies: 248
--- Data for Name: client; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-
-
---
--- TOC entry 3411 (class 0 OID 17507)
--- Dependencies: 249
--- Data for Name: country; Type: TABLE DATA; Schema: public; Owner: postgres
---
 
 INSERT INTO public.country VALUES ('CX', 'Christmas Island', 'CXR', 'CHRISTMAS ISLAND', 162, 61);
 INSERT INTO public.country VALUES ('CC', 'Cocos (Keeling) Islands', 'CCK', 'COCOS (KEELING) ISLANDS', 166, 672);
@@ -461,21 +410,6 @@ INSERT INTO public.country VALUES ('GS', 'South Georgia and the South Sandwich I
 INSERT INTO public.country VALUES ('UM', 'United States Minor Outlying Islands', 'UMI', 'UNITED STATES MINOR OUTLYING ISLANDS', 581, 246);
 INSERT INTO public.country VALUES ('SX', 'Sint Maarten', 'SXM', 'SINT MAARTEN', 534, 590);
 
-
---
--- TOC entry 3413 (class 0 OID 17521)
--- Dependencies: 251
--- Data for Name: httpendpoint; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-
-
---
--- TOC entry 3414 (class 0 OID 17527)
--- Dependencies: 252
--- Data for Name: language; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.language VALUES ('mh', 'Marshallese', 'Kajin Majel', 'mah');
 INSERT INTO public.language VALUES ('mn', 'Mongolian', 'Монгол хэл', 'mon');
 INSERT INTO public.language VALUES ('na', 'Nauru', 'Dorerin Naoero', 'nau');
@@ -661,30 +595,8 @@ INSERT INTO public.language VALUES ('cu', 'Church Slavic / Old Slavonic / Church
 INSERT INTO public.language VALUES ('so', 'Somali', 'Soomaaliga, af Soomaali', 'som');
 INSERT INTO public.language VALUES ('tg', 'Tajik', 'тоҷикӣ, toçikī, تاجیکی', 'tgk');
 
-
---
--- TOC entry 3415 (class 0 OID 17686)
--- Dependencies: 253
--- Data for Name: oauth2client; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-
-
---
--- TOC entry 3416 (class 0 OID 17698)
--- Dependencies: 254
--- Data for Name: social_network; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.social_network VALUES (1, 'GOOGLE', NULL, NULL);
 INSERT INTO public.social_network VALUES (2, 'FACEBOOK', NULL, NULL);
-
-
---
--- TOC entry 3417 (class 0 OID 17710)
--- Dependencies: 255
--- Data for Name: user_authority; Type: TABLE DATA; Schema: public; Owner: postgres
---
 
 INSERT INTO public.user_authority VALUES ('be8b3e2b-8284-441e-9905-2e316a30b902', 'ADMIN', '98f1edad-0410-4fa0-be8c-40133cc0d64f');
 INSERT INTO public.user_authority VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'USER', '98f1edad-0410-4fa0-be8c-40133cc0d64f');
@@ -694,37 +606,16 @@ INSERT INTO public.user_authority VALUES ('28aea60d-9c76-479f-a8c3-139c3823dc10'
 INSERT INTO public.user_authority VALUES ('9bf1f394-86af-4a88-91ff-d34b4d300ad0', 'USER', '00a994a7-0186-496d-82f8-61d26a9ef8d4');
 INSERT INTO public.user_authority VALUES ('80f98956-5d81-412b-a664-5a5f8b6999fd', 'USER', '1786c558-fc8d-42fa-86c9-6f97f0f87b0e');
 
-
---
--- TOC entry 3418 (class 0 OID 17713)
--- Dependencies: 256
--- Data for Name: user_detail; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.user_detail VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'Admin hệ thống', '1995-05-25', 'MALE', '+999999999', '98f1edad-0410-4fa0-be8c-40133cc0d64f', 'Quy Nhơn, Bình Định', '591300', 'VN');
 INSERT INTO public.user_detail VALUES ('01d182ed-2a5c-4a3d-b17a-2906dd52c61f', NULL, NULL, NULL, NULL, '3dd60931-0698-4739-88c7-22dacddd1ba1', NULL, NULL, 'VI');
 INSERT INTO public.user_detail VALUES ('819dad0c-75a7-4a38-b559-70ce1f0f0397', NULL, NULL, NULL, NULL, '64acaf13-87b2-4f4e-bda2-84efe5681026', NULL, NULL, 'VI');
 INSERT INTO public.user_detail VALUES ('c4b90599-039e-4a5f-9698-4af6aa628430', NULL, NULL, NULL, NULL, '00a994a7-0186-496d-82f8-61d26a9ef8d4', NULL, NULL, 'VI');
 INSERT INTO public.user_detail VALUES ('68b7cebd-e694-4639-97f0-34f50b144bce', NULL, NULL, NULL, NULL, '1786c558-fc8d-42fa-86c9-6f97f0f87b0e', NULL, NULL, 'VI');
 
-
---
--- TOC entry 3419 (class 0 OID 17743)
--- Dependencies: 257
--- Data for Name: user_social_network; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.user_social_network VALUES ('ca4295e2-793b-4254-b094-9cd37053bc16', 'https://lh3.googleusercontent.com/a-/AOh14GiXPRLvtwrs9PF3_aWHm4ZIDey7-8CWCvXAzu-E=s96-c', 'ndtao2020@gmail.com', NULL, 'aAPRw31W0BOmZFZDi6njB8EZNtN2', 1, '3dd60931-0698-4739-88c7-22dacddd1ba1');
 INSERT INTO public.user_social_network VALUES ('549ed6d8-4790-46cd-adfa-2b924ac823db', 'https://lh3.googleusercontent.com/a-/AOh14GiBqVrHBpzm-szaI6AeRUrt37gsHPGGwE2gACwb=s96-c', 'nuthanngabale@gmail.com', NULL, '0Yp9RIVa4FY7CQi2lqrlrHPzhwi2', 1, '64acaf13-87b2-4f4e-bda2-84efe5681026');
 INSERT INTO public.user_social_network VALUES ('a51ad0a3-964d-4cab-b812-c3def65b4c7d', 'https://lh3.googleusercontent.com/a-/AOh14GhXQxiqpeC9RNKEYlEs73luTq5UDjQsyFUZwnWOXA=s96-c', 'nuthancooltaoqn@gmail.com', NULL, 'GT3JgvhyBmViJSezaMUkDy6u00P2', 1, '00a994a7-0186-496d-82f8-61d26a9ef8d4');
 INSERT INTO public.user_social_network VALUES ('5f714676-478a-4d2f-9390-5df122fc1502', 'https://lh3.googleusercontent.com/a/AATXAJwXAwTcL8lHydt_BQLuAKX18VdjxGrW0kuaP9JW=s96-c', 'dvcquocgia2019@gmail.com', NULL, 'AocXPCSQswS7lldKgh1KhF33PcE2', 1, '1786c558-fc8d-42fa-86c9-6f97f0f87b0e');
-
-
---
--- TOC entry 3420 (class 0 OID 17749)
--- Dependencies: 258
--- Data for Name: user_sys; Type: TABLE DATA; Schema: public; Owner: postgres
---
 
 INSERT INTO public.user_sys VALUES ('3dd60931-0698-4739-88c7-22dacddd1ba1', 'system', '2021-09-05 14:01:37.900435', 'system', '2021-09-05 14:01:37.930716', 'https://lh3.googleusercontent.com/a-/AOh14GiXPRLvtwrs9PF3_aWHm4ZIDey7-8CWCvXAzu-E=s96-c', true, 'Teo GN', '$2a$10$cYsb/fv.GwxxGEc3IKVqOucYYzg31/PDG9gWCGlPWrSQurryHFn0C', '95fcb34475ee43878f0716cf3a2dbee7', 'ndtao2020@gmail.com', false, 'Asia/Saigon');
 INSERT INTO public.user_sys VALUES ('1786c558-fc8d-42fa-86c9-6f97f0f87b0e', 'system', '2021-09-06 13:56:56.779786', 'system', '2021-09-06 14:00:47.469698', 'https://lh3.googleusercontent.com/a/AATXAJwXAwTcL8lHydt_BQLuAKX18VdjxGrW0kuaP9JW=s96-c', true, 'Đình Tạo Nguyễn', '$2a$10$cYsb/fv.GwxxGEc3IKVqOucYYzg31/PDG9gWCGlPWrSQurryHFn0C', '6c6ce1ebbe4348358053a811847f77b0', 'dvcquocgia2019@gmail.com', true, 'Asia/Saigon');
@@ -732,118 +623,26 @@ INSERT INTO public.user_sys VALUES ('64acaf13-87b2-4f4e-bda2-84efe5681026', 'sys
 INSERT INTO public.user_sys VALUES ('00a994a7-0186-496d-82f8-61d26a9ef8d4', 'system', '2021-09-06 13:05:20.706604', 'system', '2021-09-07 00:50:07.727248', 'https://lh3.googleusercontent.com/a-/AOh14GhXQxiqpeC9RNKEYlEs73luTq5UDjQsyFUZwnWOXA=s96-c', true, 'Đình Tạo Nguyễn', '$2a$10$cYsb/fv.GwxxGEc3IKVqOucYYzg31/PDG9gWCGlPWrSQurryHFn0C', '0cafb114e2694698b050b4b130ca4dbe', 'nuthancooltaoqn@gmail.com', true, 'Asia/Saigon');
 INSERT INTO public.user_sys VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'account-public', '2021-08-24 14:44:33', 'account-public', '2021-08-24 14:44:33', 'https://lh3.googleusercontent.com/a/AATXAJwXAwTcL8lHydt_BQLuAKX18VdjxGrW0kuaP9JW=s96-c', true, 'Nguyễn Đình Tạo', '$2a$10$cYsb/fv.GwxxGEc3IKVqOucYYzg31/PDG9gWCGlPWrSQurryHFn0C', 'taoqn', 'no_email@nhactuvung.com', true, 'Asia/Ho_Chi_Minh');
 
-
---
--- TOC entry 3421 (class 0 OID 17755)
--- Dependencies: 259
--- Data for Name: vocabulary; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-
-
---
--- TOC entry 3422 (class 0 OID 17764)
--- Dependencies: 260
--- Data for Name: word_type; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-
-
---
--- TOC entry 3429 (class 0 OID 0)
--- Dependencies: 250
--- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
 SELECT pg_catalog.setval('public.hibernate_sequence', 1, false);
-
-
---
--- TOC entry 3214 (class 2606 OID 17774)
--- Name: authority authority_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
 
 ALTER TABLE ONLY public.authority
     ADD CONSTRAINT authority_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 3216 (class 2606 OID 17778)
--- Name: client client_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
 ALTER TABLE ONLY public.client
     ADD CONSTRAINT client_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 3220 (class 2606 OID 17782)
--- Name: country country_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
 ALTER TABLE ONLY public.country
     ADD CONSTRAINT country_pkey PRIMARY KEY (iso);
-
-
---
--- TOC entry 3222 (class 2606 OID 17786)
--- Name: httpendpoint httpendpoint_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
 ALTER TABLE ONLY public.httpendpoint
     ADD CONSTRAINT httpendpoint_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 3226 (class 2606 OID 17788)
--- Name: language language_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
 ALTER TABLE ONLY public.language
     ADD CONSTRAINT language_pkey PRIMARY KEY (code);
-
-
---
--- TOC entry 3228 (class 2606 OID 17842)
--- Name: oauth2client oauth2client_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
 ALTER TABLE ONLY public.oauth2client
     ADD CONSTRAINT oauth2client_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 3230 (class 2606 OID 17846)
--- Name: social_network social_network_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
 ALTER TABLE ONLY public.social_network
     ADD CONSTRAINT social_network_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 3242 (class 2606 OID 17852)
--- Name: user_social_network uk1h6b3iioqeqns0ejuegpxsmj8; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
 ALTER TABLE ONLY public.user_social_network
     ADD CONSTRAINT uk1h6b3iioqeqns0ejuegpxsmj8 UNIQUE (user_id, social_network_id);
-
-
---
--- TOC entry 3232 (class 2606 OID 17860)
--- Name: social_network uk_24rhxyj4ln5m62y587aeihiyc; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
 ALTER TABLE ONLY public.social_network
     ADD CONSTRAINT uk_24rhxyj4ln5m62y587aeihiyc UNIQUE (name);
-
-
---
--- TOC entry 3224 (class 2606 OID 17862)
--- Name: httpendpoint uk_4fdrv5gsfdnsxrp6ebtpr6j9w; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
 ALTER TABLE ONLY public.httpendpoint
     ADD CONSTRAINT uk_4fdrv5gsfdnsxrp6ebtpr6j9w UNIQUE (pattern);
 ALTER TABLE ONLY public.user_sys

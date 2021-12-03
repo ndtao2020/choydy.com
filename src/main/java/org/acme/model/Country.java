@@ -36,7 +36,7 @@ public class Country {
     private String displayName;
     @Column(name = "num_code", nullable = false)
     private Integer numCode;
-    @Column(name = "phone_code",nullable = false)
+    @Column(name = "phone_code", nullable = false)
     private Integer phoneCode;
 
     @JsonIgnore

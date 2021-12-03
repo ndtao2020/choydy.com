@@ -29,18 +29,15 @@ public class SecurityOverrideFilter implements ContainerRequestFilter {
 
     public static final String CSRF_TOKEN_COOKIE_NAME = "csrf";
     private static final String CSRF_TOKEN_HEADER_NAME = "X-XSRF-TOKEN";
+    private static final String AUTHORIZATION = "AUTHORIZATION";
+    private static final ServerResponse ACCESS_DENIED = new ServerResponse("Access denied for this resource", 401, new Headers<>());
 
     @Inject
     JwtUtil jwtUtil;
-
     @Inject
     BCryptPasswordEncoder passwordEncoder;
-
     @Inject
     Oauth2ClientService oauth2ClientService;
-
-    private static final String AUTHORIZATION = "AUTHORIZATION";
-    private static final ServerResponse ACCESS_DENIED = new ServerResponse("Access denied for this resource", 401, new Headers<>());
 
     @Override
     public void filter(ContainerRequestContext requestContext) {

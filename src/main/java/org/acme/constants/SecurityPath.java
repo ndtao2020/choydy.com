@@ -1,10 +1,6 @@
 package org.acme.constants;
 
 public class SecurityPath {
-    private SecurityPath() {
-        throw new IllegalStateException("Utility class");
-    }
-
     public static final String PREFIX = "/a";
     // Check Token
     public static final String OAUTH_API_URL = PREFIX + "/oauth";
@@ -13,4 +9,7 @@ public class SecurityPath {
     // Check Token
     public static final String AUTH_API_URL = PREFIX + "/auth";
     public static final String ADMIN_API_URL = PREFIX + "/admin";
+    private SecurityPath() {
+        throw new IllegalStateException("Utility class");
+    }
 }

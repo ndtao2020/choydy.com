@@ -262,35 +262,6 @@ public class BCrypt {
     }
 
     /**
-     * Blowfish encipher a single 64-bit block encoded as two 32-bit halves
-     *
-     * @param lr  an array containing the two 32-bit half blocks
-     * @param off the position in the array of the blocks
-     */
-    private void encipher(int lr[], int off) {
-        int i, n, l = lr[off], r = lr[off + 1];
-
-        l ^= this.P[0];
-        for (i = 0; i <= BLOWFISH_NUM_ROUNDS - 2; ) {
-            // Feistel substitution on left word
-            n = this.S[(l >> 24) & 0xff];
-            n += this.S[0x100 | ((l >> 16) & 0xff)];
-            n ^= this.S[0x200 | ((l >> 8) & 0xff)];
-            n += this.S[0x300 | (l & 0xff)];
-            r ^= n ^ this.P[++i];
-
-            // Feistel substitution on right word
-            n = this.S[(r >> 24) & 0xff];
-            n += this.S[0x100 | ((r >> 16) & 0xff)];
-            n ^= this.S[0x200 | ((r >> 8) & 0xff)];
-            n += this.S[0x300 | (r & 0xff)];
-            l ^= n ^ this.P[++i];
-        }
-        lr[off] = r ^ this.P[BLOWFISH_NUM_ROUNDS + 1];
-        lr[off + 1] = l;
-    }
-
-    /**
      * Cycically extract a word of key material
      *
      * @param data  the string to extract the data from
@@ -341,6 +312,151 @@ public class BCrypt {
     private static int streamtoword_bug(byte data[], int offp[]) {
         int signp[] = {0};
         return streamtowords(data, offp, signp)[1];
+    }
+
+    /**
+     * Hash a password using the OpenBSD bcrypt scheme
+     *
+     * @param password the password to hash
+     * @param salt     the salt to hash with (perhaps generated using BCrypt.gensalt)
+     * @return the hashed password
+     */
+    public static String hashpw(String password, String salt) {
+        return hashpw(password.getBytes(StandardCharsets.UTF_8), salt);
+    }
+
+    /**
+     * Hash a password using the OpenBSD bcrypt scheme
+     *
+     * @param passwordb the password to hash, as a byte array
+     * @param salt      the salt to hash with (perhaps generated using BCrypt.gensalt)
+     * @return the hashed password
+     */
+    public static String hashpw(byte passwordb[], String salt) {
+        BCrypt B;
+        String real_salt;
+        byte saltb[], hashed[];
+        char minor = (char) 0;
+        int rounds, off;
+        StringBuilder rs = new StringBuilder();
+
+        if (salt == null) {
+            throw new IllegalArgumentException("salt cannot be null");
+        }
+
+        int saltLength = salt.length();
+
+        if (saltLength < 28) {
+            throw new IllegalArgumentException("Invalid salt");
+        }
+
+        if (salt.charAt(0) != '$' || salt.charAt(1) != '2') {
+            throw new IllegalArgumentException("Invalid salt version");
+        }
+        if (salt.charAt(2) == '$') {
+            off = 3;
+        } else {
+            minor = salt.charAt(2);
+            if ((minor != 'a' && minor != 'x' && minor != 'y' && minor != 'b') || salt.charAt(3) != '$') {
+                throw new IllegalArgumentException("Invalid salt revision");
+            }
+            off = 4;
+        }
+
+        // Extract number of rounds
+        if (salt.charAt(off + 2) > '$') {
+            throw new IllegalArgumentException("Missing salt rounds");
+        }
+
+        if (off == 4 && saltLength < 29) {
+            throw new IllegalArgumentException("Invalid salt");
+        }
+        rounds = Integer.parseInt(salt.substring(off, off + 2));
+
+        real_salt = salt.substring(off + 3, off + 25);
+        saltb = decode_base64(real_salt, BCRYPT_SALT_LEN);
+        if (minor >= 'a') {
+            passwordb = Arrays.copyOf(passwordb, passwordb.length + 1);
+        }
+        B = new BCrypt();
+        hashed = B.crypt_raw(passwordb, saltb, rounds, minor == 'x', minor == 'a' ? 0x10000 : 0);
+        rs.append("$2");
+        if (minor >= 'a') {
+            rs.append(minor);
+        }
+        rs.append("$");
+        if (rounds < 10) {
+            rs.append("0");
+        }
+        rs.append(rounds);
+        rs.append("$");
+        encode_base64(saltb, saltb.length, rs);
+        encode_base64(hashed, bf_crypt_ciphertext.length * 4 - 1, rs);
+        return rs.toString();
+    }
+
+    public static String gensalt(String prefix, int log_rounds, SecureRandom random) throws IllegalArgumentException {
+        StringBuilder rs = new StringBuilder();
+        byte rnd[] = new byte[BCRYPT_SALT_LEN];
+        if (!prefix.startsWith("$2")
+                || (prefix.charAt(2) != 'a' && prefix.charAt(2) != 'y' && prefix.charAt(2) != 'b')) {
+            throw new IllegalArgumentException("Invalid prefix");
+        }
+        if (log_rounds < 4 || log_rounds > 31) {
+            throw new IllegalArgumentException("Invalid log_rounds");
+        }
+        random.nextBytes(rnd);
+        rs.append("$2");
+        rs.append(prefix.charAt(2));
+        rs.append("$");
+        if (log_rounds < 10) {
+            rs.append("0");
+        }
+        rs.append(log_rounds);
+        rs.append("$");
+        encode_base64(rnd, rnd.length, rs);
+        return rs.toString();
+    }
+
+    public static String gensalt(String prefix, int log_rounds) throws IllegalArgumentException {
+        return gensalt(prefix, log_rounds, new SecureRandom());
+    }
+
+    public static boolean checkpw(String plaintext, String hashed) {
+        return equalsNoEarlyReturn(hashed, hashpw(plaintext, hashed));
+    }
+
+    static boolean equalsNoEarlyReturn(String a, String b) {
+        return MessageDigest.isEqual(a.getBytes(StandardCharsets.UTF_8), b.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Blowfish encipher a single 64-bit block encoded as two 32-bit halves
+     *
+     * @param lr  an array containing the two 32-bit half blocks
+     * @param off the position in the array of the blocks
+     */
+    private void encipher(int lr[], int off) {
+        int i, n, l = lr[off], r = lr[off + 1];
+
+        l ^= this.P[0];
+        for (i = 0; i <= BLOWFISH_NUM_ROUNDS - 2; ) {
+            // Feistel substitution on left word
+            n = this.S[(l >> 24) & 0xff];
+            n += this.S[0x100 | ((l >> 16) & 0xff)];
+            n ^= this.S[0x200 | ((l >> 8) & 0xff)];
+            n += this.S[0x300 | (l & 0xff)];
+            r ^= n ^ this.P[++i];
+
+            // Feistel substitution on right word
+            n = this.S[(r >> 24) & 0xff];
+            n += this.S[0x100 | ((r >> 16) & 0xff)];
+            n ^= this.S[0x200 | ((r >> 8) & 0xff)];
+            n += this.S[0x300 | (r & 0xff)];
+            l ^= n ^ this.P[++i];
+        }
+        lr[off] = r ^ this.P[BLOWFISH_NUM_ROUNDS + 1];
+        lr[off + 1] = l;
     }
 
     /**
@@ -490,121 +606,5 @@ public class BCrypt {
             ret[j++] = (byte) (cdata[i] & 0xff);
         }
         return ret;
-    }
-
-    /**
-     * Hash a password using the OpenBSD bcrypt scheme
-     *
-     * @param password the password to hash
-     * @param salt     the salt to hash with (perhaps generated using BCrypt.gensalt)
-     * @return the hashed password
-     */
-    public static String hashpw(String password, String salt) {
-        return hashpw(password.getBytes(StandardCharsets.UTF_8), salt);
-    }
-
-    /**
-     * Hash a password using the OpenBSD bcrypt scheme
-     *
-     * @param passwordb the password to hash, as a byte array
-     * @param salt      the salt to hash with (perhaps generated using BCrypt.gensalt)
-     * @return the hashed password
-     */
-    public static String hashpw(byte passwordb[], String salt) {
-        BCrypt B;
-        String real_salt;
-        byte saltb[], hashed[];
-        char minor = (char) 0;
-        int rounds, off;
-        StringBuilder rs = new StringBuilder();
-
-        if (salt == null) {
-            throw new IllegalArgumentException("salt cannot be null");
-        }
-
-        int saltLength = salt.length();
-
-        if (saltLength < 28) {
-            throw new IllegalArgumentException("Invalid salt");
-        }
-
-        if (salt.charAt(0) != '$' || salt.charAt(1) != '2') {
-            throw new IllegalArgumentException("Invalid salt version");
-        }
-        if (salt.charAt(2) == '$') {
-            off = 3;
-        } else {
-            minor = salt.charAt(2);
-            if ((minor != 'a' && minor != 'x' && minor != 'y' && minor != 'b') || salt.charAt(3) != '$') {
-                throw new IllegalArgumentException("Invalid salt revision");
-            }
-            off = 4;
-        }
-
-        // Extract number of rounds
-        if (salt.charAt(off + 2) > '$') {
-            throw new IllegalArgumentException("Missing salt rounds");
-        }
-
-        if (off == 4 && saltLength < 29) {
-            throw new IllegalArgumentException("Invalid salt");
-        }
-        rounds = Integer.parseInt(salt.substring(off, off + 2));
-
-        real_salt = salt.substring(off + 3, off + 25);
-        saltb = decode_base64(real_salt, BCRYPT_SALT_LEN);
-        if (minor >= 'a') {
-            passwordb = Arrays.copyOf(passwordb, passwordb.length + 1);
-        }
-        B = new BCrypt();
-        hashed = B.crypt_raw(passwordb, saltb, rounds, minor == 'x', minor == 'a' ? 0x10000 : 0);
-        rs.append("$2");
-        if (minor >= 'a') {
-            rs.append(minor);
-        }
-        rs.append("$");
-        if (rounds < 10) {
-            rs.append("0");
-        }
-        rs.append(rounds);
-        rs.append("$");
-        encode_base64(saltb, saltb.length, rs);
-        encode_base64(hashed, bf_crypt_ciphertext.length * 4 - 1, rs);
-        return rs.toString();
-    }
-
-    public static String gensalt(String prefix, int log_rounds, SecureRandom random) throws IllegalArgumentException {
-        StringBuilder rs = new StringBuilder();
-        byte rnd[] = new byte[BCRYPT_SALT_LEN];
-        if (!prefix.startsWith("$2")
-                || (prefix.charAt(2) != 'a' && prefix.charAt(2) != 'y' && prefix.charAt(2) != 'b')) {
-            throw new IllegalArgumentException("Invalid prefix");
-        }
-        if (log_rounds < 4 || log_rounds > 31) {
-            throw new IllegalArgumentException("Invalid log_rounds");
-        }
-        random.nextBytes(rnd);
-        rs.append("$2");
-        rs.append(prefix.charAt(2));
-        rs.append("$");
-        if (log_rounds < 10) {
-            rs.append("0");
-        }
-        rs.append(log_rounds);
-        rs.append("$");
-        encode_base64(rnd, rnd.length, rs);
-        return rs.toString();
-    }
-
-    public static String gensalt(String prefix, int log_rounds) throws IllegalArgumentException {
-        return gensalt(prefix, log_rounds, new SecureRandom());
-    }
-
-    public static boolean checkpw(String plaintext, String hashed) {
-        return equalsNoEarlyReturn(hashed, hashpw(plaintext, hashed));
-    }
-
-    static boolean equalsNoEarlyReturn(String a, String b) {
-        return MessageDigest.isEqual(a.getBytes(StandardCharsets.UTF_8), b.getBytes(StandardCharsets.UTF_8));
     }
 }

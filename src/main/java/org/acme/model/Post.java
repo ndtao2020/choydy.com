@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.acme.model.base.PostBase;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -18,25 +17,21 @@ import javax.persistence.Transient;
 @Entity
 @Getter
 @Setter
-@Table
+@Table(indexes = {@Index(columnList = "created"), @Index(columnList = User.PATH_ID), @Index(columnList = "title,content")})
 @NoArgsConstructor
-public class LanguageTag {
+public class Post extends PostBase {
 
     @Transient
-    public static final String PATH = "languageTag";
-
-    @Id
-    @GeneratedValue
-    @Column(nullable = false, length = 20, unique = true)
-    private String code;
+    public static final String PATH = "post";
+    @Transient
+    public static final String PATH_ID = "post_id";
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
-    private Language language;
+    private User user;
 
-    @Column(length = 5)
-    private String territory;
-
-    private String description;
+    public Post(PostBase postBase) {
+        super(postBase);
+    }
 }
