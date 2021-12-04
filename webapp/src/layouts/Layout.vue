@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Loader />
     <div class="wrapper">
       <!-- Sidebar  -->
       <SideBarStyle1 :items="verticalMenu" :logo="logo" @toggle="sidebarMini" />
@@ -54,19 +53,19 @@
     </FooterStyle1>
   </div>
 </template>
+
 <script>
-import Loader from '../components/socialvue/loader/Loader'
 import SideBarItems from '../FackApi/json/SideBar'
 import profile from '../assets/images/user/user-1.jpeg'
 import loader from '../assets/images/loader.png'
 import { socialvue } from '../config/pluginInit'
 import { Users } from '../FackApi/api/chat'
 import { mapActions } from 'vuex'
+import '@/assets/css/custom.css'
 
 export default {
   name: 'LayoutK',
   components: {
-    Loader,
     SideBarStyle1: () => import('@/components/socialvue/sidebars/SideBarStyle1'),
     NavBarStyle1: () => import('@/components/socialvue/navbars/NavBarStyle1'),
     RightSideBar: () => import('@/components/socialvue/rightsidebar/RightSideBar'),
@@ -181,6 +180,3 @@ export default {
   }
 }
 </script>
-<style>
-@import url('../assets/css/custom.css');
-</style>
