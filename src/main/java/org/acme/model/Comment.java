@@ -12,14 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
 @Table
 @NoArgsConstructor
-public class Comment extends CommentBase implements Serializable {
+public class Comment extends CommentBase {
 
     @Transient
     public static final String PATH = "comment";

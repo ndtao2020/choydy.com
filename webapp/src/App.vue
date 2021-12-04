@@ -3,15 +3,11 @@
 </template>
 <script>
 import { socialvue } from './config/pluginInit'
-
+import '@/assets/scss/style.scss'
 export default {
   name: 'App',
-  components: {},
   mounted() {
     socialvue.mainIndex()
   }
 }
 </script>
-<style lang="scss">
-@import 'assets/scss/style.scss';
-</style>

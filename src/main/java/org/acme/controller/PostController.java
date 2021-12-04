@@ -4,7 +4,6 @@ import org.acme.base.BaseController;
 import org.acme.constants.SecurityPath;
 import org.acme.model.Comment;
 import org.acme.model.Post;
-import org.acme.model.PostLike;
 import org.acme.model.dto.CommentDTO;
 import org.acme.model.dto.PostDTO;
 import org.acme.service.CommentService;
@@ -56,14 +55,14 @@ public class PostController extends BaseController {
 
     // ========================= [LIKES] =========================
     @GET
-    @Path("/" + PostLike.PATH)
+    @Path("/like")
     @Produces("application/json")
     public List<?> getAllByPostId(@QueryParam(ID) UUID postId) throws BadRequestException {
         return postLikeService.findByPostId(postId);
     }
 
     @GET
-    @Path("/" + PostLike.PATH + "/type")
+    @Path("/like/type")
     @Produces("application/json")
     public List<?> getAllTypes() {
         return likeTypeService.findAll();

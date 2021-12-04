@@ -1,5 +1,5 @@
 import './global'
 import './validator'
-import './vue-select'
+// import './vue-select'
 import './bootstrap-vue'
 import './vue-grid'

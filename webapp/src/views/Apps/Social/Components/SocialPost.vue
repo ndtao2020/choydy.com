@@ -10,7 +10,7 @@
             <h5 class="mb-0">
               <b-link href="javascript:void(0)" class="">{{ post.user.name }}</b-link>
             </h5>
-            <p class="mb-0 text-secondary">{{ post.time | formatDate }}</p>
+            <p class="mb-0 text-secondary">{{ post.time }}</p>
           </div>
           <div class="iq-card-header-toolbar d-flex align-items-center">
             <b-dropdown id="dropdownMenuButton40" right variant="none" menu-class="p-0">
@@ -211,7 +211,7 @@
                   <span v-else class="text-secondary">unlike</span>
                 </b-link>
                 <b-link href="javascript:void(0);">reply</b-link>
-                <span>{{ postComment.user.time | formatDate }}</span>
+                <span>{{ postComment.user.time }}</span>
               </div>
             </div>
           </div>

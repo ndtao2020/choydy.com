@@ -5,7 +5,6 @@ const Layout = () => import('../layouts/Layout')
 const Default = () => import('../layouts/BlankLayout')
 const AuthLayout = () => import('../layouts/AuthLayouts/AuthLayout')
 /* all routes */
-const SocialProfile = () => import('../views/SocailMain/Profile/Profile')
 const ProfileImage = () => import('../views/SocailMain/Profile/ProfileImage')
 const ProfileVideo = () => import('../views/SocailMain/Profile/ProfileVideo')
 const ProfileEvent = () => import('../views/SocailMain/Profile/ProfileEvent')
@@ -91,7 +90,7 @@ const childRoutes = (prop) => [
     path: '/profile',
     name: prop + '.profile',
     meta: { auth: true, name: 'Profile' },
-    component: SocialProfile
+    component: () => import('../views/SocailMain/Profile/Profile')
   },
   {
     path: 'friend-list',
