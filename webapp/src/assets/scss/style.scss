@@ -21,12 +21,12 @@
     @import "../css/light/style";
     @import "../css/light/responsive";
   }
-  &[mode="dark"] {
-    body { @include dark-body; }
-    @import "../css/dark/typography";
-    @import "../css/dark/style";
-    @import "../css/dark/responsive";
-  }
+  // &[mode="dark"] {
+  //   body { @include dark-body; }
+  //   @import "../css/dark/typography";
+  //   @import "../css/dark/style";
+  //   @import "../css/dark/responsive";
+  // }
 }
 // [dir="rtl"]{
 //   &[mode="light"] {

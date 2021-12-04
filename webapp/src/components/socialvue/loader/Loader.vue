@@ -7,7 +7,6 @@
 </template>
 <script>
 import lightLogo from '../../../assets/images/loader.png'
-import darkLogo from '../../../assets/images/logo-white.png'
 export default {
   name: 'LoaderVue',
   props: {
@@ -15,17 +14,11 @@ export default {
   },
   data() {
     return {
-      logo: lightLogo,
-      darkLogo: darkLogo,
-      style: `background: #fff url(${darkLogo}) no-repeat scroll center center;background-size:10%;`
+      logo: lightLogo
     }
   },
   mounted() {
-    if (this.$route.meta.dark) {
-      this.style = `background: #1d203f url(${this.darkLogo}) no-repeat scroll center center;`
-    } else {
-      this.style = `background: #fff url(${this.logo}) no-repeat scroll center center;`
-    }
+    this.style = `background: #fff url(${this.logo}) no-repeat scroll center center;`
   }
 }
 </script>
