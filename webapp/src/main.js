@@ -1,21 +1,15 @@
 import Vue from 'vue'
-import './Utils/fliter'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// import Raphael from 'raphael/raphael'
-import './plugins'
 import i18n from './i18n'
-
-// global.Raphael = Raphael
+import './plugins'
 
 Vue.config.productionTip = false
 
-let vm = new Vue({
+new Vue({
   router,
   store,
   i18n,
   render: (h) => h(App)
 }).$mount('#app')
-
-window.vm = vm

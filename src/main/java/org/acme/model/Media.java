@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.acme.model.base.CommentBase;
+import org.acme.model.base.MediaBase;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,25 +18,15 @@ import javax.persistence.Transient;
 @Setter
 @Table
 @NoArgsConstructor
-public class Comment extends CommentBase {
+public class Media extends MediaBase {
 
     @Transient
-    public static final String PATH = "comment";
+    public static final String PATH = "media";
     @Transient
-    public static final String PATH_ID = "comment_id";
+    public static final String PATH_ID = "media_id";
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Post post;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    private User user;
-
-    @JoinColumn
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Comment parent;
 }

@@ -2,8 +2,6 @@
 // @import "~bootstrap/scss/bootstrap";
 // @import "~bootstrap/scss/bootstrap-grid";
 // @import "../css/bootstrap";
-// Animate css
-// @import '~node-snackbar/src/sass/snackbar.sass';
 @mixin light-body {
   font-family: 'Montserrat', sans-serif; font-weight: 400; font-style: normal; font-size: 14px; line-height: 1.8; padding: 0; margin: 0; color: var(--iq-body-text); background: var(--iq-light);
 }
@@ -23,12 +21,12 @@
     @import "../css/light/style";
     @import "../css/light/responsive";
   }
-  &[mode="dark"] {
-    body { @include dark-body; }
-    @import "../css/dark/typography";
-    @import "../css/dark/style";
-    @import "../css/dark/responsive";
-  }
+  // &[mode="dark"] {
+  //   body { @include dark-body; }
+  //   @import "../css/dark/typography";
+  //   @import "../css/dark/style";
+  //   @import "../css/dark/responsive";
+  // }
 }
 // [dir="rtl"]{
 //   &[mode="light"] {

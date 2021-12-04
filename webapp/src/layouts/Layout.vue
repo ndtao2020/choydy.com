@@ -10,7 +10,6 @@
       <RightSideBar toggle-class="top-50 setting-toggle iq-card">
         <i slot="icon" class="ri-sound-module-fill font-size-18 text-primary" />
       </RightSideBar>
-
       <div
         v-if="
           $route.name == 'social.friend-list' ||
@@ -57,26 +56,22 @@
 </template>
 <script>
 import Loader from '../components/socialvue/loader/Loader'
-import SideBarStyle1 from '../components/socialvue/sidebars/SideBarStyle1'
-import NavBarStyle1 from '../components/socialvue/navbars/NavBarStyle1'
 import SideBarItems from '../FackApi/json/SideBar'
 import profile from '../assets/images/user/user-1.jpeg'
-import loader from '../assets/images/logo.png'
-import RightSideBar from '../components/socialvue/rightsidebar/RightSideBar'
-import FooterStyle1 from '../components/socialvue/footer/FooterStyle1'
+import loader from '../assets/images/loader.png'
 import { socialvue } from '../config/pluginInit'
 import { Users } from '../FackApi/api/chat'
 import { mapActions } from 'vuex'
+
 export default {
   name: 'LayoutK',
   components: {
     Loader,
-    SideBarStyle1,
-    NavBarStyle1,
-    RightSideBar,
-    FooterStyle1
+    SideBarStyle1: () => import('@/components/socialvue/sidebars/SideBarStyle1'),
+    NavBarStyle1: () => import('@/components/socialvue/navbars/NavBarStyle1'),
+    RightSideBar: () => import('@/components/socialvue/rightsidebar/RightSideBar'),
+    FooterStyle1: () => import('@/components/socialvue/footer/FooterStyle1')
   },
-  // sidebarTicket
   data() {
     return {
       animated: { enter: 'zoomIn', exit: 'zoomOut' },
@@ -188,5 +183,4 @@ export default {
 </script>
 <style>
 @import url('../assets/css/custom.css');
-@import url('../assets/css/PriceSlider.css');
 </style>
