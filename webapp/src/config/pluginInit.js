@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import Scrollbar from 'smooth-scrollbar'
 import Store from '../store/index'
 import Route from '../router/index'
 const $ = require('jquery')
@@ -7,47 +6,42 @@ const $ = require('jquery')
 if (typeof window !== 'undefined') {
   window.$ = $
   window.jQuery = $
-  require('bootstrap/js/src/tab')
+  // require('bootstrap/js/src/tab')
 }
 
 export const socialvue = {
   index() {
-    this.loaderInit()
     this.activeRoute()
-    this.SmoothScrollbar()
-    this.Accordian()
   },
   mainIndex() {
-    this.ripple()
-    this.fullscreen()
-    this.sideBarToggle()
+    // this.fullscreen()
+    // this.sideBarToggle()
     this.navBarAction()
-    this.AccordianInit()
-    this.bodyClassCheck()
-    this.chat()
+    // this.bodyClassCheck()
+    // this.chat()
     this.openMenu()
     // this.mainMenutoogle()
-    this.rightSideBarMini()
-    this.customizerButton1()
-    this.customizerButton2()
+    // this.rightSideBarMini()
+    // this.customizerButton1()
+    // this.customizerButton2()
   },
-  customizerButton1() {
-    $('.btn-chat-data').click(function () {
-      $(this).toggleClass('active')
-      $('.iq-chat-data-block').addClass('active-block')
-      $('.iq-customizer-block').removeClass('active-block')
-      $('.btn-customizer-data').removeClass('active')
-    })
-  },
-  customizerButton2() {
-    $('.btn-customizer-data').click(function () {
-      $(this).toggleClass('active')
-      $('.iq-customizer-block').addClass('active-block')
-      $('.iq-chat-data-block').removeClass('active-block')
-      $('.btn-chat-data').removeClass('active')
-      $('.iq-search-hidden').hide()
-    })
-  },
+  // customizerButton1() {
+  //   $('.btn-chat-data').click(function () {
+  //     $(this).toggleClass('active')
+  //     $('.iq-chat-data-block').addClass('active-block')
+  //     $('.iq-customizer-block').removeClass('active-block')
+  //     $('.btn-customizer-data').removeClass('active')
+  //   })
+  // },
+  // customizerButton2() {
+  //   $('.btn-customizer-data').click(function () {
+  //     $(this).toggleClass('active')
+  //     $('.iq-customizer-block').addClass('active-block')
+  //     $('.iq-chat-data-block').removeClass('active-block')
+  //     $('.btn-chat-data').removeClass('active')
+  //     $('.iq-search-hidden').hide()
+  //   })
+  // },
   openMenu() {
     $('.dropdown').click(function () {
       $('.dropdown-menu').toggleClass('show')
@@ -64,15 +58,6 @@ export const socialvue = {
       $('body').toggleClass('right-sidebar-close')
       $('.right-sidebar-mini ').toggleClass('right-sidebar')
     })
-  },
-  loaderInit() {
-    let load = document.getElementById('loading')
-    animation.fadeOut(load, { duration: 0 })
-    animation.fadeOut(load, { duration: 1400 })
-    setTimeout(() => {
-      load.classList.add('d-none')
-    }, 2000)
-    // $('#loading').delay(1000).fadeOut('slow')
   },
   activeRoute() {
     let obj = {
@@ -91,72 +76,36 @@ export const socialvue = {
     }
     Store.dispatch('Setting/activePageAction', obj)
   },
-  ripple() {
-    $(document).on('click', '.iq-waves-effect', function (e) {
-      // Remove any old one
-      $('.ripple').remove()
-      // Setup
-      let posX = $(this).offset().left
-      let posY = $(this).offset().top
-      let buttonWidth = $(this).width()
-      let buttonHeight = $(this).height()
-
-      // Add the element
-      $(this).prepend("<span class='ripple'></span>")
-
-      // Make it round!
-      if (buttonWidth >= buttonHeight) {
-        buttonHeight = buttonWidth
-      } else {
-        buttonWidth = buttonHeight
-      }
-
-      // Get the center of the element
-      let x = e.pageX - posX - buttonWidth / 2
-      let y = e.pageY - posY - buttonHeight / 2
-
-      // Add the ripples CSS and start the animation
-      $('.ripple')
-        .css({
-          width: buttonWidth,
-          height: buttonHeight,
-          top: y + 'px',
-          left: x + 'px'
-        })
-        .addClass('rippleEffect')
-    })
-  },
-
-  fullscreen() {
-    const elementExist = this.checkElement('class', 'iq-full-screen')
-    if (elementExist) {
-      $(document).on('click', '.iq-full-screen', function () {
-        let elem = $(this)
-        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
-          if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen()
-          } else if (document.documentElement.mozRequestFullScreen) {
-            document.documentElement.mozRequestFullScreen()
-          } else if (document.documentElement.webkitRequestFullscreen) {
-            document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
-          } else if (document.documentElement.msRequestFullscreen) {
-            document.documentElement.msRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
-          }
-        } else {
-          if (document.cancelFullScreen) {
-            document.cancelFullScreen()
-          } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen()
-          } else if (document.webkitCancelFullScreen) {
-            document.webkitCancelFullScreen()
-          } else if (document.msExitFullscreen) {
-            document.msExitFullscreen()
-          }
-        }
-        elem.find('i').toggleClass('ri-fullscreen-line').toggleClass('ri-fullscreen-exit-line')
-      })
-    }
-  },
+  // fullscreen() {
+  //   const elementExist = this.checkElement('class', 'iq-full-screen')
+  //   if (elementExist) {
+  //     $(document).on('click', '.iq-full-screen', function () {
+  //       let elem = $(this)
+  //       if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+  //         if (document.documentElement.requestFullscreen) {
+  //           document.documentElement.requestFullscreen()
+  //         } else if (document.documentElement.mozRequestFullScreen) {
+  //           document.documentElement.mozRequestFullScreen()
+  //         } else if (document.documentElement.webkitRequestFullscreen) {
+  //           document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
+  //         } else if (document.documentElement.msRequestFullscreen) {
+  //           document.documentElement.msRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
+  //         }
+  //       } else {
+  //         if (document.cancelFullScreen) {
+  //           document.cancelFullScreen()
+  //         } else if (document.mozCancelFullScreen) {
+  //           document.mozCancelFullScreen()
+  //         } else if (document.webkitCancelFullScreen) {
+  //           document.webkitCancelFullScreen()
+  //         } else if (document.msExitFullscreen) {
+  //           document.msExitFullscreen()
+  //         }
+  //       }
+  //       elem.find('i').toggleClass('ri-fullscreen-line').toggleClass('ri-fullscreen-exit-line')
+  //     })
+  //   }
+  // },
   triggerSet() {
     const elementExist = this.checkElement('class', 'wrapper-menu')
     if (elementExist) {
@@ -260,34 +209,6 @@ export const socialvue = {
     }
     return found
   },
-
-  owlCarousel() {},
-
-  SmoothScrollbar() {
-    const elementExistMain = this.checkElement('id', 'sidebar-scrollbar')
-    if (elementExistMain) {
-      Scrollbar.init(document.querySelector('#sidebar-scrollbar'))
-    }
-    const elementExistRight = this.checkElement('id', 'right-sidebar-scrollbar')
-    if (elementExistRight) {
-      Scrollbar.init(document.querySelector('#right-sidebar-scrollbar'))
-    }
-  },
-
-  Accordian() {
-    $('.iq-accordion .iq-accordion-block .accordion-details').hide()
-    $('.iq-accordion .iq-accordion-block:first').addClass('accordion-active').children().slideDown('slow')
-  },
-
-  AccordianInit() {
-    $(document).on('click', '.iq-accordion .iq-accordion-block', function () {
-      if ($(this).children('div.accordion-details ').is(':hidden')) {
-        $('.iq-accordion .iq-accordion-block').removeClass('accordion-active').children('div.accordion-details ').slideUp('slow')
-        $(this).toggleClass('accordion-active').children('div.accordion-details ').slideDown('slow')
-      }
-    })
-  },
-
   getActiveLink(item, activeRoute) {
     let active = false
     if (item.children !== undefined) {
@@ -303,20 +224,20 @@ export const socialvue = {
     }
     return active
   },
-  chat() {
-    $('#chat-start').click(function () {
-      $('.chat-data-left').toggleClass('show')
-    })
-    $('.close-btn-res').click(function () {
-      $('.chat-data-left').removeClass('show')
-    })
-    $('.iq-chat-ui li').click(function () {
-      $('.chat-data-left').removeClass('show')
-    })
-    $('.sidebar-toggle').click(function () {
-      $('.chat-data-left').addClass('show')
-    })
-  },
+  // chat() {
+  //   $('#chat-start').click(function () {
+  //     $('.chat-data-left').toggleClass('show')
+  //   })
+  //   $('.close-btn-res').click(function () {
+  //     $('.chat-data-left').removeClass('show')
+  //   })
+  //   $('.iq-chat-ui li').click(function () {
+  //     $('.chat-data-left').removeClass('show')
+  //   })
+  //   $('.sidebar-toggle').click(function () {
+  //     $('.chat-data-left').addClass('show')
+  //   })
+  // },
   random(length) {
     let result = ''
     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'

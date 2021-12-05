@@ -31,6 +31,11 @@ public class Post extends PostBase {
     @JoinColumn(nullable = false)
     private User user;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Catalog catalog;
+
     public Post(PostBase postBase) {
         super(postBase);
     }

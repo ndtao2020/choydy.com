@@ -84,10 +84,12 @@
   </div>
   <!-- Right Sidebar Panel End-->
 </template>
+
 <script>
+import { mapActions } from 'vuex'
 import loader from '../../../assets/images/logo.png'
 import darkLoader from '../../../assets/images/logo-white.png'
-import { mapActions } from 'vuex'
+
 export default {
   name: 'RightSideBarStyle1',
   props: {

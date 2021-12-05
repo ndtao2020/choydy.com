@@ -684,24 +684,24 @@ a:hover {
 }
 
 /*  Ripple */
-.ripple {
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: var(--iq-light-primary);
-  transform: scale(0);
-  position: absolute;
-  opacity: 1;
-}
-.rippleEffect {
-  animation: rippleDrop 0.6s linear;
-}
-@keyframes rippleDrop {
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
+// .ripple {
+//   width: 0;
+//   height: 0;
+//   border-radius: 50%;
+//   background: var(--iq-light-primary);
+//   transform: scale(0);
+//   position: absolute;
+//   opacity: 1;
+// }
+// .rippleEffect {
+//   animation: rippleDrop 0.6s linear;
+// }
+// @keyframes rippleDrop {
+//   100% {
+//     transform: scale(2);
+//     opacity: 0;
+//   }
+// }
 
 /*---------------------------------------------------------------------
                                 Sidebar

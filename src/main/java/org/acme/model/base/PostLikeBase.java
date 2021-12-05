@@ -1,6 +1,5 @@
 package org.acme.model.base;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +14,6 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public abstract class PostLikeBase {
 
-    @JsonIgnore
     @Column(nullable = false)
     private Timestamp created;
 

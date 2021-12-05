@@ -8,17 +8,17 @@
     </div>
   </div>
 </template>
+
 <script>
-import List from '../menus/ListStyle1'
 export default {
   name: 'SideBarStyle1',
   components: {
-    List
+    List: () => import('../menus/ListStyle1')
   },
   props: {
     homeURL: { type: Object, default: () => ({ name: 'layout1.dashboard' }) },
     items: { type: Array },
-    logo: { type: String, default: require('../../../assets/images/logo.png') },
+    logo: { type: String, default: require('@/assets/images/logo.png') },
     horizontal: { type: Boolean },
     toggleButton: { type: Boolean, default: true }
   },

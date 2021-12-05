@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.redis.client.RedisClient;
 import io.vertx.redis.client.Response;
 import org.acme.base.BaseId;
+import org.acme.base.QueryPage;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -84,5 +85,19 @@ public abstract class BaseCacheService<T extends BaseId<I>, D extends BaseId<I>,
             return data == null ? null : this.saveDTOById(id, this.convertToDTO(data));
         }
         return dto;
+    }
+
+    public QueryPage pagination(int page, int size) {
+        String query = " from " + redisKey;
+        return new QueryPage(
+                getEm()
+                        .createNativeQuery("select *" + query)
+                        .setFirstResult(page * size)
+                        .setMaxResults(size)
+                        .getResultList(),
+                getEm()
+                        .createNativeQuery("select count(id)" + query)
+                        .getSingleResult()
+        );
     }
 }
