@@ -32,8 +32,8 @@ public class AuthUserController extends BaseController {
     @PUT
     @Produces("application/json")
     public CheckDTO update(@Context SecurityContext context, UserDTO userDTO) {
+        JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         try {
-            JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
             User user = service.getById(principal.getId());
             userDTO.setActive(user.getActive());
             user.update(userDTO);
