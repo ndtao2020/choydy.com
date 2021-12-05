@@ -15,13 +15,13 @@ export const socialvue = {
   },
   mainIndex() {
     // this.fullscreen()
-    this.sideBarToggle()
+    // this.sideBarToggle()
     this.navBarAction()
-    this.bodyClassCheck()
+    // this.bodyClassCheck()
     // this.chat()
     this.openMenu()
     // this.mainMenutoogle()
-    this.rightSideBarMini()
+    // this.rightSideBarMini()
     // this.customizerButton1()
     // this.customizerButton2()
   },

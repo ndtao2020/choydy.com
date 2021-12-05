@@ -1,6 +1,5 @@
 package org.acme.model.base;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +17,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public abstract class PostBase extends BaseId<UUID> {
 
-    @JsonIgnore
     @Column(nullable = false)
     private Timestamp created;
 

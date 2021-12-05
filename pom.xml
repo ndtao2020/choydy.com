@@ -181,17 +181,38 @@
                         <version>3.2.0</version>
                         <executions>
                             <execution>
-                                <id>copy-resources</id>
+                                <id>copy-resources-statics-file</id>
                                 <phase>generate-resources</phase>
                                 <goals>
                                     <goal>copy-resources</goal>
                                 </goals>
                                 <configuration>
+                                    <encoding>UTF-8</encoding>
+                                    <outputDirectory>${basedir}/target/classes/META-INF</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${basedir}/webapp/build</directory>
+                                            <includes>
+                                                <include>index.html</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-resources-html</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <encoding>UTF-8</encoding>
                                     <outputDirectory>${basedir}/target/classes/META-INF/resources</outputDirectory>
                                     <resources>
                                         <resource>
                                             <directory>${basedir}/webapp/build</directory>
                                             <filtering>false</filtering>
+                                            <exclude>index.html</exclude>
                                         </resource>
                                     </resources>
                                 </configuration>

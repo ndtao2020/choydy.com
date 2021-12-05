@@ -1,6 +1,5 @@
 package org.acme.model.base;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +19,6 @@ public abstract class CommentBase extends BaseId<UUID> {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @JsonIgnore
     @Column(nullable = false)
     private Timestamp created;
 

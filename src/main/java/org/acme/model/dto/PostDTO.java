@@ -12,9 +12,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class PostDTO extends PostBase {
     private UUID userId;
+    private Long catalogId;
 
-    public PostDTO(PostBase postBase, UUID userId) {
+    public PostDTO(PostBase postBase) {
         super(postBase);
-        this.userId = userId;
     }
 }
