@@ -18,6 +18,7 @@ jobs:
       uses: actions/checkout@master
     - name: Build native executable and upload it as an artifact
       uses: maxday/quarkus-native-build-docker-action@1
+      with:
         dockerfilePath: DockerfileBuild
         outputName: app-runner
     - name: Archive production artifacts
