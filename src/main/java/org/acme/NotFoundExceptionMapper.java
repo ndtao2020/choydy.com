@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundException> {
     @Override
     public Response toResponse(NotFoundException e) {
-        final InputStream indexIS = NotFoundExceptionMapper.class.getResourceAsStream("/META-INF/index.html");
+        final InputStream indexIS = NotFoundExceptionMapper.class.getResourceAsStream("/META-INF/resources/index.html");
         if (indexIS == null) {
             return Response.temporaryRedirect(URI.create("/")).build();
         }

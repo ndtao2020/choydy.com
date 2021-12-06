@@ -11,7 +11,7 @@ if (typeof window !== 'undefined') {
 
 export const socialvue = {
   index() {
-    this.activeRoute()
+    // this.activeRoute()
   },
   mainIndex() {
     // this.fullscreen()
@@ -19,7 +19,7 @@ export const socialvue = {
     this.navBarAction()
     // this.bodyClassCheck()
     // this.chat()
-    this.openMenu()
+    // this.openMenu()
     // this.mainMenutoogle()
     // this.rightSideBarMini()
     // this.customizerButton1()

@@ -51,6 +51,10 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-mailer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-jackson</artifactId>
         </dependency>
         <dependency>
@@ -181,26 +185,7 @@
                         <version>3.2.0</version>
                         <executions>
                             <execution>
-                                <id>copy-resources-statics-file</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <encoding>UTF-8</encoding>
-                                    <outputDirectory>${basedir}/target/classes/META-INF</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>${basedir}/webapp/build</directory>
-                                            <includes>
-                                                <include>index.html</include>
-                                            </includes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-resources-html</id>
+                                <id>copy-statics-file</id>
                                 <phase>generate-resources</phase>
                                 <goals>
                                     <goal>copy-resources</goal>
@@ -212,7 +197,6 @@
                                         <resource>
                                             <directory>${basedir}/webapp/build</directory>
                                             <filtering>false</filtering>
-                                            <exclude>index.html</exclude>
                                         </resource>
                                     </resources>
                                 </configuration>
