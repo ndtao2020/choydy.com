@@ -6,11 +6,11 @@ import java.util.List;
 
 @Data
 public class QueryPage {
-    private List<?> list;
-    private Object total;
+    private List<?> l;
+    private Object t;
 
     public QueryPage(List<?> list, Object total) {
-        this.total = total;
-        this.list = list;
+        this.l = list;
+        this.t = total;
     }
 }
