@@ -21,6 +21,9 @@ First, ufw needs to be enabled. From a terminal prompt enter:
 - sudo ufw status verbose
 - sudo ufw allow from 203.0.113.4 to any port 22
 
+sudo ufw allow 'Apache Full'
+sudo ufw delete allow 'Apache'
+
 To open a port (SSH in this example):
 
 - sudo ufw allow 22
@@ -40,6 +43,17 @@ To remove a rule, use delete followed by the rule:
 It is also possible to allow access from specific hosts or networks to a port. The following example allows SSH access from host 192.168.0.2 to any IP address on this host:
 
 - sudo ufw allow proto tcp from 192.168.0.2 to any port 22
+
+
+apt-get update
+sudo apt-get install nginx
+sudo apt-get install certbot
+apt-get install python3-certbot-nginx
+nginx -t && nginx -s reload
+
+sudo certbot --nginx -d choydy.com/ -d www.choydy.com
+
+/home/choydy/ssl
 
 chmod +x init-letsencrypt.sh
 sudo ./init-letsencrypt.sh
