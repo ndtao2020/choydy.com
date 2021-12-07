@@ -1,0 +1,89 @@
+version: "3.9"
+
+networks:
+  redis:
+    driver: bridge
+  postgres:
+    driver: bridge
+  backend:
+    driver: bridge
+
+services:
+  redis:
+    image: redis:6-alpine
+    container_name: redis
+    restart: always
+    command: redis-server --appendonly yes --requirepass ${SPRING_REDIS_PASSWORD}
+    volumes:
+      - ../data/redis:/data
+    networks:
+      - redis
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres
+    restart: always
+    networks:
+      - postgres
+    volumes:
+      - ../data/postgres:/var/lib/postgresql/data
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: postgres
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+
+  backend:
+    build:
+      context: .
+    depends_on:
+      - redis
+      - postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - redis
+      - postgres
+    restart: always
+    environment:
+      SPRING_KEYSTORE_PATH: ${SPRING_KEYSTORE_PATH}
+      SPRING_KEYSTORE_ALIAS: ${SPRING_KEYSTORE_ALIAS}
+      SPRING_KEYSTORE_PASS: ${SPRING_KEYSTORE_PASS}
+      SPRING_SENDGRID_SENDER: ${SPRING_SENDGRID_SENDER}
+      SPRING_SENDGRID_API_KEY: ${SPRING_SENDGRID_API_KEY}
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_USERNAME: default
+      SPRING_REDIS_PASSWORD: ${SPRING_REDIS_PASSWORD}
+
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      - backend
+    volumes:
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+    entrypoint: certbot certonly --webroot --agree-tos --renew-by-default --email teoqn@yandex.com -d teoqn123.com
+
+  nginx:
+    image: nginx:1.21-alpine
+    container_name: nginx
+    restart: always
+    depends_on:
+      - certbot
+    networks:
+      - backend
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+    ports:
+      - 80:80
+      - 443:443

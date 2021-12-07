@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 import Store from '../store/index'
 import Route from '../router/index'
-const $ = require('jquery')
+
+// const $ = require('jquery')
+const $ = {}
 
 if (typeof window !== 'undefined') {
   window.$ = $
@@ -16,7 +18,7 @@ export const socialvue = {
   mainIndex() {
     // this.fullscreen()
     // this.sideBarToggle()
-    this.navBarAction()
+    // this.navBarAction()
     // this.bodyClassCheck()
     // this.chat()
     // this.openMenu()

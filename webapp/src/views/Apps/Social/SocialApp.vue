@@ -5,7 +5,6 @@
         <b-col lg="8">
           <tab-content id="pills-tabContent-2">
             <tab-content-item id="profile-feed" :active="true" aria-labelled-by="pills-feed-tab">
-              <AddSocialPost @addPost="addPost"></AddSocialPost>
               <div v-for="post in socialPosts" :key="post.id">
                 <social-post :post="post"></social-post>
               </div>
@@ -71,7 +70,7 @@
                 <template #body>
                   <div class="user-detail text-center">
                     <div class="user-profile">
-                      <b-img :src="require('../../../assets/images/user/user-11.png')" alt="profile-img" fluid class="avatar-130" />
+                      <b-img :src="require('@/assets/images/user/user-11.png')" alt="profile-img" fluid class="avatar-130" />
                     </div>
                     <div class="profile-detail mt-3">
                       <h3 class="d-inline-block">Nik Jone</h3>
@@ -186,51 +185,49 @@
       </b-row>
     </b-col>
     <div class="col-sm-12 text-center">
-      <img src="../../../assets/images/page-img/page-load-loader.gif" alt="loader" style="height: 100px" />
+      <img src="@/assets/images/page-img/page-load-loader.gif" alt="loader" style="height: 100px" />
     </div>
   </b-row>
 </template>
 <script>
-import { socialvue } from '../../../config/pluginInit'
-import SocialPost from './Components/SocialPost'
-import { Posts } from '../../../FackApi/api/SocialPost'
-import AddSocialPost from './Components/AddSocialPost'
-import IqCard from '../../../components/socialvue/cards/iq-card'
+import { Posts } from '@/FackApi/api/SocialPost'
 
 export default {
-  name: 'SocialApp',
-  components: { IqCard, AddSocialPost, SocialPost },
+  components: {
+    SocialPost: () => import('./Components/SocialPost'),
+    IqCard: () => import('@/components/socialvue/cards/iq-card')
+  },
   data() {
     return {
       suggestionEvent: [
         {
-          img: require('../../../assets/images/page-img/42.png'),
+          img: require('@/assets/images/page-img/42.png'),
           title: 'Iqonic Studio',
           des: 'Lorem Ipsum',
-          otherImg: require('../../../assets/images/small/img-1.jpg')
+          otherImg: require('@/assets/images/small/img-1.jpg')
         },
         {
-          img: require('../../../assets/images/page-img/43.png'),
+          img: require('@/assets/images/page-img/43.png'),
           title: 'Cakes & Bakes ',
           des: 'Lorem Ipsum',
-          otherImg: require('../../../assets/images/small/img-2.jpg')
+          otherImg: require('@/assets/images/small/img-2.jpg')
         }
       ],
       event: [
         {
-          img: require('../../../assets/images/page-img/s4.jpg'),
+          img: require('@/assets/images/page-img/s4.jpg'),
           heading: 'Web Workshop',
           time: '1 hour ago'
         },
         {
-          img: require('../../../assets/images/page-img/s5.jpg'),
+          img: require('@/assets/images/page-img/s5.jpg'),
           heading: 'Fun Events and Festivals',
           time: '4 hour ago'
         }
       ],
       user: {
-        background: require('../../../assets/images/page-img/profile-bg.jpg'),
-        profile: require('../../../assets/images/user/user-11.png'),
+        background: require('@/assets/images/page-img/profile-bg.jpg'),
+        profile: require('@/assets/images/user/user-11.png'),
         name: 'Nik Jone',
         role: ' - Web designer',
         about: 'Lorem ipsum dolor sit amet, contur adipiscing elit.',
@@ -241,15 +238,15 @@ export default {
       },
       socialPosts: Posts,
       galary: [
-        { image: require('../../../assets/images/page-img/g1.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../../assets/images/page-img/g2.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../../assets/images/page-img/g3.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../../assets/images/page-img/g4.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../../assets/images/page-img/g5.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../../assets/images/page-img/g6.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../../assets/images/page-img/g7.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../../assets/images/page-img/g8.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../../assets/images/page-img/g9.jpg'), href: 'javascript:void(0);' }
+        { image: require('@/assets/images/page-img/g1.jpg'), href: 'javascript:void(0);' },
+        { image: require('@/assets/images/page-img/g2.jpg'), href: 'javascript:void(0);' },
+        { image: require('@/assets/images/page-img/g3.jpg'), href: 'javascript:void(0);' },
+        { image: require('@/assets/images/page-img/g4.jpg'), href: 'javascript:void(0);' },
+        { image: require('@/assets/images/page-img/g5.jpg'), href: 'javascript:void(0);' },
+        { image: require('@/assets/images/page-img/g6.jpg'), href: 'javascript:void(0);' },
+        { image: require('@/assets/images/page-img/g7.jpg'), href: 'javascript:void(0);' },
+        { image: require('@/assets/images/page-img/g8.jpg'), href: 'javascript:void(0);' },
+        { image: require('@/assets/images/page-img/g9.jpg'), href: 'javascript:void(0);' }
       ],
       action: [
         {
@@ -302,12 +299,12 @@ export default {
           child: {
             type: 'img',
             items: [
-              require('../../../assets/images/user/user-05.jpg'),
-              require('../../../assets/images/user/user-06.jpg'),
-              require('../../../assets/images/user/user-07.jpg'),
-              require('../../../assets/images/user/user-08.jpg'),
-              require('../../../assets/images/user/user-09.jpg'),
-              require('../../../assets/images/user/user10.jpg')
+              require('@/assets/images/user/user-05.jpg'),
+              require('@/assets/images/user/user-06.jpg'),
+              require('@/assets/images/user/user-07.jpg'),
+              require('@/assets/images/user/user-08.jpg'),
+              require('@/assets/images/user/user-09.jpg'),
+              require('@/assets/images/user/user10.jpg')
             ]
           }
         },
@@ -333,8 +330,8 @@ export default {
         }
       ],
       friends: [
-        { name: 'Paul Molive', role: 'Web Designer', image: require('../../../assets/images/user/user-01.jpg') },
-        { name: 'Paul Molive', role: 'trainee', image: require('../../../assets/images/user/user-01.jpg') }
+        { name: 'Paul Molive', role: 'Web Designer', image: require('@/assets/images/user/user-01.jpg') },
+        { name: 'Paul Molive', role: 'trainee', image: require('@/assets/images/user/user-01.jpg') }
       ],
       userBio: [
         { title: 'Joined', description: 'November 15, 2012' },
@@ -347,13 +344,13 @@ export default {
         { title: 'Contact', description: '<a href="tel:001 4544 565 456">(001) 4544 565 456</a>' }
       ],
       story: [
-        { title: 'Web Design', time: '1 hour ago', image: require('../../../assets/images/page-img/s1.jpg'), class: 'mb-4', isActive: 'active' },
-        { title: 'App Design', time: '4 hour ago', image: require('../../../assets/images/page-img/s2.jpg'), class: 'mb-4', isActive: '' },
-        { title: 'Abstract Design', time: '9 hour ago', image: require('../../../assets/images/page-img/s3.jpg'), class: '', isActive: '' }
+        { title: 'Web Design', time: '1 hour ago', image: require('@/assets/images/page-img/s1.jpg'), class: 'mb-4', isActive: 'active' },
+        { title: 'App Design', time: '4 hour ago', image: require('@/assets/images/page-img/s2.jpg'), class: 'mb-4', isActive: '' },
+        { title: 'Abstract Design', time: '9 hour ago', image: require('@/assets/images/page-img/s3.jpg'), class: '', isActive: '' }
       ],
       suggestions: [
-        { name: 'Paul Molive', mutual_friend: 'Today', image: require('../../../assets/images/user/user-01.jpg') },
-        { name: 'Paul Molive', mutual_friend: 'Tomorrow', image: require('../../../assets/images/user/user-01.jpg') }
+        { name: 'Paul Molive', mutual_friend: 'Today', image: require('@/assets/images/user/user-01.jpg') },
+        { name: 'Paul Molive', mutual_friend: 'Tomorrow', image: require('@/assets/images/user/user-01.jpg') }
       ],
       news: [
         { description: 'there is a meetup in your city on friday at 19:00.<a href="#">see details</a>' },
@@ -361,48 +358,45 @@ export default {
       ],
       twitterFeed: [
         {
-          image: require('../../../assets/images/page-img/42.jpg'),
+          image: require('@/assets/images/page-img/42.jpg'),
           name: 'UI/Ux Designer',
           description: 'Creativity Design'
         },
         {
-          image: require('../../../assets/images/page-img/43.jpg'),
+          image: require('@/assets/images/page-img/43.jpg'),
           name: 'Marketing',
           description: 'Accounting'
         },
         {
-          image: require('../../../assets/images/page-img/44.jpg'),
+          image: require('@/assets/images/page-img/44.jpg'),
           name: 'Web Developer',
           description: 'uniq Concept'
         },
         {
-          image: require('../../../assets/images/page-img/45.jpg'),
+          image: require('@/assets/images/page-img/45.jpg'),
           name: 'Latest News',
           description: 'Line information'
         }
       ],
       recentPages: [
         {
-          image: require('../../../assets/images/page-img/46.jpg'),
+          image: require('@/assets/images/page-img/46.jpg'),
           name: 'Food town'
         },
         {
-          image: require('../../../assets/images/page-img/47.jpg'),
+          image: require('@/assets/images/page-img/47.jpg'),
           name: 'Touro Univercity'
         },
         {
-          image: require('../../../assets/images/page-img/48.jpg'),
+          image: require('@/assets/images/page-img/48.jpg'),
           name: 'Moviehouse & Eatery'
         },
         {
-          image: require('../../../assets/images/page-img/49.jpg'),
+          image: require('@/assets/images/page-img/49.jpg'),
           name: 'Coffee + Crisp'
         }
       ]
     }
-  },
-  mounted() {
-    socialvue.index()
   },
   methods: {
     addPost(post) {
