@@ -25,11 +25,7 @@ export const Posts = [
     ]
   },
   {
-    images: [
-      require('../../assets/images/page-img/p1.jpg'),
-      require('../../assets/images/page-img/p1.jpg'),
-      require('../../assets/images/page-img/p1.jpg')
-    ],
+    images: [require('../../assets/images/page-img/p1.jpg')],
     image: require('../../assets/images/page-img/p1.jpg'),
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
@@ -54,11 +50,7 @@ export const Posts = [
     ]
   },
   {
-    images: [
-      require('../../assets/images/page-img/p1.jpg'),
-      require('../../assets/images/page-img/p1.jpg'),
-      require('../../assets/images/page-img/p1.jpg')
-    ],
+    images: [require('../../assets/images/page-img/p1.jpg')],
     image: require('../../assets/images/page-img/p1.jpg'),
     description: null,
     id: '3',
@@ -82,11 +74,7 @@ export const Posts = [
     ]
   },
   {
-    images: [
-      require('../../assets/images/page-img/p1.jpg'),
-      require('../../assets/images/page-img/p1.jpg'),
-      require('../../assets/images/page-img/p1.jpg')
-    ],
+    images: [require('../../assets/images/page-img/p1.jpg')],
     image: null,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',

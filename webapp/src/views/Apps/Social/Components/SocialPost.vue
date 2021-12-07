@@ -67,9 +67,7 @@
     <div class="user-post">
       <p v-if="post.description" class="p-2">{{ post.description }}</p>
       <div id="photo-grid">
-        <photo-grid :box-height="'400px'" :box-width="'100%'" :box-border="2">
-          <img v-for="(image, index) in post.images" :key="index" :src="image" />
-        </photo-grid>
+        <img v-for="(image, index) in post.images" :key="index" :src="image" />
       </div>
     </div>
     <div class="comment-area p-3">

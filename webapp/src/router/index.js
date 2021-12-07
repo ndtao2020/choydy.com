@@ -29,7 +29,7 @@ const childRoutes = (prop) => [
     path: '/',
     name: prop + '.list',
     meta: { auth: true, name: 'Social App' },
-    component: () => import('../views/Apps/Social/SocialApp')
+    component: () => import('@/views/Apps/Social/SocialApp')
   },
   {
     path: '/profile',
