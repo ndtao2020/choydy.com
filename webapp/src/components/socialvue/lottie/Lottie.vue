@@ -2,7 +2,8 @@
   <div ref="lavContainer" :class="className"></div>
 </template>
 <script>
-import lottie from 'lottie-web'
+// import lottie from 'lottie-web'
+
 export default {
   name: 'LottieT',
   props: {
@@ -16,13 +17,13 @@ export default {
     }
   },
   mounted() {
-    lottie.loadAnimation({
-      container: this.$refs.lavContainer,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      animationData: this.option
-    })
+    // lottie.loadAnimation({
+    //   container: this.$refs.lavContainer,
+    //   renderer: 'svg',
+    //   loop: true,
+    //   autoplay: true,
+    //   animationData: this.option
+    // })
   }
 }
 </script>

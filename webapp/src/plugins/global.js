@@ -1,9 +1,6 @@
 import Vue from 'vue'
 
 Vue.component('IqCard', require('../components/socialvue/cards/iq-card').default)
-Vue.component('LottieComp', require('../components/socialvue/lottie/Lottie').default)
-Vue.component('SlickComp', require('../components/socialvue/slider/Slick').default)
-
 Vue.component('TabNav', require('../components/socialvue/tab/tab-nav').default)
 Vue.component('TabNavItems', require('../components/socialvue/tab/tab-nav-items').default)
 Vue.component('TabContent', require('../components/socialvue/tab/tab-content').default)

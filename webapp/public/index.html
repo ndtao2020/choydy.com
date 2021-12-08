@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html dir="ltr" mode="light">
+<html lang="vi" dir="ltr" mode="light">
 
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="icon" href="<%= BASE_URL %>favicon.ico?v=1.0">
+  <link rel="icon" href="<%= BASE_URL %>img/logo/favicon-16x16.png">
   <title>ChoyDy.Com - Meme hài hước</title>
   <meta name="theme-color" content="rgba(255,255,255,0.98)">
   <meta name="description" content="Meme hài hước" />
@@ -15,17 +15,39 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/line-awesome@1.3.0/dist/line-awesome/css/line-awesome.min.css" />
   <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.min.css" /> -->
+  <!-- <script defer src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.6.0/firebase-analytics-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.6.0/firebase-performance-compat.js"></script> -->
 </head>
 
 <body class="sidebar-main-active right-column-fixed">
-  <noscript>
-    <strong>We're sorry but vue-dashboard doesn't work properly without JavaScript enabled. Please enable it to
-      continue.</strong>
-  </noscript>
   <div id="app">
     <img style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto"
-      src="/img/icons/full-logo.png?v=1.0" alt="ChoyDy">
+      src="/img/logo/full-logo160.png" alt="ChoyDy">
   </div>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-analytics.js";
+    import { getPerformance } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-performance.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    // Initialize Firebase
+    const app = initializeApp({
+      apiKey: "AIzaSyD-W3th_NcH0k1cU4PSlz6QRs8R1uVtf1c",
+      authDomain: "choydy-2fd83.firebaseapp.com",
+      projectId: "choydy-2fd83",
+      storageBucket: "choydy-2fd83.appspot.com",
+      messagingSenderId: "951491626953",
+      appId: "1:951491626953:web:ab29e2fb52e2c5ed9a4a18",
+      measurementId: "G-W5CF335BXX"
+    });
+    getAnalytics(app);
+    getPerformance(app);
+  </script>
 </body>
 
 </html>
