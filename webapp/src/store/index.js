@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Setting from './Setting/index'
-Vue.use(Vuex)
 
-const debug = process.env.NODE_ENV !== 'production'
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
@@ -13,5 +12,5 @@ export default new Vuex.Store({
   mutations: {},
   actions: {},
   getters: {},
-  strict: debug
+  strict: process.env.NODE_ENV !== 'production'
 })

@@ -1,14 +1,15 @@
 <template>
-  <vue-slick :options="option">
+  <!-- <vue-slick :options="option">
     <slot />
-  </vue-slick>
+  </vue-slick> -->
+  <div />
 </template>
 <script>
-import VueSlick from 'vue-slick'
+// import VueSlick from 'vue-slick'
 export default {
   name: 'SlickT',
   components: {
-    VueSlick
+    // VueSlick
   },
   props: {
     option: {

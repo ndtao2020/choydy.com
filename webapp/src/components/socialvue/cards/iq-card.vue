@@ -20,7 +20,6 @@
 </template>
 <script>
 export default {
-  name: 'IqCard',
   props: {
     className: { type: String, default: '' },
     bodyClass: { type: String, default: '' },
@@ -40,7 +39,6 @@ export default {
     hasFooterSlot() {
       return !!this.$slots.footer
     }
-  },
-  mounted() {}
+  }
 }
 </script>

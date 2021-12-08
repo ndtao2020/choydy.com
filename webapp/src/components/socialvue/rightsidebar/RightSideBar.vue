@@ -4,14 +4,6 @@
     <div class="right-sidebar-panel p-0">
       <div class="iq-card shadow-none">
         <div class="iq-card-body p-0">
-          <!-- chat and theme button!-->
-          <div class="iq-customizer-btn p-3">
-            <div class="btn-group w-100" role="group" aria-label="Basic example">
-              <button class="btn-chat-data btn" :class="showChat ? 'active' : ''" @click="showChat = true">Chat</button>
-
-              <button class="btn-customizer-data btn" :class="!showChat ? 'active' : ''" @click="showChat = false">Theme customizer</button>
-            </div>
-          </div>
           <!-- chat!-->
           <div v-show="showChat" class="media-height iq-chat-data-block active-block p-3">
             <div v-for="(item, index) in users" :key="index" class="media align-items-center mb-4">
@@ -26,53 +18,6 @@
               </div>
             </div>
           </div>
-          <!-- customization !-->
-          <iq-card v-show="!showChat" class="shadow-none iq-customizer-block active-block">
-            <template #body>
-              <b-row>
-                <div class="mt-4 mb-4 w-100" />
-                <b-col cols="12" class="justify-content-between">
-                  <h4 class="text-left mb-2">{{ $t('customizer.colorMode') }}</h4>
-                  <div class="text-center d-flex">
-                    <img
-                      :src="require('../../../assets/images/customizer/light.jpg')"
-                      alt="light"
-                      class="img-fluid"
-                      style="height: 120px; border: 2px solid var(--iq-primary)"
-                      @click="themeMode(false)"
-                    />
-                    <img
-                      :src="require('../../../assets/images/customizer/dark.jpg')"
-                      alt="dark"
-                      class="img-fluid ml-2"
-                      style="height: 120px; border: 2px solid var(--iq-primary)"
-                      @click="themeMode(true)"
-                    />
-                  </div>
-                </b-col>
-                <div class="border mt-4 mb-4 w-100" />
-                <b-col cols="12" class="justify-content-between">
-                  <h4 class="text-left mb-2">{{ $t('customizer.rtlMode') }}</h4>
-                  <div class="text-center d-flex">
-                    <img
-                      :src="require('../../../assets/images/customizer/rtl.jpg')"
-                      alt="ltr"
-                      class="img-fluid"
-                      style="height: 120px; border: 2px solid var(--iq-primary)"
-                      @click="rtlChange(true)"
-                    />
-                    <img
-                      :src="require('../../../assets/images/customizer/rtl.jpg')"
-                      alt="rtl"
-                      class="img-fluid ml-2"
-                      style="height: 120px; border: 2px solid var(--iq-primary)"
-                      @click="rtlChange(false)"
-                    />
-                  </div>
-                </b-col>
-              </b-row>
-            </template>
-          </iq-card>
           <!-- toogle!-->
           <div class="right-sidebar-toggle bg-primary mt-3" @click="toggleMini">
             <i class="ri-arrow-left-line side-left-icon"></i>
@@ -87,11 +32,8 @@
 
 <script>
 import { mapActions } from 'vuex'
-import loader from '../../../assets/images/logo.png'
-import darkLoader from '../../../assets/images/logo.png'
 
 export default {
-  name: 'RightSideBarStyle1',
   props: {
     toggleClass: { type: String, default: '' }
   },
@@ -99,14 +41,6 @@ export default {
     return {
       miniClass: '',
       showChat: true,
-      animated: { enter: 'zoomIn', exit: 'zoomOut' },
-      animateClass: [
-        { value: { enter: 'zoomIn', exit: 'zoomOut' }, text: 'Zoom' },
-        { value: { enter: 'fadeInUp', exit: 'fadeOutDown' }, text: 'Fade' },
-        { value: { enter: 'slideInLeft', exit: 'slideOutRight' }, text: 'Slide' },
-        { value: { enter: 'rotateInDownLeft', exit: 'rotateOutDownLeft' }, text: 'Roll' }
-      ],
-      logo: loader,
       rtl: false,
       users: [
         {
@@ -184,30 +118,6 @@ export default {
       } else {
         this.miniClass = ''
       }
-    },
-    themeMode(mode) {
-      this.dark = mode
-      this.modeChange({ rtl: this.rtl, dark: mode })
-      if (mode) {
-        this.logo = darkLoader
-      } else {
-        this.logo = loader
-      }
-      this.$emit('onLogo', this.logo)
-    },
-    rtlChange(mode) {
-      this.rtl = mode
-      this.modeChange({ rtl: mode, dark: this.darkMode })
-      if (this.darkMode) {
-        this.logo = darkLoader
-      } else {
-        this.logo = loader
-      }
-    },
-    reset() {
-      this.animated = { enter: 'zoomIn', exit: 'zoomOut' }
-      this.themeMode(false)
-      this.rtlChange(false)
     },
     ...mapActions({
       modeChange: 'Setting/layoutModeAction'

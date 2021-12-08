@@ -16,8 +16,3 @@
   </footer>
   <!-- Footer END -->
 </template>
-<script>
-export default {
-  name: 'FooterStyle1'
-}
-</script>

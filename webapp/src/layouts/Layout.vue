@@ -44,7 +44,7 @@
         <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
         <li class="list-inline-item"><a href="#">Terms of Use</a></li>
       </template>
-      <template #right> Copyright 2020 <a href="#">SocialV</a> All Rights Reserved. </template>
+      <template #right> Copyright 2020 <a href="#">ChoyDy.com</a> All Rights Reserved. </template>
     </FooterStyle1>
   </div>
 </template>
