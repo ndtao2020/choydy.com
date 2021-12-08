@@ -13,7 +13,7 @@
         <div class="row no-gutters">
           <div class="col-md-6 text-center pt-5">
             <div class="sign-in-detail text-white">
-              <a class="sign-in-logo mb-5" href="#"><img src="../../assets/images/logo-full.png" class="img-fluid" alt="logo" /></a>
+              <a class="sign-in-logo mb-5" href="#"><img src="@/assets/images/logo.png" class="img-fluid" alt="logo" /></a>
               <slick-comp :option="slickOptions">
                 <div class="item">
                   <img src="../../assets/images/login/1.png" class="img-fluid mb-4" alt="logo" />
@@ -45,7 +45,7 @@
 </template>
 <script>
 import Loader from '../../components/socialvue/loader/Loader'
-import logo from '../../assets/images/logo-white.png'
+import logo from '../../assets/images/logo.png'
 import { socialvue } from '../../config/pluginInit'
 import bgImage from '../../assets/images/login/login-2.jpg'
 export default {

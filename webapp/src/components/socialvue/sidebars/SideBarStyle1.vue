@@ -11,7 +11,6 @@
 
 <script>
 export default {
-  name: 'SideBarStyle1',
   components: {
     List: () => import('../menus/ListStyle1')
   },
@@ -24,11 +23,6 @@ export default {
   },
   data() {
     return {}
-  },
-  methods: {
-    miniSidebar() {
-      this.$emit('toggle')
-    }
   }
 }
 </script>

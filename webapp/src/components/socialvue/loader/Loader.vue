@@ -6,7 +6,7 @@
   <!-- loader END -->
 </template>
 <script>
-import lightLogo from '../../../assets/images/loader.png'
+import lightLogo from '@/assets/images/logo.png'
 export default {
   name: 'LoaderVue',
   props: {

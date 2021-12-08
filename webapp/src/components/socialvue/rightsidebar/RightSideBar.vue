@@ -88,7 +88,7 @@
 <script>
 import { mapActions } from 'vuex'
 import loader from '../../../assets/images/logo.png'
-import darkLoader from '../../../assets/images/logo-white.png'
+import darkLoader from '../../../assets/images/logo.png'
 
 export default {
   name: 'RightSideBarStyle1',

@@ -2,7 +2,7 @@
 :root {
     --iq-title-text: #3f414d;
     --iq-body-text: #777D74;
-    --iq-primary: #50b5ff;
+    --iq-primary: #000721;
     --iq-secondary: #a09e9e;
     --iq-success: #49f0d3;
     --iq-warning: #ffba68;
@@ -35,5 +35,3 @@
     --iq-dark-title-text: #8c91b6;
     --iq-border-dark: #252e4b;
 }
-
-

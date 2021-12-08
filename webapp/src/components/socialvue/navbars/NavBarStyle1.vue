@@ -10,7 +10,7 @@
           </a>
           <div class="iq-menu-bt align-self-center">
             <div class="wrapper-menu" @click="miniSidebar">
-              <div class="main-circle"><i class="ri-menu-line"></i></div>
+              <div class="main-circle"><i class="las la-bars"></i></div>
             </div>
           </div>
         </div>
@@ -265,19 +265,19 @@
   </div>
   <!-- TOP Nav Bar END -->
 </template>
+
 <script>
 import SideBarItems from '../../../FackApi/json/SideBar'
 import { mapGetters } from 'vuex'
 import Lottie from '../../../components/socialvue/lottie/Lottie'
 export default {
-  name: 'NavBarStyle1',
   components: {
     Lottie
   },
   props: {
     homeURL: { type: Object, default: () => ({ name: 'layout1.dashboard' }) },
     title: { type: String, default: 'Dashboard' },
-    logo: { type: String, default: require('../../../assets/images/loader.png') },
+    logo: { type: String, default: require('@/assets/images/logo.png') },
     horizontal: { type: Boolean, default: false },
     items: { type: Array }
   },
@@ -321,7 +321,10 @@ export default {
   },
   methods: {
     miniSidebar() {
-      this.$emit('toggle')
+      let wrapperMenu = document.querySelector('.wrapper-menu')
+      let body = document.querySelector('body')
+      wrapperMenu.classList.toggle('open')
+      body.classList.toggle('sidebar-main')
     },
     openSearch() {
       this.showSearch = true
