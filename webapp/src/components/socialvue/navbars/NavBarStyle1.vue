@@ -5,8 +5,7 @@
       <nav class="navbar navbar-expand-lg navbar-light p-0">
         <div class="iq-navbar-logo d-flex justify-content-between">
           <a href="#">
-            <img :src="logo" class="img-fluid" alt="logo" />
-            <!-- <span>SocialV</span> -->
+            <img :src="logo" class="img-fluid" alt="logo" width="160" height="45" />
           </a>
           <div class="iq-menu-bt align-self-center">
             <div class="wrapper-menu" @click="miniSidebar">

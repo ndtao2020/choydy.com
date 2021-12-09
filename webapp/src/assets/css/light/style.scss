@@ -196,24 +196,6 @@ a:hover {
 .media-pl {
   text-align: center;
 }
-
-/*---------------------------------------------------------------------
-                                  Best Sellers
------------------------------------------------------------------------*/
-// .media-sellers {
-//   display: flex;
-//   align-items: flex-start;
-// }
-// .media-sellers-media-info {
-//   flex: 1;
-// }
-// .media-sellers-img img {
-//   height: 80px;
-// }
-// .iq-card .list-star li {
-//   margin-right: 0;
-// }
-
 /*---------------------------------------------------------------------
                                   Profile-Avatar
 -----------------------------------------------------------------------*/
@@ -338,27 +320,6 @@ a:hover {
   top: 0;
   padding: 9px 30px;
 }
-
-/*---------------------------------------------------------------------
-                                  Progressbar
------------------------------------------------------------------------*/
-.iq-progress-bar {
-  background: var(--iq-light);
-  box-shadow: 0 0 0;
-  height: 6px;
-  margin: 0;
-  position: relative;
-  width: 100%;
-  border-radius: 4px;
-}
-.iq-progress-bar > span {
-  background: var(--iq-primary) none repeat scroll 0 0;
-  display: block;
-  height: 100%;
-  width: 0;
-  border-radius: 4px;
-}
-
 /*---------------------------------------------------------------------
                              Dropdown Menu
 -----------------------------------------------------------------------*/
@@ -392,7 +353,6 @@ a:hover {
   background: transparent;
   color: var(--iq-primary);
 }
-
 /*--------------*/
 .iq-card-header select.form-control {
   background: var(--iq-border-light);
@@ -403,48 +363,9 @@ a:hover {
 .iq-card-header select.form-control.width-100 {
   width: 180px;
 }
-
-/*---------------------------------------------------------------------
-                             Badge Img Tag
------------------------------------------------------------------------*/
-.badge-img-tag {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-}
-
 /*---------------------------------------------------------------------
                              list Style 1
 -----------------------------------------------------------------------*/
-.iq-list-style-1 {
-  margin: 0;
-  padding: 0;
-}
-.iq-list-style-1 li {
-  display: inline-block;
-  float: left;
-  list-style-type: none;
-  margin-right: 15px;
-}
-.iq-list-style-1 li:last-child {
-  margin-right: 0;
-}
-.iq-list-style-1 li a {
-  color: var(--iq-body-text);
-}
-.iq-list-style-1 li a i {
-  color: var(--iq-body-text);
-  margin-right: 5px;
-}
-.iq-list-style-1 li a:hover,
-.iq-list-style-1 li a:focus {
-  text-decoration: none;
-  color: var(--iq-primary);
-}
-.iq-list-style-1.text-white li a,
-.iq-list-style-1.text-white li a i {
-  color: var(--iq-white);
-}
 .list-inline.text-white li a {
   color: var(--iq-white);
 }
@@ -452,40 +373,6 @@ a:hover {
   opacity: 0.6;
   text-decoration: none;
 }
-
-/*---------------------------------------------------------------------
-                             Icon Box
------------------------------------------------------------------------*/
-.iq-icon-box {
-  height: 60px;
-  width: 60px;
-  line-height: 60px;
-  text-align: center;
-  margin-right: 10px;
-  font-size: 22px;
-  text-decoration: none;
-}
-.iq-icon-box:hover {
-  text-decoration: none;
-}
-
-/*---------------------------------------------------------------------
-                             Tasks Card
------------------------------------------------------------------------*/
-.tasks-card {
-  padding: 0 0 15px 0;
-  border-bottom: 1px solid var(--iq-border-light);
-  margin: 0 0 15px 0;
-}
-.tasks-card .close {
-  font-size: 16px;
-}
-.tasks-card:last-child {
-  border: none;
-  margin: 0;
-  padding: 0;
-}
-
 /*---------------------------------------------------------------------
                                Sign In
 -----------------------------------------------------------------------*/
@@ -660,21 +547,6 @@ a:hover {
     transform: scale(1.1);
   }
 }
-
-/*---------------------------------------------------------------------
-                               Dash Hover
------------------------------------------------------------------------*/
-.dash-hover-blank {
-  background-color: var(--iq-border-light);
-  border: dashed 2px var(--iq-dark);
-  height: 90%;
-  justify-content: center;
-}
-.dash-hover-blank:hover {
-  cursor: pointer;
-  background-color: var(--iq-border-light);
-}
-
 /*---------------------------------------------------------------------
                                Waves Effect
 -----------------------------------------------------------------------*/
@@ -682,55 +554,6 @@ a:hover {
   position: relative;
   overflow: hidden;
 }
-
-/*  Ripple */
-// .ripple {
-//   width: 0;
-//   height: 0;
-//   border-radius: 50%;
-//   background: var(--iq-light-primary);
-//   transform: scale(0);
-//   position: absolute;
-//   opacity: 1;
-// }
-// .rippleEffect {
-//   animation: rippleDrop 0.6s linear;
-// }
-// @keyframes rippleDrop {
-//   100% {
-//     transform: scale(2);
-//     opacity: 0;
-//   }
-// }
-
-/*---------------------------------------------------------------------
-                                Sidebar
------------------------------------------------------------------------*/
-.iq-sidebar {
-  position: fixed;
-  z-index: 999;
-  top: 75px;
-  width: 250px;
-  height: 100%;
-  background: var(--iq-white);
-  transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
-  -moz-box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
-  box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
-}
-.iq-sidebar .iq-sidebar-logo {
-  float: none;
-  width: 100%;
-}
-.iq-sidebar #sidebar-scrollbar {
-  margin-top: 15px;
-}
-
 /*---------------------------------------------------------------------
                              Sidebar Menu
 -----------------------------------------------------------------------*/
@@ -1726,58 +1549,10 @@ div#post-modal-data .modal .modal-dialog {
 .iq-card .iq-card-header.iq-header-media {
   padding: 20px;
 }
-
-/* ------------------ */
-.big-card {
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
-  overflow: hidden;
-  background: var(--iq-white);
-  border: 1px solid var(--iq-light-primary);
-  padding: 20px;
-}
 .iq-card-body.relative-background {
   position: relative;
   overflow: hidden;
 }
-.background-image {
-  position: absolute;
-  top: auto;
-  bottom: 0;
-  left: auto;
-  right: 0;
-}
-.iq-image-full {
-  position: relative;
-}
-
-/*---------------------------------------------------------------------
-                              Error Page
------------------------------------------------------------------------*/
-.iq-error {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  display: inline-block;
-}
-.iq-error h1.text-in-box {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  font-size: 8em;
-  font-weight: 700;
-}
-.iq-error-img {
-  position: static;
-  display: inline-block;
-}
-.error-500 .iq-error-img {
-  width: 100%;
-}
-
 /*---------------------------------------------------------------------
                                OWL Carousel
 -----------------------------------------------------------------------*/
@@ -1937,31 +1712,6 @@ div#post-modal-data .modal .modal-dialog {
 //   text-align: center;
 //   font-size: 22px;
 // }
-
-/*---------------------------------------------------------------------
-                               Timeline
------------------------------------------------------------------------*/
-.iq-timeline {
-  margin: 0 0 0 5px;
-  padding: 0;
-  width: 100%;
-  border-left: 3px solid var(--iq-light-primary);
-}
-.iq-timeline li {
-  margin-left: 15px;
-  position: relative;
-  padding: 15px 15px 0 5px;
-  list-style-type: none;
-}
-.iq-timeline li .timeline-dots {
-  position: absolute;
-  top: 20px;
-  left: -24px;
-  border: 3px solid var(--iq-primary);
-  border-radius: 90px;
-  padding: 5px;
-  background: var(--iq-white);
-}
 
 /*---------------------------------------------------------------------
                                Team
@@ -2409,119 +2159,119 @@ div#post-modal-data .modal .modal-dialog {
 /*-----------------------------------------------------------------
                         Material Card Style1
 ----------------------------------------------------------------- */
-.card-style1 {
-  display: flex;
-}
-.card-style1 img {
-  object-fit: cover;
-  border-radius: 100px;
-  height: 75px;
-  margin-right: 10px;
-}
-.card-style1 .title {
-  text-transform: capitalize;
-  font-weight: bold;
-}
-.card-style1 .percentage {
-  font-weight: bolder;
-  font-size: 1.5rem;
-  margin: auto;
-}
-.card-style1 .percentage span {
-  font-weight: normal;
-}
+// .card-style1 {
+//   display: flex;
+// }
+// .card-style1 img {
+//   object-fit: cover;
+//   border-radius: 100px;
+//   height: 75px;
+//   margin-right: 10px;
+// }
+// .card-style1 .title {
+//   text-transform: capitalize;
+//   font-weight: bold;
+// }
+// .card-style1 .percentage {
+//   font-weight: bolder;
+//   font-size: 1.5rem;
+//   margin: auto;
+// }
+// .card-style1 .percentage span {
+//   font-weight: normal;
+// }
 
 /*-----------------------------------------------------------------
                         Material Card Style2
 ----------------------------------------------------------------- */
-.card-style1.card-style2 .iq-details {
-  width: 100%;
-}
-.card-style1.card-style2 .percentage {
-  font-weight: bolder;
-  font-size: 1.2rem;
-  margin-top: -5px;
-  margin-left: -50px;
-}
+// .card-style1.card-style2 .iq-details {
+//   width: 100%;
+// }
+// .card-style1.card-style2 .percentage {
+//   font-weight: bolder;
+//   font-size: 1.2rem;
+//   margin-top: -5px;
+//   margin-left: -50px;
+// }
 
 /*-----------------------------------------------------------------
                         Circle Progressbar
 ------------------------------------------------------------------- */
-.iq-circle-progressbar .percent {
-  font-size: 1.3rem !important;
-}
-.iq-circle-progressbar svg {
-  width: 100px !important;
-  height: 100px !important;
-}
-.iq-circle-progressbar {
-  margin: 0 auto;
-  width: 100px !important;
-  height: 100px !important;
-}
-.progress-round {
-  width: 50px;
-  height: 50px;
-  background: none;
-  position: relative;
-}
-.progress-round::after {
-  content: '';
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 3px solid var(--iq-border-light);
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.progress-round > span {
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  z-index: 1;
-}
-.progress-round .progress-left {
-  left: 0;
-}
-.progress-round .progress-bar {
-  width: 100%;
-  height: 100%;
-  background: none;
-  border-width: 3px;
-  border-style: solid;
-  position: absolute;
-  top: 0;
-}
-.progress-round .progress-left .progress-bar {
-  left: 100%;
-  border-top-right-radius: 80px;
-  border-bottom-right-radius: 80px;
-  border-left: 0;
-  -webkit-transform-origin: center left;
-  transform-origin: center left;
-}
-.progress-round .progress-right {
-  right: 0;
-}
-.progress-round .progress-right .progress-bar {
-  left: -100%;
-  border-top-left-radius: 80px;
-  border-bottom-left-radius: 80px;
-  border-right: 0;
-  -webkit-transform-origin: center right;
-  transform-origin: center right;
-}
-.progress-round .progress-value {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-#home-chart-03 .apexcharts-legend.center.position-right {
-  right: 35px !important;
-}
+// .iq-circle-progressbar .percent {
+//   font-size: 1.3rem !important;
+// }
+// .iq-circle-progressbar svg {
+//   width: 100px !important;
+//   height: 100px !important;
+// }
+// .iq-circle-progressbar {
+//   margin: 0 auto;
+//   width: 100px !important;
+//   height: 100px !important;
+// }
+// .progress-round {
+//   width: 50px;
+//   height: 50px;
+//   background: none;
+//   position: relative;
+// }
+// .progress-round::after {
+//   content: '';
+//   width: 100%;
+//   height: 100%;
+//   border-radius: 50%;
+//   border: 3px solid var(--iq-border-light);
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+// }
+// .progress-round > span {
+//   width: 50%;
+//   height: 100%;
+//   overflow: hidden;
+//   position: absolute;
+//   top: 0;
+//   z-index: 1;
+// }
+// .progress-round .progress-left {
+//   left: 0;
+// }
+// .progress-round .progress-bar {
+//   width: 100%;
+//   height: 100%;
+//   background: none;
+//   border-width: 3px;
+//   border-style: solid;
+//   position: absolute;
+//   top: 0;
+// }
+// .progress-round .progress-left .progress-bar {
+//   left: 100%;
+//   border-top-right-radius: 80px;
+//   border-bottom-right-radius: 80px;
+//   border-left: 0;
+//   -webkit-transform-origin: center left;
+//   transform-origin: center left;
+// }
+// .progress-round .progress-right {
+//   right: 0;
+// }
+// .progress-round .progress-right .progress-bar {
+//   left: -100%;
+//   border-top-left-radius: 80px;
+//   border-bottom-left-radius: 80px;
+//   border-right: 0;
+//   -webkit-transform-origin: center right;
+//   transform-origin: center right;
+// }
+// .progress-round .progress-value {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+// }
+// #home-chart-03 .apexcharts-legend.center.position-right {
+//   right: 35px !important;
+// }
 
 /*-----------------------------------------------------------------
                         Tikit Booking List
@@ -2710,72 +2460,72 @@ FAQ
 /*---------------------------------------------------------------------
 Table
 -----------------------------------------------------------------------*/
-table tr th img {
-  width: 35px;
-  height: 35px;
-  border-radius: 90px;
-}
-.progress-animate {
-  animation: progress-bar-stripes 1s linear infinite;
-}
-img.summary-image-top {
-  width: 35px;
-}
-.iq-subject-info img {
-  width: 80px;
-}
+// table tr th img {
+//   width: 35px;
+//   height: 35px;
+//   border-radius: 90px;
+// }
+// .progress-animate {
+//   animation: progress-bar-stripes 1s linear infinite;
+// }
+// img.summary-image-top {
+//   width: 35px;
+// }
+// .iq-subject-info img {
+//   width: 80px;
+// }
 
 /*---------------------------------------------------------------------
 Animation Card
 -----------------------------------------------------------------------*/
-.animation-card {
-  position: relative;
-}
-.animation-card .an-img {
-  margin-top: -60px;
-  text-align: right;
-  display: inline-block;
-  width: 100%;
-}
-.animation-card .an-img .bodymovin {
-  width: 162%;
-  margin-bottom: -57px;
-  margin-left: -50px;
-}
-.animation-card .an-text {
-  position: absolute;
-  width: 180px;
-  display: inline-block;
-  top: 75px;
-  left: 30px;
-}
-.animation-card .an-text h2 {
-  margin-top: 0;
-}
+// .animation-card {
+//   position: relative;
+// }
+// .animation-card .an-img {
+//   margin-top: -60px;
+//   text-align: right;
+//   display: inline-block;
+//   width: 100%;
+// }
+// .animation-card .an-img .bodymovin {
+//   width: 162%;
+//   margin-bottom: -57px;
+//   margin-left: -50px;
+// }
+// .animation-card .an-text {
+//   position: absolute;
+//   width: 180px;
+//   display: inline-block;
+//   top: 75px;
+//   left: 30px;
+// }
+// .animation-card .an-text h2 {
+//   margin-top: 0;
+// }
 
 /*------------*/
-.an-img-two {
-  width: 700px;
-  position: absolute;
-  right: -35%;
-  top: -175px;
-  z-index: -1;
-}
-.iq-card.bg-primary.sb-top-banner-card {
-  z-index: 1;
-  position: relative;
-}
-.bodymovin {
-  z-index: -1;
-}
+// .an-img-two {
+//   width: 700px;
+//   position: absolute;
+//   right: -35%;
+//   top: -175px;
+//   z-index: -1;
+// }
+// .iq-card.bg-primary.sb-top-banner-card {
+//   z-index: 1;
+//   position: relative;
+// }
+// .bodymovin {
+//   z-index: -1;
+// }
 
-/*------------*/
-.offer-an-img {
-  position: absolute;
-  top: -183px;
-  width: 695px;
-  left: -100px;
-}
+// /*------------*/
+// .offer-an-img {
+//   position: absolute;
+//   top: -183px;
+//   width: 695px;
+//   left: -100px;
+// }
 
 /*---------------------------------------------------------------------
 Footer
@@ -3182,25 +2932,25 @@ Mail Inbox
 /*---------------------------------------------------------------------
 slick Arrow
 -----------------------------------------------------------------------*/
-.slick-arrow.left {
-  left: 0;
-  top: 0;
-}
-.slick-arrow.right {
-  right: 0;
-  top: 0;
-}
-.slick-arrow {
-  background: var(--iq-light-primary);
-  padding: 11px;
-  font-size: 24px;
-  position: absolute;
-  line-height: 90px;
-  z-index: 9;
-}
-.slick-arrow:hover {
-  text-decoration: none;
-}
+// .slick-arrow.left {
+//   left: 0;
+//   top: 0;
+// }
+// .slick-arrow.right {
+//   right: 0;
+//   top: 0;
+// }
+// .slick-arrow {
+//   background: var(--iq-light-primary);
+//   padding: 11px;
+//   font-size: 24px;
+//   position: absolute;
+//   line-height: 90px;
+//   z-index: 9;
+// }
+// .slick-arrow:hover {
+//   text-decoration: none;
+// }
 
 /*---------------------------------------------------------------------
 Calender
@@ -4107,86 +3857,6 @@ ul.iq-edit-profile li:first-child a {
 ul.iq-edit-profile li:last-child a {
   border-radius: 0 5px 5px 0;
 }
-
-/*---------------------------------------------------------------------
-Todo Page
------------------------------------------------------------------------*/
-// .iq-todo-page .search-link,
-// .iq-todo-right .search-link {
-//   position: absolute;
-//   top: 0;
-//   left: 10px;
-//   font-size: 18px;
-//   line-height: 43px;
-//   color: var(--iq-body-text);
-// }
-// .iq-todo-page .todo-search,
-// .iq-todo-right .todo-search {
-//   padding-left: 35px;
-// }
-// .add-new-project > a {
-//   padding: 0 15px;
-//   color: var(--iq-body-text);
-//   text-transform: capitalize;
-//   text-decoration: none;
-// }
-// .notification-icon > span {
-//   height: 13px;
-//   width: 13px;
-//   border-radius: 50%;
-//   line-height: 15px;
-//   font-size: 8px;
-//   text-align: center;
-//   position: absolute;
-//   top: -5px;
-//   left: auto;
-//   right: -8px;
-// }
-// .todo-date {
-//   font-size: 16px;
-// }
-// .iq-todo-page ul {
-//   list-style: none;
-// }
-// .iq-todo-page ul li a {
-//   color: var(--iq-body-text);
-//   text-decoration: none;
-// }
-// .iq-todo-page ul ul li a {
-//   padding-left: 25px;
-// }
-// .iq-todo-page ul > li > a {
-//   padding: 10px 15px;
-//   display: block;
-//   border-radius: 5px;
-//   -webkit-border-radius: 5px;
-// }
-// .iq-todo-page ul > li[aria-expanded='true'] > a {
-//   color: var(--iq-primary);
-//   background: var(--iq-light-primary);
-// }
-// .iq-todo-page ul > li li:hover a,
-// .iq-todo-page ul > li li.active a {
-//   color: var(--iq-primary);
-//   background: var(--iq-light-primary);
-// }
-// ul.todo-task-lists li:hover {
-//   background: var(--iq-light-primary);
-//   transition: all 0.3s ease-in-out;
-//   -webkit-transition: all 0.3s ease-in-out;
-// }
-// ul.todo-task-lists li.active-task {
-//   background: var(--iq-light-primary);
-// }
-// .media-support-info p {
-//   line-height: normal;
-// }
-// .todo-task-list .sub-task {
-//   display: none;
-// }
-// .todo-task-list .sub-task.show {
-//   display: block;
-// }
 
 /*---------------------------------------------------------------------
 Privacy Policy Page

@@ -33,3 +33,28 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.iq-error {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: inline-block;
+}
+.iq-error h1.text-in-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size: 8em;
+  font-weight: 700;
+}
+.iq-error-img {
+  position: static;
+  display: inline-block;
+}
+.error-500 .iq-error-img {
+  width: 100%;
+}
+</style>

@@ -36,18 +36,6 @@
     "icon": "las la-user-friends"
   },
   {
-    "title": "Group",
-    "name": "sidebar.group",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "social.group"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-users"
-  },
-  {
     "title": "Profile Image",
     "name": "sidebar.profile_image",
     "is_heading": false,
@@ -96,18 +84,6 @@
     "icon": "las la-bell"
   },
   {
-    "title": "Files",
-    "name": "sidebar.files",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "social.file"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-file"
-  },
-  {
     "title": "Friend Request",
     "name": "sidebar.friend_request",
     "is_heading": false,
@@ -118,41 +94,5 @@
     "class_name": "",
     "is_icon_class": true,
     "icon": "las la-anchor"
-  },
-  {
-    "title": "Chat",
-    "name": "sidebar.chat",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "app.chat"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "lab la-rocketchat"
-  },
-  {
-    "title": "Todo",
-    "name": "sidebar.todo",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name" : "app.todo"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-check-circle"
-  },
-  {
-    "title": "Birthday",
-    "name": "sidebar.birthday",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "social.birthday"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-birthday-cake"
   }
 ]
