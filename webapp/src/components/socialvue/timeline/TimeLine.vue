@@ -26,3 +26,27 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.iq-timeline {
+  margin: 0 0 0 5px;
+  padding: 0;
+  width: 100%;
+  border-left: 3px solid var(--iq-light-primary);
+}
+.iq-timeline li {
+  margin-left: 15px;
+  position: relative;
+  padding: 15px 15px 0 5px;
+  list-style-type: none;
+}
+.iq-timeline li .timeline-dots {
+  position: absolute;
+  top: 20px;
+  left: -24px;
+  border: 3px solid var(--iq-primary);
+  border-radius: 90px;
+  padding: 5px;
+  background: var(--iq-white);
+}
+</style>

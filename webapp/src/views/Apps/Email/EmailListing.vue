@@ -75,13 +75,6 @@
                 <a href="#"><i class="ri-add-circle-line"></i>Add New Labels</a>
               </li>
             </ul>
-            <div class="iq-progress-bar-linear d-inline-block w-100">
-              <h6 class="mt-4 mb-3">Storage</h6>
-              <div class="iq-progress-bar-linear d-inline-block w-100">
-                <b-progress :value="95" class="iq-progress-bar" variant="danger"></b-progress>
-              </div>
-              <span class="mt-1 d-inline-block w-100">13.02 GB (95%) of 15 GB used</span>
-            </div>
           </div>
         </template>
       </iq-card>

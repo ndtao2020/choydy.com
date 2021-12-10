@@ -44,11 +44,17 @@ It is also possible to allow access from specific hosts or networks to a port. T
 
 - sudo ufw allow proto tcp from 192.168.0.2 to any port 22
 
+#######################################################################################################################
 
-apt-get update
+sudo apt update && sudo apt upgrade -y
+sudo apt autoremove
+sudo apt list --upgradable
+sudo apt clean && sudo apt autoclean && sudo apt autoremove
 sudo apt-get install nginx
 sudo apt-get install certbot
 apt-get install python3-certbot-nginx
+sudo certbot --nginx -d choydy.com -d www.choydy.com
+
 nginx -t && nginx -s reload
 
 sudo certbot --nginx -d choydy.com/ -d www.choydy.com
