@@ -57,6 +57,9 @@ sudo certbot --nginx -d choydy.com -d www.choydy.com
 
 nginx -t && nginx -s reload
 
+sudo systemctl restart nginx
+sudo systemctl reload nginx
+
 sudo certbot --nginx -d choydy.com/ -d www.choydy.com
 
 /home/choydy/ssl

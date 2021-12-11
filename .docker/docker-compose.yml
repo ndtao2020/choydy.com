@@ -61,18 +61,6 @@ services:
       - backend
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
     ports:
       - 80:80
       - 443:443
-
-  certbot:
-    image: certbot/certbot
-    depends_on:
-      - backend
-    restart: always
-    volumes:
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
-    command: certonly --agree-tos --no-eff-email -d choydy.com -d www.choydy.com

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import authChildRoutes from './auth'
+// import adminChildRoutes from './admin'
 
 /* Layouts */
 const Layout = () => import('../layouts/Layout')
@@ -127,6 +128,17 @@ export default new VueRouter({
   mode: 'history',
   base: process.env.VUE_APP_BASE_URL,
   routes: [
+    {
+      path: '/admin',
+      component: () => import('@/layouts/admin/Layout'),
+      children: [
+        {
+          path: '',
+          name: 'AnalyticsPage',
+          component: () => import('@/views/AdminPages/Dashboard')
+        }
+      ]
+    },
     {
       path: '/',
       name: 'social',
