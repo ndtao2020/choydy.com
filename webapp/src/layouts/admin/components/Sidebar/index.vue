@@ -37,12 +37,11 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import isScreen from '@/core/screenHelper'
-import NavLink from './NavLink/NavLink'
 import './Sidebar.scss'
 
 export default {
   name: 'AdminSidebar',
-  components: { NavLink },
+  components: { NavLink: () => import('./NavLink/NavLink') },
   data() {
     return {
       alerts: [

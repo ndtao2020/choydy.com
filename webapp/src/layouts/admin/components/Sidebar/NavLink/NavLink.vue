@@ -23,13 +23,13 @@
     <b-collapse :id="'collapse' + index" :visible="isActive">
       <ul class="sub-menu">
         <NavLink
-          v-for="link in childrenLinks"
-          :key="link.link"
+          v-for="link2 in childrenLinks"
+          :key="link2.link"
           :active-item="activeItem"
-          :header="link.header"
-          :index="link.index"
-          :link="link.link"
-          :children-links="link.childrenLinks"
+          :header="link2.header"
+          :index="link2.index"
+          :link="link2.link"
+          :children-links="link2.childrenLinks"
         />
       </ul>
     </b-collapse>

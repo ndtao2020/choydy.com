@@ -60,7 +60,7 @@
     }
   }
   @include media-breakpoint-down(md) {
-    padding: 0 $spacer/2;
+    padding: 0 calc($spacer/2);
   }
   &.navbar-floating-type {
     margin: $spacer $content-padding 0;

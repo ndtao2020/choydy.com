@@ -7,7 +7,6 @@
   left: 0;
   transition: left $sidebar-transition-time ease-in-out;
 }
-
 .wrap {
   position: relative;
   min-height: 100%;
@@ -17,23 +16,18 @@
   left: $sidebar-width-open - $sidebar-width-closed;
   right: 0;
   transition: left $sidebar-transition-time ease-in-out, margin-left $sidebar-transition-time ease-in-out;
-
   @media (max-width: breakpoint-max(sm)) {
     margin-left: 0;
     left: $sidebar-width-open;
   }
 }
-
 .sidebarClose div.wrap {
   left: 0;
 }
-
 .sidebarStatic .wrap {
-  //transition: none;
   left: 0;
   margin-left: $sidebar-width-open;
 }
-
 .content {
   position: relative;
   display: flex;
@@ -41,17 +35,13 @@
   flex-grow: 1;
   padding: $content-padding $content-padding ($content-padding + 20px);
   background-color: $body-bg;
-
   @media (max-width: breakpoint-max(sm)) {
     padding: 20px $content-padding-sm ($content-padding + 30px);
   }
-
-  // hammers disallows text selection, allowing it for large screens
   @media (min-width: breakpoint-min(sm)) {
     user-select: auto !important;
   }
 }
-
 .contentFooter {
   position: absolute;
   bottom: 15px;

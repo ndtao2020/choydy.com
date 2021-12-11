@@ -1,19 +1,13 @@
 export default [
   {
     path: '/admin',
-    component: import('@/layouts/admin'),
+    component: () => import('@/layouts/admin/Layout'),
     children: [
       {
         path: '',
-        name: 'admin.dashboard',
-        meta: { auth: true, name: 'Profile' },
+        name: 'AnalyticsPage',
+        meta: { title: 'Quản trị', auth: true },
         component: () => import('@/views/AdminPages/Dashboard')
-      },
-      {
-        path: 'table',
-        name: 'admin.table',
-        meta: { auth: true, name: 'Profile' },
-        component: () => import('@/views/Apps/Social/SocialApp')
       }
     ]
   }

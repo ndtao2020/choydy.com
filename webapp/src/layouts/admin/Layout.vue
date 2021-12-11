@@ -4,13 +4,12 @@
     <div class="wrap">
       <Header />
       <div class="content">
-        <breadcrumb-history></breadcrumb-history>
         <transition name="router-animation">
           <router-view />
         </transition>
         <footer class="contentFooter">
-          Sing App Vue Dashboard Free Template - Made by
-          <a href="https://flatlogic.com" rel="nofollow noopener noreferrer" target="_blank">Flatlogic</a>
+          © Copyright 2017 - 2022
+          <a href="https://www.facebook.com/dinhtao.nguyen.3" rel="nofollow noopener noreferrer" target="_blank">Nguyễn Đình Tạo</a>
         </footer>
       </div>
     </div>
@@ -20,14 +19,14 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 const { mapState, mapActions } = createNamespacedHelpers('layout')
-import Sidebar from './components/Sidebar'
-import Header from './components/Header'
-import BreadcrumbHistory from './components/BreadcrumbHistory'
 import './Layout.scss'
 
 export default {
   name: 'AdminLayout',
-  components: { Sidebar, Header, BreadcrumbHistory },
+  components: {
+    Sidebar: () => import('./components/Sidebar'),
+    Header: () => import('./components/Header')
+  },
   computed: {
     ...mapState(['sidebarClose', 'sidebarStatic'])
   },

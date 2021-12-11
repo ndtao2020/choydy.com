@@ -29,7 +29,7 @@
                   </div>
                 </li>
               </ul>
-              <b-link href="javascript:void(0);" class="btn btn-primary d-block mt-3"><i class="ri-add-line"></i> See All</b-link>
+              <b-link class="btn btn-primary d-block mt-3"><i class="ri-add-line"></i> See All</b-link>
             </template>
           </iq-card>
           <iq-card>

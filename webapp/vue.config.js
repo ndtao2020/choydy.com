@@ -16,7 +16,7 @@ module.exports = {
     port: parseInt(process.env.PORT, 10) || 3000,
     proxy: {
       '^/api': {
-        target: 'http://localhost:8181/api',
+        target: 'http://localhost:8181',
         ws: true,
         changeOrigin: false
       }
