@@ -1,98 +1,10 @@
 [
   {
-    "title": "News Feed",
     "name": "sidebar.newsfeed",
-    "is_heading": false,
-    "is_active": false,
     "link": {
-      "name": "social.list"
+      "name": "home"
     },
-    "class_name": "",
     "is_icon_class": true,
     "icon": "las la-newspaper"
-  },
-  {
-    "title": "Profile",
-    "name": "sidebar.profile",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "social.profile"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-user"
-  },
-  {
-    "title": "Friend Lists",
-    "name": "sidebar.friend_list",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "social.friend-list"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-user-friends"
-  },
-  {
-    "title": "Profile Image",
-    "name": "sidebar.profile_image",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "social.profile-image"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-image"
-  },
-  {
-    "title": "Profile Video",
-    "name": "sidebar.profile_video",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "social.profile-video"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-video"
-  },
-  {
-    "title": "Profile Events",
-    "name": "sidebar.profile_event",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "social.profile-event"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-film"
-  },
-  {
-    "title": "Notification",
-    "name": "sidebar.notifications",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "social.notification"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-bell"
-  },
-  {
-    "title": "Friend Request",
-    "name": "sidebar.friend_request",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "social.friend-request"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-anchor"
   }
 ]

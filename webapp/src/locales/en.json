@@ -120,14 +120,14 @@
     }
   },
   "dropdown": {
-    "view" : "View",
+    "view": "View",
     "delete": "Delete",
-    "edit" : "Edit",
-    "print" : "Print",
+    "edit": "Edit",
+    "print": "Print",
     "download": "Download",
-    "unfollow" : "Unfollow",
-    "follow" : "Follow",
-    "block" : "Block"
+    "unfollow": "Unfollow",
+    "follow": "Follow",
+    "block": "Block"
   },
   "customizer": {
     "colorCustomizer": "Theme Customizer",
@@ -135,7 +135,7 @@
     "colorMode": "Color Mode",
     "sidebar": "Sidebar",
     "sidebarMini": "Sidebar Mini",
-    "routeAnimation" : "Route Animation",
+    "routeAnimation": "Route Animation",
     "rtlMode": "RTL Mode",
     "rtl": "RTL",
     "reset": "Reset"

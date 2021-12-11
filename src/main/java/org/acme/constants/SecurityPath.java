@@ -1,7 +1,7 @@
 package org.acme.constants;
 
 public class SecurityPath {
-    public static final String PREFIX = "/a";
+    public static final String PREFIX = "/api";
     // Check Token
     public static final String OAUTH_API_URL = PREFIX + "/oauth";
     // Not Check Token

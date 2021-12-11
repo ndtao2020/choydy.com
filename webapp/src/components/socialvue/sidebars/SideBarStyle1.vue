@@ -38,12 +38,6 @@ export default {
   background: var(--iq-white);
   transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
-  -moz-box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
   box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
 }
 .iq-sidebar .iq-sidebar-logo {

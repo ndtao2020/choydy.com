@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: quay.io/minio/minio
+    restart: always
+    volumes:
+      - /data:/mnt/data
+    env_file:
+      - ./variables.env
+    ports:
+      - 9000:9000
+      - 9001:9001
+    command: server /data --console-address ":9001"
