@@ -11,6 +11,9 @@ export default {
     chatNotificationPopover: false
   },
   mutations: {
+    setSidebarStatic(state) {
+      state.sidebarStatic = state
+    },
     toggleSidebar(state) {
       const nextState = !state.sidebarStatic
       localStorage.sidebarStatic = nextState
@@ -42,6 +45,9 @@ export default {
     }
   },
   actions: {
+    setSidebarStatic({ commit }, value) {
+      commit('setSidebarStatic', value)
+    },
     toggleSidebar({ commit }) {
       commit('toggleSidebar')
     },

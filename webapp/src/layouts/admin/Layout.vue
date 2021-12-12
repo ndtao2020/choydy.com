@@ -17,8 +17,7 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
-const { mapState, mapActions } = createNamespacedHelpers('layout')
+import { mapState, mapActions } from 'vuex'
 import './Layout.scss'
 
 export default {
@@ -28,12 +27,12 @@ export default {
     Header: () => import('./components/Header')
   },
   computed: {
-    ...mapState(['sidebarClose', 'sidebarStatic'])
+    ...mapState('layout', ['sidebarClose', 'sidebarStatic'])
   },
   created() {
     const staticSidebar = JSON.parse(localStorage.getItem('sidebarStatic'))
     if (staticSidebar) {
-      this.$store.state.layout.sidebarStatic = true
+      this.setSidebarStatic(true)
     } else if (!this.sidebarClose) {
       setTimeout(() => {
         this.switchSidebar(true)
@@ -47,7 +46,7 @@ export default {
     window.removeEventListener('resize', this.handleWindowResize)
   },
   methods: {
-    ...mapActions(['switchSidebar', 'handleSwipe', 'changeSidebarActive', 'toggleSidebar']),
+    ...mapActions('layout', ['setSidebarStatic', 'switchSidebar', 'handleSwipe', 'changeSidebarActive', 'toggleSidebar']),
     handleWindowResize() {
       const width = window.innerWidth
       if (width <= 768 && this.sidebarStatic) {
