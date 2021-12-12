@@ -30,6 +30,22 @@ services:
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_DB: choydy
+      
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    env_file: 
+      - ./variables.env
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ndtao2020@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 12345678x@X
+    ports:
+      - 5050:80
+    networks:
+      - postgres
+    restart: unless-stopped
 
   backend:
     image: taoqn/choydy-com
@@ -52,15 +68,15 @@ services:
       QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://postgres:5432/choydy
       QUARKUS_KEYSTORE_PATH: /work/key/keystore.jks
 
-  nginx:
-    image: nginx:1.21-alpine
-    restart: always
-    depends_on:
-      - backend
-    networks:
-      - backend
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-    ports:
-      - 80:80
-      - 443:443
+#  nginx:
+#    image: nginx:1.21-alpine
+#    restart: always
+#    depends_on:
+#      - backend
+#    networks:
+#      - backend
+#    volumes:
+#      - ./nginx:/etc/nginx/conf.d
+#    ports:
+#      - 80:80
+#      - 443:443

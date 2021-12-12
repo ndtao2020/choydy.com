@@ -1,9 +1,13 @@
 import Cookies from 'js-cookie'
 
+const KEY_SESSION = 'session'
+const KEY_EXPIRES = 'expires_in'
+const KEY_COOKIE = '_id'
+
 const checkLogged = () => {
-  const session = localStorage.getItem('session')
-  const expires = localStorage.getItem('expires_in')
-  return Cookies.get('_id') != null && session != null && expires != null
+  const session = localStorage.getItem(KEY_SESSION)
+  const expires = localStorage.getItem(KEY_EXPIRES)
+  return Cookies.get(KEY_COOKIE) != null && session != null && expires != null
 }
 
 export default {
@@ -13,5 +17,18 @@ export default {
   },
   getters: {
     logged: ({ logged }) => logged
+  },
+  mutations: {
+    setLogged(state) {
+      state.logged = state
+    }
+  },
+  actions: {
+    clearAuthentication({ commit }) {
+      localStorage.removeItem(KEY_SESSION)
+      localStorage.removeItem(KEY_EXPIRES)
+      Cookies.remove(KEY_COOKIE)
+      commit('setLogged', false)
+    }
   }
 }

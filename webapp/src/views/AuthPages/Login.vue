@@ -60,8 +60,7 @@ export default {
   },
   methods: {
     redirectPage() {
-      const redirect = this.$router.query && this.$router.query.redirect
-      this.$router.push({ path: redirect || '/' })
+      window.location = this.$route.query.redirect || '/'
     },
     async login() {
       if (this.username.length < 5 || this.password.length < 8) {
@@ -78,7 +77,7 @@ export default {
         // redirect
         this.redirectPage()
       } catch (error) {
-        this.errorMessage = error
+        this.errorMessage = 'Đăng nhập thất bại !'
       } finally {
         Nprogress.done()
       }

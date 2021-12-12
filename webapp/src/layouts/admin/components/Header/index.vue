@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import './index.scss'
 import { mapState, mapActions } from 'vuex'
+import './index.scss'
 
 export default {
   name: 'AdminHeader',
@@ -64,6 +64,7 @@ export default {
     ...mapState('layout', ['sidebarClose', 'sidebarStatic'])
   },
   methods: {
+    ...mapActions('auth', ['clearAuthentication']),
     ...mapActions('layout', ['toggleSidebar', 'switchSidebar', 'changeSidebarActive']),
     switchSidebarMethod() {
       if (!this.sidebarClose) {
@@ -88,8 +89,8 @@ export default {
       }
     },
     logout() {
-      window.localStorage.setItem('authenticated', false)
-      this.$router.push('/login')
+      this.clearAuthentication()
+      window.location.reload()
     }
   }
 }

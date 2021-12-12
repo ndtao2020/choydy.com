@@ -50,10 +50,15 @@ sudo apt update && sudo apt upgrade -y
 sudo apt autoremove
 sudo apt list --upgradable
 sudo apt clean && sudo apt autoclean && sudo apt autoremove
+
 sudo apt-get install nginx
 sudo apt-get install certbot
 apt-get install python3-certbot-nginx
 sudo certbot --nginx -d choydy.com -d www.choydy.com
+sudo certbot --nginx -d file.choydy.com
+crontab -e
+crontab -l
+0 12 * * * /usr/bin/certbot renew --quiet
 
 nginx -t && nginx -s reload
 
