@@ -39,7 +39,7 @@ public class PostController extends BaseController {
     public PostDTO sendMultipartData(@Context SecurityContext context, @MultipartForm PostMultipartDTO data) throws IllegalAccessException {
         JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         try {
-            PostDTO postDTO = mapper.readValue(data.getPostData(), PostDTO.class);
+            PostDTO postDTO = mapper.readValue(data.getData(), PostDTO.class);
             return postService.create(principal.getId(), postDTO, data.getFileName(), data.getFile());
         } catch (Exception e) {
             throw new IllegalAccessException(e.getMessage());

@@ -21,7 +21,7 @@ public class PostMultipartDTO {
     @PartType(MediaType.TEXT_PLAIN)
     public String fileName;
 
-    @FormParam("postData")
+    @FormParam("data")
     @PartType(MediaType.TEXT_PLAIN)
-    public String postData;
+    public String data;
 }

@@ -1,8 +1,10 @@
 package org.acme;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.acme.base.auth.ClientAuthentication;
 import org.acme.base.encoder.BCryptPasswordEncoder;
 import org.acme.base.jwt.JwtUtil;
+import org.acme.constants.Role;
 import org.acme.constants.SecurityPath;
 import org.acme.model.Oauth2Client;
 import org.acme.service.Oauth2ClientService;
@@ -17,6 +19,7 @@ import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.ext.Provider;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -41,45 +44,58 @@ public class RequestFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) {
         String path = requestContext.getUriInfo().getPath();
-        if (path.startsWith(SecurityPath.AUTH_API_URL)) {
+        if (path.startsWith(SecurityPath.OAUTH_API_URL)) {
             final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
             if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
                 requestContext.abortWith(ACCESS_DENIED);
                 return;
             }
-            this.bearerAuth(requestContext, apiKeyHeader.get(0));
+            this.basicAuth(requestContext);
+        } else if (path.startsWith(SecurityPath.AUTH_API_URL)) {
+            this.bearerAuth(requestContext, null);
+        } else if (path.startsWith(SecurityPath.EDITOR_API_URL)) {
+            this.bearerAuth(requestContext, Role.EDITOR);
         } else if (path.startsWith(SecurityPath.ADMIN_API_URL)) {
-            final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
-            if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
-                requestContext.abortWith(ACCESS_DENIED);
-                return;
-            }
-            this.bearerAuth(requestContext, apiKeyHeader.get(0));
-        } else if (path.startsWith(SecurityPath.OAUTH_API_URL)) {
-            final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
-            if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
-                requestContext.abortWith(ACCESS_DENIED);
-                return;
-            }
-            this.basicAuth(requestContext, apiKeyHeader.get(0));
+            this.bearerAuth(requestContext, Role.ADMIN);
         }
     }
 
-    private void bearerAuth(ContainerRequestContext requestContext, String h) {
+    private void bearerAuth(ContainerRequestContext requestContext, Role role) {
+        final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
+        if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
+            requestContext.abortWith(ACCESS_DENIED);
+            return;
+        }
         try {
-            requestContext.setSecurityContext(jwtUtil.parse(jwtUtil.validate(h.substring(7))));
+            JsonNode jsonNode = jwtUtil.validate(apiKeyHeader.get(0).substring(7));
+            if (role != null) {
+                boolean c = true;
+                Iterator<JsonNode> roles = jwtUtil.getRoles(jsonNode);
+                while (roles.hasNext()) {
+                    if (role.toString().equals(roles.next().asText())) {
+                        c = false;
+                        break;
+                    }
+                }
+                if (c) {
+                    requestContext.abortWith(ACCESS_DENIED);
+                    return;
+                }
+            }
+            requestContext.setSecurityContext(jwtUtil.parse(jsonNode));
         } catch (Exception e) {
             log.error(e.getMessage());
             requestContext.abortWith(new ServerResponse(e.getMessage(), 401, null));
         }
     }
 
-    private void basicAuth(ContainerRequestContext requestContext, String h) {
-        if (h == null) {
-            log.error("Authorization Header not found !");
+    private void basicAuth(ContainerRequestContext requestContext) {
+        final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
+        if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
             requestContext.abortWith(ACCESS_DENIED);
             return;
         }
+        String h = apiKeyHeader.get(0);
         if (!h.startsWith("Basic")) {
             log.error("Invalid basic authentication token !");
             requestContext.abortWith(ACCESS_DENIED);
@@ -106,11 +122,3 @@ public class RequestFilter implements ContainerRequestFilter {
         }
     }
 }
-//        if (!Objects.equals(requestContext.getMethod(), HttpMethod.GET)) {
-//            Cookie csrfTokenCookie = requestContext.getCookies().get(CSRF_TOKEN_COOKIE_NAME);
-//            List<String> csrfTokenHeader = requestContext.getHeaders().get(CSRF_TOKEN_HEADER_NAME);
-//            if (csrfTokenCookie == null || csrfTokenHeader == null || csrfTokenHeader.size() != 1 || !csrfTokenHeader.get(0).equals(csrfTokenCookie.getValue())) {
-//                requestContext.abortWith(ACCESS_DENIED);
-//                return;
-//            }
-//        }
