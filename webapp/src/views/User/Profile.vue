@@ -8,10 +8,10 @@
               <b-img :src="user.background" alt="profile-bg" rounded fluid class="w-100" />
               <ul class="header-nav d-flex flex-wrap justify-end p-0 m-0">
                 <li>
-                  <b-link href="javascript:void(0);"><i class="ri-pencil-line"></i></b-link>
+                  <b-link><i class="ri-pencil-line"></i></b-link>
                 </li>
                 <li>
-                  <b-link href="javascript:void(0);"><i class="ri-settings-4-line"></i></b-link>
+                  <b-link><i class="ri-settings-4-line"></i></b-link>
                 </li>
               </ul>
             </div>
@@ -175,17 +175,17 @@
                   </div>
                 </template>
                 <div class="user-post">
-                  <b-link href="javascript:void(0);"><b-img :src="require('../../assets/images/page-img/p1.jpg')" alt="post-image" fluid /></b-link>
+                  <b-link><b-img :src="require('../../assets/images/page-img/p1.jpg')" alt="post-image" fluid /></b-link>
                 </div>
                 <div class="comment-area p-3">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                       <div class="d-flex align-items-center feather-icon mr-3">
-                        <b-link href="javascript:void(0);"><i class="ri-heart-line"></i></b-link>
+                        <b-link><i class="ri-heart-line"></i></b-link>
                         <span class="ml-1">140</span>
                       </div>
                       <div class="d-flex align-items-center message-icon">
-                        <b-link href="javascript:void(0);"><i class="ri-chat-4-line"></i></b-link>
+                        <b-link><i class="ri-chat-4-line"></i></b-link>
                         <span class="ml-1">140</span>
                       </div>
                     </div>
@@ -226,9 +226,9 @@
                           <h6>Monty Carlo</h6>
                           <p class="mb-0">Lorem ipsum dolor sit amet</p>
                           <div class="d-flex flex-wrap align-items-center comment-activity">
-                            <b-link href="javascript:void(0);">like</b-link>
-                            <b-link href="javascript:void(0);">reply</b-link>
-                            <b-link href="javascript:void(0);">translate</b-link>
+                            <b-link>like</b-link>
+                            <b-link>reply</b-link>
+                            <b-link>translate</b-link>
                             <span> 5 min </span>
                           </div>
                         </div>
@@ -243,20 +243,20 @@
                           <h6>Paul Molive</h6>
                           <p class="mb-0">Lorem ipsum dolor sit amet</p>
                           <div class="d-flex flex-wrap align-items-center comment-activity">
-                            <b-link href="javascript:void(0);">like</b-link>
-                            <b-link href="javascript:void(0);">reply</b-link>
-                            <b-link href="javascript:void(0);">translate</b-link>
+                            <b-link>like</b-link>
+                            <b-link>reply</b-link>
+                            <b-link>translate</b-link>
                             <span> 5 min </span>
                           </div>
                         </div>
                       </div>
                     </li>
                   </ul>
-                  <b-form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
+                  <b-form class="comment-text d-flex align-items-center mt-3">
                     <b-form-input type="text" class="rounded" placeholder="Lovely!" />
                     <div class="comment-attagement d-flex">
-                      <b-link href="javascript:void(0);"><i class="ri-user-smile-line mr-2"></i></b-link>
-                      <b-link href="javascript:void(0);"><i class="ri-camera-line mr-2"></i></b-link>
+                      <b-link><i class="ri-user-smile-line mr-2"></i></b-link>
+                      <b-link><i class="ri-camera-line mr-2"></i></b-link>
                     </div>
                   </b-form>
                 </div>
@@ -294,11 +294,11 @@
                     <div class="d-flex justify-content-between align-items-center">
                       <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center feather-icon mr-3">
-                          <b-link id="clickme" href="javascript:void(0);"><i class="ri-heart-line"></i></b-link>
+                          <b-link id="clickme"><i class="ri-heart-line"></i></b-link>
                           <span class="ml-1">140</span>
                         </div>
                         <div class="d-flex align-items-center message-icon">
-                          <b-link href="javascript:void(0);"><i class="ri-chat-4-line"></i></b-link>
+                          <b-link><i class="ri-chat-4-line"></i></b-link>
                           <span class="ml-1">140</span>
                         </div>
                       </div>
@@ -323,11 +323,11 @@
                         <span class="ml-2">+140 more</span>
                       </div>
                     </div>
-                    <b-form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
+                    <b-form class="comment-text d-flex align-items-center mt-3">
                       <b-form-input type="text" class="rounded" placeholder="Lovely!" />
                       <div class="comment-attagement d-flex">
-                        <b-link href="javascript:void(0);"><i class="ri-user-smile-line mr-2"></i></b-link>
-                        <b-link href="javascript:void(0);"><i class="ri-camera-line mr-2"></i></b-link>
+                        <b-link><i class="ri-user-smile-line mr-2"></i></b-link>
+                        <b-link><i class="ri-camera-line mr-2"></i></b-link>
                       </div>
                     </b-form>
                   </div>
@@ -383,7 +383,7 @@
                       </div>
                     </li>
                   </ul>
-                  <b-button href="javascript:void(0);" variant="primary" class="d-block"><i class="ri-add-line"></i> Load More</b-button>
+                  <b-button variant="primary" class="d-block"><i class="ri-add-line"></i> Load More</b-button>
                 </template>
               </iq-card>
             </tab-content-item>
@@ -480,11 +480,11 @@
                     <p class="mb-0">{{ item.mutual_friend }}</p>
                   </div>
                   <div class="add-suggestion">
-                    <b-link href="javascript:void(0);"><i class="ri-user-add-line"></i></b-link>
+                    <b-link><i class="ri-user-add-line"></i></b-link>
                   </div>
                 </li>
               </ul>
-              <b-link href="javascript:void(0);" class="btn btn-primary d-block"><i class="ri-add-line"></i> Load More</b-link>
+              <b-link class="btn btn-primary d-block"><i class="ri-add-line"></i> Load More</b-link>
             </template>
           </iq-card>
         </b-col>
@@ -511,15 +511,15 @@ export default {
         careated_date: '07 Jan 2020'
       },
       galary: [
-        { image: require('../../assets/images/page-img/g1.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../assets/images/page-img/g2.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../assets/images/page-img/g3.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../assets/images/page-img/g4.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../assets/images/page-img/g5.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../assets/images/page-img/g6.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../assets/images/page-img/g7.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../assets/images/page-img/g8.jpg'), href: 'javascript:void(0);' },
-        { image: require('../../assets/images/page-img/g9.jpg'), href: 'javascript:void(0);' }
+        { image: require('../../assets/images/page-img/g1.jpg'), href: '#' },
+        { image: require('../../assets/images/page-img/g2.jpg'), href: '#' },
+        { image: require('../../assets/images/page-img/g3.jpg'), href: '#' },
+        { image: require('../../assets/images/page-img/g4.jpg'), href: '#' },
+        { image: require('../../assets/images/page-img/g5.jpg'), href: '#' },
+        { image: require('../../assets/images/page-img/g6.jpg'), href: '#' },
+        { image: require('../../assets/images/page-img/g7.jpg'), href: '#' },
+        { image: require('../../assets/images/page-img/g8.jpg'), href: '#' },
+        { image: require('../../assets/images/page-img/g9.jpg'), href: '#' }
       ],
       timelineItems: [
         {

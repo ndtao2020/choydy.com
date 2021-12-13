@@ -208,17 +208,17 @@
                   <span v-if="!postComment.is_commentLike" class="text-primary">like</span>
                   <span v-else class="text-secondary">unlike</span>
                 </b-link>
-                <b-link href="javascript:void(0);">reply</b-link>
+                <b-link>reply</b-link>
                 <span>{{ postComment.user.time }}</span>
               </div>
             </div>
           </div>
         </li>
       </ul>
-      <b-form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
+      <b-form class="comment-text d-flex align-items-center mt-3">
         <b-form-input v-model="commentMessage" type="text" class="rounded" placeholder="Lovely!" @keyup.enter="saveComment(commentMessage)" />
         <div class="comment-attagement d-flex">
-          <b-link href="javascript:void(0);"><i class="ri-send-plane-line mr-2" @click="saveComment(commentMessage)"></i></b-link>
+          <b-link><i class="ri-send-plane-line mr-2" @click="saveComment(commentMessage)"></i></b-link>
         </div>
       </b-form>
     </div>
