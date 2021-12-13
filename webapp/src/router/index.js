@@ -22,7 +22,7 @@ const router = new VueRouter({
     ...adminChildRoutes,
     {
       path: '/',
-      component: () => import('../layouts/Layout'),
+      component: () => import('@/layouts/main'),
       children: [
         {
           path: '',

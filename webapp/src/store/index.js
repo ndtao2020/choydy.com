@@ -1,16 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import auth from './Auth'
-import Setting from './Setting'
+import auth from './auth'
 import layout from './layout'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    layout,
     auth,
-    Setting
+    layout
   },
   state: {},
   mutations: {},
