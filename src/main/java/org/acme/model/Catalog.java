@@ -21,6 +21,10 @@ public class Catalog extends CatalogBase {
     @Transient
     public static final String PATH_ID = "catalog_id";
 
+    public Catalog(Long id) {
+        super(id);
+    }
+
     public Catalog(CatalogBase catalogBase) {
         super(catalogBase);
     }

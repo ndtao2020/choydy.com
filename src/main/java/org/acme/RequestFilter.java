@@ -48,6 +48,13 @@ public class RequestFilter implements ContainerRequestFilter {
                 return;
             }
             this.bearerAuth(requestContext, apiKeyHeader.get(0));
+        } else if (path.startsWith(SecurityPath.ADMIN_API_URL)) {
+            final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
+            if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
+                requestContext.abortWith(ACCESS_DENIED);
+                return;
+            }
+            this.bearerAuth(requestContext, apiKeyHeader.get(0));
         } else if (path.startsWith(SecurityPath.OAUTH_API_URL)) {
             final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
             if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
