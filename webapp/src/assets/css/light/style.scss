@@ -862,10 +862,6 @@ body.sidebar-main .iq-sidebar:hover .iq-sidebar-menu .iq-menu li ul.iq-submenu-d
 .navbar-list li a:hover {
   text-decoration: none;
 }
-.navbar-list li > a > img {
-  width: 50px;
-  height: 50px;
-}
 .navbar-list li.iq-nav-user {
   display: flex;
   align-items: flex-start;
@@ -1749,52 +1745,52 @@ div#post-modal-data .modal .modal-dialog {
 /*---------------------------------------------------------------------
                            User Add Block
 -----------------------------------------------------------------------*/
-.user-add-block {
-  background: var(--iq-white);
-}
-.user-add-plus {
-  position: absolute;
-  right: 30px;
-  font-size: 24px;
-  bottom: -25px;
-  height: 60px;
-  width: 60px;
-  line-height: 60px;
-  text-align: center;
-  background: var(--iq-body-text);
-  color: var(--iq-white);
-  border-radius: 900px;
-  -webkit-box-shadow: 0px 10px 30px 0px rgba(57, 60, 82, 0.1);
-  -moz-box-shadow: 0px 10px 30px 0px rgba(57, 60, 82, 0.1);
-  box-shadow: 0px 10px 30px 0px rgba(57, 60, 82, 0.1);
-}
-.user-add-plus:hover {
-  background: var(--iq-primary);
-  color: var(--iq-white);
-  text-decoration: none;
-}
-.user-add-authors {
-  position: relative;
-}
-.user-add-authors:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 132, 255, 0.8);
-}
-.user-add-authors .user-add-media {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 30px;
-  display: inline-block;
-}
-.user-add-list {
-  padding: 30px;
-}
+// .user-add-block {
+//   background: var(--iq-white);
+// }
+// .user-add-plus {
+//   position: absolute;
+//   right: 30px;
+//   font-size: 24px;
+//   bottom: -25px;
+//   height: 60px;
+//   width: 60px;
+//   line-height: 60px;
+//   text-align: center;
+//   background: var(--iq-body-text);
+//   color: var(--iq-white);
+//   border-radius: 900px;
+//   -webkit-box-shadow: 0px 10px 30px 0px rgba(57, 60, 82, 0.1);
+//   -moz-box-shadow: 0px 10px 30px 0px rgba(57, 60, 82, 0.1);
+//   box-shadow: 0px 10px 30px 0px rgba(57, 60, 82, 0.1);
+// }
+// .user-add-plus:hover {
+//   background: var(--iq-primary);
+//   color: var(--iq-white);
+//   text-decoration: none;
+// }
+// .user-add-authors {
+//   position: relative;
+// }
+// .user-add-authors:before {
+//   content: '';
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background: rgba(0, 132, 255, 0.8);
+// }
+// .user-add-authors .user-add-media {
+//   position: absolute;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   left: 30px;
+//   display: inline-block;
+// }
+// .user-add-list {
+//   padding: 30px;
+// }
 
 /*---------------------------------------------------------------------
                              Email list
@@ -2361,43 +2357,43 @@ div#post-modal-data .modal .modal-dialog {
   -o-transition: all 0.5s ease-out 0s;
   transition: all 0.5s ease-out 0s;
 }
-.iq-sidebar-right-menu.film-side {
-  right: 0;
-}
-.iq-sidebar-booking,
-.iq-sidebar-payment {
-  padding: 30px;
-}
-.iq-booking-ticket {
-  background: var(--iq-white);
-  border-radius: 4px;
-  padding: 30px 25px 30px;
-  position: relative;
-}
-.iq-booking-ticket:after {
-  content: '';
-  position: absolute;
-  bottom: 100px;
-  left: -10px;
-  height: 20px;
-  width: 20px;
-  background: var(--iq-primary);
-  -webkit-border-radius: 90px;
-  -moz-border-radius: 90px;
-  border-radius: 90px;
-}
-.iq-booking-ticket:before {
-  content: '';
-  position: absolute;
-  bottom: 100px;
-  right: -10px;
-  height: 20px;
-  width: 20px;
-  background: var(--iq-primary);
-  -webkit-border-radius: 90px;
-  -moz-border-radius: 90px;
-  border-radius: 90px;
-}
+// .iq-sidebar-right-menu.film-side {
+//   right: 0;
+// }
+// .iq-sidebar-booking,
+// .iq-sidebar-payment {
+//   padding: 30px;
+// }
+// .iq-booking-ticket {
+//   background: var(--iq-white);
+//   border-radius: 4px;
+//   padding: 30px 25px 30px;
+//   position: relative;
+// }
+// .iq-booking-ticket:after {
+//   content: '';
+//   position: absolute;
+//   bottom: 100px;
+//   left: -10px;
+//   height: 20px;
+//   width: 20px;
+//   background: var(--iq-primary);
+//   -webkit-border-radius: 90px;
+//   -moz-border-radius: 90px;
+//   border-radius: 90px;
+// }
+// .iq-booking-ticket:before {
+//   content: '';
+//   position: absolute;
+//   bottom: 100px;
+//   right: -10px;
+//   height: 20px;
+//   width: 20px;
+//   background: var(--iq-primary);
+//   -webkit-border-radius: 90px;
+//   -moz-border-radius: 90px;
+//   border-radius: 90px;
+// }
 
 /*---------------------------------------------------------------------
 FAQ

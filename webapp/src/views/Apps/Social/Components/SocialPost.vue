@@ -227,6 +227,9 @@
 <script>
 export default {
   name: 'SocialPost',
+  components: {
+    IqCard: () => import('@/components/socialvue/cards/iq-card')
+  },
   props: {
     post: Object
   },

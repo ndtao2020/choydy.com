@@ -34,7 +34,6 @@ export default {
         if (e.direction === 4) {
           state.sidebarClose = false
         }
-
         if (e.direction === 2 && !state.sidebarClose) {
           state.sidebarClose = true
         }
