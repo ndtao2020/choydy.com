@@ -9,6 +9,7 @@ public class SecurityPath {
     // Check Token
     public static final String AUTH_API_URL = PREFIX + "/auth";
     public static final String ADMIN_API_URL = PREFIX + "/admin";
+    public static final String EDITOR_API_URL = PREFIX + "/editor";
     private SecurityPath() {
         throw new IllegalStateException("Utility class");
     }

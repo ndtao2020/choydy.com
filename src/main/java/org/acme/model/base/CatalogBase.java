@@ -27,6 +27,10 @@ public abstract class CatalogBase extends BaseId<Long> {
     @Column(nullable = false)
     private Timestamp created;
 
+    public CatalogBase(Long id) {
+        super(id);
+    }
+
     public CatalogBase(CatalogBase catalogBase) {
         super(catalogBase.getId());
         this.icon = catalogBase.getIcon();

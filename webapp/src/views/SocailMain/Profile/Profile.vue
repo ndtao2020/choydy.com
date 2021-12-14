@@ -8,10 +8,10 @@
               <img src="../../../assets/images/page-img/profile-bg1.jpg" alt="profile-bg" class="rounded img-fluid" />
               <ul class="header-nav d-flex flex-wrap justify-end p-0 m-0">
                 <li>
-                  <a href="javascript:void(0);"><i class="ri-pencil-line"></i></a>
+                  <a ><i class="ri-pencil-line"></i></a>
                 </li>
                 <li>
-                  <a href="javascript:void(0);"><i class="ri-settings-4-line"></i></a>
+                  <a ><i class="ri-settings-4-line"></i></a>
                 </li>
               </ul>
             </div>

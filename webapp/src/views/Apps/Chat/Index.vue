@@ -183,7 +183,7 @@
                       </template>
                     </div>
                     <div class="chat-footer p-3 bg-white">
-                      <form class="d-flex align-items-center" action="javascript:void(0);">
+                      <form class="d-flex align-items-center">
                         <div class="chat-attagement d-flex">
                           <a href="javascript:void(0)"><i class="fa fa-smile-o pr-3" aria-hidden="true"></i></a>
                           <a href="javascript:void(0)"><i class="fa fa-paperclip pr-3" aria-hidden="true"></i></a>
