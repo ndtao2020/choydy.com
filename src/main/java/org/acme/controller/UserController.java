@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import java.util.UUID;
 
 @Path(SecurityPath.PUBLIC_API_URL + "/" + User.PATH)
@@ -28,7 +29,7 @@ public class UserController extends BaseController {
      * @return ResponseEntity
      */
     @GET
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public UserShortDTO getById(@QueryParam(ID) UUID id) throws BadRequestException {
         UserDTO userDTO = userService.findDTOById(id);
         if (userDTO == null) {

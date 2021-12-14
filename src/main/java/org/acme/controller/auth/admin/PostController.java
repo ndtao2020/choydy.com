@@ -1,16 +1,12 @@
 package org.acme.controller.auth.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vertx.redis.client.Response;
 import org.acme.base.BaseController;
 import org.acme.base.auth.JwtPrincipal;
 import org.acme.constants.SecurityPath;
 import org.acme.model.Post;
 import org.acme.model.dto.PostDTO;
 import org.acme.model.dto.PostMultipartDTO;
-import org.acme.service.CommentService;
-import org.acme.service.LikeTypeService;
-import org.acme.service.PostLikeService;
 import org.acme.service.PostService;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
@@ -35,12 +31,20 @@ public class PostController extends BaseController {
     // ========================= [POST] =========================
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public PostDTO sendMultipartData(@Context SecurityContext context, @MultipartForm PostMultipartDTO data) throws IllegalAccessException {
+        if (data.getFileType() == null || data.getFileName() == null || data.getData() == null || data.getFile() == null) {
+            throw new NullPointerException("Misinformation !");
+        }
         JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         try {
-            PostDTO postDTO = mapper.readValue(data.getData(), PostDTO.class);
-            return postService.create(principal.getId(), postDTO, data.getFileName(), data.getFile());
+            return postService.create(
+                    principal.getId(),
+                    mapper.readValue(data.getData(), PostDTO.class),
+                    data.getFileType(),
+                    data.getFileName(),
+                    data.getFile()
+            );
         } catch (Exception e) {
             throw new IllegalAccessException(e.getMessage());
         }

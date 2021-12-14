@@ -17,6 +17,10 @@ public class PostMultipartDTO {
     @PartType(MediaType.APPLICATION_OCTET_STREAM)
     public InputStream file;
 
+    @FormParam("fileType")
+    @PartType(MediaType.TEXT_PLAIN)
+    public String fileType;
+
     @FormParam("fileName")
     @PartType(MediaType.TEXT_PLAIN)
     public String fileName;

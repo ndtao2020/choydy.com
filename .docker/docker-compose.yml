@@ -5,6 +5,8 @@ networks:
     driver: bridge
   postgres:
     driver: bridge
+  minio:
+    driver: bridge
   backend:
     driver: bridge
 
@@ -30,22 +32,19 @@ services:
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_DB: choydy
-      
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    env_file: 
-      - ./variables.env
-    volumes:
-      - ./data/pgadmin:/var/lib/pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ndtao2020@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: 12345678x@X
-    ports:
-      - 5050:80
+
+  minio:
+    image: quay.io/minio/minio
+    restart: always
     networks:
-      - postgres
-    restart: unless-stopped
+      - minio
+    volumes:
+      - /data:/mnt/data
+    env_file:
+      - ./variables.env
+    ports:
+      - 9001:9001
+    command: server /data --console-address ":9001"
 
   backend:
     image: taoqn/choydy-com
@@ -53,6 +52,7 @@ services:
     depends_on:
       - redis
       - postgres
+      - minio
     ports:
       - 8080:8080
     volumes:
@@ -60,6 +60,7 @@ services:
     networks:
       - redis
       - postgres
+      - minio
       - backend
     env_file: 
       - ./variables.env
