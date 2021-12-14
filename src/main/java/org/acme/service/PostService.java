@@ -4,6 +4,8 @@ import org.acme.base.service.BaseCacheService;
 import org.acme.model.Catalog;
 import org.acme.model.Media;
 import org.acme.model.Post;
+import org.acme.model.PostTag;
+import org.acme.model.Tag;
 import org.acme.model.User;
 import org.acme.model.dto.PostDTO;
 
@@ -13,6 +15,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,9 +24,13 @@ import java.util.UUID;
 public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
 
     @Inject
-    MinIOStorageService minIOStorageService;
+    TagService tagService;
+    @Inject
+    CatalogService catalogService;
     @Inject
     MediaService mediaService;
+    @Inject
+    MinIOStorageService minIOStorageService;
 
     protected PostService() {
         super(Post.class, PostDTO.class, Post.PATH);
@@ -50,16 +57,36 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     }
 
     @Transactional
-    public PostDTO create(UUID userId, PostDTO postDTO, String fileType, String fileName, InputStream file) throws IOException {
+    public PostDTO create(UUID userId, PostDTO postDTO, String fileType, String fileName, InputStream file) throws IOException, SQLException {
+        // validate
+        Catalog catalog = catalogService.getById(postDTO.getCatalogId());
+        if (catalog == null) {
+            throw new SQLException("The catalog id does not exist !");
+        }
+        // init
         Post post = new Post(postDTO);
         post.setUser(new User(userId));
-        post.setCatalog(new Catalog(postDTO.getCatalogId()));
+        post.setCatalog(catalog);
         // ======================================= phù phép
         post.setCount(5000L);
         post.setLikes(2000L);
         post.setShares(10L);
         // ======================================= phù phép
-        // save file
+        // ======================================= Tag
+        List<PostTag> postTags = new ArrayList<>();
+        for (Tag tagDTO : postDTO.getTags()) {
+            Tag tag = tagService.getById(tagDTO.getId());
+            if (tag == null) {
+                throw new SQLException("The tag " + tagDTO.getId() + " does not exist !");
+            }
+            PostTag postTag = new PostTag();
+            postTag.setPost(post);
+            postTag.setTag(tag);
+            // add post
+            postTags.add(postTag);
+        }
+        post.setPostTags(postTags);
+        // ======================================= Media
         Media media = new Media();
         media.setPost(post);
         media.setType(fileType);
@@ -69,20 +96,25 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         mediaList.add(media);
         // add to post
         post.setMedia(mediaList);
+        // ======================================= Media
         // insert to DB
-        Post savedPost = this.save(post);
-        for (Media media1 : savedPost.getMedia()) {
-            String mediaId = media1.getId().toString();
-            // if images
-            if ("image/jpeg".equals(fileType)) {
-                media1.setLink(minIOStorageService.uploadImage(Post.PATH, mediaId, fileType, fileName, file));
+        try {
+            Post savedPost = this.save(post);
+            for (Media media1 : savedPost.getMedia()) {
+                String mediaId = media1.getId().toString();
+                // if images
+                if ("image/jpeg".equals(fileType)) {
+                    media1.setLink(minIOStorageService.uploadImage(Post.PATH, mediaId, fileType, fileName, file));
+                }
+                // if videos
+                if ("video/mp4".equals(fileType)) {
+                    media1.setLink(minIOStorageService.uploadVideo(Post.PATH, mediaId, fileType, fileName, file));
+                }
+                mediaService.update(media1);
             }
-            // if videos
-            if ("video/mp4".equals(fileType)) {
-                media1.setLink(minIOStorageService.uploadVideo(Post.PATH, mediaId, fileType, fileName, file));
-            }
-            mediaService.update(media1);
+            return convertToDTO(savedPost);
+        } catch (Exception e) {
+            throw new SQLException(e.getMessage());
         }
-        return convertToDTO(savedPost);
     }
 }

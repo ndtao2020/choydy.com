@@ -38,13 +38,11 @@ public class PostController extends BaseController {
         }
         JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         try {
-            return postService.create(
-                    principal.getId(),
-                    mapper.readValue(data.getData(), PostDTO.class),
-                    data.getFileType(),
-                    data.getFileName(),
-                    data.getFile()
-            );
+            PostDTO postDTO = mapper.readValue(data.getData(), PostDTO.class);
+            if (postDTO.getCatalogId() == null || postDTO.getTags() == null) {
+                throw new NullPointerException("Misinformation !");
+            }
+            return postService.create(principal.getId(), postDTO, data.getFileType(), data.getFileName(), data.getFile());
         } catch (Exception e) {
             throw new IllegalAccessException(e.getMessage());
         }

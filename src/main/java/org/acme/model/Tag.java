@@ -24,4 +24,8 @@ public class Tag extends BaseId<String> {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    public Tag(String id) {
+        super(id);
+    }
 }
