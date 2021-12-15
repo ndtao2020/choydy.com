@@ -24,8 +24,6 @@ import java.util.UUID;
 public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
 
     @Inject
-    TagService tagService;
-    @Inject
     CatalogService catalogService;
     @Inject
     MediaService mediaService;
@@ -57,7 +55,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     }
 
     @Transactional
-    public PostDTO create(UUID userId, PostDTO postDTO, String fileType, String fileName, InputStream file) throws IOException, SQLException {
+    public PostDTO create(UUID userId, PostDTO postDTO, List<Tag> tagList, String fileType, String fileName, InputStream file) throws IOException, SQLException {
         // validate
         Catalog catalog = catalogService.getById(postDTO.getCatalogId());
         if (catalog == null) {
@@ -74,11 +72,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         // ======================================= phù phép
         // ======================================= Tag
         List<PostTag> postTags = new ArrayList<>();
-        for (Tag tagDTO : postDTO.getTags()) {
-            Tag tag = tagService.getById(tagDTO.getId());
-            if (tag == null) {
-                throw new SQLException("The tag " + tagDTO.getId() + " does not exist !");
-            }
+        for (Tag tag : tagList) {
             PostTag postTag = new PostTag();
             postTag.setPost(post);
             postTag.setTag(tag);
@@ -103,7 +97,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
             for (Media media1 : savedPost.getMedia()) {
                 String mediaId = media1.getId().toString();
                 // if images
-                if ("image/jpeg".equals(fileType)) {
+                if ("image/jpeg".equals(fileType) || "image/png".equals(fileType) || "image/gif".equals(fileType)) {
                     media1.setLink(minIOStorageService.uploadImage(Post.PATH, mediaId, fileType, fileName, file));
                 }
                 // if videos

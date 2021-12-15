@@ -8,6 +8,7 @@ import org.acme.model.dto.PostDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.sql.SQLDataException;
 import java.util.List;
 import java.util.UUID;
@@ -25,6 +26,19 @@ public class TagService extends BaseCacheService<Tag, Tag, String> {
     @Override
     public Tag convertToDTO(Tag data) {
         return data;
+    }
+
+    @Transactional
+    public Tag create(String tag) throws SQLDataException {
+        try {
+            getEm()
+                    .createNativeQuery("INSERT INTO " + getTableName(getDomainClass()) + " (id) VALUES(?1)")
+                    .setParameter(1, tag)
+                    .executeUpdate();
+            return new Tag(tag);
+        } catch (Exception e) {
+            throw new SQLDataException(e.getMessage());
+        }
     }
 
     public List<?> findAllByPostId(UUID postId) throws SQLDataException {
