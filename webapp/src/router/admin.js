@@ -8,6 +8,12 @@ export default [
         name: 'AnalyticsPage',
         meta: { title: 'Quản trị', auth: true },
         component: () => import('@/views/AdminPages/Dashboard')
+      },
+      {
+        path: 'create',
+        name: 'CreatePost',
+        meta: { title: 'Tạo bài đăng', auth: true },
+        component: () => import('@/views/AdminPages/CreatePost')
       }
     ]
   }
