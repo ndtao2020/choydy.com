@@ -50,7 +50,7 @@ public abstract class BaseService<T extends BaseId<I>, D extends BaseId<I>, I> {
 
     public String getTableName(Class<?> tClass) {
         String tableName = tClass.getAnnotation(Table.class).name();
-        if (tableName == null) {
+        if (tableName == null || tableName.length() == 0) {
             return toTableName(tClass.getSimpleName());
         }
         return tableName;
@@ -127,7 +127,7 @@ public abstract class BaseService<T extends BaseId<I>, D extends BaseId<I>, I> {
                 }
             }
         }
-        return q.append(q);
+        return q;
     }
 
     private Query getSearchQuery(String search, String order, String... fields) {

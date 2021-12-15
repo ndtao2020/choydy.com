@@ -3,7 +3,6 @@ package org.acme.model.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.acme.model.Tag;
 import org.acme.model.base.PostBase;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public class PostDTO extends PostBase {
     private Long catalogId;
 
     // child
-    private List<Tag> tags;
+    private List<?> tags;
 
     public PostDTO(PostBase postBase) {
         super(postBase);

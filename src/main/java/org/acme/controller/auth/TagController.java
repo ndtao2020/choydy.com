@@ -29,8 +29,8 @@ public class TagController extends BaseController {
 
     @GET
     @Produces("application/json")
-    public List<Tag> search(@QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s, @QueryParam(SEARCH_PARAM) String search) {
-        return tagService.searchDTO(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s, search, ID, "tag");
+    public List<?> search(@QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s, @QueryParam(SEARCH_PARAM) String search) {
+        return tagService.search(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s, search, ID, "tag");
     }
 
     @POST

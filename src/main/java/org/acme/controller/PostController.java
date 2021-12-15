@@ -78,7 +78,7 @@ public class PostController extends BaseController {
     @GET
     @Path("/" + Tag.PATH)
     @Produces("application/json")
-    public List<Tag> findAllByPostId(@QueryParam(ID) UUID postId) throws SQLDataException {
+    public List<?> findAllByPostId(@QueryParam(ID) UUID postId) throws SQLDataException {
         return tagService.findAllByPostId(postId);
     }
 
