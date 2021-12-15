@@ -1,10 +1,12 @@
 package org.acme.base.service;
 
 import org.acme.base.BaseId;
+import org.acme.base.QueryPage;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -13,11 +15,10 @@ import java.util.Locale;
 
 public abstract class BaseService<T extends BaseId<I>, D extends BaseId<I>, I> {
 
+    private static final Logger logger = Logger.getLogger(BaseService.class);
+
     private final Class<T> domainClass;
     private final Class<D> dClass;
-
-    @Inject
-    Logger log;
 
     @Inject
     EntityManager em;
@@ -28,7 +29,7 @@ public abstract class BaseService<T extends BaseId<I>, D extends BaseId<I>, I> {
     }
 
     public Logger getLog() {
-        return log;
+        return logger;
     }
 
     public EntityManager getEm() {
@@ -56,13 +57,7 @@ public abstract class BaseService<T extends BaseId<I>, D extends BaseId<I>, I> {
     }
 
     public String toTableName(String name) {
-        StringBuilder b = new StringBuilder(name.replace('.', '_'));
-        for (int i = 1; i < b.length() - 1; i++) {
-            if (Character.isLowerCase(b.charAt(i - 1)) && Character.isUpperCase(b.charAt(i)) && Character.isLowerCase(b.charAt(i + 1))) {
-                b.insert(i, '_');
-            }
-        }
-        return b.toString().toLowerCase(Locale.ROOT);
+        return name.replace('.', '_').toLowerCase(Locale.ROOT);
     }
 
     public abstract D convertToDTO(T data);
@@ -118,5 +113,73 @@ public abstract class BaseService<T extends BaseId<I>, D extends BaseId<I>, I> {
         for (T entity : entities) {
             delete(entity);
         }
+    }
+
+    // ==================================================== [] ====================================================
+    private StringBuilder getSearchStr(String search, String... fields) {
+        StringBuilder q = new StringBuilder("from " + getTableName(getDomainClass()));
+        if (search != null) {
+            q.append("where ");
+            for (int i = 0; i < fields.length; i++) {
+                q.append(fields[i]).append(" like :s ");
+                if (i != fields.length - 1) {
+                    q.append("or");
+                }
+            }
+        }
+        return q.append(q);
+    }
+
+    private Query getSearchQuery(String search, String order, String... fields) {
+        StringBuilder m = new StringBuilder("select CAST (id AS varchar) ");
+        m.append(getSearchStr(search, fields));
+        if (order != null) {
+            m.append(" order by ").append(order).append(" desc");
+        }
+        Query query = getEm().createNativeQuery(m.toString());
+        if (search != null) {
+            query.setParameter("s", "%" + search + "%");
+        }
+        return query;
+    }
+
+    protected Query getCountQuery(String search, String... fields) {
+        Query query = getEm().createNativeQuery("select count(id) " + getSearchStr(search, fields));
+        if (search != null) {
+            query.setParameter("s", "%" + search + "%");
+        }
+        return query;
+    }
+    // ==================================================== [] ====================================================
+
+    public List<?> search(String search, String order, String... fields) {
+        return getSearchQuery(search, order, fields).getResultList();
+    }
+
+    public List<?> search(int page, int size, String search, String order, String... fields) {
+        return getSearchQuery(search, order, fields)
+                .setFirstResult(page * size).setMaxResults(size)
+                .getResultList();
+    }
+
+    public QueryPage pagination(int page, int size) {
+        String query = " from " + getTableName(getDomainClass());
+        return new QueryPage(
+                getEm()
+                        .createNativeQuery("select CAST (id AS varchar)" + query)
+                        .setFirstResult(page * size)
+                        .setMaxResults(size)
+                        .getResultList(),
+                getEm()
+                        .createNativeQuery("select count(id)" + query)
+                        .getSingleResult()
+        );
+    }
+
+    public QueryPage searchAndPagination(int page, int size, String search, String order, String... fields) {
+        return new QueryPage(
+                search(page, size, search, order, fields),
+                getCountQuery(search, fields).getSingleResult()
+        );
     }
 }

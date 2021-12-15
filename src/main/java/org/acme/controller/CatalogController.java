@@ -20,15 +20,8 @@ public class CatalogController extends BaseController {
     CatalogService catalogService;
 
     @GET
-    @Path("/" + ID)
     @Produces("application/json")
-    public CatalogDTO postId(@QueryParam(ID) Long id) {
-        return catalogService.findDTOById(id);
-    }
-
-    @GET
-    @Produces("application/json")
-    public List<?> findAllPost(@QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s, @QueryParam(SEARCH_PARAM) String search) {
-        return catalogService.search(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s, search);
+    public List<CatalogDTO> findAllPost(@QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s, @QueryParam(SEARCH_PARAM) String search) {
+        return catalogService.searchDTO(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s, search, "priority", "name");
     }
 }

@@ -15,7 +15,7 @@ public class PostLikeService {
     EntityManager em;
 
     public List<?> findByPostId(UUID postId) {
-        return em.createNativeQuery("select * from postlike where " + Post.PATH_ID + "=?1")
+        return em.createNativeQuery("select user_id,liketype_code,created from postlike where " + Post.PATH_ID + "=?1")
                 .setParameter(1, postId)
                 .getResultList();
     }

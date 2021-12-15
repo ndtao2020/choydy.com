@@ -10,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.List;
 
 @Getter
@@ -19,7 +20,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Authority extends AuthorityBase {
 
+    @Transient
+    public static final String PATH = "authority";
+    @Transient
+    public static final String PATH_ID = "authority_id";
+
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authority")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = Authority.PATH)
     private transient List<UserAuthority> accountAuthorities;
 }

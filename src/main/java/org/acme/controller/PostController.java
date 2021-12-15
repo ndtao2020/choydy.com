@@ -4,12 +4,14 @@ import org.acme.base.BaseController;
 import org.acme.constants.SecurityPath;
 import org.acme.model.Comment;
 import org.acme.model.Post;
+import org.acme.model.Tag;
 import org.acme.model.dto.CommentDTO;
 import org.acme.model.dto.PostDTO;
 import org.acme.service.CommentService;
 import org.acme.service.LikeTypeService;
 import org.acme.service.PostLikeService;
 import org.acme.service.PostService;
+import org.acme.service.TagService;
 
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
@@ -17,6 +19,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import java.sql.SQLDataException;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +28,9 @@ public class PostController extends BaseController {
 
     @Inject
     PostService postService;
+
+    @Inject
+    TagService tagService;
 
     @Inject
     LikeTypeService likeTypeService;
@@ -66,6 +72,14 @@ public class PostController extends BaseController {
     @Produces("application/json")
     public List<?> getAllTypes() {
         return likeTypeService.findAll();
+    }
+
+    // ========================= [TAGS] =========================
+    @GET
+    @Path("/" + Tag.PATH)
+    @Produces("application/json")
+    public List<Tag> findAllByPostId(@QueryParam(ID) UUID postId) throws SQLDataException {
+        return tagService.findAllByPostId(postId);
     }
 
     // ========================= [COMMENTS] =========================

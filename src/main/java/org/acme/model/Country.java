@@ -1,19 +1,15 @@
 package org.acme.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.util.List;
 
 @Entity
 @Getter
@@ -38,10 +34,6 @@ public class Country {
     private Integer numCode;
     @Column(name = "phone_code", nullable = false)
     private Integer phoneCode;
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = Country.PATH)
-    private List<CountryLanguage> countryLanguages;
 
     public Country(String iso) {
         this.iso = iso;

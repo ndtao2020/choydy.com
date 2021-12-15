@@ -3,23 +3,47 @@ CREATE TABLE public.authority (
     name character varying(255) NOT NULL
 );
 
+
 ALTER TABLE public.authority OWNER TO postgres;
 
-CREATE TABLE public.client (
+--
+-- TOC entry 259 (class 1259 OID 18796)
+-- Name: catalog; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.catalog (
     id bigint NOT NULL,
-    created_by character varying(255),
-    created_date timestamp without time zone,
-    last_modified_by character varying(255),
-    last_modified_date timestamp without time zone,
-    description character varying(255),
-    disable boolean,
-    icon character varying(255),
+    created timestamp without time zone NOT NULL,
+    icon character varying(255) NOT NULL,
     name character varying(255) NOT NULL,
-    path character varying(255) NOT NULL,
-    parent_id bigint
+    priority integer NOT NULL
 );
 
-ALTER TABLE public.client OWNER TO postgres;
+
+ALTER TABLE public.catalog OWNER TO postgres;
+
+--
+-- TOC entry 257 (class 1259 OID 18758)
+-- Name: comment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.comment (
+    id uuid NOT NULL,
+    content text NOT NULL,
+    created timestamp without time zone NOT NULL,
+    likes bigint,
+    parent_id uuid,
+    post_id uuid NOT NULL,
+    user_id uuid NOT NULL
+);
+
+
+ALTER TABLE public.comment OWNER TO postgres;
+
+--
+-- TOC entry 248 (class 1259 OID 17507)
+-- Name: country; Type: TABLE; Schema: public; Owner: postgres
+--
 
 CREATE TABLE public.country (
     iso character varying(2) NOT NULL,
@@ -30,38 +54,57 @@ CREATE TABLE public.country (
     phone_code integer NOT NULL
 );
 
+
 ALTER TABLE public.country OWNER TO postgres;
 
-CREATE SEQUENCE public.hibernate_sequence
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-ALTER TABLE public.hibernate_sequence OWNER TO postgres;
-
-CREATE TABLE public.httpendpoint (
-    id uuid NOT NULL,
-    auth boolean NOT NULL,
-    group_description character varying(255) NOT NULL,
-    group_name character varying(255) NOT NULL,
-    method character varying(150) NOT NULL,
-    pattern character varying(255) NOT NULL,
-    server_name character varying(255) NOT NULL,
-    summary character varying(255)
-);
-
-ALTER TABLE public.httpendpoint OWNER TO postgres;
+--
+-- TOC entry 250 (class 1259 OID 17527)
+-- Name: language; Type: TABLE; Schema: public; Owner: postgres
+--
 
 CREATE TABLE public.language (
     code character varying(2) NOT NULL,
     name character varying(255) NOT NULL,
     native_name character varying(255) NOT NULL,
-    code3 character varying(3) NOT NULL
+    code3 character varying(3) NOT NULL,
+    nativename character varying(255)
 );
 
+
 ALTER TABLE public.language OWNER TO postgres;
+
+--
+-- TOC entry 263 (class 1259 OID 18913)
+-- Name: liketype; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.liketype (
+    id character varying(255) NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.liketype OWNER TO postgres;
+
+--
+-- TOC entry 258 (class 1259 OID 18781)
+-- Name: media; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.media (
+    id uuid NOT NULL,
+    link text NOT NULL,
+    type character varying(255) NOT NULL,
+    post_id uuid NOT NULL
+);
+
+
+ALTER TABLE public.media OWNER TO postgres;
+
+--
+-- TOC entry 251 (class 1259 OID 17686)
+-- Name: oauth2client; Type: TABLE; Schema: public; Owner: postgres
+--
 
 CREATE TABLE public.oauth2client (
     id uuid NOT NULL,
@@ -77,51 +120,90 @@ CREATE TABLE public.oauth2client (
     domain character varying(255) NOT NULL
 );
 
+
 ALTER TABLE public.oauth2client OWNER TO postgres;
 
-CREATE TABLE public.social_network (
+--
+-- TOC entry 256 (class 1259 OID 18707)
+-- Name: post; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.post (
+    id uuid NOT NULL,
+    comments bigint,
+    content text,
+    count bigint,
+    created timestamp without time zone NOT NULL,
+    likes bigint,
+    shares bigint,
+    title character varying(255) NOT NULL,
+    user_id uuid NOT NULL,
+    catalog_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.post OWNER TO postgres;
+
+--
+-- TOC entry 264 (class 1259 OID 18921)
+-- Name: postlike; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.postlike (
+    created timestamp without time zone NOT NULL,
+    user_id uuid NOT NULL,
+    post_id uuid NOT NULL,
+    liketype_id character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.postlike OWNER TO postgres;
+
+--
+-- TOC entry 260 (class 1259 OID 18804)
+-- Name: posttag; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.posttag (
+    tag_id character varying(255) NOT NULL,
+    post_id uuid NOT NULL
+);
+
+
+ALTER TABLE public.posttag OWNER TO postgres;
+
+--
+-- TOC entry 253 (class 1259 OID 18567)
+-- Name: socialnetwork; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.socialnetwork (
     id integer NOT NULL,
     name character varying(150) NOT NULL,
-    client_id character varying(255),
-    client_secret character varying(255)
-);
-
-ALTER TABLE public.social_network OWNER TO postgres;
-
-CREATE TABLE public.user_authority (
-    id uuid NOT NULL,
-    authority_id character varying(255) NOT NULL,
-    user_id uuid NOT NULL
+    clientid character varying(255),
+    clientsecret character varying(255)
 );
 
 
-ALTER TABLE public.user_authority OWNER TO postgres;
+ALTER TABLE public.socialnetwork OWNER TO postgres;
 
-CREATE TABLE public.user_detail (
-    id uuid NOT NULL,
-    about text,
-    birthday date,
-    gender character varying(255),
-    phone_number character varying(30),
-    user_id uuid NOT NULL,
-    address text,
-    postal_code character varying(30),
-    country_iso character varying(2) NOT NULL
+--
+-- TOC entry 261 (class 1259 OID 18809)
+-- Name: tag; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tag (
+    id character varying(255) NOT NULL,
+    description text
 );
 
-ALTER TABLE public.user_detail OWNER TO postgres;
 
-CREATE TABLE public.user_social_network (
-    id uuid NOT NULL,
-    avatar character varying(255),
-    email character varying(255) NOT NULL,
-    phone_number character varying(255),
-    uid character varying(255) NOT NULL,
-    social_network_id integer NOT NULL,
-    user_id uuid NOT NULL
-);
+ALTER TABLE public.tag OWNER TO postgres;
 
-ALTER TABLE public.user_social_network OWNER TO postgres;
+--
+-- TOC entry 252 (class 1259 OID 17749)
+-- Name: user_sys; Type: TABLE; Schema: public; Owner: postgres
+--
 
 CREATE TABLE public.user_sys (
     id uuid NOT NULL,
@@ -139,35 +221,107 @@ CREATE TABLE public.user_sys (
     timezone character varying(255) NOT NULL
 );
 
+
 ALTER TABLE public.user_sys OWNER TO postgres;
 
-CREATE TABLE public.vocabulary (
+--
+-- TOC entry 262 (class 1259 OID 18832)
+-- Name: userauthority; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.userauthority (
     id uuid NOT NULL,
-    created_by character varying(255),
-    created_date timestamp without time zone,
-    last_modified_by character varying(255),
-    last_modified_date timestamp without time zone,
-    selected bigint NOT NULL,
-    view bigint NOT NULL,
-    word character varying(255) NOT NULL,
-    language_code character varying(2) NOT NULL,
-    verified boolean NOT NULL,
-    description text,
-    plus character varying(255),
-    color character varying(50)
+    authority_id character varying(255) NOT NULL,
+    user_id uuid NOT NULL
 );
 
-ALTER TABLE public.vocabulary OWNER TO postgres;
 
-CREATE TABLE public.word_type (
-    id character varying(255) NOT NULL
+ALTER TABLE public.userauthority OWNER TO postgres;
+
+--
+-- TOC entry 254 (class 1259 OID 18580)
+-- Name: userdetail; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.userdetail (
+    id uuid NOT NULL,
+    about text,
+    address text,
+    birthday date,
+    gender character varying(255),
+    phonenumber character varying(30),
+    postalcode character varying(30),
+    country_iso character varying(2) NOT NULL,
+    user_id uuid NOT NULL
 );
 
-ALTER TABLE public.word_type OWNER TO postgres;
+
+ALTER TABLE public.userdetail OWNER TO postgres;
+
+--
+-- TOC entry 255 (class 1259 OID 18588)
+-- Name: usersocialnetwork; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.usersocialnetwork (
+    id uuid NOT NULL,
+    avatar character varying(255),
+    email character varying(255) NOT NULL,
+    phonenumber character varying(255),
+    uid character varying(255) NOT NULL,
+    social_network_id integer NOT NULL,
+    user_id uuid NOT NULL
+);
+
+
+ALTER TABLE public.usersocialnetwork OWNER TO postgres;
+
+--
+-- TOC entry 3443 (class 0 OID 17486)
+-- Dependencies: 247
+-- Data for Name: authority; Type: TABLE DATA; Schema: public; Owner: postgres
+--
 
 INSERT INTO public.authority VALUES ('ADMIN', 'Quản trị viên');
 INSERT INTO public.authority VALUES ('USER', 'Người dùng');
 INSERT INTO public.authority VALUES ('EDITOR', 'Biên tập');
+
+
+--
+-- TOC entry 3455 (class 0 OID 18796)
+-- Dependencies: 259
+-- Data for Name: catalog; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.catalog VALUES (1, '2021-08-24 14:44:33', '1', 'trending', 0);
+INSERT INTO public.catalog VALUES (2, '2021-08-24 14:44:33', '1', 'Tiến Bịp', 0);
+INSERT INTO public.catalog VALUES (3, '2021-08-24 14:44:33', '1', 'Bóng Đá', 0);
+INSERT INTO public.catalog VALUES (4, '2021-08-24 14:44:33', '1', 'Chị Ong Nâu', 0);
+INSERT INTO public.catalog VALUES (5, '2021-08-24 14:44:33', '1', 'Bà Phương Hằng', 0);
+INSERT INTO public.catalog VALUES (6, '2021-08-24 14:44:33', '1', 'Chim Cánh Cụt', 0);
+INSERT INTO public.catalog VALUES (7, '2021-08-24 14:44:33', '1', 'Drak Meme', 0);
+INSERT INTO public.catalog VALUES (8, '2021-08-24 14:44:33', '1', 'Xin Link', 0);
+INSERT INTO public.catalog VALUES (9, '2021-08-24 14:44:33', '1', 'Huấn Hoa Hồng', 0);
+INSERT INTO public.catalog VALUES (10, '2021-08-24 14:44:33', '1', 'Meme Cheems', 0);
+INSERT INTO public.catalog VALUES (11, '2021-08-24 14:44:33', '1', 'Meme Gấu Trúc', 0);
+INSERT INTO public.catalog VALUES (12, '2021-08-24 14:44:33', '1', 'Meme Gấu Chó', 0);
+INSERT INTO public.catalog VALUES (13, '2021-08-24 14:44:33', '1', 'Meme Chó', 0);
+INSERT INTO public.catalog VALUES (14, '2021-08-24 14:44:33', '1', 'Meme Mèo', 0);
+
+
+--
+-- TOC entry 3453 (class 0 OID 18758)
+-- Dependencies: 257
+-- Data for Name: comment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3444 (class 0 OID 17507)
+-- Dependencies: 248
+-- Data for Name: country; Type: TABLE DATA; Schema: public; Owner: postgres
+--
 
 INSERT INTO public.country VALUES ('CX', 'Christmas Island', 'CXR', 'CHRISTMAS ISLAND', 162, 61);
 INSERT INTO public.country VALUES ('CC', 'Cocos (Keeling) Islands', 'CCK', 'COCOS (KEELING) ISLANDS', 166, 672);
@@ -410,284 +564,735 @@ INSERT INTO public.country VALUES ('GS', 'South Georgia and the South Sandwich I
 INSERT INTO public.country VALUES ('UM', 'United States Minor Outlying Islands', 'UMI', 'UNITED STATES MINOR OUTLYING ISLANDS', 581, 246);
 INSERT INTO public.country VALUES ('SX', 'Sint Maarten', 'SXM', 'SINT MAARTEN', 534, 590);
 
-INSERT INTO public.language VALUES ('mh', 'Marshallese', 'Kajin Majel', 'mah');
-INSERT INTO public.language VALUES ('mn', 'Mongolian', 'Монгол хэл', 'mon');
-INSERT INTO public.language VALUES ('na', 'Nauru', 'Dorerin Naoero', 'nau');
-INSERT INTO public.language VALUES ('nr', 'South Ndebele', 'isiNdebele', 'nbl');
-INSERT INTO public.language VALUES ('nn', 'Norwegian Nynorsk', 'Norsk nynorsk', 'nno');
-INSERT INTO public.language VALUES ('om', 'Oromo', 'Afaan Oromoo', 'orm');
-INSERT INTO public.language VALUES ('oc', 'Occitan', 'occitan, lenga d''òc', 'oci');
-INSERT INTO public.language VALUES ('os', 'Ossetian / Ossetic', 'ирон ӕвзаг', 'oss');
-INSERT INTO public.language VALUES ('pl', 'Polish', 'język polski, polszczyzna', 'pol');
-INSERT INTO public.language VALUES ('qu', 'Quechua', 'Runa Simi, Kichwa', 'que');
-INSERT INTO public.language VALUES ('ps', 'Pashto / Pushto', 'پښتو', 'pus');
-INSERT INTO public.language VALUES ('rm', 'Romansh', 'Rumantsch Grischun', 'roh');
-INSERT INTO public.language VALUES ('rn', 'Rundi', 'Ikirundi', 'run');
-INSERT INTO public.language VALUES ('sm', 'Samoan', 'gagana fa''a Samoa', 'smo');
-INSERT INTO public.language VALUES ('sg', 'Sango', 'yângâ tî sängö', 'sag');
-INSERT INTO public.language VALUES ('sr', 'Serbian', 'српски језик', 'srp');
-INSERT INTO public.language VALUES ('sl', 'Slovenian', 'Slovenski jezik, Slovenščina', 'slv');
-INSERT INTO public.language VALUES ('tl', 'Tagalog', 'Wikang Tagalog', 'tgl');
-INSERT INTO public.language VALUES ('ty', 'Tahitian', 'Reo Tahiti', 'tah');
-INSERT INTO public.language VALUES ('tt', 'Tatar', 'татар теле, tatar tele', 'tat');
-INSERT INTO public.language VALUES ('bo', 'Tibetan', 'བོད་ཡིག', 'tib');
-INSERT INTO public.language VALUES ('fy', 'Western Frisian', 'Frysk', 'fry');
-INSERT INTO public.language VALUES ('eo', 'Esperanto', 'Esperanto', 'epo');
-INSERT INTO public.language VALUES ('cv', 'Chuvash', 'Чăваш чӗлхи', 'chv');
-INSERT INTO public.language VALUES ('aa', 'Afar', 'Afar', 'aar');
-INSERT INTO public.language VALUES ('av', 'Avaric', 'авар мацӀ, магӀарул мацӀ', 'ava');
-INSERT INTO public.language VALUES ('af', 'Afrikaans', 'Afrikaans', 'afr');
-INSERT INTO public.language VALUES ('ts', 'Tsonga', 'Xitsonga', 'tso');
-INSERT INTO public.language VALUES ('as', 'Assamese', 'অসমীয়া', 'asm');
-INSERT INTO public.language VALUES ('ig', 'Igbo', 'Asụsụ Igbo', 'ibo');
-INSERT INTO public.language VALUES ('ae', 'Avestan', 'Avestan', 'ave');
-INSERT INTO public.language VALUES ('tn', 'Tswana', 'Setswana', 'tsn');
-INSERT INTO public.language VALUES ('ti', 'Tigrinya', 'ትግርኛ', 'tir');
-INSERT INTO public.language VALUES ('ta', 'Tamil', 'தமிழ்', 'tam');
-INSERT INTO public.language VALUES ('sv', 'Swedish', 'Svenska', 'swe');
-INSERT INTO public.language VALUES ('ss', 'Swati', 'SiSwati', 'ssw');
-INSERT INTO public.language VALUES ('sc', 'Sardinian', 'Sardu', 'srd');
-INSERT INTO public.language VALUES ('st', 'Southern Sotho', 'Sesotho', 'sot');
-INSERT INTO public.language VALUES ('sn', 'Shona', 'chiShona', 'sna');
-INSERT INTO public.language VALUES ('sd', 'Sindhi', 'सिनधि', 'snd');
-INSERT INTO public.language VALUES ('sk', 'Slovak', 'Slovenčina', 'slo');
-INSERT INTO public.language VALUES ('si', 'Sinhalese', 'සිංහල', 'sin');
-INSERT INTO public.language VALUES ('ru', 'Russian', 'Русский', 'rus');
-INSERT INTO public.language VALUES ('fa', 'Persian', 'فارسی', 'per');
-INSERT INTO public.language VALUES ('pt', 'Portuguese', 'Português', 'por');
-INSERT INTO public.language VALUES ('es', 'Spanish / Castilian', 'Español', 'spa');
-INSERT INTO public.language VALUES ('no', 'Norwegian', 'Norsk', 'nor');
-INSERT INTO public.language VALUES ('zh', 'Chinese', '中文 (Zhōngwén), 汉语, 漢語', 'chi');
-INSERT INTO public.language VALUES ('or', 'Oriya', 'ଓଡ଼ିଆ', 'ori');
-INSERT INTO public.language VALUES ('ne', 'Nepali', 'नेपाली', 'nep');
-INSERT INTO public.language VALUES ('ng', 'Ndonga', 'Oshiwambo', 'ndo');
-INSERT INTO public.language VALUES ('nv', 'Navajo / Navaho', 'Diné bizaad', 'nav');
-INSERT INTO public.language VALUES ('mi', 'Maori', 'te reo Māori', 'mao');
-INSERT INTO public.language VALUES ('mr', 'Marathi', 'मराठी', 'mar');
-INSERT INTO public.language VALUES ('mt', 'Maltese', 'Malti', 'mlt');
-INSERT INTO public.language VALUES ('lg', 'Ganda', 'Luganda', 'lug');
-INSERT INTO public.language VALUES ('lb', 'Luxembourgish / Letzeburgesch', 'Lëtzebuergesch', 'ltz');
-INSERT INTO public.language VALUES ('ln', 'Lingala', 'Lingála', 'lin');
-INSERT INTO public.language VALUES ('lv', 'Latvian', 'Latviešu', 'lav');
-INSERT INTO public.language VALUES ('li', 'Limburgan / Limburger / Limburgish', 'Limburgs', 'lim');
-INSERT INTO public.language VALUES ('mk', 'Macedonian', 'македонски јазик', 'mac');
-INSERT INTO public.language VALUES ('la', 'Latin', 'Latina', 'lat');
-INSERT INTO public.language VALUES ('kg', 'Kongo', 'KiKongo', 'kon');
-INSERT INTO public.language VALUES ('ko', 'Korean', '한국어', 'kor');
-INSERT INTO public.language VALUES ('lo', 'Lao', 'ພາສາລາວ', 'lao');
-INSERT INTO public.language VALUES ('ky', 'Kirghiz / Kyrgyz', 'Kırgızca / Кыргызча', 'kir');
-INSERT INTO public.language VALUES ('ki', 'Kikuyu / Gikuyu', 'Gĩkũyũ', 'kik');
-INSERT INTO public.language VALUES ('ks', 'Kashmiri', 'कश्मीरी / كشميري', 'kas');
-INSERT INTO public.language VALUES ('kr', 'Kanuri', 'Kanuri', 'kau');
-INSERT INTO public.language VALUES ('kv', 'Komi', 'коми кыв', 'kom');
-INSERT INTO public.language VALUES ('it', 'Italian', 'Italiano', 'ita');
-INSERT INTO public.language VALUES ('kl', 'Kalaallisut / Greenlandic', 'kalaallisut, kalaallit oqaasii', 'kal');
-INSERT INTO public.language VALUES ('kk', 'Kazakh', 'қазақ тілі', 'kaz');
-INSERT INTO public.language VALUES ('kn', 'Kannada', 'ಕನ್ನಡ', 'kan');
-INSERT INTO public.language VALUES ('ie', 'Interlingue / Occidental', 'Interlingue', 'ile');
-INSERT INTO public.language VALUES ('iu', 'Inuktitut', 'ᐃᓄᒃᑎᑐᑦ', 'iku');
-INSERT INTO public.language VALUES ('ii', 'Sichuan Yi / Nuosu', 'ꆇꉙ / 四川彝语', 'iii');
-INSERT INTO public.language VALUES ('ny', 'Chichewa / Chewa / Nyanja', 'ChiCheŵa, chinyanja', 'nya');
-INSERT INTO public.language VALUES ('io', 'Ido', 'Ido', 'ido');
-INSERT INTO public.language VALUES ('is', 'Icelandic', 'Íslenska', 'ice');
-INSERT INTO public.language VALUES ('nl', 'Dutch / Flemish', 'Nederlands, Vlaams', 'dut');
-INSERT INTO public.language VALUES ('hu', 'Hungarian', 'Magyar', 'hun');
-INSERT INTO public.language VALUES ('he', 'Hebrew', 'עברית', 'heb');
-INSERT INTO public.language VALUES ('hz', 'Herero', 'Otsiherero', 'her');
-INSERT INTO public.language VALUES ('ho', 'Hiri Motu', 'Hiri Motu', 'hmo');
-INSERT INTO public.language VALUES ('ht', 'Haitian / Haitian Creole', 'Krèyol ayisyen', 'hat');
-INSERT INTO public.language VALUES ('ha', 'Hausa', 'هَوُسَ', 'hau');
-INSERT INTO public.language VALUES ('ka', 'Georgian', 'ქართული', 'geo');
-INSERT INTO public.language VALUES ('gd', 'Scottish Gaelic / Gaelic', 'Gàidhlig', 'gla');
-INSERT INTO public.language VALUES ('ga', 'Irish', 'Gaeilge', 'gle');
-INSERT INTO public.language VALUES ('gl', 'Galician', 'Galego', 'glg');
-INSERT INTO public.language VALUES ('gn', 'Guarani', 'Avañe''ẽ', 'grn');
-INSERT INTO public.language VALUES ('hi', 'Hindi', 'हिन्दी, हिंदी', 'hin');
-INSERT INTO public.language VALUES ('fi', 'Finnish', 'Suomi', 'fin');
-INSERT INTO public.language VALUES ('fr', 'French', 'Français', 'fre');
-INSERT INTO public.language VALUES ('fo', 'Faroese', 'Føroyskt', 'fao');
-INSERT INTO public.language VALUES ('ff', 'Fulah', 'Fulfulde, Pulaar, Pular', 'ful');
-INSERT INTO public.language VALUES ('et', 'Estonian', 'Eesti', 'est');
-INSERT INTO public.language VALUES ('ee', 'Ewe', 'Eʋegbe', 'ewe');
-INSERT INTO public.language VALUES ('cs', 'Czech', 'Česky', 'cze');
-INSERT INTO public.language VALUES ('da', 'Danish', 'Dansk', 'dan');
-INSERT INTO public.language VALUES ('co', 'Corsican', 'Corsu', 'cos');
-INSERT INTO public.language VALUES ('kw', 'Cornish', 'Kernewek', 'cor');
-INSERT INTO public.language VALUES ('cr', 'Cree', 'Nehiyaw, 	ᓀᐦᐃᔭᐍᐏᐣ', 'cre');
-INSERT INTO public.language VALUES ('ce', 'Chechen', 'Нохчийн мотт', 'che');
-INSERT INTO public.language VALUES ('my', 'Burmese', 'မြန်မာစာ', 'bur');
-INSERT INTO public.language VALUES ('ba', 'Bashkir', 'Башҡорт', 'bak');
-INSERT INTO public.language VALUES ('eu', 'Basque', 'Euskara', 'baq');
-INSERT INTO public.language VALUES ('bg', 'Bulgarian', 'Български език', 'bul');
-INSERT INTO public.language VALUES ('bi', 'Bislama', 'Bislama', 'bis');
-INSERT INTO public.language VALUES ('bs', 'Bosnian', 'Bosanski', 'bos');
-INSERT INTO public.language VALUES ('ay', 'Aymara', 'Aymar', 'aym');
-INSERT INTO public.language VALUES ('be', 'Belarusian', 'Беларуская мова', 'bel');
-INSERT INTO public.language VALUES ('hy', 'Armenian', 'Հայերեն', 'arm');
-INSERT INTO public.language VALUES ('ar', 'Arabic', 'العربية', 'ara');
-INSERT INTO public.language VALUES ('am', 'Amharic', 'አማርኛ', 'amh');
-INSERT INTO public.language VALUES ('sq', 'Albanian', 'Shqip', 'alb');
-INSERT INTO public.language VALUES ('vi', 'Vietnamese', 'Tiếng Việt', 'vie');
-INSERT INTO public.language VALUES ('en', 'English', 'English', 'eng');
-INSERT INTO public.language VALUES ('zu', 'Zulu', 'isiZulu', 'zul');
-INSERT INTO public.language VALUES ('nd', 'North Ndebele', 'isiNdebele', 'nde');
-INSERT INTO public.language VALUES ('yo', 'Yoruba', 'Yorùbá', 'yor');
-INSERT INTO public.language VALUES ('yi', 'Yiddish', 'ייִדיש', 'yid');
-INSERT INTO public.language VALUES ('xh', 'Xhosa', 'isiXhosa', 'xho');
-INSERT INTO public.language VALUES ('wo', 'Wolof', 'Wollof', 'wol');
-INSERT INTO public.language VALUES ('vo', 'Volapük', 'Volapük', 'vol');
-INSERT INTO public.language VALUES ('wa', 'Walloon', 'Walon', 'wln');
-INSERT INTO public.language VALUES ('ak', 'Akan', 'Akana', 'aka');
-INSERT INTO public.language VALUES ('bh', 'Bihari languages', 'भोजपुरी', 'bih');
-INSERT INTO public.language VALUES ('ug', 'Uyghur', 'Uyƣurqə / ئۇيغۇرچە', 'uig');
-INSERT INTO public.language VALUES ('uk', 'Ukrainian', 'Українська', 'ukr');
-INSERT INTO public.language VALUES ('ur', 'Urdu', 'اردو', 'urd');
-INSERT INTO public.language VALUES ('uz', 'Uzbek', 'Ўзбек', 'uzb');
-INSERT INTO public.language VALUES ('ve', 'Venda', 'Tshivenḓa', 'ven');
-INSERT INTO public.language VALUES ('cy', 'Welsh', 'Cymraeg', 'wel');
-INSERT INTO public.language VALUES ('tr', 'Turkish', 'Türkçe', 'tur');
-INSERT INTO public.language VALUES ('tw', 'Twi', 'Twi', 'twi');
-INSERT INTO public.language VALUES ('tk', 'Turkmen', 'Туркмен / تركمن', 'tuk');
-INSERT INTO public.language VALUES ('to', 'Tonga (Tonga Islands)', 'Lea Faka-Tonga', 'ton');
-INSERT INTO public.language VALUES ('th', 'Thai', 'ไทย / Phasa Thai', 'tha');
-INSERT INTO public.language VALUES ('te', 'Telugu', 'తెలుగు', 'tel');
-INSERT INTO public.language VALUES ('sw', 'Swahili', 'Kiswahili', 'swa');
-INSERT INTO public.language VALUES ('su', 'Sundanese', 'Basa Sunda', 'sun');
-INSERT INTO public.language VALUES ('sa', 'Sanskrit', 'संस्कृतम्', 'san');
-INSERT INTO public.language VALUES ('pi', 'Pali', 'Pāli / पाऴि', 'pli');
-INSERT INTO public.language VALUES ('se', 'Northern Sami', 'Davvisámegiella', 'sme');
-INSERT INTO public.language VALUES ('el', 'Greek', 'Ελληνικά', 'gre');
-INSERT INTO public.language VALUES ('za', 'Zhuang / Chuang', 'Cuengh / Tôô / 壮语', 'zha');
-INSERT INTO public.language VALUES ('ro', 'Romanian / Moldavian / Moldovan', 'Română', 'rum');
-INSERT INTO public.language VALUES ('ml', 'Malayalam', 'മലയാളം', 'mal');
-INSERT INTO public.language VALUES ('ku', 'Kurdish', 'Kurdî / كوردی', 'kur');
-INSERT INTO public.language VALUES ('kj', 'Kuanyama / Kwanyama', 'Kuanyama', 'kua');
-INSERT INTO public.language VALUES ('oj', 'Ojibwa', 'ᐊᓂᔑᓈᐯᒧᐎᓐ', 'oji');
-INSERT INTO public.language VALUES ('id', 'Indonesian', 'Bahasa Indonesia', 'ind');
-INSERT INTO public.language VALUES ('ia', 'Interlingua', 'Interlingua', 'ina');
-INSERT INTO public.language VALUES ('de', 'German', 'Deutsch', 'ger');
-INSERT INTO public.language VALUES ('gu', 'Gujarati', 'ગુજરાતી', 'guj');
-INSERT INTO public.language VALUES ('dz', 'Dzongkha', 'ཇོང་ཁ', 'dzo');
-INSERT INTO public.language VALUES ('dv', 'Divehi / Dhivehi / Maldivian', 'ދިވެހިބަސް', 'div');
-INSERT INTO public.language VALUES ('ch', 'Chamorro', 'Chamoru', 'cha');
-INSERT INTO public.language VALUES ('br', 'Breton', 'Brezhoneg', 'bre');
-INSERT INTO public.language VALUES ('bm', 'Bambara', 'Bamanankan', 'bam');
-INSERT INTO public.language VALUES ('bn', 'Bengali', 'বাংলা', 'ben');
-INSERT INTO public.language VALUES ('az', 'Azerbaijani', 'Azərbaycanca / آذربايجان', 'aze');
-INSERT INTO public.language VALUES ('an', 'Aragonese', 'Aragonés', 'arg');
-INSERT INTO public.language VALUES ('ab', 'Abkhazian', 'аҧсуа бызшәа, аҧсшәа', 'abk');
-INSERT INTO public.language VALUES ('nb', 'Norwegian Bokmål', 'Norsk bokmål', 'nob');
-INSERT INTO public.language VALUES ('km', 'Central Khmer', 'ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ', 'khm');
-INSERT INTO public.language VALUES ('ca', 'Catalan / Valencian', 'Català, valencià', 'cat');
-INSERT INTO public.language VALUES ('hr', 'Croatian', 'Hrvatski jezik', 'hrv');
-INSERT INTO public.language VALUES ('fj', 'Fijian', 'Vosa Vakaviti', 'fij');
-INSERT INTO public.language VALUES ('ik', 'Inupiaq', 'Iñupiaq, Iñupiatun', 'ipk');
-INSERT INTO public.language VALUES ('ja', 'Japanese', '日本語 (にほんご)', 'jpn');
-INSERT INTO public.language VALUES ('jv', 'Javanese', 'ꦧꦱꦗꦮ, Basa Jawa', 'jav');
-INSERT INTO public.language VALUES ('rw', 'Kinyarwanda', 'Ikinyarwanda', 'kin');
-INSERT INTO public.language VALUES ('lt', 'Lithuanian', 'lietuvių kalba', 'lit');
-INSERT INTO public.language VALUES ('lu', 'Luba-Katanga', 'Kiluba', 'lub');
-INSERT INTO public.language VALUES ('mg', 'Malagasy', 'fiteny malagasy', 'mlg');
-INSERT INTO public.language VALUES ('ms', 'Malay', 'Bahasa Melayu, بهاس ملايو', 'may');
-INSERT INTO public.language VALUES ('gv', 'Manx', 'Gaelg, Gailck', 'glv');
-INSERT INTO public.language VALUES ('pa', 'Punjabi / Panjabi', 'ਪੰਜਾਬੀ / पंजाबी / پنجابي', 'pan');
-INSERT INTO public.language VALUES ('cu', 'Church Slavic / Old Slavonic / Church Slavonic / Old Bulgarian / Old Church Slavonic', 'ѩзыкъ словѣньскъ', 'chu');
-INSERT INTO public.language VALUES ('so', 'Somali', 'Soomaaliga, af Soomaali', 'som');
-INSERT INTO public.language VALUES ('tg', 'Tajik', 'тоҷикӣ, toçikī, تاجیکی', 'tgk');
 
-INSERT INTO public.social_network VALUES (1, 'GOOGLE', NULL, NULL);
-INSERT INTO public.social_network VALUES (2, 'FACEBOOK', NULL, NULL);
+--
+-- TOC entry 3446 (class 0 OID 17527)
+-- Dependencies: 250
+-- Data for Name: language; Type: TABLE DATA; Schema: public; Owner: postgres
+--
 
-INSERT INTO public.user_authority VALUES ('be8b3e2b-8284-441e-9905-2e316a30b902', 'ADMIN', '98f1edad-0410-4fa0-be8c-40133cc0d64f');
-INSERT INTO public.user_authority VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'USER', '98f1edad-0410-4fa0-be8c-40133cc0d64f');
-INSERT INTO public.user_authority VALUES ('da3a324e-12c2-4b3a-9b8e-473c41c6ca58', 'EDITOR', '98f1edad-0410-4fa0-be8c-40133cc0d64f');
-INSERT INTO public.user_authority VALUES ('93491647-f0c2-4dae-90cf-cd356d0cc98b', 'USER', '3dd60931-0698-4739-88c7-22dacddd1ba1');
-INSERT INTO public.user_authority VALUES ('28aea60d-9c76-479f-a8c3-139c3823dc10', 'USER', '64acaf13-87b2-4f4e-bda2-84efe5681026');
-INSERT INTO public.user_authority VALUES ('9bf1f394-86af-4a88-91ff-d34b4d300ad0', 'USER', '00a994a7-0186-496d-82f8-61d26a9ef8d4');
-INSERT INTO public.user_authority VALUES ('80f98956-5d81-412b-a664-5a5f8b6999fd', 'USER', '1786c558-fc8d-42fa-86c9-6f97f0f87b0e');
+INSERT INTO public.language VALUES ('mh', 'Marshallese', 'Kajin Majel', 'mah', NULL);
+INSERT INTO public.language VALUES ('mn', 'Mongolian', 'Монгол хэл', 'mon', NULL);
+INSERT INTO public.language VALUES ('na', 'Nauru', 'Dorerin Naoero', 'nau', NULL);
+INSERT INTO public.language VALUES ('nr', 'South Ndebele', 'isiNdebele', 'nbl', NULL);
+INSERT INTO public.language VALUES ('nn', 'Norwegian Nynorsk', 'Norsk nynorsk', 'nno', NULL);
+INSERT INTO public.language VALUES ('om', 'Oromo', 'Afaan Oromoo', 'orm', NULL);
+INSERT INTO public.language VALUES ('oc', 'Occitan', 'occitan, lenga d''òc', 'oci', NULL);
+INSERT INTO public.language VALUES ('os', 'Ossetian / Ossetic', 'ирон ӕвзаг', 'oss', NULL);
+INSERT INTO public.language VALUES ('pl', 'Polish', 'język polski, polszczyzna', 'pol', NULL);
+INSERT INTO public.language VALUES ('qu', 'Quechua', 'Runa Simi, Kichwa', 'que', NULL);
+INSERT INTO public.language VALUES ('ps', 'Pashto / Pushto', 'پښتو', 'pus', NULL);
+INSERT INTO public.language VALUES ('rm', 'Romansh', 'Rumantsch Grischun', 'roh', NULL);
+INSERT INTO public.language VALUES ('rn', 'Rundi', 'Ikirundi', 'run', NULL);
+INSERT INTO public.language VALUES ('sm', 'Samoan', 'gagana fa''a Samoa', 'smo', NULL);
+INSERT INTO public.language VALUES ('sg', 'Sango', 'yângâ tî sängö', 'sag', NULL);
+INSERT INTO public.language VALUES ('sr', 'Serbian', 'српски језик', 'srp', NULL);
+INSERT INTO public.language VALUES ('sl', 'Slovenian', 'Slovenski jezik, Slovenščina', 'slv', NULL);
+INSERT INTO public.language VALUES ('tl', 'Tagalog', 'Wikang Tagalog', 'tgl', NULL);
+INSERT INTO public.language VALUES ('ty', 'Tahitian', 'Reo Tahiti', 'tah', NULL);
+INSERT INTO public.language VALUES ('tt', 'Tatar', 'татар теле, tatar tele', 'tat', NULL);
+INSERT INTO public.language VALUES ('bo', 'Tibetan', 'བོད་ཡིག', 'tib', NULL);
+INSERT INTO public.language VALUES ('fy', 'Western Frisian', 'Frysk', 'fry', NULL);
+INSERT INTO public.language VALUES ('eo', 'Esperanto', 'Esperanto', 'epo', NULL);
+INSERT INTO public.language VALUES ('cv', 'Chuvash', 'Чăваш чӗлхи', 'chv', NULL);
+INSERT INTO public.language VALUES ('aa', 'Afar', 'Afar', 'aar', NULL);
+INSERT INTO public.language VALUES ('av', 'Avaric', 'авар мацӀ, магӀарул мацӀ', 'ava', NULL);
+INSERT INTO public.language VALUES ('af', 'Afrikaans', 'Afrikaans', 'afr', NULL);
+INSERT INTO public.language VALUES ('ts', 'Tsonga', 'Xitsonga', 'tso', NULL);
+INSERT INTO public.language VALUES ('as', 'Assamese', 'অসমীয়া', 'asm', NULL);
+INSERT INTO public.language VALUES ('ig', 'Igbo', 'Asụsụ Igbo', 'ibo', NULL);
+INSERT INTO public.language VALUES ('ae', 'Avestan', 'Avestan', 'ave', NULL);
+INSERT INTO public.language VALUES ('tn', 'Tswana', 'Setswana', 'tsn', NULL);
+INSERT INTO public.language VALUES ('ti', 'Tigrinya', 'ትግርኛ', 'tir', NULL);
+INSERT INTO public.language VALUES ('ta', 'Tamil', 'தமிழ்', 'tam', NULL);
+INSERT INTO public.language VALUES ('sv', 'Swedish', 'Svenska', 'swe', NULL);
+INSERT INTO public.language VALUES ('ss', 'Swati', 'SiSwati', 'ssw', NULL);
+INSERT INTO public.language VALUES ('sc', 'Sardinian', 'Sardu', 'srd', NULL);
+INSERT INTO public.language VALUES ('st', 'Southern Sotho', 'Sesotho', 'sot', NULL);
+INSERT INTO public.language VALUES ('sn', 'Shona', 'chiShona', 'sna', NULL);
+INSERT INTO public.language VALUES ('sd', 'Sindhi', 'सिनधि', 'snd', NULL);
+INSERT INTO public.language VALUES ('sk', 'Slovak', 'Slovenčina', 'slo', NULL);
+INSERT INTO public.language VALUES ('si', 'Sinhalese', 'සිංහල', 'sin', NULL);
+INSERT INTO public.language VALUES ('ru', 'Russian', 'Русский', 'rus', NULL);
+INSERT INTO public.language VALUES ('fa', 'Persian', 'فارسی', 'per', NULL);
+INSERT INTO public.language VALUES ('pt', 'Portuguese', 'Português', 'por', NULL);
+INSERT INTO public.language VALUES ('es', 'Spanish / Castilian', 'Español', 'spa', NULL);
+INSERT INTO public.language VALUES ('no', 'Norwegian', 'Norsk', 'nor', NULL);
+INSERT INTO public.language VALUES ('zh', 'Chinese', '中文 (Zhōngwén), 汉语, 漢語', 'chi', NULL);
+INSERT INTO public.language VALUES ('or', 'Oriya', 'ଓଡ଼ିଆ', 'ori', NULL);
+INSERT INTO public.language VALUES ('ne', 'Nepali', 'नेपाली', 'nep', NULL);
+INSERT INTO public.language VALUES ('ng', 'Ndonga', 'Oshiwambo', 'ndo', NULL);
+INSERT INTO public.language VALUES ('nv', 'Navajo / Navaho', 'Diné bizaad', 'nav', NULL);
+INSERT INTO public.language VALUES ('mi', 'Maori', 'te reo Māori', 'mao', NULL);
+INSERT INTO public.language VALUES ('mr', 'Marathi', 'मराठी', 'mar', NULL);
+INSERT INTO public.language VALUES ('mt', 'Maltese', 'Malti', 'mlt', NULL);
+INSERT INTO public.language VALUES ('lg', 'Ganda', 'Luganda', 'lug', NULL);
+INSERT INTO public.language VALUES ('lb', 'Luxembourgish / Letzeburgesch', 'Lëtzebuergesch', 'ltz', NULL);
+INSERT INTO public.language VALUES ('ln', 'Lingala', 'Lingála', 'lin', NULL);
+INSERT INTO public.language VALUES ('lv', 'Latvian', 'Latviešu', 'lav', NULL);
+INSERT INTO public.language VALUES ('li', 'Limburgan / Limburger / Limburgish', 'Limburgs', 'lim', NULL);
+INSERT INTO public.language VALUES ('mk', 'Macedonian', 'македонски јазик', 'mac', NULL);
+INSERT INTO public.language VALUES ('la', 'Latin', 'Latina', 'lat', NULL);
+INSERT INTO public.language VALUES ('kg', 'Kongo', 'KiKongo', 'kon', NULL);
+INSERT INTO public.language VALUES ('ko', 'Korean', '한국어', 'kor', NULL);
+INSERT INTO public.language VALUES ('lo', 'Lao', 'ພາສາລາວ', 'lao', NULL);
+INSERT INTO public.language VALUES ('ky', 'Kirghiz / Kyrgyz', 'Kırgızca / Кыргызча', 'kir', NULL);
+INSERT INTO public.language VALUES ('ki', 'Kikuyu / Gikuyu', 'Gĩkũyũ', 'kik', NULL);
+INSERT INTO public.language VALUES ('ks', 'Kashmiri', 'कश्मीरी / كشميري', 'kas', NULL);
+INSERT INTO public.language VALUES ('kr', 'Kanuri', 'Kanuri', 'kau', NULL);
+INSERT INTO public.language VALUES ('kv', 'Komi', 'коми кыв', 'kom', NULL);
+INSERT INTO public.language VALUES ('it', 'Italian', 'Italiano', 'ita', NULL);
+INSERT INTO public.language VALUES ('kl', 'Kalaallisut / Greenlandic', 'kalaallisut, kalaallit oqaasii', 'kal', NULL);
+INSERT INTO public.language VALUES ('kk', 'Kazakh', 'қазақ тілі', 'kaz', NULL);
+INSERT INTO public.language VALUES ('kn', 'Kannada', 'ಕನ್ನಡ', 'kan', NULL);
+INSERT INTO public.language VALUES ('ie', 'Interlingue / Occidental', 'Interlingue', 'ile', NULL);
+INSERT INTO public.language VALUES ('iu', 'Inuktitut', 'ᐃᓄᒃᑎᑐᑦ', 'iku', NULL);
+INSERT INTO public.language VALUES ('ii', 'Sichuan Yi / Nuosu', 'ꆇꉙ / 四川彝语', 'iii', NULL);
+INSERT INTO public.language VALUES ('ny', 'Chichewa / Chewa / Nyanja', 'ChiCheŵa, chinyanja', 'nya', NULL);
+INSERT INTO public.language VALUES ('io', 'Ido', 'Ido', 'ido', NULL);
+INSERT INTO public.language VALUES ('is', 'Icelandic', 'Íslenska', 'ice', NULL);
+INSERT INTO public.language VALUES ('nl', 'Dutch / Flemish', 'Nederlands, Vlaams', 'dut', NULL);
+INSERT INTO public.language VALUES ('hu', 'Hungarian', 'Magyar', 'hun', NULL);
+INSERT INTO public.language VALUES ('he', 'Hebrew', 'עברית', 'heb', NULL);
+INSERT INTO public.language VALUES ('hz', 'Herero', 'Otsiherero', 'her', NULL);
+INSERT INTO public.language VALUES ('ho', 'Hiri Motu', 'Hiri Motu', 'hmo', NULL);
+INSERT INTO public.language VALUES ('ht', 'Haitian / Haitian Creole', 'Krèyol ayisyen', 'hat', NULL);
+INSERT INTO public.language VALUES ('ha', 'Hausa', 'هَوُسَ', 'hau', NULL);
+INSERT INTO public.language VALUES ('ka', 'Georgian', 'ქართული', 'geo', NULL);
+INSERT INTO public.language VALUES ('gd', 'Scottish Gaelic / Gaelic', 'Gàidhlig', 'gla', NULL);
+INSERT INTO public.language VALUES ('ga', 'Irish', 'Gaeilge', 'gle', NULL);
+INSERT INTO public.language VALUES ('gl', 'Galician', 'Galego', 'glg', NULL);
+INSERT INTO public.language VALUES ('gn', 'Guarani', 'Avañe''ẽ', 'grn', NULL);
+INSERT INTO public.language VALUES ('hi', 'Hindi', 'हिन्दी, हिंदी', 'hin', NULL);
+INSERT INTO public.language VALUES ('fi', 'Finnish', 'Suomi', 'fin', NULL);
+INSERT INTO public.language VALUES ('fr', 'French', 'Français', 'fre', NULL);
+INSERT INTO public.language VALUES ('fo', 'Faroese', 'Føroyskt', 'fao', NULL);
+INSERT INTO public.language VALUES ('ff', 'Fulah', 'Fulfulde, Pulaar, Pular', 'ful', NULL);
+INSERT INTO public.language VALUES ('et', 'Estonian', 'Eesti', 'est', NULL);
+INSERT INTO public.language VALUES ('ee', 'Ewe', 'Eʋegbe', 'ewe', NULL);
+INSERT INTO public.language VALUES ('cs', 'Czech', 'Česky', 'cze', NULL);
+INSERT INTO public.language VALUES ('da', 'Danish', 'Dansk', 'dan', NULL);
+INSERT INTO public.language VALUES ('co', 'Corsican', 'Corsu', 'cos', NULL);
+INSERT INTO public.language VALUES ('kw', 'Cornish', 'Kernewek', 'cor', NULL);
+INSERT INTO public.language VALUES ('cr', 'Cree', 'Nehiyaw, 	ᓀᐦᐃᔭᐍᐏᐣ', 'cre', NULL);
+INSERT INTO public.language VALUES ('ce', 'Chechen', 'Нохчийн мотт', 'che', NULL);
+INSERT INTO public.language VALUES ('my', 'Burmese', 'မြန်မာစာ', 'bur', NULL);
+INSERT INTO public.language VALUES ('ba', 'Bashkir', 'Башҡорт', 'bak', NULL);
+INSERT INTO public.language VALUES ('eu', 'Basque', 'Euskara', 'baq', NULL);
+INSERT INTO public.language VALUES ('bg', 'Bulgarian', 'Български език', 'bul', NULL);
+INSERT INTO public.language VALUES ('bi', 'Bislama', 'Bislama', 'bis', NULL);
+INSERT INTO public.language VALUES ('bs', 'Bosnian', 'Bosanski', 'bos', NULL);
+INSERT INTO public.language VALUES ('ay', 'Aymara', 'Aymar', 'aym', NULL);
+INSERT INTO public.language VALUES ('be', 'Belarusian', 'Беларуская мова', 'bel', NULL);
+INSERT INTO public.language VALUES ('hy', 'Armenian', 'Հայերեն', 'arm', NULL);
+INSERT INTO public.language VALUES ('ar', 'Arabic', 'العربية', 'ara', NULL);
+INSERT INTO public.language VALUES ('am', 'Amharic', 'አማርኛ', 'amh', NULL);
+INSERT INTO public.language VALUES ('sq', 'Albanian', 'Shqip', 'alb', NULL);
+INSERT INTO public.language VALUES ('vi', 'Vietnamese', 'Tiếng Việt', 'vie', NULL);
+INSERT INTO public.language VALUES ('en', 'English', 'English', 'eng', NULL);
+INSERT INTO public.language VALUES ('zu', 'Zulu', 'isiZulu', 'zul', NULL);
+INSERT INTO public.language VALUES ('nd', 'North Ndebele', 'isiNdebele', 'nde', NULL);
+INSERT INTO public.language VALUES ('yo', 'Yoruba', 'Yorùbá', 'yor', NULL);
+INSERT INTO public.language VALUES ('yi', 'Yiddish', 'ייִדיש', 'yid', NULL);
+INSERT INTO public.language VALUES ('xh', 'Xhosa', 'isiXhosa', 'xho', NULL);
+INSERT INTO public.language VALUES ('wo', 'Wolof', 'Wollof', 'wol', NULL);
+INSERT INTO public.language VALUES ('vo', 'Volapük', 'Volapük', 'vol', NULL);
+INSERT INTO public.language VALUES ('wa', 'Walloon', 'Walon', 'wln', NULL);
+INSERT INTO public.language VALUES ('ak', 'Akan', 'Akana', 'aka', NULL);
+INSERT INTO public.language VALUES ('bh', 'Bihari languages', 'भोजपुरी', 'bih', NULL);
+INSERT INTO public.language VALUES ('ug', 'Uyghur', 'Uyƣurqə / ئۇيغۇرچە', 'uig', NULL);
+INSERT INTO public.language VALUES ('uk', 'Ukrainian', 'Українська', 'ukr', NULL);
+INSERT INTO public.language VALUES ('ur', 'Urdu', 'اردو', 'urd', NULL);
+INSERT INTO public.language VALUES ('uz', 'Uzbek', 'Ўзбек', 'uzb', NULL);
+INSERT INTO public.language VALUES ('ve', 'Venda', 'Tshivenḓa', 'ven', NULL);
+INSERT INTO public.language VALUES ('cy', 'Welsh', 'Cymraeg', 'wel', NULL);
+INSERT INTO public.language VALUES ('tr', 'Turkish', 'Türkçe', 'tur', NULL);
+INSERT INTO public.language VALUES ('tw', 'Twi', 'Twi', 'twi', NULL);
+INSERT INTO public.language VALUES ('tk', 'Turkmen', 'Туркмен / تركمن', 'tuk', NULL);
+INSERT INTO public.language VALUES ('to', 'Tonga (Tonga Islands)', 'Lea Faka-Tonga', 'ton', NULL);
+INSERT INTO public.language VALUES ('th', 'Thai', 'ไทย / Phasa Thai', 'tha', NULL);
+INSERT INTO public.language VALUES ('te', 'Telugu', 'తెలుగు', 'tel', NULL);
+INSERT INTO public.language VALUES ('sw', 'Swahili', 'Kiswahili', 'swa', NULL);
+INSERT INTO public.language VALUES ('su', 'Sundanese', 'Basa Sunda', 'sun', NULL);
+INSERT INTO public.language VALUES ('sa', 'Sanskrit', 'संस्कृतम्', 'san', NULL);
+INSERT INTO public.language VALUES ('pi', 'Pali', 'Pāli / पाऴि', 'pli', NULL);
+INSERT INTO public.language VALUES ('se', 'Northern Sami', 'Davvisámegiella', 'sme', NULL);
+INSERT INTO public.language VALUES ('el', 'Greek', 'Ελληνικά', 'gre', NULL);
+INSERT INTO public.language VALUES ('za', 'Zhuang / Chuang', 'Cuengh / Tôô / 壮语', 'zha', NULL);
+INSERT INTO public.language VALUES ('ro', 'Romanian / Moldavian / Moldovan', 'Română', 'rum', NULL);
+INSERT INTO public.language VALUES ('ml', 'Malayalam', 'മലയാളം', 'mal', NULL);
+INSERT INTO public.language VALUES ('ku', 'Kurdish', 'Kurdî / كوردی', 'kur', NULL);
+INSERT INTO public.language VALUES ('kj', 'Kuanyama / Kwanyama', 'Kuanyama', 'kua', NULL);
+INSERT INTO public.language VALUES ('oj', 'Ojibwa', 'ᐊᓂᔑᓈᐯᒧᐎᓐ', 'oji', NULL);
+INSERT INTO public.language VALUES ('id', 'Indonesian', 'Bahasa Indonesia', 'ind', NULL);
+INSERT INTO public.language VALUES ('ia', 'Interlingua', 'Interlingua', 'ina', NULL);
+INSERT INTO public.language VALUES ('de', 'German', 'Deutsch', 'ger', NULL);
+INSERT INTO public.language VALUES ('gu', 'Gujarati', 'ગુજરાતી', 'guj', NULL);
+INSERT INTO public.language VALUES ('dz', 'Dzongkha', 'ཇོང་ཁ', 'dzo', NULL);
+INSERT INTO public.language VALUES ('dv', 'Divehi / Dhivehi / Maldivian', 'ދިވެހިބަސް', 'div', NULL);
+INSERT INTO public.language VALUES ('ch', 'Chamorro', 'Chamoru', 'cha', NULL);
+INSERT INTO public.language VALUES ('br', 'Breton', 'Brezhoneg', 'bre', NULL);
+INSERT INTO public.language VALUES ('bm', 'Bambara', 'Bamanankan', 'bam', NULL);
+INSERT INTO public.language VALUES ('bn', 'Bengali', 'বাংলা', 'ben', NULL);
+INSERT INTO public.language VALUES ('az', 'Azerbaijani', 'Azərbaycanca / آذربايجان', 'aze', NULL);
+INSERT INTO public.language VALUES ('an', 'Aragonese', 'Aragonés', 'arg', NULL);
+INSERT INTO public.language VALUES ('ab', 'Abkhazian', 'аҧсуа бызшәа, аҧсшәа', 'abk', NULL);
+INSERT INTO public.language VALUES ('nb', 'Norwegian Bokmål', 'Norsk bokmål', 'nob', NULL);
+INSERT INTO public.language VALUES ('km', 'Central Khmer', 'ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ', 'khm', NULL);
+INSERT INTO public.language VALUES ('ca', 'Catalan / Valencian', 'Català, valencià', 'cat', NULL);
+INSERT INTO public.language VALUES ('hr', 'Croatian', 'Hrvatski jezik', 'hrv', NULL);
+INSERT INTO public.language VALUES ('fj', 'Fijian', 'Vosa Vakaviti', 'fij', NULL);
+INSERT INTO public.language VALUES ('ik', 'Inupiaq', 'Iñupiaq, Iñupiatun', 'ipk', NULL);
+INSERT INTO public.language VALUES ('ja', 'Japanese', '日本語 (にほんご)', 'jpn', NULL);
+INSERT INTO public.language VALUES ('jv', 'Javanese', 'ꦧꦱꦗꦮ, Basa Jawa', 'jav', NULL);
+INSERT INTO public.language VALUES ('rw', 'Kinyarwanda', 'Ikinyarwanda', 'kin', NULL);
+INSERT INTO public.language VALUES ('lt', 'Lithuanian', 'lietuvių kalba', 'lit', NULL);
+INSERT INTO public.language VALUES ('lu', 'Luba-Katanga', 'Kiluba', 'lub', NULL);
+INSERT INTO public.language VALUES ('mg', 'Malagasy', 'fiteny malagasy', 'mlg', NULL);
+INSERT INTO public.language VALUES ('ms', 'Malay', 'Bahasa Melayu, بهاس ملايو', 'may', NULL);
+INSERT INTO public.language VALUES ('gv', 'Manx', 'Gaelg, Gailck', 'glv', NULL);
+INSERT INTO public.language VALUES ('pa', 'Punjabi / Panjabi', 'ਪੰਜਾਬੀ / पंजाबी / پنجابي', 'pan', NULL);
+INSERT INTO public.language VALUES ('cu', 'Church Slavic / Old Slavonic / Church Slavonic / Old Bulgarian / Old Church Slavonic', 'ѩзыкъ словѣньскъ', 'chu', NULL);
+INSERT INTO public.language VALUES ('so', 'Somali', 'Soomaaliga, af Soomaali', 'som', NULL);
+INSERT INTO public.language VALUES ('tg', 'Tajik', 'тоҷикӣ, toçikī, تاجیکی', 'tgk', NULL);
 
-INSERT INTO public.user_detail VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'Admin hệ thống', '1995-05-25', 'MALE', '+999999999', '98f1edad-0410-4fa0-be8c-40133cc0d64f', 'Quy Nhơn, Bình Định', '591300', 'VN');
-INSERT INTO public.user_detail VALUES ('01d182ed-2a5c-4a3d-b17a-2906dd52c61f', NULL, NULL, NULL, NULL, '3dd60931-0698-4739-88c7-22dacddd1ba1', NULL, NULL, 'VI');
-INSERT INTO public.user_detail VALUES ('819dad0c-75a7-4a38-b559-70ce1f0f0397', NULL, NULL, NULL, NULL, '64acaf13-87b2-4f4e-bda2-84efe5681026', NULL, NULL, 'VI');
-INSERT INTO public.user_detail VALUES ('c4b90599-039e-4a5f-9698-4af6aa628430', NULL, NULL, NULL, NULL, '00a994a7-0186-496d-82f8-61d26a9ef8d4', NULL, NULL, 'VI');
-INSERT INTO public.user_detail VALUES ('68b7cebd-e694-4639-97f0-34f50b144bce', NULL, NULL, NULL, NULL, '1786c558-fc8d-42fa-86c9-6f97f0f87b0e', NULL, NULL, 'VI');
 
-INSERT INTO public.user_social_network VALUES ('ca4295e2-793b-4254-b094-9cd37053bc16', 'https://lh3.googleusercontent.com/a-/AOh14GiXPRLvtwrs9PF3_aWHm4ZIDey7-8CWCvXAzu-E=s96-c', 'ndtao2020@gmail.com', NULL, 'aAPRw31W0BOmZFZDi6njB8EZNtN2', 1, '3dd60931-0698-4739-88c7-22dacddd1ba1');
-INSERT INTO public.user_social_network VALUES ('549ed6d8-4790-46cd-adfa-2b924ac823db', 'https://lh3.googleusercontent.com/a-/AOh14GiBqVrHBpzm-szaI6AeRUrt37gsHPGGwE2gACwb=s96-c', 'nuthanngabale@gmail.com', NULL, '0Yp9RIVa4FY7CQi2lqrlrHPzhwi2', 1, '64acaf13-87b2-4f4e-bda2-84efe5681026');
-INSERT INTO public.user_social_network VALUES ('a51ad0a3-964d-4cab-b812-c3def65b4c7d', 'https://lh3.googleusercontent.com/a-/AOh14GhXQxiqpeC9RNKEYlEs73luTq5UDjQsyFUZwnWOXA=s96-c', 'nuthancooltaoqn@gmail.com', NULL, 'GT3JgvhyBmViJSezaMUkDy6u00P2', 1, '00a994a7-0186-496d-82f8-61d26a9ef8d4');
-INSERT INTO public.user_social_network VALUES ('5f714676-478a-4d2f-9390-5df122fc1502', 'https://lh3.googleusercontent.com/a/AATXAJwXAwTcL8lHydt_BQLuAKX18VdjxGrW0kuaP9JW=s96-c', 'dvcquocgia2019@gmail.com', NULL, 'AocXPCSQswS7lldKgh1KhF33PcE2', 1, '1786c558-fc8d-42fa-86c9-6f97f0f87b0e');
+--
+-- TOC entry 3459 (class 0 OID 18913)
+-- Dependencies: 263
+-- Data for Name: liketype; Type: TABLE DATA; Schema: public; Owner: postgres
+--
 
-INSERT INTO public.user_sys VALUES ('3dd60931-0698-4739-88c7-22dacddd1ba1', 'system', '2021-09-05 14:01:37.900435', 'system', '2021-09-05 14:01:37.930716', 'https://lh3.googleusercontent.com/a-/AOh14GiXPRLvtwrs9PF3_aWHm4ZIDey7-8CWCvXAzu-E=s96-c', true, 'Teo GN', '$2a$10$cYsb/fv.GwxxGEc3IKVqOucYYzg31/PDG9gWCGlPWrSQurryHFn0C', '95fcb34475ee43878f0716cf3a2dbee7', 'ndtao2020@gmail.com', false, 'Asia/Saigon');
-INSERT INTO public.user_sys VALUES ('1786c558-fc8d-42fa-86c9-6f97f0f87b0e', 'system', '2021-09-06 13:56:56.779786', 'system', '2021-09-06 14:00:47.469698', 'https://lh3.googleusercontent.com/a/AATXAJwXAwTcL8lHydt_BQLuAKX18VdjxGrW0kuaP9JW=s96-c', true, 'Đình Tạo Nguyễn', '$2a$10$cYsb/fv.GwxxGEc3IKVqOucYYzg31/PDG9gWCGlPWrSQurryHFn0C', '6c6ce1ebbe4348358053a811847f77b0', 'dvcquocgia2019@gmail.com', true, 'Asia/Saigon');
-INSERT INTO public.user_sys VALUES ('64acaf13-87b2-4f4e-bda2-84efe5681026', 'system', '2021-09-05 14:21:24.142107', 'system', '2021-09-06 14:32:21.445091', 'https://lh3.googleusercontent.com/a-/AOh14GiBqVrHBpzm-szaI6AeRUrt37gsHPGGwE2gACwb=s96-c', true, 'Tao Nguyen', '$2a$10$cYsb/fv.GwxxGEc3IKVqOucYYzg31/PDG9gWCGlPWrSQurryHFn0C', 'fa42d78d2db148168542488a63e52686', 'nuthanngabale@gmail.com', true, 'Asia/Saigon');
-INSERT INTO public.user_sys VALUES ('00a994a7-0186-496d-82f8-61d26a9ef8d4', 'system', '2021-09-06 13:05:20.706604', 'system', '2021-09-07 00:50:07.727248', 'https://lh3.googleusercontent.com/a-/AOh14GhXQxiqpeC9RNKEYlEs73luTq5UDjQsyFUZwnWOXA=s96-c', true, 'Đình Tạo Nguyễn', '$2a$10$cYsb/fv.GwxxGEc3IKVqOucYYzg31/PDG9gWCGlPWrSQurryHFn0C', '0cafb114e2694698b050b4b130ca4dbe', 'nuthancooltaoqn@gmail.com', true, 'Asia/Saigon');
-INSERT INTO public.user_sys VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'account-public', '2021-08-24 14:44:33', 'account-public', '2021-08-24 14:44:33', 'https://lh3.googleusercontent.com/a/AATXAJwXAwTcL8lHydt_BQLuAKX18VdjxGrW0kuaP9JW=s96-c', true, 'Nguyễn Đình Tạo', '$2a$10$cYsb/fv.GwxxGEc3IKVqOucYYzg31/PDG9gWCGlPWrSQurryHFn0C', 'taoqn', 'no_email@nhactuvung.com', true, 'Asia/Ho_Chi_Minh');
+INSERT INTO public.liketype VALUES ('normal', 'normal');
+INSERT INTO public.liketype VALUES ('heart', 'heart');
+INSERT INTO public.liketype VALUES ('haha', 'haha');
+INSERT INTO public.liketype VALUES ('angry', 'angry');
+INSERT INTO public.liketype VALUES ('sad', 'sad');
+INSERT INTO public.liketype VALUES ('ask', 'ask');
+INSERT INTO public.liketype VALUES ('love', 'love');
+
+
+--
+-- TOC entry 3454 (class 0 OID 18781)
+-- Dependencies: 258
+-- Data for Name: media; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.media VALUES ('a6395065-e4c9-470f-9a64-5a36f9f77bd9', '/image/post/a6395065-e4c9-470f-9a64-5a36f9f77bd9-zzzzz.jpg', 'image/jpeg', '69b771a7-47ae-4153-8861-f95b0237529b');
+INSERT INTO public.media VALUES ('8dca5825-466c-43a2-bb68-181af2581e8c', '/image/post/8dca5825-466c-43a2-bb68-181af2581e8c-zzzzz.jpg', 'image/jpeg', 'a0ad1046-5d9d-4e28-bbd3-710d4a225911');
+INSERT INTO public.media VALUES ('833fb2c7-f1f8-4e89-b36f-02b90217dc76', '/image/post/833fb2c7-f1f8-4e89-b36f-02b90217dc76-zzzzz.jpg', 'image/jpeg', '17cb31b2-b0d6-42c3-8371-7e8fd553c341');
+INSERT INTO public.media VALUES ('4224d6cb-018d-47c7-874a-4745cfc4c358', '/image/post/4224d6cb-018d-47c7-874a-4745cfc4c358-zzzzz.jpg', 'image/jpeg', 'b45275b5-c8b3-4bfc-9ee9-3e0d5654aefa');
+INSERT INTO public.media VALUES ('ac0b9f1a-9257-42c5-977f-12a959475e71', '/image/post/ac0b9f1a-9257-42c5-977f-12a959475e71-zzzzz.jpg', 'image/jpeg', '7347ac75-6a96-42d2-814d-a5650fed6192');
+
+
+--
+-- TOC entry 3447 (class 0 OID 17686)
+-- Dependencies: 251
+-- Data for Name: oauth2client; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.oauth2client VALUES ('f8a61913-9d89-4f0e-8090-4aeed53675ee', 604800, NULL, true, 'refresh_token,password', NULL, 2592000, NULL, 'user_profile', '$2a$12$qo95peQMz5qjt35PQStxvO.usHUz7Ls.TpL5UfgBl5jU4QiaW2koW', 'skillful-lamp-production.up.railway.app');
+INSERT INTO public.oauth2client VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 604800, NULL, true, 'refresh_token,password', NULL, 2592000, NULL, 'user_profile', '$2a$12$qo95peQMz5qjt35PQStxvO.usHUz7Ls.TpL5UfgBl5jU4QiaW2koW', 'app-vocabulary.vercel.app');
+INSERT INTO public.oauth2client VALUES ('01927f6d-bed6-4d59-afa5-267450cc253e', 2592000, NULL, true, 'refresh_token,client_credentials', NULL, 5184000, NULL, 'server', '$2a$12$DcUar.OriwYhMSvOrjG8h.YP/KTcWoCF.eaYyuELiwKt2ZKBhPG82', 'localhost');
+
+
+--
+-- TOC entry 3460 (class 0 OID 18921)
+-- Dependencies: 264
+-- Data for Name: postlike; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+--
+-- TOC entry 3449 (class 0 OID 18567)
+-- Dependencies: 253
+-- Data for Name: socialnetwork; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.socialnetwork VALUES (1, 'GOOGLE', NULL, NULL);
+INSERT INTO public.socialnetwork VALUES (2, 'FACEBOOK', NULL, NULL);
+
+
+--
+-- TOC entry 3457 (class 0 OID 18809)
+-- Dependencies: 261
+-- Data for Name: tag; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.tag VALUES ('#Tien_Bip', 'Tiến Bịp');
+INSERT INTO public.tag VALUES ('#Bong_Da', 'Bóng Đá');
+INSERT INTO public.tag VALUES ('#Chi_Ong_Nau', 'Chị ong nâu');
+INSERT INTO public.tag VALUES ('#Ba_Phuong_Hang', 'Bà Phương Hằng');
+INSERT INTO public.tag VALUES ('#Chim_Canh_Cut', 'Chim Cánh Cụt');
+INSERT INTO public.tag VALUES ('#Dark', 'Dark Meme');
+INSERT INTO public.tag VALUES ('#Xin_link', 'Xin link');
+INSERT INTO public.tag VALUES ('#Thay_Huan', 'Huấn Hoa Hồng');
+INSERT INTO public.tag VALUES ('#Cheems', 'Meme cheems');
+INSERT INTO public.tag VALUES ('#Gau_Truc', 'Gấu Trúc');
+INSERT INTO public.tag VALUES ('#Gau_Cho', 'Gấu Chó');
+INSERT INTO public.tag VALUES ('#Cho', 'Chó');
+INSERT INTO public.tag VALUES ('#Meo', 'Mèo');
+
+
+--
+-- TOC entry 3448 (class 0 OID 17749)
+-- Dependencies: 252
+-- Data for Name: user_sys; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.user_sys VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'account-public', '2021-08-24 14:44:33', 'account-public', '2021-08-24 14:44:33', 'https://lh3.googleusercontent.com/a/AATXAJwXAwTcL8lHydt_BQLuAKX18VdjxGrW0kuaP9JW=s96-c', true, 'Nguyễn Đình Tạo', '$2a$10$cYsb/fv.GwxxGEc3IKVqOucYYzg31/PDG9gWCGlPWrSQurryHFn0C', 'admin', 'no_email@choydy.com', true, 'Asia/Ho_Chi_Minh');
+
+
+--
+-- TOC entry 3458 (class 0 OID 18832)
+-- Dependencies: 262
+-- Data for Name: userauthority; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.userauthority VALUES ('be8b3e2b-8284-441e-9905-2e316a30b902', 'ADMIN', '98f1edad-0410-4fa0-be8c-40133cc0d64f');
+INSERT INTO public.userauthority VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'USER', '98f1edad-0410-4fa0-be8c-40133cc0d64f');
+INSERT INTO public.userauthority VALUES ('da3a324e-12c2-4b3a-9b8e-473c41c6ca58', 'EDITOR', '98f1edad-0410-4fa0-be8c-40133cc0d64f');
+
+
+--
+-- TOC entry 3450 (class 0 OID 18580)
+-- Dependencies: 254
+-- Data for Name: userdetail; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.userdetail VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'Admin hệ thống', 'Quy Nhơn, Bình Định', '1995-05-25', 'MALE', '+999999999', '591300', 'VN', '98f1edad-0410-4fa0-be8c-40133cc0d64f');
+
+
+--
+-- TOC entry 3451 (class 0 OID 18588)
+-- Dependencies: 255
+-- Data for Name: usersocialnetwork; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3467 (class 0 OID 0)
+-- Dependencies: 249
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
 
 SELECT pg_catalog.setval('public.hibernate_sequence', 1, false);
 
+
+--
+-- TOC entry 3233 (class 2606 OID 17774)
+-- Name: authority authority_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY public.authority
     ADD CONSTRAINT authority_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.client
-    ADD CONSTRAINT client_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3271 (class 2606 OID 18803)
+-- Name: catalog catalog_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.catalog
+    ADD CONSTRAINT catalog_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3267 (class 2606 OID 18765)
+-- Name: comment comment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comment
+    ADD CONSTRAINT comment_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3235 (class 2606 OID 17782)
+-- Name: country country_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY public.country
     ADD CONSTRAINT country_pkey PRIMARY KEY (iso);
-ALTER TABLE ONLY public.httpendpoint
-    ADD CONSTRAINT httpendpoint_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3237 (class 2606 OID 17788)
+-- Name: language language_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY public.language
     ADD CONSTRAINT language_pkey PRIMARY KEY (code);
+
+
+--
+-- TOC entry 3281 (class 2606 OID 18920)
+-- Name: liketype liketype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.liketype
+    ADD CONSTRAINT liketype_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3269 (class 2606 OID 18788)
+-- Name: media media_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.media
+    ADD CONSTRAINT media_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3239 (class 2606 OID 17842)
+-- Name: oauth2client oauth2client_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY public.oauth2client
     ADD CONSTRAINT oauth2client_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.social_network
-    ADD CONSTRAINT social_network_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.user_social_network
-    ADD CONSTRAINT uk1h6b3iioqeqns0ejuegpxsmj8 UNIQUE (user_id, social_network_id);
-ALTER TABLE ONLY public.social_network
-    ADD CONSTRAINT uk_24rhxyj4ln5m62y587aeihiyc UNIQUE (name);
-ALTER TABLE ONLY public.httpendpoint
-    ADD CONSTRAINT uk_4fdrv5gsfdnsxrp6ebtpr6j9w UNIQUE (pattern);
+
+
+--
+-- TOC entry 3265 (class 2606 OID 18714)
+-- Name: post post_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.post
+    ADD CONSTRAINT post_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3283 (class 2606 OID 18925)
+-- Name: postlike postlike_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.postlike
+    ADD CONSTRAINT postlike_pkey PRIMARY KEY (user_id, post_id);
+
+
+--
+-- TOC entry 3273 (class 2606 OID 18808)
+-- Name: posttag posttag_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posttag
+    ADD CONSTRAINT posttag_pkey PRIMARY KEY (tag_id, post_id);
+
+
+--
+-- TOC entry 3250 (class 2606 OID 18574)
+-- Name: socialnetwork socialnetwork_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.socialnetwork
+    ADD CONSTRAINT socialnetwork_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3275 (class 2606 OID 18816)
+-- Name: tag tag_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tag
+    ADD CONSTRAINT tag_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3252 (class 2606 OID 18599)
+-- Name: socialnetwork uk_2s1vq8bhmy1808f219jajrl2b; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.socialnetwork
+    ADD CONSTRAINT uk_2s1vq8bhmy1808f219jajrl2b UNIQUE (name);
+
+
+--
+-- TOC entry 3241 (class 2606 OID 17864)
+-- Name: user_sys uk_5hl4w53pryqi6yvk9xlj9q7qn; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY public.user_sys
     ADD CONSTRAINT uk_5hl4w53pryqi6yvk9xlj9q7qn UNIQUE (username);
-ALTER TABLE ONLY public.client
-    ADD CONSTRAINT uk_6cv9qq72takklp1s5loqv4vxd UNIQUE (path);
-ALTER TABLE ONLY public.user_detail
-    ADD CONSTRAINT uk_dm7hrxg9mvrb92v1p3o6wg97u UNIQUE (user_id);
+
+
+--
+-- TOC entry 3254 (class 2606 OID 18605)
+-- Name: userdetail uk_ogldqocqgiidnxc0phek5u6r; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.userdetail
+    ADD CONSTRAINT uk_ogldqocqgiidnxc0phek5u6r UNIQUE (user_id);
+
+
+--
+-- TOC entry 3243 (class 2606 OID 18601)
+-- Name: user_sys uk_pjjobtr3fx54k6d3hj8mgsoa5; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_sys
+    ADD CONSTRAINT uk_pjjobtr3fx54k6d3hj8mgsoa5 UNIQUE (email);
+
+
+--
+-- TOC entry 3245 (class 2606 OID 17876)
+-- Name: user_sys ukbyqgxl187y7aer3tki0jd0qr3; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY public.user_sys
     ADD CONSTRAINT ukbyqgxl187y7aer3tki0jd0qr3 UNIQUE (username, email);
-ALTER TABLE ONLY public.vocabulary
-    ADD CONSTRAINT ukg99y7ggd9rvkds2jn9cj325l2 UNIQUE (word, language_code);
-ALTER TABLE ONLY public.user_authority
-    ADD CONSTRAINT uko947w16xae78hftq2qqo6xnii UNIQUE (user_id, authority_id);
-ALTER TABLE ONLY public.user_authority
-    ADD CONSTRAINT user_authority_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.user_detail
-    ADD CONSTRAINT user_detail_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.user_social_network
-    ADD CONSTRAINT user_social_network_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3277 (class 2606 OID 18838)
+-- Name: userauthority ukd2dmkumx3e97vu2shhg9kk2gu; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.userauthority
+    ADD CONSTRAINT ukd2dmkumx3e97vu2shhg9kk2gu UNIQUE (user_id, authority_id);
+
+
+--
+-- TOC entry 3285 (class 2606 OID 18927)
+-- Name: postlike ukqxvn7078ensy4qaar2r2yi4yx; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.postlike
+    ADD CONSTRAINT ukqxvn7078ensy4qaar2r2yi4yx UNIQUE (post_id, user_id, liketype_id);
+
+
+--
+-- TOC entry 3258 (class 2606 OID 18607)
+-- Name: usersocialnetwork uksn7bvt6g2a8i8m65cvmjsfske; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usersocialnetwork
+    ADD CONSTRAINT uksn7bvt6g2a8i8m65cvmjsfske UNIQUE (user_id, social_network_id);
+
+
+--
+-- TOC entry 3248 (class 2606 OID 17918)
+-- Name: user_sys user_sys_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY public.user_sys
     ADD CONSTRAINT user_sys_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.vocabulary
-    ADD CONSTRAINT vocabulary_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.word_type
-    ADD CONSTRAINT word_type_pkey PRIMARY KEY (id);
 
-CREATE INDEX idxio0gt6c5hcmadygqxglcjppjn ON public.vocabulary USING btree (word);
-CREATE INDEX idxpanr77uyodjseroh8h8ojya1 ON public.vocabulary USING btree (created_date);
-CREATE INDEX idxq5e0nnpknixh1461grlifug41 ON public.vocabulary USING btree (view, selected, verified);
+
+--
+-- TOC entry 3279 (class 2606 OID 18836)
+-- Name: userauthority userauthority_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.userauthority
+    ADD CONSTRAINT userauthority_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3256 (class 2606 OID 18587)
+-- Name: userdetail userdetail_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.userdetail
+    ADD CONSTRAINT userdetail_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3260 (class 2606 OID 18595)
+-- Name: usersocialnetwork usersocialnetwork_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usersocialnetwork
+    ADD CONSTRAINT usersocialnetwork_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3261 (class 1259 OID 18720)
+-- Name: idxgj2rd9ewi9h2p4pc09i6upyt1; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idxgj2rd9ewi9h2p4pc09i6upyt1 ON public.post USING btree (created);
+
+
+--
+-- TOC entry 3262 (class 1259 OID 18722)
+-- Name: idxote8luhmq2ditx56w37mviwny; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idxote8luhmq2ditx56w37mviwny ON public.post USING btree (title, content);
+
+
+--
+-- TOC entry 3263 (class 1259 OID 18721)
+-- Name: idxs7ui38nhrh0c7q4nfpgf93bfk; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idxs7ui38nhrh0c7q4nfpgf93bfk ON public.post USING btree (user_id);
+
+
+--
+-- TOC entry 3246 (class 1259 OID 17936)
+-- Name: user_sys_email_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
 CREATE UNIQUE INDEX user_sys_email_idx ON public.user_sys USING btree (email);
 
-ALTER TABLE ONLY public.vocabulary
-    ADD CONSTRAINT fk3kbxto4wu5fbk9yvcxdmxuwea FOREIGN KEY (language_code) REFERENCES public.language(code);
-ALTER TABLE ONLY public.client
-    ADD CONSTRAINT fka5xorssq88rm7m966xhmn7fjk FOREIGN KEY (parent_id) REFERENCES public.client(id);
-ALTER TABLE ONLY public.user_social_network
-    ADD CONSTRAINT fkelhp5v4mmmc10xci2n6pu4466 FOREIGN KEY (user_id) REFERENCES public.user_sys(id);
-ALTER TABLE ONLY public.user_authority
-    ADD CONSTRAINT fkgvxjs381k6f48d5d2yi11uh89 FOREIGN KEY (authority_id) REFERENCES public.authority(id);
-ALTER TABLE ONLY public.user_social_network
-    ADD CONSTRAINT fkhkkllhhe0ffhrq44yl5p2n62e FOREIGN KEY (social_network_id) REFERENCES public.social_network(id);
-ALTER TABLE ONLY public.user_detail
-    ADD CONSTRAINT fkjg6wf58bwqhdx9irh3yng86lm FOREIGN KEY (user_id) REFERENCES public.user_sys(id);
-ALTER TABLE ONLY public.user_detail
-    ADD CONSTRAINT fkl2geb8158qrkmalu266siwghx FOREIGN KEY (country_iso) REFERENCES public.country(iso);
-ALTER TABLE ONLY public.user_authority
-    ADD CONSTRAINT fkpo68rl9tdsgxhwhfih3ghsuq8 FOREIGN KEY (user_id) REFERENCES public.user_sys(id);
+
+--
+-- TOC entry 3296 (class 2606 OID 18822)
+-- Name: posttag fk16gha3b1hvtdmklc4qmhxs4te; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posttag
+    ADD CONSTRAINT fk16gha3b1hvtdmklc4qmhxs4te FOREIGN KEY (tag_id) REFERENCES public.tag(id);
+
+
+--
+-- TOC entry 3286 (class 2606 OID 18633)
+-- Name: userdetail fk174y51lt1lbl26clh4ymguuk3; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.userdetail
+    ADD CONSTRAINT fk174y51lt1lbl26clh4ymguuk3 FOREIGN KEY (country_iso) REFERENCES public.country(iso);
+
+
+--
+-- TOC entry 3298 (class 2606 OID 18839)
+-- Name: userauthority fk1minklvli2mn2njbomxvef99g; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.userauthority
+    ADD CONSTRAINT fk1minklvli2mn2njbomxvef99g FOREIGN KEY (authority_id) REFERENCES public.authority(id);
+
+
+--
+-- TOC entry 3292 (class 2606 OID 18766)
+-- Name: comment fk6kduoq1qgemmbt8ls3x37di8n; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comment
+    ADD CONSTRAINT fk6kduoq1qgemmbt8ls3x37di8n FOREIGN KEY (parent_id) REFERENCES public.comment(id);
+
+
+--
+-- TOC entry 3287 (class 2606 OID 18638)
+-- Name: userdetail fk9kj1yufdk6lpcvs4hc9aki689; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.userdetail
+    ADD CONSTRAINT fk9kj1yufdk6lpcvs4hc9aki689 FOREIGN KEY (user_id) REFERENCES public.user_sys(id);
+
+
+--
+-- TOC entry 3293 (class 2606 OID 18776)
+-- Name: comment fkay3w7wrk7vau26n7ix6crwl1l; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comment
+    ADD CONSTRAINT fkay3w7wrk7vau26n7ix6crwl1l FOREIGN KEY (user_id) REFERENCES public.user_sys(id);
+
+
+--
+-- TOC entry 3288 (class 2606 OID 18643)
+-- Name: usersocialnetwork fkcjc5u98wa8eymfb2mw57kfp9m; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usersocialnetwork
+    ADD CONSTRAINT fkcjc5u98wa8eymfb2mw57kfp9m FOREIGN KEY (social_network_id) REFERENCES public.socialnetwork(id);
+
+
+--
+-- TOC entry 3300 (class 2606 OID 18938)
+-- Name: postlike fkdfoyq2vrvmh47km1jejktsem8; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.postlike
+    ADD CONSTRAINT fkdfoyq2vrvmh47km1jejktsem8 FOREIGN KEY (liketype_id) REFERENCES public.liketype(id);
+
+
+--
+-- TOC entry 3297 (class 2606 OID 18827)
+-- Name: posttag fkijuqbnbv01ixs71tbd58xkgkd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posttag
+    ADD CONSTRAINT fkijuqbnbv01ixs71tbd58xkgkd FOREIGN KEY (post_id) REFERENCES public.post(id);
+
+
+--
+-- TOC entry 3299 (class 2606 OID 18844)
+-- Name: userauthority fkjnag5ndsv1g0v1bsrwas0fibt; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.userauthority
+    ADD CONSTRAINT fkjnag5ndsv1g0v1bsrwas0fibt FOREIGN KEY (user_id) REFERENCES public.user_sys(id);
+
+
+--
+-- TOC entry 3290 (class 2606 OID 18817)
+-- Name: post fkknuxya8iel3o3odnc1u2c7pp2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.post
+    ADD CONSTRAINT fkknuxya8iel3o3odnc1u2c7pp2 FOREIGN KEY (catalog_id) REFERENCES public.catalog(id);
+
+
+--
+-- TOC entry 3289 (class 2606 OID 18648)
+-- Name: usersocialnetwork fko7d0gpfdlq9if52g0fecsfxso; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usersocialnetwork
+    ADD CONSTRAINT fko7d0gpfdlq9if52g0fecsfxso FOREIGN KEY (user_id) REFERENCES public.user_sys(id);
+
+
+--
+-- TOC entry 3294 (class 2606 OID 18771)
+-- Name: comment fkqb0rnht649ifuh6gev5lwvx8x; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comment
+    ADD CONSTRAINT fkqb0rnht649ifuh6gev5lwvx8x FOREIGN KEY (post_id) REFERENCES public.post(id);
+
+
+--
+-- TOC entry 3301 (class 2606 OID 18928)
+-- Name: postlike fkrfesdq1ogr4mt2qxfl241h6ud; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.postlike
+    ADD CONSTRAINT fkrfesdq1ogr4mt2qxfl241h6ud FOREIGN KEY (user_id) REFERENCES public.user_sys(id);
+
+
+--
+-- TOC entry 3291 (class 2606 OID 18723)
+-- Name: post fkt4kvk5faoe6k9lmq0m7bvqjcg; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.post
+    ADD CONSTRAINT fkt4kvk5faoe6k9lmq0m7bvqjcg FOREIGN KEY (user_id) REFERENCES public.user_sys(id);
+
+
+--
+-- TOC entry 3295 (class 2606 OID 18791)
+-- Name: media fktmgj1wjq6o74oq675050lhrb0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.media
+    ADD CONSTRAINT fktmgj1wjq6o74oq675050lhrb0 FOREIGN KEY (post_id) REFERENCES public.post(id);
+
+
+--
+-- TOC entry 3302 (class 2606 OID 18933)
+-- Name: postlike fkwy2u3sijki3uk1jhyq1wwujw; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.postlike
+    ADD CONSTRAINT fkwy2u3sijki3uk1jhyq1wwujw FOREIGN KEY (post_id) REFERENCES public.post(id);
+
+
+-- Completed on 2021-12-15 10:40:35
+
+--
+-- PostgreSQL database dump complete
+--
+

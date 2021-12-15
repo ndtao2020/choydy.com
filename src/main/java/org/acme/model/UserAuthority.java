@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.acme.base.BaseId;
-import org.acme.model.base.AuthorityBase;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +18,7 @@ import java.util.UUID;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {User.PATH_ID, AuthorityBase.PATH_ID}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {User.PATH_ID, Authority.PATH_ID}))
 @EqualsAndHashCode(callSuper = true)
 public class UserAuthority extends BaseId<UUID> {
 

@@ -3,7 +3,6 @@ package org.acme.controller.auth.admin;
 import org.acme.base.BaseController;
 import org.acme.base.dto.CheckDTO;
 import org.acme.constants.SecurityPath;
-import org.acme.controller.OAuthController;
 import org.acme.model.Catalog;
 import org.acme.model.dto.CatalogDTO;
 import org.acme.service.CatalogService;
@@ -21,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 @Path(SecurityPath.ADMIN_API_URL + "/" + Catalog.PATH)
 public class CatalogController extends BaseController {
 
-    private static final Logger logger = Logger.getLogger(OAuthController.class);
+    private static final Logger logger = Logger.getLogger(CatalogController.class);
 
     @Inject
     CatalogService catalogService;
@@ -55,6 +54,7 @@ public class CatalogController extends BaseController {
     public CheckDTO delete(@QueryParam(ID) Long id) throws IllegalAccessException {
         try {
             catalogService.delete(new Catalog(id));
+            catalogService.deleteDTOById(id);
             return new CheckDTO(true);
         } catch (Exception e) {
             logger.error(e.getMessage());

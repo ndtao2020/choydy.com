@@ -1,10 +1,11 @@
 package org.acme.service;
 
 import org.acme.base.service.BaseService;
+import org.acme.model.Authority;
+import org.acme.model.User;
 import org.acme.model.UserAuthority;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.Query;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,8 +22,9 @@ public class UserAuthorityService extends BaseService<UserAuthority, UserAuthori
     }
 
     public List<?> findByUserId(UUID id) {
-        Query query = getEm().createNativeQuery("select authority_id from user_authority where user_id=?1");
-        query.setParameter(1, id);
-        return query.getResultList();
+        return getEm()
+                .createNativeQuery("select " + Authority.PATH_ID + " from " + getTableName(getDomainClass()) + " where " + User.PATH_ID + "=?1")
+                .setParameter(1, id)
+                .getResultList();
     }
 }

@@ -4,7 +4,7 @@ package org.acme.base;
  * @author Nguyễn Đình Tạo
  */
 public class BaseController {
-    protected static final String ID = "id";
+    public static final String ID = "id";
     protected static final String ID_DESCRIPTION = "Tìm theo id";
 
     protected static final String SEARCH_PARAM = "search";

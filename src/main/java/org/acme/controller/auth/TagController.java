@@ -10,12 +10,14 @@ import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Path(SecurityPath.AUTH_API_URL + "/" + Tag.PATH)
 public class TagController extends BaseController {
@@ -24,6 +26,12 @@ public class TagController extends BaseController {
 
     @Inject
     TagService tagService;
+
+    @GET
+    @Produces("application/json")
+    public List<Tag> search(@QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s, @QueryParam(SEARCH_PARAM) String search) {
+        return tagService.searchDTO(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s, search, ID, "tag");
+    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -52,6 +60,7 @@ public class TagController extends BaseController {
     public CheckDTO delete(@QueryParam(ID) String id) throws IllegalAccessException {
         try {
             tagService.delete(new Tag(id));
+            tagService.deleteDTOById(id);
             return new CheckDTO(true);
         } catch (Exception e) {
             logger.error(e.getMessage());

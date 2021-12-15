@@ -11,7 +11,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -20,11 +19,6 @@ import javax.validation.constraints.NotNull;
 @MappedSuperclass
 @NoArgsConstructor
 public abstract class AuthorityBase {
-
-    @Transient
-    public static final String PATH = "authority";
-    @Transient
-    public static final String PATH_ID = "authority_id";
 
     @Id
     @NotNull

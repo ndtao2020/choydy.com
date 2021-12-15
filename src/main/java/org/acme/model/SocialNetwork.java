@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.List;
 
 @Entity
@@ -16,6 +17,9 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SocialNetwork extends SocialNetworkBase {
+
+    @Transient
+    public static final String PATH_ID = "social_network_id";
 
     private String clientId;
 
