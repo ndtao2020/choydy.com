@@ -4,10 +4,12 @@ const KEY_SESSION = 'session'
 const KEY_EXPIRES = 'expires_in'
 const KEY_COOKIE = '_id'
 
+export const getToken = () => Cookies.get(KEY_COOKIE)
+
 const checkLogged = () => {
   const session = localStorage.getItem(KEY_SESSION)
   const expires = localStorage.getItem(KEY_EXPIRES)
-  return Cookies.get(KEY_COOKIE) != null && session != null && expires != null
+  return getToken() != null && session != null && expires != null
 }
 
 export default {

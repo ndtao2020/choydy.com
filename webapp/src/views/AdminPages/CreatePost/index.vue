@@ -5,8 +5,12 @@
       <b-col col lg="5" md="5">
         <widget>
           <h4 class="text-center mb-1">Nhập thông tin bài đăng</h4>
+          <b-alert v-if="error" show variant="warning">{{ error }}</b-alert>
           <b-form @submit.prevent="handleSubmit">
-            <b-form-group label="Tiêu đề">
+            <b-form-group label="Danh mục (*)">
+              <b-form-select v-model="post.catalogId" :options="catalogs" />
+            </b-form-group>
+            <b-form-group label="Tiêu đề (*)">
               <b-form-input v-model="post.title" type="text" placeholder="Nhập tiêu đề"> </b-form-input>
             </b-form-group>
             <b-form-group label="Nội dung">
@@ -43,6 +47,7 @@
             </b-form-group>
             <b-form-group label="Tags">
               <b-form-tags v-model="post.tags" placeholder="Nhập từ khóa" tag-variant="primary" :tag-validator="tagValidator">
+                <template #add-button-text>Thêm</template>
                 <template #invalid-feedback> You must provide at least 3 tags and no more than 8 </template>
                 <template #description>
                   <div id="tags-validation-help">
@@ -51,10 +56,11 @@
                 </template>
               </b-form-tags>
             </b-form-group>
-            <b-form-group label="Đăng hình ảnh hoặc video">
+            <b-form-group label="Đăng hình ảnh hoặc video (*)">
               <b-tabs v-model="tabIndex" content-class="mt-3">
                 <b-tab title="Nếu đăng hình ảnh" active>
                   <b-form-file v-model="postImage" :state="Boolean(postImage)" accept="image/jpeg,image/png,image/gif" @change="changeImage">
+                    <template #placeholder>Chọn hình ảnh bạn cần hiển thị</template>
                     <template slot="file-name" slot-scope="{ names }">
                       <b-badge variant="dark">{{ names[0] }}</b-badge>
                       <b-badge v-if="names.length > 1" variant="dark" class="ml-1"> + {{ names.length - 1 }} More files </b-badge>
@@ -63,6 +69,7 @@
                 </b-tab>
                 <b-tab title="Nếu đăng video sex">
                   <b-form-file v-model="postImage" :state="Boolean(postImage)" accept="video/mp4,video/webm,video/x-flv" @change="changeVideo">
+                    <template #placeholder>Chọn video bạn cần hiển thị</template>
                     <template slot="file-name" slot-scope="{ names }">
                       <b-badge variant="dark">{{ names[0] }}</b-badge>
                       <b-badge v-if="names.length > 1" variant="dark" class="ml-1"> + {{ names.length - 1 }} More files </b-badge>
@@ -82,11 +89,24 @@
         </widget>
       </b-col>
     </b-row>
-    <div></div>
+    <b-modal v-model="loading" @click="loading = true" @show="onHide" @hide="onHide">
+      <template #modal-header="{}">
+        <div />
+      </template>
+      <div class="max-width d-flex">
+        <p class="m-auto spinner-border text-success" role="status" />
+      </div>
+      <template #modal-footer>
+        <div />
+      </template>
+    </b-modal>
   </div>
 </template>
 
 <script>
+import { getCatalogs } from '@/api/catalog'
+import { createPost } from '@/api/admin/post'
+
 export default {
   name: 'AdminCreatePost',
   components: {
@@ -103,21 +123,13 @@ export default {
   },
   data() {
     return {
-      options: ['Apple', 'Orange', 'Banana', 'Lime', 'Peach', 'Chocolate', 'Strawberry'],
-      input: '',
+      error: null,
+      loading: false,
+      catalogs: [],
       search: '',
-      value: [],
-      user: {
-        name: '',
-        email: '',
-        mobile: '',
-        city: '',
-        password: '',
-        confirmation: '',
-        hobbies: []
-      },
       tabIndex: 0,
       post: {
+        catalogId: null,
         title: '',
         description: '',
         tags: []
@@ -128,36 +140,35 @@ export default {
       postVideo: null
     }
   },
-  computed: {
-    criteria() {
-      // Compute the search criteria
-      return this.search.trim().toLowerCase()
-    },
-    availableOptions() {
-      const criteria = this.criteria
-      // Filter out already selected options
-      const options = this.options.filter((opt) => this.value.indexOf(opt) === -1)
-      if (criteria) {
-        // Show only options that match criteria
-        return options.filter((opt) => opt.toLowerCase().indexOf(criteria) > -1)
-      }
-      // Show all options available
-      return options
-    },
-    searchDesc() {
-      if (this.criteria && this.availableOptions.length === 0) {
-        return 'There are no tags matching your search criteria'
-      }
-      return ''
-    }
+  mounted() {
+    this.loadCatalogs()
   },
   methods: {
+    async loadCatalogs() {
+      this.loading = true
+      try {
+        const { l } = await getCatalogs()
+        this.catalogs = l.map(([id, name]) => ({
+          value: id,
+          text: name
+        }))
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    onHide(evt) {
+      if (evt.trigger === 'backdrop') {
+        evt.preventDefault()
+      }
+    },
     append(emoji) {
       this.post.description += emoji
     },
     changeImage(e) {
       this.postImage = e.target.files[0]
-      console.log(this.postImage)
       this.urlImage = URL.createObjectURL(this.postImage)
     },
     changeVideo(e) {
@@ -166,20 +177,61 @@ export default {
     },
     tagValidator(tag) {
       // Individual tag validator function
-      return tag.length > 2 && tag.length < 100
+      return tag.length > 1 && tag.length < 100 && !/\s/g.test(tag)
     },
-    handleSubmit() {
-      if (!confirm('Bạn đã thật sự muốn đăng bài ?')) {
+    async handleSubmit() {
+      if (!this.post.catalogId) {
+        this.error = 'Vui lòng chọn ít nhất 1 danh mục !'
         return
       }
-      if (!confirm('Bạn có hối hận gì không ?')) {
+      if (!this.post.title || this.post.title.length < 5) {
+        this.error = 'Vui lòng nhập ít nhất 5 kí tự cho tiêu đề !'
         return
       }
-      console.log(this.user)
-    },
-    onOptionClick({ option, addTag }) {
-      addTag(option)
-      this.search = ''
+      if (this.tabIndex === 0 && !this.postImage) {
+        this.error = 'Vui lòng chọn ít nhất 1 hình ảnh !'
+        return
+      }
+      if (this.tabIndex === 1 && !this.postVideo) {
+        this.error = 'Vui lòng chọn ít nhất 1 video !'
+        return
+      }
+      const confirm = await this.$bvModal.msgBoxConfirm('Bạn đã thật sự muốn đăng bài ?', {
+        title: 'Please Confirm',
+        size: 'sm',
+        buttonSize: 'sm',
+        okVariant: 'danger',
+        okTitle: 'YES',
+        cancelTitle: 'NO',
+        footerClass: 'p-2',
+        hideHeaderClose: false,
+        centered: true
+      })
+      if (!confirm) {
+        return
+      }
+      // submit
+      this.loading = true
+      // data
+      try {
+        const formData = new FormData()
+        const file = this.tabIndex === 0 ? this.postImage : this.postVideo
+        const fileName = file.name
+        formData.append('file', file)
+        formData.append('fileName', fileName.length > 20 ? fileName.substring(fileName.length - 19, fileName.length) : fileName)
+        formData.append('fileType', file.type)
+        formData.append('data', JSON.stringify(this.post))
+        await createPost(formData)
+        // redirect
+        this.$router.push('/admin/post-list')
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+        this.loading = false
+        this.error = 'Lỗi đã xảy ra khi tạo bài đăng !'
+      } finally {
+        this.loading = false
+      }
     }
   }
 }

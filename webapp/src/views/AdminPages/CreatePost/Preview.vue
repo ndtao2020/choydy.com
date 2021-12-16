@@ -19,7 +19,10 @@
     <div class="d-flex user-post">
       <div class="mx-auto">
         <h2>{{ post.title }}</h2>
-        <p class="p-2">{{ post.description }}</p>
+        <p>
+          {{ post.description }}
+        </p>
+        <b-button v-for="tag in post.tags" :key="tag" variant="link">#{{ tag }}</b-button>
         <div>
           <img v-if="tab === 0 && image" :src="image" />
           <video v-if="tab === 1 && video" width="90%" :src="video" controls autoplay />

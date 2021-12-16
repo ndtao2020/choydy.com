@@ -16,7 +16,9 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,6 +65,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         }
         // init
         Post post = new Post(postDTO);
+        post.setCreated(new Timestamp(new Date().getTime()));
         post.setUser(new User(userId));
         post.setCatalog(catalog);
         // ======================================= phù phép
@@ -101,7 +104,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
                     media1.setLink(minIOStorageService.uploadImage(Post.PATH, mediaId, fileType, fileName, file));
                 }
                 // if videos
-                if ("video/mp4".equals(fileType)) {
+                if ("video/mp4".equals(fileType) || "video/webm".equals(fileType) || "video/x-flv".equals(fileType)) {
                     media1.setLink(minIOStorageService.uploadVideo(Post.PATH, mediaId, fileType, fileName, file));
                 }
                 mediaService.update(media1);

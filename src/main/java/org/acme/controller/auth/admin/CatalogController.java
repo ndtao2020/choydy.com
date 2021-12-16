@@ -1,6 +1,7 @@
 package org.acme.controller.auth.admin;
 
 import org.acme.base.BaseController;
+import org.acme.base.QueryPage;
 import org.acme.base.dto.CheckDTO;
 import org.acme.constants.SecurityPath;
 import org.acme.model.Catalog;
@@ -10,6 +11,7 @@ import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -24,6 +26,12 @@ public class CatalogController extends BaseController {
 
     @Inject
     CatalogService catalogService;
+
+    @GET
+    @Produces("application/json")
+    public QueryPage findAllPost(@QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s, @QueryParam(SEARCH_PARAM) String search) {
+        return catalogService.searchDTOAndPagination(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s, search, "priority", "name");
+    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)

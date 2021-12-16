@@ -10,10 +10,16 @@ export default [
         component: () => import('@/views/AdminPages/Dashboard')
       },
       {
-        path: 'create',
+        path: 'create-post',
         name: 'CreatePost',
         meta: { title: 'Tạo bài đăng', auth: true },
         component: () => import('@/views/AdminPages/CreatePost')
+      },
+      {
+        path: 'post-list',
+        name: 'PostList',
+        meta: { title: 'Danh sách bài đăng', auth: true },
+        component: () => import('@/views/AdminPages/PostList')
       }
     ]
   }
