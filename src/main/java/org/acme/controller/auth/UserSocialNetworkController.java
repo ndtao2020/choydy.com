@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Path(SecurityPath.AUTH_API_URL + "/" + UserSocialNetwork.PATH)
-public class AuthUserSocialNetworkController extends BaseController {
+public class UserSocialNetworkController extends BaseController {
 
     @Inject
     UserSocialNetworkService userSocialNetworkService;

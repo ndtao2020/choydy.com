@@ -7,7 +7,8 @@
       <h5 class="navTitle first">Menu</h5>
       <ul class="nav">
         <NavLink :active-item="activeItem" header="Thống kê" link="/admin" icon-name="las la-home" index="dashboard" is-header />
-        <NavLink :active-item="activeItem" header="Bài đã đăng" link="/app/tables" icon-name="lab la-blogger" index="tables" is-header />
+        <NavLink :active-item="activeItem" header="Tạo bài đăng" link="/admin/create-post" icon-name="las la-plus-circle" index="create" is-header />
+        <NavLink :active-item="activeItem" header="Bài đã đăng" link="/admin/post-list" icon-name="lab la-blogger" index="post" is-header />
         <NavLink
           :active-item="activeItem"
           header="Danh mục"

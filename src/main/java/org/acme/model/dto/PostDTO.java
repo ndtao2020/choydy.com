@@ -5,14 +5,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.acme.model.base.PostBase;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class PostDTO extends PostBase {
+
     private UUID userId;
     private Long catalogId;
+
+    // child
+    private List<?> tags;
 
     public PostDTO(PostBase postBase) {
         super(postBase);

@@ -17,7 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 
 @Path(SecurityPath.AUTH_API_URL + "/" + User.PATH)
-public class AuthUserController extends BaseController {
+public class UserController extends BaseController {
 
     @Inject
     UserService service;

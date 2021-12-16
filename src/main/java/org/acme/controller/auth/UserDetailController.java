@@ -22,7 +22,7 @@ import javax.ws.rs.core.SecurityContext;
 import java.sql.SQLDataException;
 
 @Path(SecurityPath.AUTH_API_URL + "/" + UserDetailBase.PATH)
-public class AuthUserDetailController extends BaseController {
+public class UserDetailController extends BaseController {
 
     @Inject
     CountryService countryService;

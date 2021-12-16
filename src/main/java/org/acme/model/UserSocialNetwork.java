@@ -21,7 +21,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {User.PATH_ID, "social_network_id"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {User.PATH_ID, SocialNetwork.PATH_ID}))
 public class UserSocialNetwork extends BaseId<UUID> {
 
     @Transient
@@ -29,12 +29,12 @@ public class UserSocialNetwork extends BaseId<UUID> {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = User.PATH_ID, nullable = false)
     private User user;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "social_network_id", nullable = false)
+    @JoinColumn(name = SocialNetwork.PATH_ID, nullable = false)
     private SocialNetwork socialNetwork;
 
     @Column(nullable = false)

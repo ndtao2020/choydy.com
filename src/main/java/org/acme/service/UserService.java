@@ -44,7 +44,7 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
 
     public User loadUserByUsername(String username) throws SQLException {
         // query
-        Query query = getEm().createNativeQuery("select CAST (id AS varchar),password,enabled from user_sys where username=:u or email=:u");
+        Query query = getEm().createNativeQuery("select CAST (id AS varchar),password,enabled from " + getTableName(getDomainClass()) + " where username=:u or email=:u");
         query.setParameter("u", username);
         // result
         Object[] data = (Object[]) query.getSingleResult();

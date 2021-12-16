@@ -14,7 +14,7 @@ import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 
 @Path(SecurityPath.AUTH_API_URL + "/" + UserAuthority.PATH)
-public class AuthUserAuthorityController {
+public class UserAuthorityController {
 
     @Inject
     UserAuthorityService userAuthorityService;
