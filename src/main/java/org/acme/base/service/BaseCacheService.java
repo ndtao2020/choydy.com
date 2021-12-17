@@ -3,12 +3,10 @@ package org.acme.base.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.redis.client.RedisClient;
-import org.acme.base.BaseController;
 import org.acme.base.BaseId;
 import org.acme.base.QueryPage;
 
 import javax.inject.Inject;
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,32 +101,6 @@ public abstract class BaseCacheService<T extends BaseId<I>, D extends BaseId<I>,
     }
 
     // ==================================================== [] ====================================================
-
-    public List<D> searchDTO(String search, String order, String... fields) {
-        List<D> result = new ArrayList<>();
-        for (Object obj : search(search, order, fields)) {
-            result.add(this.findDTOByObjectId(obj));
-        }
-        return result;
-    }
-
-    public List<D> searchDTO(int page, int size, String search, String order, String... fields) {
-        List<D> result = new ArrayList<>();
-        for (Object obj : search(page, size, search, order, fields)) {
-            result.add(this.findDTOByObjectId(obj));
-        }
-        return result;
-    }
-
-    public QueryPage paginationDTO(int page, int size) {
-        QueryPage queryPage = pagination(page, size);
-        List<D> result = new ArrayList<>();
-        for (Object obj : queryPage.getL()) {
-            result.add(this.findDTOByObjectId(obj));
-        }
-        queryPage.setL(result);
-        return queryPage;
-    }
 
     public QueryPage searchDTOAndPagination(int page, int size, String search, String order, String... fields) {
         List<D> result = new ArrayList<>();

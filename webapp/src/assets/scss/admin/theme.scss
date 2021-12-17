@@ -8,5 +8,5 @@
 @import 'overrides';
 @import 'general';
 @import 'utils';
-@import '~bootstrap-vue/dist/bootstrap-vue.css';
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-vue@2.21.2/dist/bootstrap-vue.min.css');
 @import url('https://cdn.jsdelivr.net/npm/line-awesome@1.3.0/dist/line-awesome/css/line-awesome.min.css');

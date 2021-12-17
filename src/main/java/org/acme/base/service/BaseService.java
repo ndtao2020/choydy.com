@@ -177,9 +177,6 @@ public abstract class BaseService<T extends BaseId<I>, D extends BaseId<I>, I> {
     }
 
     public QueryPage searchAndPagination(int page, int size, String search, String order, String... fields) {
-        return new QueryPage(
-                search(page, size, search, order, fields),
-                getCountQuery(search, fields).getSingleResult()
-        );
+        return new QueryPage(search(page, size, search, order, fields), getCountQuery(search, fields).getSingleResult());
     }
 }

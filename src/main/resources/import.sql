@@ -13,10 +13,10 @@ ALTER TABLE public.authority OWNER TO postgres;
 
 CREATE TABLE public.catalog (
     id bigint NOT NULL,
-    created timestamp without time zone NOT NULL,
     icon character varying(255) NOT NULL,
     name character varying(255) NOT NULL,
-    priority integer NOT NULL
+    priority integer NOT NULL,
+    created bigint NOT NULL
 );
 
 
@@ -30,11 +30,11 @@ ALTER TABLE public.catalog OWNER TO postgres;
 CREATE TABLE public.comment (
     id uuid NOT NULL,
     content text NOT NULL,
-    created timestamp without time zone NOT NULL,
     likes bigint,
     parent_id uuid,
     post_id uuid NOT NULL,
-    user_id uuid NOT NULL
+    user_id uuid NOT NULL,
+    created bigint NOT NULL
 );
 
 
@@ -133,12 +133,13 @@ CREATE TABLE public.post (
     comments bigint,
     content text,
     count bigint,
-    created timestamp without time zone NOT NULL,
     likes bigint,
     shares bigint,
     title character varying(255) NOT NULL,
     user_id uuid NOT NULL,
-    catalog_id bigint NOT NULL
+    catalog_id bigint NOT NULL,
+    disable boolean NOT NULL,
+    created bigint NOT NULL
 );
 
 
@@ -193,8 +194,7 @@ ALTER TABLE public.socialnetwork OWNER TO postgres;
 --
 
 CREATE TABLE public.tag (
-    id character varying(255) NOT NULL,
-    description text
+    id character varying(255) NOT NULL
 );
 
 
@@ -293,20 +293,20 @@ INSERT INTO public.authority VALUES ('EDITOR', 'Biên tập');
 -- Data for Name: catalog; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.catalog VALUES (1, '2021-08-24 14:44:33', '1', 'trending', 0);
-INSERT INTO public.catalog VALUES (2, '2021-08-24 14:44:33', '1', 'Tiến Bịp', 0);
-INSERT INTO public.catalog VALUES (3, '2021-08-24 14:44:33', '1', 'Bóng Đá', 0);
-INSERT INTO public.catalog VALUES (4, '2021-08-24 14:44:33', '1', 'Chị Ong Nâu', 0);
-INSERT INTO public.catalog VALUES (5, '2021-08-24 14:44:33', '1', 'Bà Phương Hằng', 0);
-INSERT INTO public.catalog VALUES (6, '2021-08-24 14:44:33', '1', 'Chim Cánh Cụt', 0);
-INSERT INTO public.catalog VALUES (7, '2021-08-24 14:44:33', '1', 'Drak Meme', 0);
-INSERT INTO public.catalog VALUES (8, '2021-08-24 14:44:33', '1', 'Xin Link', 0);
-INSERT INTO public.catalog VALUES (9, '2021-08-24 14:44:33', '1', 'Huấn Hoa Hồng', 0);
-INSERT INTO public.catalog VALUES (10, '2021-08-24 14:44:33', '1', 'Meme Cheems', 0);
-INSERT INTO public.catalog VALUES (11, '2021-08-24 14:44:33', '1', 'Meme Gấu Trúc', 0);
-INSERT INTO public.catalog VALUES (12, '2021-08-24 14:44:33', '1', 'Meme Gấu Chó', 0);
-INSERT INTO public.catalog VALUES (13, '2021-08-24 14:44:33', '1', 'Meme Chó', 0);
-INSERT INTO public.catalog VALUES (14, '2021-08-24 14:44:33', '1', 'Meme Mèo', 0);
+INSERT INTO public.catalog VALUES (1, '1', 'trending', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (2, '1', 'Tiến Bịp', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (3, '1', 'Bóng Đá', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (4, '1', 'Chị Ong Nâu', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (5, '1', 'Bà Phương Hằng', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (6, '1', 'Chim Cánh Cụt', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (7, '1', 'Drak Meme', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (8, '1', 'Xin Link', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (9, '1', 'Huấn Hoa Hồng', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (10, '1', 'Meme Cheems', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (11, '1', 'Meme Gấu Trúc', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (12, '1', 'Meme Gấu Chó', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (13, '1', 'Meme Chó', 0, 1639732998962);
+INSERT INTO public.catalog VALUES (14, '1', 'Meme Mèo', 0, 1639732998962);
 
 
 --
@@ -778,11 +778,6 @@ INSERT INTO public.liketype VALUES ('love', 'love');
 -- Data for Name: media; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.media VALUES ('a6395065-e4c9-470f-9a64-5a36f9f77bd9', '/image/post/a6395065-e4c9-470f-9a64-5a36f9f77bd9-zzzzz.jpg', 'image/jpeg', '69b771a7-47ae-4153-8861-f95b0237529b');
-INSERT INTO public.media VALUES ('8dca5825-466c-43a2-bb68-181af2581e8c', '/image/post/8dca5825-466c-43a2-bb68-181af2581e8c-zzzzz.jpg', 'image/jpeg', 'a0ad1046-5d9d-4e28-bbd3-710d4a225911');
-INSERT INTO public.media VALUES ('833fb2c7-f1f8-4e89-b36f-02b90217dc76', '/image/post/833fb2c7-f1f8-4e89-b36f-02b90217dc76-zzzzz.jpg', 'image/jpeg', '17cb31b2-b0d6-42c3-8371-7e8fd553c341');
-INSERT INTO public.media VALUES ('4224d6cb-018d-47c7-874a-4745cfc4c358', '/image/post/4224d6cb-018d-47c7-874a-4745cfc4c358-zzzzz.jpg', 'image/jpeg', 'b45275b5-c8b3-4bfc-9ee9-3e0d5654aefa');
-INSERT INTO public.media VALUES ('ac0b9f1a-9257-42c5-977f-12a959475e71', '/image/post/ac0b9f1a-9257-42c5-977f-12a959475e71-zzzzz.jpg', 'image/jpeg', '7347ac75-6a96-42d2-814d-a5650fed6192');
 
 
 --
@@ -797,10 +792,27 @@ INSERT INTO public.oauth2client VALUES ('01927f6d-bed6-4d59-afa5-267450cc253e', 
 
 
 --
+-- TOC entry 3452 (class 0 OID 18707)
+-- Dependencies: 256
+-- Data for Name: post; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
 -- TOC entry 3460 (class 0 OID 18921)
 -- Dependencies: 264
 -- Data for Name: postlike; Type: TABLE DATA; Schema: public; Owner: postgres
 --
+
+
+
+--
+-- TOC entry 3456 (class 0 OID 18804)
+-- Dependencies: 260
+-- Data for Name: posttag; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
 
 
 --
@@ -818,20 +830,6 @@ INSERT INTO public.socialnetwork VALUES (2, 'FACEBOOK', NULL, NULL);
 -- Dependencies: 261
 -- Data for Name: tag; Type: TABLE DATA; Schema: public; Owner: postgres
 --
-
-INSERT INTO public.tag VALUES ('#Tien_Bip', 'Tiến Bịp');
-INSERT INTO public.tag VALUES ('#Bong_Da', 'Bóng Đá');
-INSERT INTO public.tag VALUES ('#Chi_Ong_Nau', 'Chị ong nâu');
-INSERT INTO public.tag VALUES ('#Ba_Phuong_Hang', 'Bà Phương Hằng');
-INSERT INTO public.tag VALUES ('#Chim_Canh_Cut', 'Chim Cánh Cụt');
-INSERT INTO public.tag VALUES ('#Dark', 'Dark Meme');
-INSERT INTO public.tag VALUES ('#Xin_link', 'Xin link');
-INSERT INTO public.tag VALUES ('#Thay_Huan', 'Huấn Hoa Hồng');
-INSERT INTO public.tag VALUES ('#Cheems', 'Meme cheems');
-INSERT INTO public.tag VALUES ('#Gau_Truc', 'Gấu Trúc');
-INSERT INTO public.tag VALUES ('#Gau_Cho', 'Gấu Chó');
-INSERT INTO public.tag VALUES ('#Cho', 'Chó');
-INSERT INTO public.tag VALUES ('#Meo', 'Mèo');
 
 
 --
@@ -1106,7 +1104,7 @@ ALTER TABLE ONLY public.usersocialnetwork
 
 
 --
--- TOC entry 3261 (class 1259 OID 18720)
+-- TOC entry 3261 (class 1259 OID 18943)
 -- Name: idxgj2rd9ewi9h2p4pc09i6upyt1; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1288,11 +1286,4 @@ ALTER TABLE ONLY public.media
 
 ALTER TABLE ONLY public.postlike
     ADD CONSTRAINT fkwy2u3sijki3uk1jhyq1wwujw FOREIGN KEY (post_id) REFERENCES public.post(id);
-
-
--- Completed on 2021-12-15 10:40:35
-
---
--- PostgreSQL database dump complete
---
 

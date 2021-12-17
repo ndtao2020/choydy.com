@@ -30,7 +30,7 @@ public class CatalogController extends BaseController {
     @GET
     @Produces("application/json")
     public QueryPage findAllPost(@QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s, @QueryParam(SEARCH_PARAM) String search) {
-        return catalogService.searchDTOAndPagination(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s, search, "priority", "name");
+        return catalogService.searchAndPagination(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s, search, "priority", "name");
     }
 
     @POST

@@ -16,9 +16,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,7 +63,8 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         }
         // init
         Post post = new Post(postDTO);
-        post.setCreated(new Timestamp(new Date().getTime()));
+        post.setDisable(false);
+        post.setCreated(System.currentTimeMillis());
         post.setUser(new User(userId));
         post.setCatalog(catalog);
         // ======================================= phù phép
@@ -95,23 +94,19 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         post.setMedia(mediaList);
         // ======================================= Media
         // insert to DB
-        try {
-            Post savedPost = this.save(post);
-            for (Media media1 : savedPost.getMedia()) {
-                String mediaId = media1.getId().toString();
-                // if images
-                if ("image/jpeg".equals(fileType) || "image/png".equals(fileType) || "image/gif".equals(fileType)) {
-                    media1.setLink(minIOStorageService.uploadImage(Post.PATH, mediaId, fileType, fileName, file));
-                }
-                // if videos
-                if ("video/mp4".equals(fileType) || "video/webm".equals(fileType) || "video/x-flv".equals(fileType)) {
-                    media1.setLink(minIOStorageService.uploadVideo(Post.PATH, mediaId, fileType, fileName, file));
-                }
-                mediaService.update(media1);
+        Post savedPost = this.save(post);
+        for (Media media1 : savedPost.getMedia()) {
+            String mediaId = media1.getId().toString();
+            // if images
+            if ("image/jpeg".equals(fileType) || "image/png".equals(fileType) || "image/gif".equals(fileType)) {
+                media1.setLink(minIOStorageService.uploadImage(Post.PATH, mediaId, fileType, fileName, file));
             }
-            return convertToDTO(savedPost);
-        } catch (Exception e) {
-            throw new SQLException(e.getMessage());
+            // if videos
+            if ("video/mp4".equals(fileType) || "video/webm".equals(fileType) || "video/x-flv".equals(fileType)) {
+                media1.setLink(minIOStorageService.uploadVideo(Post.PATH, mediaId, fileType, fileName, file));
+            }
+            mediaService.update(media1);
         }
+        return convertToDTO(savedPost);
     }
 }
