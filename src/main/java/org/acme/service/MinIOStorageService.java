@@ -30,8 +30,8 @@ public class MinIOStorageService {
             minioClient = MinioClient.builder()
                     .endpoint(ConfigProvider.getConfig().getConfigValue("app.s3.url").getValue())
                     .credentials(
-                            ConfigProvider.getConfig().getConfigValue("app.s3.access-key").getValue(),
-                            ConfigProvider.getConfig().getConfigValue("app.s3.secret-key").getValue()
+                            ConfigProvider.getConfig().getConfigValue("app.s3.access").getValue(),
+                            ConfigProvider.getConfig().getConfigValue("app.s3.secret").getValue()
                     )
                     .build();
             // Check and create if bucket is available to store catalogue images
