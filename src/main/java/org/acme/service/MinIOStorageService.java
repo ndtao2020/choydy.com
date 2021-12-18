@@ -1,7 +1,5 @@
 package org.acme.service;
 
-import io.minio.BucketExistsArgs;
-import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import org.apache.commons.io.IOUtils;
@@ -23,6 +21,9 @@ public class MinIOStorageService {
 
     private MinioClient minioClient;
 
+    public MinIOStorageService() {
+    }
+
     private String getFullUrl(String bucket, String path) {
         return "/" + bucket + "/" + path;
     }
@@ -38,26 +39,26 @@ public class MinIOStorageService {
                     )
                     .build();
             // Check and create if bucket is available to store catalogue images
-            createBucketIfNotExists(BUCKET_IMAGE);
-            createBucketIfNotExists(BUCKET_VIDEO);
+//            createBucketIfNotExists(BUCKET_IMAGE);
+//            createBucketIfNotExists(BUCKET_VIDEO);
         } catch (Exception e) {
             logger.error(e.getMessage());
             throw new RuntimeException("Error occurred while initializing MinIO Service", e);
         }
     }
 
-    private void createBucketIfNotExists(String bucketName) throws RuntimeException {
-        try {
-            // Check if the bucket already exists.
-            boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
-            if (!isExist) {
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException("Error occurred while create bucket", e);
-        }
-    }
+//    private void createBucketIfNotExists(String bucketName) throws RuntimeException {
+//        try {
+//            // Check if the bucket already exists.
+//            boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+//            if (!isExist) {
+//                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+//            }
+//        } catch (Exception e) {
+//            logger.error(e.getMessage());
+//            throw new RuntimeException("Error occurred while create bucket", e);
+//        }
+//    }
 
     public String uploadImage(String table, String id, String fileType, String fileName, InputStream file) throws RuntimeException, IOException {
         try {
