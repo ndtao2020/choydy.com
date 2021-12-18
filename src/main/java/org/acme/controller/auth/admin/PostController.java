@@ -11,6 +11,7 @@ import org.acme.model.dto.PostDTO;
 import org.acme.model.dto.PostMultipartDTO;
 import org.acme.service.PostService;
 import org.acme.service.TagService;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import javax.inject.Inject;
@@ -30,6 +31,8 @@ import java.util.UUID;
 
 @Path(SecurityPath.ADMIN_API_URL + "/" + Post.PATH)
 public class PostController extends BaseController {
+
+    private static final Logger logger = Logger.getLogger(PostController.class);
 
     @Inject
     ObjectMapper mapper;
@@ -68,6 +71,7 @@ public class PostController extends BaseController {
             }
             return postService.create(principal.getId(), postDTO, tagList, data.getFileType(), data.getFileName(), data.getFile());
         } catch (Exception e) {
+            logger.error(e.getMessage());
             throw new IllegalAccessException(e.getMessage());
         }
     }
@@ -83,6 +87,7 @@ public class PostController extends BaseController {
         try {
             return null;
         } catch (Exception e) {
+            logger.error(e.getMessage());
             throw new IllegalAccessException(e.getMessage());
         }
     }
