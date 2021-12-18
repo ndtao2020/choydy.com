@@ -6,6 +6,7 @@ import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.microprofile.config.ConfigProvider;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.ByteArrayInputStream;
@@ -14,6 +15,8 @@ import java.io.InputStream;
 
 @ApplicationScoped
 public class MinIOStorageService {
+
+    private static final Logger logger = Logger.getLogger(MinIOStorageService.class);
 
     private final String BUCKET_IMAGE = "image";
     private final String BUCKET_VIDEO = "video";
@@ -38,6 +41,7 @@ public class MinIOStorageService {
             createBucketIfNotExists(BUCKET_IMAGE);
             createBucketIfNotExists(BUCKET_VIDEO);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             throw new RuntimeException("Error occurred while initializing MinIO Service", e);
         }
     }
@@ -50,6 +54,7 @@ public class MinIOStorageService {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             throw new RuntimeException("Error occurred while create bucket", e);
         }
     }
@@ -72,6 +77,7 @@ public class MinIOStorageService {
             );
             return getFullUrl(BUCKET_IMAGE, path);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             throw new RuntimeException("Error: ", e);
         }
     }
@@ -94,6 +100,7 @@ public class MinIOStorageService {
             );
             return getFullUrl(BUCKET_VIDEO, path);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             throw new RuntimeException("Error: ", e);
         }
     }
