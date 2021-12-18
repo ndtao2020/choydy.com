@@ -1,5 +1,6 @@
 package org.acme.service;
 
+import org.acme.base.MinIOStorageService;
 import org.acme.base.QueryPage;
 import org.acme.base.service.BaseCacheService;
 import org.acme.model.Catalog;

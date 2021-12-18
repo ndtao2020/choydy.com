@@ -1,17 +1,19 @@
-package org.acme.service;
+package org.acme.base;
 
+import io.minio.BucketExistsArgs;
+import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.jboss.logging.Logger;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-@ApplicationScoped
+@Dependent
 public class MinIOStorageService {
 
     private static final Logger logger = Logger.getLogger(MinIOStorageService.class);
@@ -39,26 +41,26 @@ public class MinIOStorageService {
                     )
                     .build();
             // Check and create if bucket is available to store catalogue images
-//            createBucketIfNotExists(BUCKET_IMAGE);
-//            createBucketIfNotExists(BUCKET_VIDEO);
+            createBucketIfNotExists(BUCKET_IMAGE);
+            createBucketIfNotExists(BUCKET_VIDEO);
         } catch (Exception e) {
             logger.error(e.getMessage());
             throw new RuntimeException("Error occurred while initializing MinIO Service", e);
         }
     }
 
-//    private void createBucketIfNotExists(String bucketName) throws RuntimeException {
-//        try {
-//            // Check if the bucket already exists.
-//            boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
-//            if (!isExist) {
-//                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
-//            }
-//        } catch (Exception e) {
-//            logger.error(e.getMessage());
-//            throw new RuntimeException("Error occurred while create bucket", e);
-//        }
-//    }
+    private void createBucketIfNotExists(String bucketName) throws RuntimeException {
+        try {
+            // Check if the bucket already exists.
+            boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+            if (!isExist) {
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException("Error occurred while create bucket", e);
+        }
+    }
 
     public String uploadImage(String table, String id, String fileType, String fileName, InputStream file) throws RuntimeException, IOException {
         try {
