@@ -18,7 +18,7 @@ import java.util.UUID;
 public abstract class PostBase extends BaseId<UUID> {
 
     @Column(nullable = false)
-    private Timestamp created;
+    private Long created;
 
     @NotNull(message = "Title cannot be null")
     @Column(nullable = false)
@@ -32,6 +32,9 @@ public abstract class PostBase extends BaseId<UUID> {
     private Long shares = 0L;
     private Long comments = 0L;
 
+    @Column(nullable = false)
+    private Boolean disable;
+
     public PostBase(PostBase postBase) {
         super(postBase.getId());
         this.created = postBase.getCreated();
@@ -41,5 +44,6 @@ public abstract class PostBase extends BaseId<UUID> {
         this.likes = postBase.getLikes();
         this.shares = postBase.getShares();
         this.comments = postBase.getComments();
+        this.disable = postBase.getDisable();
     }
 }

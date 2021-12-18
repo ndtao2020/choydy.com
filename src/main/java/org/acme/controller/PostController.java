@@ -3,12 +3,14 @@ package org.acme.controller;
 import org.acme.base.BaseController;
 import org.acme.constants.SecurityPath;
 import org.acme.model.Comment;
+import org.acme.model.Media;
 import org.acme.model.Post;
 import org.acme.model.Tag;
 import org.acme.model.dto.CommentDTO;
 import org.acme.model.dto.PostDTO;
 import org.acme.service.CommentService;
 import org.acme.service.LikeTypeService;
+import org.acme.service.MediaService;
 import org.acme.service.PostLikeService;
 import org.acme.service.PostService;
 import org.acme.service.TagService;
@@ -28,16 +30,14 @@ public class PostController extends BaseController {
 
     @Inject
     PostService postService;
-
     @Inject
     TagService tagService;
-
+    @Inject
+    MediaService mediaService;
     @Inject
     LikeTypeService likeTypeService;
-
     @Inject
     PostLikeService postLikeService;
-
     @Inject
     CommentService commentService;
 
@@ -59,6 +59,22 @@ public class PostController extends BaseController {
         return postDTO;
     }
 
+    // ========================= [TAGS] =========================
+    @GET
+    @Path("/" + Tag.PATH)
+    @Produces("application/json")
+    public List<?> findAllTagByPostId(@QueryParam(ID) UUID postId) throws SQLDataException {
+        return tagService.findAllByPostId(postId);
+    }
+
+    // ========================= [MEDIA] =========================
+    @GET
+    @Path("/" + Media.PATH)
+    @Produces("application/json")
+    public List<?> findAllMediaByPostId(@QueryParam(ID) UUID postId) throws SQLDataException {
+        return mediaService.findAllByPostId(postId);
+    }
+
     // ========================= [LIKES] =========================
     @GET
     @Path("/like")
@@ -72,14 +88,6 @@ public class PostController extends BaseController {
     @Produces("application/json")
     public List<?> getAllTypes() {
         return likeTypeService.findAll();
-    }
-
-    // ========================= [TAGS] =========================
-    @GET
-    @Path("/" + Tag.PATH)
-    @Produces("application/json")
-    public List<?> findAllByPostId(@QueryParam(ID) UUID postId) throws SQLDataException {
-        return tagService.findAllByPostId(postId);
     }
 
     // ========================= [COMMENTS] =========================

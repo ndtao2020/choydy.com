@@ -20,7 +20,7 @@ public abstract class CommentBase extends BaseId<UUID> {
     private String content;
 
     @Column(nullable = false)
-    private Timestamp created;
+    private Long created;
 
     private Long likes = 0L;
 

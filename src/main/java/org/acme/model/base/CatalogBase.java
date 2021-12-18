@@ -7,7 +7,6 @@ import org.acme.base.BaseId;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -25,7 +24,7 @@ public abstract class CatalogBase extends BaseId<Long> {
     private Integer priority;
 
     @Column(nullable = false)
-    private Timestamp created;
+    private Long created;
 
     public CatalogBase(Long id) {
         super(id);
