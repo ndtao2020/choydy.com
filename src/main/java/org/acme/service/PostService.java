@@ -1,5 +1,6 @@
 package org.acme.service;
 
+import org.acme.base.QueryPage;
 import org.acme.base.service.BaseCacheService;
 import org.acme.model.Catalog;
 import org.acme.model.Media;
@@ -52,6 +53,14 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
             query.setParameter("s", "%" + search + "%");
         }
         return query.setFirstResult(page * size).setMaxResults(size).getResultList();
+    }
+
+    public QueryPage searchDTOAndPagination(int page, int size, String search, String order, String... fields) {
+        List<PostDTO> result = new ArrayList<>();
+        for (Object obj : search(page, size, search, order, fields)) {
+            result.add(this.findDTOById(UUID.fromString(obj.toString())));
+        }
+        return new QueryPage(result, getCountQuery(search, fields).getSingleResult());
     }
 
     @Transactional

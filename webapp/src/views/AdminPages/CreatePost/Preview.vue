@@ -4,7 +4,7 @@
       <div class="user-post-data p-3">
         <div class="d-flex flex-wrap">
           <div class="media-support-user-img mr-3">
-            <b-img rounded="circle" fluid src="https://lh3.googleusercontent.com/ogw/ADea4I6XqgDJ0gnzpP2blFAU_d88wpW2hOEhGdYlB2Sv=s64-c-mo" alt="" />
+            <b-img rounded="circle" fluid src="https://giay.store/assets/images/default-avatar.png" alt="" height="50" width="50" />
           </div>
           <div class="media-support-info mt-2">
             <h5 class="mb-0">

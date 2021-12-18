@@ -41,7 +41,7 @@ public class PostController extends BaseController {
     @GET
     @Produces("application/json")
     public QueryPage findAllPost(@QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s, @QueryParam(SEARCH_PARAM) String search) {
-        return postService.searchAndPagination(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s, search, "created", "title", "content");
+        return postService.searchDTOAndPagination(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s, search, "created", "title", "content");
     }
 
     // ========================= [POST] =========================

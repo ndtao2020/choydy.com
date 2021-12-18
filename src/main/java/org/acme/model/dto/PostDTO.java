@@ -18,6 +18,7 @@ public class PostDTO extends PostBase {
 
     // child
     private List<?> tags;
+    private List<?> media;
 
     public PostDTO(PostBase postBase) {
         super(postBase);

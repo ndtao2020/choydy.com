@@ -35,7 +35,7 @@
       >
         <template slot="button-content">
           <span class="avatar rounded-circle thumb-sm float-left mr-2">
-            <img class="rounded-circle" src="https://lh3.googleusercontent.com/ogw/ADea4I6XqgDJ0gnzpP2blFAU_d88wpW2hOEhGdYlB2Sv=s64-c-mo" alt="..." />
+            <img class="rounded-circle" src="https://giay.store/assets/images/default-avatar.png" alt="..." />
           </span>
           <span class="px-2">Nguyễn Đình Tạo</span>
           <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge">9</span>
