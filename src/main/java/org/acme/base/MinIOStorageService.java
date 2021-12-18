@@ -8,12 +8,10 @@ import org.apache.commons.io.IOUtils;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.jboss.logging.Logger;
 
-import javax.enterprise.context.Dependent;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-@Dependent
 public class MinIOStorageService {
 
     private static final Logger logger = Logger.getLogger(MinIOStorageService.class);
@@ -21,16 +19,9 @@ public class MinIOStorageService {
     private final String BUCKET_IMAGE = "image";
     private final String BUCKET_VIDEO = "video";
 
-    private MinioClient minioClient;
+    private final MinioClient minioClient;
 
     public MinIOStorageService() {
-    }
-
-    private String getFullUrl(String bucket, String path) {
-        return "/" + bucket + "/" + path;
-    }
-
-    private void initializeMinIOClient() throws RuntimeException {
         try {
             // Create instance of minio client with configured service details
             minioClient = MinioClient.builder()
@@ -49,6 +40,10 @@ public class MinIOStorageService {
         }
     }
 
+    private String getFullUrl(String bucket, String path) {
+        return "/" + bucket + "/" + path;
+    }
+
     private void createBucketIfNotExists(String bucketName) throws RuntimeException {
         try {
             // Check if the bucket already exists.
@@ -64,9 +59,6 @@ public class MinIOStorageService {
 
     public String uploadImage(String table, String id, String fileType, String fileName, InputStream file) throws RuntimeException, IOException {
         try {
-            if (minioClient == null) {
-                initializeMinIOClient();
-            }
             byte[] targetArray = IOUtils.toByteArray(file);
             String path = table + "/" + id + "-" + fileName;
             // Put the object to bucket
@@ -87,9 +79,6 @@ public class MinIOStorageService {
 
     public String uploadVideo(String table, String id, String fileType, String fileName, InputStream file) throws RuntimeException {
         try {
-            if (minioClient == null) {
-                initializeMinIOClient();
-            }
             byte[] targetArray = IOUtils.toByteArray(file);
             String path = table + "/" + id + "-" + fileName;
             // Put the object to bucket

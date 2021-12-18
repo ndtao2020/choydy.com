@@ -29,11 +29,12 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     CatalogService catalogService;
     @Inject
     MediaService mediaService;
-    @Inject
-    MinIOStorageService minIOStorageService;
+
+    private final MinIOStorageService minIOStorageService;
 
     protected PostService() {
         super(Post.class, PostDTO.class, Post.PATH);
+        this.minIOStorageService = new MinIOStorageService();
     }
 
     @Override
