@@ -28,7 +28,10 @@ RUN chown 1001 /work && chmod "g+rwX" /work && chown 1001:root /work
 COPY --chown=1001:root ./key /work/key
 COPY --chown=1001:root --from=builder /app/target/*-runner /work/app
 COPY --from=downloader /usr/dumb-init /usr/dumb-init
+
+RUN mkdir -p /work/upload && chown -R 1001:root /work/upload
 RUN chmod +x /usr/dumb-init
+VOLUME /work/upload
 
 EXPOSE 8080
 USER 1001
