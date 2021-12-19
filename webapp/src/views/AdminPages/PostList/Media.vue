@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-skeleton v-if="loading" width="100%" />
-    <span v-for="a in arr" v-else :key="a">{{ a }}</span>
+    <span v-for="(a, i) in arr" v-else :key="i">{{ a }}</span>
   </div>
 </template>
 

@@ -44,6 +44,12 @@ It is also possible to allow access from specific hosts or networks to a port. T
 
 - sudo ufw allow proto tcp from 192.168.0.2 to any port 22
 
+sudo ufw allow 5432/tcp
+sudo ufw allow 6379/tcp
+
+sudo ufw deny 5432/tcp && sudo ufw delete deny 5432/tcp
+sudo ufw deny 6379/tcp && sudo ufw delete deny 6379/tcp
+
 #######################################################################################################################
 
 sudo apt update && sudo apt upgrade -y
@@ -71,3 +77,5 @@ sudo certbot --nginx -d choydy.com/ -d www.choydy.com
 
 chmod +x init-letsencrypt.sh
 sudo ./init-letsencrypt.sh
+
+cd /home/choydy && docker system prune --force && docker pull taoqn/choydy-com:latest && docker-compose up -d --build --remove-orphans
