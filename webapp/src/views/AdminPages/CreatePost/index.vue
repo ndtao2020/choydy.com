@@ -131,7 +131,7 @@ export default {
       post: {
         catalogId: null,
         title: '',
-        description: '',
+        content: '',
         tags: []
       },
       urlImage: null,
@@ -165,7 +165,7 @@ export default {
       }
     },
     append(emoji) {
-      this.post.description += emoji
+      this.post.content += emoji
     },
     changeImage(e) {
       this.postImage = e.target.files[0]
