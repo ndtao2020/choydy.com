@@ -37,7 +37,7 @@
           <span class="avatar rounded-circle thumb-sm float-left mr-2">
             <img class="rounded-circle" src="https://giay.store/assets/images/default-avatar.png" alt="..." />
           </span>
-          <span class="px-2">Nguyễn Đình Tạo</span>
+          <span class="px-2">Admin</span>
           <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge">9</span>
           <i class="las la-angle-double-down px-2"></i>
         </template>

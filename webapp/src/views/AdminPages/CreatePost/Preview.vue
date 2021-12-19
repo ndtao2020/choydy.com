@@ -8,7 +8,7 @@
           </div>
           <div class="media-support-info mt-2">
             <h5 class="mb-0">
-              <b-link class="">Nguyễn Đình Tạo</b-link>
+              <b-link class="">Người dùng</b-link>
             </h5>
             <p class="mb-0 text-secondary">{{ new Date() }}</p>
           </div>

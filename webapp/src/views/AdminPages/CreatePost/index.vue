@@ -67,7 +67,7 @@
                     </template>
                   </b-form-file>
                 </b-tab>
-                <b-tab title="Nếu đăng video sex">
+                <b-tab title="Nếu đăng clip">
                   <b-form-file v-model="postImage" :state="Boolean(postImage)" accept="video/mp4,video/webm,video/x-flv" @change="changeVideo">
                     <template #placeholder>Chọn video bạn cần hiển thị</template>
                     <template slot="file-name" slot-scope="{ names }">
