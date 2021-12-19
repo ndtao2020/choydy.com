@@ -16,7 +16,6 @@
       :sort-direction="sortDirection"
       stacked="md"
       show-empty
-      @filtered="onFiltered"
     >
       <template #cell(tags)="row"><Tag :id="row.item.id" :tags="row.value" /></template>
       <template #cell(media)="row"><Media :id="row.item.id" :media="row.value" /></template>

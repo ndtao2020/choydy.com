@@ -15,7 +15,7 @@
             </b-form-group>
             <b-form-group label="Nội dung">
               <div class="wrapper">
-                <textarea v-model="post.description" class="regular-input"></textarea>
+                <textarea v-model="post.content" class="regular-input"></textarea>
                 <emoji-picker :search="search" @emoji="append">
                   <div slot="emoji-invoker" slot-scope="{ events: { click: clickEvent } }" class="emoji-invoker" @click.stop="clickEvent">
                     <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">

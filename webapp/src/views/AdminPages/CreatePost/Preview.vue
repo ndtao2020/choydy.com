@@ -20,7 +20,7 @@
       <div class="mx-auto">
         <h2>{{ post.title }}</h2>
         <p>
-          {{ post.description }}
+          {{ post.content }}
         </p>
         <b-button v-for="tag in post.tags" :key="tag" variant="link">#{{ tag }}</b-button>
         <div>
