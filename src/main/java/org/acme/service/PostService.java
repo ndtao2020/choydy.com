@@ -1,6 +1,6 @@
 package org.acme.service;
 
-import org.acme.base.MinIOStorageService;
+import org.acme.base.FileStorageService;
 import org.acme.base.QueryPage;
 import org.acme.base.service.BaseCacheService;
 import org.acme.model.Catalog;
@@ -29,12 +29,11 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     CatalogService catalogService;
     @Inject
     MediaService mediaService;
-
-    private final MinIOStorageService minIOStorageService;
+    @Inject
+    FileStorageService fileStorageService;
 
     protected PostService() {
         super(Post.class, PostDTO.class, Post.PATH);
-        this.minIOStorageService = new MinIOStorageService();
     }
 
     @Override
@@ -110,11 +109,11 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
             String mediaId = media1.getId().toString();
             // if images
             if ("image/jpeg".equals(fileType) || "image/png".equals(fileType) || "image/gif".equals(fileType)) {
-                media1.setLink(minIOStorageService.uploadImage(Post.PATH, mediaId, fileType, fileName, file));
+                media1.setLink(fileStorageService.uploadImage(Post.PATH, mediaId, fileName, file));
             }
             // if videos
             if ("video/mp4".equals(fileType) || "video/webm".equals(fileType) || "video/x-flv".equals(fileType)) {
-                media1.setLink(minIOStorageService.uploadVideo(Post.PATH, mediaId, fileType, fileName, file));
+                media1.setLink(fileStorageService.uploadVideo(Post.PATH, mediaId, fileName, file));
             }
             mediaService.update(media1);
         }
