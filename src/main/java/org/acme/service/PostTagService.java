@@ -1,55 +1,53 @@
 package org.acme.service;
 
-import org.acme.base.service.BaseCacheService;
 import org.acme.model.Post;
 import org.acme.model.PostTag;
-import org.acme.model.Tag;
 import org.acme.model.dto.PostDTO;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.sql.SQLDataException;
 import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class TagService extends BaseCacheService<Tag, Tag, String> {
+public class PostTagService {
 
+    private static final Logger logger = Logger.getLogger(PostTagService.class);
+
+    @Inject
+    EntityManager em;
     @Inject
     PostService postService;
 
-    protected TagService() {
-        super(Tag.class, Tag.class, Tag.PATH);
-    }
-
-    @Override
-    public Tag convertToDTO(Tag data) {
-        return data;
+    @Transactional
+    public void save(UUID postId, String tagId) {
+        em.createNativeQuery("INSERT INTO " + PostTag.PATH + " (tag," + Post.PATH_ID + ") VALUES(?1,?2)")
+                .setParameter(1, tagId)
+                .setParameter(2, postId)
+                .executeUpdate();
     }
 
     @Transactional
-    public Tag create(String tag) throws SQLDataException {
-        try {
-            getEm()
-                    .createNativeQuery("INSERT INTO " + getTableName(getDomainClass()) + " (id) VALUES(?1)")
-                    .setParameter(1, tag)
-                    .executeUpdate();
-            return new Tag(tag);
-        } catch (Exception e) {
-            throw new SQLDataException(e.getMessage());
-        }
+    public void delete(UUID postId, String tagId) {
+        em.createNativeQuery("DELETE FROM " + PostTag.PATH + " WHERE tag=?1 AND " + Post.PATH_ID + "=?2")
+                .setParameter(1, tagId)
+                .setParameter(2, postId)
+                .executeUpdate();
     }
 
-    public List<?> findAllByPostId(UUID postId) throws SQLDataException {
+    public List<?> findByPostId(UUID postId) throws SQLDataException {
         PostDTO postDTO = postService.findDTOById(postId);
         if (postDTO == null) {
             throw new SQLDataException("Post id does not exist !");
         }
         List<?> list = postDTO.getTags();
         if (list == null) {
-            List<?> tags = getEm()
-                    .createNativeQuery("select " + Tag.PATH_ID + " from " + getTableName(PostTag.class) + " where " + Post.PATH_ID + "=?1")
+            List<?> tags = em
+                    .createNativeQuery("select tag from " + PostTag.PATH + " where " + Post.PATH_ID + "=?1")
                     .setParameter(1, postId)
                     .getResultList();
             if (tags == null) {
@@ -60,7 +58,7 @@ public class TagService extends BaseCacheService<Tag, Tag, String> {
             try {
                 postService.saveDTOById(postId, postDTO);
             } catch (Exception e) {
-                getLog().error(e.getMessage());
+                logger.error(e.getMessage());
             }
             // return
             return tags;

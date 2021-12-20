@@ -12,6 +12,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class UserSocialNetworkController extends BaseController {
     UserSocialNetworkService userSocialNetworkService;
 
     @GET
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<SocialNetworkDTO> socials(@Context SecurityContext context) {
         JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         List<SocialNetworkDTO> socialNetworkDTOS = new ArrayList<>();

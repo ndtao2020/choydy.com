@@ -8,7 +8,6 @@ import org.acme.base.BaseId;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 import java.util.UUID;
 
 @Getter
@@ -34,6 +33,10 @@ public abstract class PostBase extends BaseId<UUID> {
 
     @Column(nullable = false)
     private Boolean disable;
+
+    public PostBase(UUID id) {
+        super(id);
+    }
 
     public PostBase(PostBase postBase) {
         super(postBase.getId());

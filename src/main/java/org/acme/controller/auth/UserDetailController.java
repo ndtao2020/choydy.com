@@ -18,6 +18,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import java.sql.SQLDataException;
 
@@ -31,14 +32,14 @@ public class UserDetailController extends BaseController {
     UserDetailService userDetailService;
 
     @GET
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public UserDetailDTO get(@Context SecurityContext context) throws SQLDataException {
         JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         return userDetailService.findByUserId(principal.getId());
     }
 
     @PUT
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public CheckDTO update(@Context SecurityContext context, UserDetailDTO userDetailDTO) {
         if (userDetailDTO.getCountryIso() == null) {
             throw new BadRequestException("Country id must not null !");

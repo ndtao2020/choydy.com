@@ -1,6 +1,7 @@
 package org.acme;
 
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -20,8 +21,8 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
         final InputStreamReader inputStream = new InputStreamReader(indexIS, StandardCharsets.UTF_8);
         return Response
                 .ok(inputStream)
-                .header("cache-control", "max-age=1800")
-                .header("content-type", "text/html; charset=utf-8")
+                .header(HttpHeaders.CACHE_CONTROL, "max-age=1800")
+                .header(HttpHeaders.CONTENT_TYPE, "text/html; charset=utf-8")
                 .build();
     }
 }

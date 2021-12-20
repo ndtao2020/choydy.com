@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -20,11 +21,11 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {Post.PATH_ID, Tag.PATH_ID}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {Post.PATH_ID, "tag"}))
 public class PostTag implements Serializable {
 
     @Transient
-    public static final String PATH = "postTag";
+    public static final String PATH = "posttag";
 
     @Id
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -32,11 +33,8 @@ public class PostTag implements Serializable {
     @JoinColumn(nullable = false)
     private Post post;
 
-    @Id
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    private Tag tag;
+    @Column(nullable = false)
+    private String tag;
 
     @Override
     public boolean equals(Object o) {

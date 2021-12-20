@@ -1,13 +1,12 @@
 package org.acme.model.dto;
 
-import java.io.InputStream;
-
-import javax.ws.rs.FormParam;
-import javax.ws.rs.core.MediaType;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
+
+import javax.ws.rs.FormParam;
+import javax.ws.rs.core.MediaType;
+import java.io.InputStream;
 
 @Getter
 @Setter

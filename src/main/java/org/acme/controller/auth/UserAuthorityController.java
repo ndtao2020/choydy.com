@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class UserAuthorityController {
     UserAuthorityService userAuthorityService;
 
     @GET
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<?> authorities(@Context SecurityContext context) {
         JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         return userAuthorityService.findByUserId(principal.getId());
