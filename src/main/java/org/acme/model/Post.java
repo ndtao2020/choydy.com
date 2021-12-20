@@ -45,10 +45,6 @@ public class Post extends PostBase {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = Post.PATH)
     private List<Media> media;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = Post.PATH)
-    private List<PostTag> postTags;
-
     public Post(UUID id) {
         super(id);
     }

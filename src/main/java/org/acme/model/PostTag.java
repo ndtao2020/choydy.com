@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -17,17 +18,18 @@ import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
 @Getter
 @Setter
+@Embeddable
 @NoArgsConstructor
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {Post.PATH_ID, "tag"}))
 public class PostTag implements Serializable {
 
+    private static final long serialVersionUID = 1234L;
+
     @Transient
     public static final String PATH = "posttag";
 
-    @Id
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
@@ -35,6 +37,11 @@ public class PostTag implements Serializable {
 
     @Column(nullable = false)
     private String tag;
+
+    public PostTag(Post post, String tag) {
+        this.post = post;
+        this.tag = tag;
+    }
 
     @Override
     public boolean equals(Object o) {

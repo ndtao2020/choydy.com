@@ -28,9 +28,9 @@ public class MediaController extends BaseController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getImageById(@QueryParam(ID) UUID id, @QueryParam("type") String type) throws SQLDataException, IOException {
+    public Response getById(@QueryParam(ID) UUID id, @QueryParam("type") String type) throws SQLDataException, IOException {
         return Response
-                .ok(fileStorageService.readImage(mediaService.findCacheById(id)))
+                .ok(fileStorageService.getFile(mediaService.findCacheById(id)))
                 .header(HttpHeaders.CACHE_CONTROL, "max-age=604800")
                 .header(HttpHeaders.CONTENT_TYPE, type)
                 .build();

@@ -89,16 +89,6 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         post.setLikes(ThreadLocalRandom.current().nextLong(100, 5000));
         post.setShares(ThreadLocalRandom.current().nextLong(10, 500));
         // ======================================= phù phép
-        // ======================================= Tag
-        List<PostTag> postTags = new ArrayList<>();
-        for (Object tag : postDTO.getTags()) {
-            PostTag postTag = new PostTag();
-            postTag.setPost(post);
-            postTag.setTag(tag.toString());
-            // add post
-            postTags.add(postTag);
-        }
-        post.setPostTags(postTags);
         // ======================================= Media
         Media media = new Media();
         media.setPost(post);
@@ -109,9 +99,14 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         mediaList.add(media);
         // add to post
         post.setMedia(mediaList);
-        // ======================================= Media
+        // ========================================
         // insert to DB
         Post savedPost = this.save(post);
+        // ======================================= Tag
+        for (Object tag : postDTO.getTags()) {
+            postTagService.save(savedPost.getId(), tag.toString());
+        }
+        // ======================================= Media
         for (Media media1 : savedPost.getMedia()) {
             String mediaId = media1.getId().toString();
             // if images

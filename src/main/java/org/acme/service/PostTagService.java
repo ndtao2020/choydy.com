@@ -39,6 +39,12 @@ public class PostTagService {
                 .executeUpdate();
     }
 
+    public List<PostTag> getByPostId(UUID postId) throws SQLDataException {
+        return em.createQuery("from PostTag where post.id=?1", PostTag.class)
+                .setParameter(1, postId)
+                .getResultList();
+    }
+
     public List<?> findByPostId(UUID postId) throws SQLDataException {
         PostDTO postDTO = postService.findDTOById(postId);
         if (postDTO == null) {
@@ -46,8 +52,7 @@ public class PostTagService {
         }
         List<?> list = postDTO.getTags();
         if (list == null) {
-            List<?> tags = em
-                    .createNativeQuery("select tag from " + PostTag.PATH + " where " + Post.PATH_ID + "=?1")
+            List<?> tags = em.createNativeQuery("select tag from " + PostTag.PATH + " where " + Post.PATH_ID + "=?1")
                     .setParameter(1, postId)
                     .getResultList();
             if (tags == null) {

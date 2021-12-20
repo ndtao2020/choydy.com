@@ -83,7 +83,7 @@ public class PostController extends BaseController {
             if (post == null) {
                 throw new SQLException("The post id does not exist !");
             }
-            List<PostTag> postTags = post.getPostTags();
+            List<PostTag> postTags = postTagService.getByPostId(postDTO.getId());
             // find all to insert
             List<String> inserts = new ArrayList<>();
             for (Object tagDTO : postDTO.getTags()) {
@@ -122,6 +122,7 @@ public class PostController extends BaseController {
             // update
             post.setTitle(postDTO.getTitle());
             post.setContent(postDTO.getContent());
+            // update
             return postService.update(post, postDTO.getCatalogId(), new UpdateList<>(inserts, removes), data.getFileType(), data.getFileName(), data.getFile());
         } catch (Exception e) {
             logger.error(e.getMessage());

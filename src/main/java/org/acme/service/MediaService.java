@@ -55,7 +55,7 @@ public class MediaService extends BaseCacheService<Media, MediaDTO, UUID> {
         List<?> list = postDTO.getMedia();
         if (list == null) {
             List<?> media = getEm()
-                    .createNativeQuery("select id,type from " + getTableName(getDomainClass()) + " where " + Post.PATH_ID + "=?1")
+                    .createNativeQuery("select CAST (id AS varchar),type from " + getTableName(getDomainClass()) + " where " + Post.PATH_ID + "=?1")
                     .setParameter(1, postId)
                     .getResultList();
             if (media == null) {
