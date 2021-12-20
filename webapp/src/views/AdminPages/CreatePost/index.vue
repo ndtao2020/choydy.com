@@ -112,7 +112,7 @@ export default {
   components: {
     Widget: () => import('@/components/Widget'),
     EmojiPicker: () => import('vue-emoji-picker'),
-    Preview: () => import('./Preview')
+    Preview: () => import('../Preview')
   },
   directives: {
     focus: {

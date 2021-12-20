@@ -45,6 +45,14 @@ public abstract class BaseCacheService<T extends BaseId<I>, D extends BaseId<I>,
         }
     }
 
+    protected <K> K fetchFromCache(String key, Class<K> kClass) {
+        try {
+            return mapper.readValue(redisClient.hget(getRedisKey(), key).toString(), kClass);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     protected List<D> fetchListFromCache(String key) {
         try {
             return mapper.readValue(redisClient.hget(getRedisListKey(), key).toString(), new TypeReference<>() {

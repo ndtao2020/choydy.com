@@ -31,6 +31,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import java.sql.SQLException;
 import java.util.List;
@@ -54,7 +55,7 @@ public class OAuthController {
 
     @POST
     @Path("/login")
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public JwtToken login(@Context SecurityContext context, LoginDTO loginDTO) throws SQLException {
         if (loginDTO.getUsername() == null || loginDTO.getPassword() == null) {
             throw new BadRequestException("Username and Password can not be empty !");
@@ -68,7 +69,7 @@ public class OAuthController {
 
     @POST
     @Path("/refresh")
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public JwtToken refresh(@Context SecurityContext context, TokenDTO token) {
         if (token.getToken() == null) {
             throw new BadRequestException("Token can not be empty !");
@@ -83,7 +84,7 @@ public class OAuthController {
 
     @POST
     @Path("/register")
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public UserDTO register(@Context SecurityContext context, RegisterDTO registerDTO) throws BadRequestException {
         if (registerDTO.getName() == null || registerDTO.getEmail() == null || registerDTO.getPassword() == null || registerDTO.getUsername() == null) {
             throw new BadRequestException("Missing information to register for an account !");
@@ -100,7 +101,7 @@ public class OAuthController {
 
     @POST
     @Path("/renew")
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public CheckDTO renewTokenToVerify(@Context SecurityContext context, @Email @QueryParam("email") String email) {
         if (email == null) {
             throw new BadRequestException("Token can not be empty !");
@@ -118,7 +119,7 @@ public class OAuthController {
 
     @POST
     @Path("/social")
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public JwtToken loginBySocial(@Context SecurityContext context, @Valid SocialLoginDTO loginDTO) throws UnauthorizedException, BadRequestException, SQLException {
         if (loginDTO.getEmail() == null || loginDTO.getPassword() == null) {
             throw new BadRequestException("Email and Password can not be empty !");
@@ -132,7 +133,7 @@ public class OAuthController {
 
     @POST
     @Path("/password")
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public CheckDTO verifyPassword(@Context SecurityContext context, @Email @QueryParam("email") String email) throws BadRequestException {
         if (email == null) {
             throw new BadRequestException("Email must not null !");
@@ -152,7 +153,7 @@ public class OAuthController {
 
     @POST
     @Path("/email")
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public CheckDTO verifyEmail(@QueryParam("token") String token) throws BadRequestException {
         User user = this.findByToken(token);
         if (Boolean.TRUE.equals(user.getActive())) {
@@ -165,7 +166,7 @@ public class OAuthController {
 
     @POST
     @Path("/reset")
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public CheckDTO resetPassword(@QueryParam("token") String token, @Valid ResetPassword resetPassword) throws BadRequestException {
         if (resetPassword.getNewPassword() == null || resetPassword.getReNewPassword() == null) {
             throw new BadRequestException("Reset password failed !");

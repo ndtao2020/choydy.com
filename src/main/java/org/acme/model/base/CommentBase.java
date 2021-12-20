@@ -7,7 +7,6 @@ import org.acme.base.BaseId;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import java.sql.Timestamp;
 import java.util.UUID;
 
 @Getter
