@@ -1,7 +1,10 @@
 <template>
   <div>
     <b-skeleton v-if="loading" width="100%" />
-    <span v-for="(a, i) in arr" v-else :key="i">{{ a }}</span>
+    <div v-for="(a, i) in arr" v-else :key="i">
+      <img v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'" :src="getURL(a)" />
+      <video v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" width="90%" :src="getURL(a)" controls autoplay />
+    </div>
   </div>
 </template>
 
@@ -41,6 +44,10 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    getURL(data) {
+      const [id, type] = data
+      return `/api/public/media?id=${id}&type=${type}`
     }
   }
 }

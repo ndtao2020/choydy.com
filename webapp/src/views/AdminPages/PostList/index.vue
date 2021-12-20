@@ -18,18 +18,30 @@
       show-empty
     >
       <template #cell(tags)="row"><Tag :id="row.item.id" :tags="row.value" /></template>
-      <template #cell(media)="row"><Media :id="row.item.id" :media="row.value" /></template>
       <template #cell(userId)="row"><User :id="row.value" /></template>
       <template #cell(created)="row">{{ formatTime(row.value) }}</template>
       <template #cell(actions)="row">
-        <b-button size="sm" variant="danger" @click="row.toggleDetails">Xóa</b-button>
+        <b-button size="sm" variant="success">
+          <i class="las la-edit"></i>
+        </b-button>
+        <b-button size="sm" variant="warning" @click="row.toggleDetails">
+          <i class="las la-eye"></i>
+        </b-button>
+        <b-button size="sm" variant="danger" @click="deletePost(row.item.id)">
+          <i class="las la-trash"></i>
+        </b-button>
       </template>
       <template #row-details="row">
-        <b-card>
-          <ul>
-            <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
-          </ul>
-        </b-card>
+        <div class="d-flex">
+          <div class="mx-auto">
+            <h2>{{ row.item.title }}</h2>
+            <p>
+              {{ row.item.content }}
+            </p>
+            <b-button v-for="tag in row.item.tags" :key="tag" variant="link">#{{ tag }}</b-button>
+            <Media :id="row.item.id" :media="row.value" />
+          </div>
+        </div>
       </template>
     </b-table>
     <b-row>
@@ -46,7 +58,7 @@
           label-size="sm"
           class="mb-0"
         >
-          <b-form-select id="per-page-select" v-model="perPage" :options="pageOptions" size="sm" />
+          <b-form-select id="per-page-select" v-model="perPage" :options="pageOptions" />
         </b-form-group>
       </b-col>
       <b-col>
@@ -54,12 +66,15 @@
         <b-pagination-nav v-else v-model="currentPage" :total-rows="totalRows" :per-page="perPage" />
       </b-col>
     </b-row>
+    <b-modal v-model="deleteModal" title="Bạn có muốn xóa bài đăng này ?">
+      <p class="my-4">Hello from modal!</p>
+    </b-modal>
   </widget>
 </template>
 
 <script>
 import moment from 'moment'
-import { postList } from '@/api/admin/post'
+import { postList, deletePost } from '@/api/admin/post'
 
 export default {
   name: 'AdminPostList',
@@ -71,17 +86,18 @@ export default {
   },
   data() {
     return {
+      deleteModal: false,
       items: [],
       fields: [
         { key: 'title', label: 'Tiêu đề', sortable: true, sortDirection: 'desc' },
         { key: 'content', label: 'Nội dung', sortable: true, sortDirection: 'desc' },
         { key: 'tags', label: 'Tag', sortable: true, sortDirection: 'desc' },
-        { key: 'media', label: 'Media', sortable: true, sortDirection: 'desc' },
-        { key: 'likes', label: 'Số lượt thích', sortable: true, sortDirection: 'desc' },
-        { key: 'shares', label: 'Số lượt chia sẻ', sortable: true, sortDirection: 'desc' },
-        { key: 'userId', label: 'Người đăng', sortable: true, sortDirection: 'desc' },
-        { key: 'created', label: 'Thời gian', sortable: true, sortDirection: 'desc' },
-        { key: 'actions', label: 'Actions' }
+        { key: 'count', label: 'Lượt xem', sortable: true, sortDirection: 'desc' },
+        { key: 'likes', label: 'Lượt thích', sortable: true, sortDirection: 'desc' },
+        { key: 'shares', label: 'Chia sẻ', sortable: true, sortDirection: 'desc' },
+        { key: 'userId', label: '🧑', sortable: true, sortDirection: 'desc' },
+        { key: 'created', label: '⏱️', sortable: true, sortDirection: 'desc' },
+        { key: 'actions', label: '' }
       ],
       loading: false,
       totalRows: 1,
@@ -115,7 +131,33 @@ export default {
       }
     },
     formatTime(timestamp) {
-      return moment(timestamp).format('DD/MM/YYYY - hh:mm:ss')
+      return moment(timestamp).format('DD/MM/YYYY - hh:mm')
+    },
+    async deletePost(id) {
+      const confirm = await this.$bvModal.msgBoxConfirm(`Bạn đã thật sự muốn xóa bài này ?`, {
+        title: 'Please Confirm',
+        size: 'sm',
+        buttonSize: 'sm',
+        okVariant: 'danger',
+        okTitle: 'YES',
+        cancelTitle: 'NO',
+        footerClass: 'p-2',
+        hideHeaderClose: false,
+        centered: true
+      })
+      if (!confirm) {
+        return
+      }
+      this.loading = true
+      try {
+        await deletePost(id)
+        this.loadData()
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log(e)
+      } finally {
+        this.loading = false
+      }
     }
   }
 }

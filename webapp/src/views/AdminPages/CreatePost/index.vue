@@ -68,7 +68,7 @@
                   </b-form-file>
                 </b-tab>
                 <b-tab title="Nếu đăng clip">
-                  <b-form-file v-model="postImage" :state="Boolean(postImage)" accept="video/mp4,video/webm,video/x-flv" @change="changeVideo">
+                  <b-form-file v-model="postImage" :state="Boolean(postImage)" accept="video/mp4,video/webm" @change="changeVideo">
                     <template #placeholder>Chọn video bạn cần hiển thị</template>
                     <template slot="file-name" slot-scope="{ names }">
                       <b-badge variant="dark">{{ names[0] }}</b-badge>
