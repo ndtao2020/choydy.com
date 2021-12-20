@@ -22,7 +22,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 @ApplicationScoped
 public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
@@ -85,9 +84,14 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         post.setUser(new User(userId));
         post.setCatalog(catalog);
         // ======================================= phù phép
-        post.setCount(ThreadLocalRandom.current().nextLong(100, 10000));
-        post.setLikes(ThreadLocalRandom.current().nextLong(100, 5000));
-        post.setShares(ThreadLocalRandom.current().nextLong(10, 500));
+//        post.setCount(ThreadLocalRandom.current().nextLong(100, 10000));
+//        post.setLikes(ThreadLocalRandom.current().nextLong(100, 5000));
+//        post.setShares(ThreadLocalRandom.current().nextLong(10, 500));
+        // ======================================= phù phép
+        // ======================================= phù phép
+        post.setCount(0L);
+        post.setLikes(0L);
+        post.setShares(0L);
         // ======================================= phù phép
         // ======================================= Media
         Media media = new Media();
@@ -165,14 +169,15 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     }
 
     @Transactional
-    public void remove(UUID postId) {
+    public void remove(UUID postId) throws SQLException {
+        // find by id
+        Post post = this.getById(postId);
+        if (post == null) {
+            throw new SQLException("The post id does not exist !");
+        }
         // delete all children
         getEm()
                 .createNativeQuery("DELETE FROM \"" + Comment.PATH + "\" WHERE " + Post.PATH_ID + "=?1")
-                .setParameter(1, postId)
-                .executeUpdate();
-        getEm()
-                .createNativeQuery("DELETE FROM \"" + Media.PATH + "\" WHERE " + Post.PATH_ID + "=?1")
                 .setParameter(1, postId)
                 .executeUpdate();
         getEm()
@@ -181,6 +186,14 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
                 .executeUpdate();
         getEm()
                 .createNativeQuery("DELETE FROM \"" + PostTag.PATH + "\" WHERE " + Post.PATH_ID + "=?1")
+                .setParameter(1, postId)
+                .executeUpdate();
+        // remove file
+        for (Media media : post.getMedia()) {
+            fileStorageService.deleteFile(media.getLink());
+        }
+        getEm()
+                .createNativeQuery("DELETE FROM \"" + Media.PATH + "\" WHERE " + Post.PATH_ID + "=?1")
                 .setParameter(1, postId)
                 .executeUpdate();
         // delete

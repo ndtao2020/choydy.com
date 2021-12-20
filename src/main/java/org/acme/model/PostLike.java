@@ -24,7 +24,7 @@ import java.util.Objects;
 public class PostLike extends PostLikeBase implements Serializable {
 
     @Transient
-    public static final String PATH = "postLike";
+    public static final String PATH = "postlike";
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)

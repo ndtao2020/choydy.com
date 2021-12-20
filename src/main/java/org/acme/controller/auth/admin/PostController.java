@@ -132,7 +132,7 @@ public class PostController extends BaseController {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public CheckDTO delete(@QueryParam(ID) UUID postId) throws IllegalAccessException {
+    public CheckDTO delete(@QueryParam(ID) UUID postId) {
         try {
             postService.remove(postId);
             return new CheckDTO(true);
