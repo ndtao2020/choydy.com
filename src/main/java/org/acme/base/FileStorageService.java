@@ -24,9 +24,9 @@ public class FileStorageService {
     private final String url = ConfigProvider.getConfig().getConfigValue("quarkus.upload.folder").getValue();
 
     private String generatePathFile(String bucket, String table, String id, String fileName) {
-        Calendar calendar = Calendar.getInstance();
-        String year = calendar.get(Calendar.YEAR) + "";
-        return "/" + bucket + "/" + year.substring(2) + "/" + calendar.get(Calendar.MONTH) + "/" + table + id + fileName;
+        Calendar c = Calendar.getInstance();
+        String year = c.get(Calendar.YEAR) + "";
+        return "/" + bucket + "/" + year.substring(2) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + table + id + fileName;
     }
 
     public File getFile(String path) {
@@ -35,17 +35,17 @@ public class FileStorageService {
 
     public void deleteFile(String path) {
         try {
-            FileUtils.delete(new File(url + path));
+            FileUtils.delete(getFile(path));
         } catch (Exception e) {
             logger.error("deleteFile: " + e.getMessage());
             throw new RuntimeException("Error: ", e);
         }
     }
 
-    public String uploadImage(String table, String id, String fileName, InputStream file) {
+    public String uploadImage(String table, String id, String fileName, InputStream inputStream) {
         try {
             String path = generatePathFile(BUCKET_IMAGE, table, id, fileName);
-            FileUtils.copyInputStreamToFile(file, new File(url + path));
+            FileUtils.copyInputStreamToFile(inputStream, getFile(path));
             return path;
         } catch (Exception e) {
             logger.error("uploadImage: " + e.getMessage());
@@ -53,10 +53,10 @@ public class FileStorageService {
         }
     }
 
-    public String uploadVideo(String table, String id, String fileName, InputStream file) {
+    public String uploadVideo(String table, String id, String fileName, InputStream inputStream) {
         try {
             String path = generatePathFile(BUCKET_VIDEO, table, id, fileName);
-            FileUtils.copyInputStreamToFile(file, new File(url + path));
+            FileUtils.copyInputStreamToFile(inputStream, getFile(path));
             return path;
         } catch (Exception e) {
             logger.error("uploadVideo: " + e.getMessage());

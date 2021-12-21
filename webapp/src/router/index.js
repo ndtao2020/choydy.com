@@ -7,6 +7,8 @@ import adminChildRoutes from './admin'
 
 Vue.use(VueRouter)
 
+const keyMeta = `FvxcFbL1BSizNhO2svY`
+
 Nprogress.configure({ showSpinner: false })
 
 const router = new VueRouter({
@@ -27,8 +29,24 @@ const router = new VueRouter({
         {
           path: '',
           name: 'home',
-          meta: { title: 'Trang chủ' },
-          component: () => import('@/views/Apps/Social/SocialApp')
+          component: () => import('@/views/Apps/Social/SocialApp'),
+          meta: {
+            title: 'Trang chủ',
+            metaTags: [
+              {
+                name: 'description',
+                content: 'Trang tin cập nhật những Meme hài hước, vui nhộn.'
+              },
+              {
+                name: 'og:title',
+                content: 'Trang chủ | ChoyDy.Com - Meme hài hước'
+              },
+              {
+                property: 'og:description',
+                content: 'Trang tin cập nhật những Meme hài hước, vui nhộn.'
+              }
+            ]
+          }
         }
       ]
     },
@@ -37,8 +55,29 @@ const router = new VueRouter({
   ]
 })
 
-router.beforeEach(({ path, meta = {} }, from, next) => {
+router.beforeEach(({ path, matched, meta = {} }, from, next) => {
+  // loading
   Nprogress.start()
+  // set up title
+  document.title = `${meta.title || '404'} | ChoyDy.Com - Meme hài hước`
+  // set up meta
+  const nearestWithMeta = matched
+    .slice()
+    .reverse()
+    .find((r) => r.meta && r.meta.metaTags)
+  // Turn the meta tag definitions into actual elements in the head.
+  // Remove any stale meta tags from the document using the key attribute we set below.
+  Array.from(document.querySelectorAll(`[${keyMeta}]`)).map((el) => el.parentNode.removeChild(el))
+  nearestWithMeta.meta.metaTags
+    .map((tagDef) => {
+      const tag = document.createElement('meta')
+      Object.keys(tagDef).forEach((key) => tag.setAttribute(key, tagDef[key]))
+      tag.setAttribute(keyMeta, '')
+      return tag
+    })
+    // Add the meta tags to the document head.
+    .forEach((tag) => document.head.appendChild(tag))
+  //check auth
   const { auth } = meta
   if (auth) {
     const logged = store.getters['auth/logged']
@@ -50,13 +89,6 @@ router.beforeEach(({ path, meta = {} }, from, next) => {
   next()
 })
 
-router.afterEach((to) => {
-  // Use next tick to handle router history correctly
-  // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
-  Vue.nextTick(() => {
-    document.title = `${to.meta.title || '404'} | ChoyDy.Com - Meme hài hước`
-    Nprogress.done()
-  })
-})
+router.afterEach(() => Nprogress.done())
 
 export default router
