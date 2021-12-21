@@ -23,17 +23,30 @@ module.exports = {
     }
   },
   outputDir: 'build',
+  chainWebpack: (config) => {
+    config.plugins.delete('preload')
+    config.plugins.delete('prefetch')
+  },
   configureWebpack: {
     devtool: isProd ? undefined : 'source-map',
     optimization: !isProd
       ? undefined
       : {
-          minimize: true,
           minimizer: [
             new TerserPlugin({
               terserOptions: { compress: { drop_console: true } }
             })
-          ]
+          ],
+          runtimeChunk: {
+            name: (entrypoint) => `r~${entrypoint.name}`
+          },
+          mergeDuplicateChunks: false,
+          removeAvailableModules: true,
+          splitChunks: {
+            chunks: 'all',
+            maxInitialRequests: Infinity,
+            maxSize: 200000
+          }
         }
   }
 }

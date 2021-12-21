@@ -200,7 +200,6 @@
                                     <goal>copy-resources</goal>
                                 </goals>
                                 <configuration>
-                                    <encoding>UTF-8</encoding>
                                     <outputDirectory>${basedir}/target/classes/META-INF/resources</outputDirectory>
                                     <resources>
                                         <resource>

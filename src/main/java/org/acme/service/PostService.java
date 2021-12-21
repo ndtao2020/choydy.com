@@ -191,6 +191,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         // remove file
         for (Media media : post.getMedia()) {
             fileStorageService.deleteFile(media.getLink());
+            mediaService.deleteDTOById(media.getId());
         }
         getEm()
                 .createNativeQuery("DELETE FROM \"" + Media.PATH + "\" WHERE " + Post.PATH_ID + "=?1")

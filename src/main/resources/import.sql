@@ -161,7 +161,7 @@ CREATE TABLE public.postlike (
 ALTER TABLE public.postlike OWNER TO postgres;
 
 --
--- TOC entry 263 (class 1259 OID 18944)
+-- TOC entry 263 (class 1259 OID 18961)
 -- Name: posttag; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -265,7 +265,7 @@ CREATE TABLE public.usersocialnetwork (
 ALTER TABLE public.usersocialnetwork OWNER TO postgres;
 
 --
--- TOC entry 3437 (class 0 OID 17486)
+-- TOC entry 3435 (class 0 OID 17486)
 -- Dependencies: 247
 -- Data for Name: authority; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -274,8 +274,9 @@ INSERT INTO public.authority VALUES ('ADMIN', 'Quản trị viên');
 INSERT INTO public.authority VALUES ('USER', 'Người dùng');
 INSERT INTO public.authority VALUES ('EDITOR', 'Biên tập');
 
+
 --
--- TOC entry 3449 (class 0 OID 18796)
+-- TOC entry 3447 (class 0 OID 18796)
 -- Dependencies: 259
 -- Data for Name: catalog; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -295,8 +296,9 @@ INSERT INTO public.catalog VALUES (12, '1', 'Meme Gấu Chó', 0, 1639732998962)
 INSERT INTO public.catalog VALUES (13, '1', 'Meme Chó', 0, 1639732998962);
 INSERT INTO public.catalog VALUES (14, '1', 'Meme Mèo', 0, 1639732998962);
 
+
 --
--- TOC entry 3447 (class 0 OID 18758)
+-- TOC entry 3445 (class 0 OID 18758)
 -- Dependencies: 257
 -- Data for Name: comment; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -304,7 +306,7 @@ INSERT INTO public.catalog VALUES (14, '1', 'Meme Mèo', 0, 1639732998962);
 
 
 --
--- TOC entry 3438 (class 0 OID 17507)
+-- TOC entry 3436 (class 0 OID 17507)
 -- Dependencies: 248
 -- Data for Name: country; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -552,7 +554,7 @@ INSERT INTO public.country VALUES ('SX', 'Sint Maarten', 'SXM', 'SINT MAARTEN', 
 
 
 --
--- TOC entry 3440 (class 0 OID 17527)
+-- TOC entry 3438 (class 0 OID 17527)
 -- Dependencies: 250
 -- Data for Name: language; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -744,7 +746,7 @@ INSERT INTO public.language VALUES ('tg', 'Tajik', 'тоҷикӣ, toçikī, تا
 
 
 --
--- TOC entry 3451 (class 0 OID 18913)
+-- TOC entry 3449 (class 0 OID 18913)
 -- Dependencies: 261
 -- Data for Name: liketype; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -758,13 +760,7 @@ INSERT INTO public.liketype VALUES ('ask', 'ask');
 INSERT INTO public.liketype VALUES ('love', 'love');
 
 --
--- TOC entry 3448 (class 0 OID 18781)
--- Dependencies: 258
--- Data for Name: media; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
---
--- TOC entry 3441 (class 0 OID 17686)
+-- TOC entry 3439 (class 0 OID 17686)
 -- Dependencies: 251
 -- Data for Name: oauth2client; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -774,23 +770,7 @@ INSERT INTO public.oauth2client VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 
 INSERT INTO public.oauth2client VALUES ('01927f6d-bed6-4d59-afa5-267450cc253e', 2592000, NULL, true, 'refresh_token,client_credentials', NULL, 5184000, NULL, 'server', '$2a$12$DcUar.OriwYhMSvOrjG8h.YP/KTcWoCF.eaYyuELiwKt2ZKBhPG82', 'localhost');
 
 --
--- TOC entry 3452 (class 0 OID 18921)
--- Dependencies: 262
--- Data for Name: postlike; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-
-
---
--- TOC entry 3453 (class 0 OID 18944)
--- Dependencies: 263
--- Data for Name: posttag; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-
-
---
--- TOC entry 3443 (class 0 OID 18567)
+-- TOC entry 3441 (class 0 OID 18567)
 -- Dependencies: 253
 -- Data for Name: socialnetwork; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -800,7 +780,7 @@ INSERT INTO public.socialnetwork VALUES (2, 'FACEBOOK', NULL, NULL);
 
 
 --
--- TOC entry 3442 (class 0 OID 17749)
+-- TOC entry 3440 (class 0 OID 17749)
 -- Dependencies: 252
 -- Data for Name: user_sys; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -809,7 +789,7 @@ INSERT INTO public.user_sys VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'acc
 
 
 --
--- TOC entry 3450 (class 0 OID 18832)
+-- TOC entry 3448 (class 0 OID 18832)
 -- Dependencies: 260
 -- Data for Name: userauthority; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -820,7 +800,7 @@ INSERT INTO public.userauthority VALUES ('da3a324e-12c2-4b3a-9b8e-473c41c6ca58',
 
 
 --
--- TOC entry 3444 (class 0 OID 18580)
+-- TOC entry 3442 (class 0 OID 18580)
 -- Dependencies: 254
 -- Data for Name: userdetail; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -829,7 +809,7 @@ INSERT INTO public.userdetail VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'A
 
 
 --
--- TOC entry 3445 (class 0 OID 18588)
+-- TOC entry 3443 (class 0 OID 18588)
 -- Dependencies: 255
 -- Data for Name: usersocialnetwork; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -837,7 +817,7 @@ INSERT INTO public.userdetail VALUES ('98f1edad-0410-4fa0-be8c-40133cc0d64f', 'A
 
 
 --
--- TOC entry 3460 (class 0 OID 0)
+-- TOC entry 3458 (class 0 OID 0)
 -- Dependencies: 249
 -- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -936,15 +916,6 @@ ALTER TABLE ONLY public.postlike
 
 
 --
--- TOC entry 3278 (class 2606 OID 18948)
--- Name: posttag posttag_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.posttag
-    ADD CONSTRAINT posttag_pkey PRIMARY KEY (post_id);
-
-
---
 -- TOC entry 3245 (class 2606 OID 18574)
 -- Name: socialnetwork socialnetwork_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
@@ -1008,7 +979,7 @@ ALTER TABLE ONLY public.userauthority
 
 
 --
--- TOC entry 3280 (class 2606 OID 18950)
+-- TOC entry 3278 (class 2606 OID 18967)
 -- Name: posttag ukle9i0p4tgtm9530kupkwxif1d; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1103,7 +1074,7 @@ CREATE UNIQUE INDEX user_sys_email_idx ON public.user_sys USING btree (email);
 
 
 --
--- TOC entry 3281 (class 2606 OID 18633)
+-- TOC entry 3279 (class 2606 OID 18633)
 -- Name: userdetail fk174y51lt1lbl26clh4ymguuk3; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1112,7 +1083,7 @@ ALTER TABLE ONLY public.userdetail
 
 
 --
--- TOC entry 3291 (class 2606 OID 18839)
+-- TOC entry 3289 (class 2606 OID 18839)
 -- Name: userauthority fk1minklvli2mn2njbomxvef99g; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1121,7 +1092,7 @@ ALTER TABLE ONLY public.userauthority
 
 
 --
--- TOC entry 3287 (class 2606 OID 18766)
+-- TOC entry 3285 (class 2606 OID 18766)
 -- Name: comment fk6kduoq1qgemmbt8ls3x37di8n; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1130,7 +1101,7 @@ ALTER TABLE ONLY public.comment
 
 
 --
--- TOC entry 3282 (class 2606 OID 18638)
+-- TOC entry 3280 (class 2606 OID 18638)
 -- Name: userdetail fk9kj1yufdk6lpcvs4hc9aki689; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1139,7 +1110,7 @@ ALTER TABLE ONLY public.userdetail
 
 
 --
--- TOC entry 3288 (class 2606 OID 18776)
+-- TOC entry 3286 (class 2606 OID 18776)
 -- Name: comment fkay3w7wrk7vau26n7ix6crwl1l; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1148,7 +1119,7 @@ ALTER TABLE ONLY public.comment
 
 
 --
--- TOC entry 3283 (class 2606 OID 18643)
+-- TOC entry 3281 (class 2606 OID 18643)
 -- Name: usersocialnetwork fkcjc5u98wa8eymfb2mw57kfp9m; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1157,7 +1128,7 @@ ALTER TABLE ONLY public.usersocialnetwork
 
 
 --
--- TOC entry 3293 (class 2606 OID 18938)
+-- TOC entry 3291 (class 2606 OID 18938)
 -- Name: postlike fkdfoyq2vrvmh47km1jejktsem8; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1166,7 +1137,7 @@ ALTER TABLE ONLY public.postlike
 
 
 --
--- TOC entry 3296 (class 2606 OID 18951)
+-- TOC entry 3294 (class 2606 OID 18968)
 -- Name: posttag fkijuqbnbv01ixs71tbd58xkgkd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1175,7 +1146,7 @@ ALTER TABLE ONLY public.posttag
 
 
 --
--- TOC entry 3292 (class 2606 OID 18844)
+-- TOC entry 3290 (class 2606 OID 18844)
 -- Name: userauthority fkjnag5ndsv1g0v1bsrwas0fibt; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1184,7 +1155,7 @@ ALTER TABLE ONLY public.userauthority
 
 
 --
--- TOC entry 3285 (class 2606 OID 18817)
+-- TOC entry 3283 (class 2606 OID 18817)
 -- Name: post fkknuxya8iel3o3odnc1u2c7pp2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1193,7 +1164,7 @@ ALTER TABLE ONLY public.post
 
 
 --
--- TOC entry 3284 (class 2606 OID 18648)
+-- TOC entry 3282 (class 2606 OID 18648)
 -- Name: usersocialnetwork fko7d0gpfdlq9if52g0fecsfxso; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1202,7 +1173,7 @@ ALTER TABLE ONLY public.usersocialnetwork
 
 
 --
--- TOC entry 3289 (class 2606 OID 18771)
+-- TOC entry 3287 (class 2606 OID 18771)
 -- Name: comment fkqb0rnht649ifuh6gev5lwvx8x; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1211,7 +1182,7 @@ ALTER TABLE ONLY public.comment
 
 
 --
--- TOC entry 3294 (class 2606 OID 18928)
+-- TOC entry 3292 (class 2606 OID 18928)
 -- Name: postlike fkrfesdq1ogr4mt2qxfl241h6ud; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1220,7 +1191,7 @@ ALTER TABLE ONLY public.postlike
 
 
 --
--- TOC entry 3286 (class 2606 OID 18723)
+-- TOC entry 3284 (class 2606 OID 18723)
 -- Name: post fkt4kvk5faoe6k9lmq0m7bvqjcg; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1229,7 +1200,7 @@ ALTER TABLE ONLY public.post
 
 
 --
--- TOC entry 3290 (class 2606 OID 18791)
+-- TOC entry 3288 (class 2606 OID 18791)
 -- Name: media fktmgj1wjq6o74oq675050lhrb0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1238,9 +1209,17 @@ ALTER TABLE ONLY public.media
 
 
 --
--- TOC entry 3295 (class 2606 OID 18933)
+-- TOC entry 3293 (class 2606 OID 18933)
 -- Name: postlike fkwy2u3sijki3uk1jhyq1wwujw; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.postlike
     ADD CONSTRAINT fkwy2u3sijki3uk1jhyq1wwujw FOREIGN KEY (post_id) REFERENCES public.post(id);
+
+
+-- Completed on 2021-12-20 18:31:42
+
+--
+-- PostgreSQL database dump complete
+--
+
