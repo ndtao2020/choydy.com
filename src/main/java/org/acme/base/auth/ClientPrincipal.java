@@ -8,9 +8,9 @@ public class ClientPrincipal implements Principal {
     private final Object r;
     private final String d;
 
-    public ClientPrincipal(Object accessTokenValidity, Object refreshTokenValidity, String domain) {
-        this.a = accessTokenValidity;
-        this.r = refreshTokenValidity;
+    public ClientPrincipal(Object access, Object refresh, String domain) {
+        this.a = access;
+        this.r = refresh;
         this.d = domain;
     }
 
@@ -19,14 +19,14 @@ public class ClientPrincipal implements Principal {
         return d;
     }
 
-    public Integer getAccessTokenValidity() {
+    public Integer getAccess() {
         if (a instanceof Integer) {
             return (Integer) a;
         }
         return Integer.parseInt(a.toString());
     }
 
-    public Integer getRefreshTokenValidity() {
+    public Integer getRefresh() {
         if (r instanceof Integer) {
             return (Integer) r;
         }

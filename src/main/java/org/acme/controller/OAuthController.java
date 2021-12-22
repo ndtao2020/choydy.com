@@ -192,11 +192,12 @@ public class OAuthController {
         if (authorities == null) {
             throw new UnauthorizedException("Tài khoản của bạn hiện không có vai trò nào để đăng nhập !");
         }
-        JwtToken jwtToken = jwtUtil.builder(user.getId(), authorities, (ClientPrincipal) context.getUserPrincipal());
+        ClientPrincipal principal = (ClientPrincipal) context.getUserPrincipal();
+        JwtToken token = jwtUtil.builder(user.getId(), authorities, principal);
         return Response
-                .ok(jwtToken)
+                .ok(token)
                 .header(HttpHeaders.CACHE_CONTROL, "no-cache")
-                .header(HttpHeaders.SET_COOKIE, RequestFilter.TOKEN_COOKIE_NAME + "=" + jwtToken.getAccess() + ";Path=/;Secure;HttpOnly;SameSite=None")
+                .header(HttpHeaders.SET_COOKIE, RequestFilter.TOKEN_COOKIE_NAME + "=" + token.getAccess() + ";Max-Age=" + principal.getAccess() + ";Path=/;Secure;HttpOnly;SameSite=None")
                 .build();
     }
 

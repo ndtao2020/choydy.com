@@ -56,16 +56,9 @@ public class JwtUtil {
 
     public JwtToken builder(UUID id, List<?> authorities, ClientPrincipal clientPrincipal) {
         return new JwtToken(
-                build(Map.of(
-                        KEY_ID, id,
-                        KEY_ROLE, authorities,
-                        KEY_EXP, millisToDate(clientPrincipal.getAccessTokenValidity())
-                )),
-                build(Map.of(
-                        KEY_ID, id,
-                        KEY_EXP, millisToDate(clientPrincipal.getRefreshTokenValidity())
-                )),
-                clientPrincipal.getAccessTokenValidity()
+                build(Map.of(KEY_ID, id, KEY_EXP, millisToDate(clientPrincipal.getAccess()), KEY_ROLE, authorities)),
+                build(Map.of(KEY_ID, id, KEY_EXP, millisToDate(clientPrincipal.getRefresh()))),
+                clientPrincipal.getAccess()
         );
     }
 

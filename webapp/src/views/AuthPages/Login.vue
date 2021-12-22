@@ -36,8 +36,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import Nprogress from 'nprogress'
-import { mapState } from 'vuex'
 import { submit } from '@/api/auth/login'
 
 export default {
@@ -50,7 +50,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('auth', { logged: 'logged' })
+    ...mapGetters('auth', ['logged'])
   },
   mounted() {
     if (this.logged) {
@@ -58,6 +58,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('auth', ['setAuthentication']),
     redirectPage() {
       window.location = this.$route.query.redirect || '/'
     },
@@ -68,10 +69,10 @@ export default {
       }
       Nprogress.start()
       try {
-        const { access_token, expires_in } = await submit(this.username, this.password)
-        const [, payloadData] = access_token.split('.')
-        localStorage.setItem('session', Buffer.from(payloadData, 'base64').toString())
-        localStorage.setItem('expires_in', expires_in)
+        const data = await submit(this.username, this.password)
+        if (data) {
+          this.setAuthentication(data)
+        }
         // redirect
         this.redirectPage()
       } catch (error) {
