@@ -3,8 +3,12 @@ package org.acme.base.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class JwtToken {
+public class JwtToken implements Serializable {
+
+    private static final long serialVersionUID = 999944324545L;
 
     @JsonProperty("access_token")
     private String access;
