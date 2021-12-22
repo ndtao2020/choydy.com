@@ -1,6 +1,6 @@
 <template>
   <div class="auth-page">
-    <b-container>
+    <b-container v-if="!logged">
       <h5 class="auth-logo">
         <i class="fa fa-circle text-primary"></i>
         <img src="@/assets/images/logo.png" alt="logo" />
@@ -51,11 +51,6 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['logged'])
-  },
-  mounted() {
-    if (this.logged) {
-      this.redirectPage()
-    }
   },
   methods: {
     ...mapActions('auth', ['setAuthentication']),
