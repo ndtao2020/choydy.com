@@ -58,7 +58,6 @@ public class OAuthController {
 
     @POST
     @Path("/login")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response login(@Context SecurityContext context, LoginDTO loginDTO) throws SQLException {
         if (loginDTO.getUsername() == null || loginDTO.getPassword() == null) {
             throw new BadRequestException("Username and Password can not be empty !");
@@ -72,7 +71,6 @@ public class OAuthController {
 
     @POST
     @Path("/social")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response loginBySocial(@Context SecurityContext context, @Valid SocialLoginDTO loginDTO) throws UnauthorizedException, BadRequestException, SQLException {
         if (loginDTO.getEmail() == null || loginDTO.getPassword() == null) {
             throw new BadRequestException("Email and Password can not be empty !");
@@ -86,7 +84,6 @@ public class OAuthController {
 
     @POST
     @Path("/refresh")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response refresh(@Context SecurityContext context, TokenDTO token) {
         if (token.getToken() == null) {
             throw new BadRequestException("Token can not be empty !");
@@ -195,7 +192,7 @@ public class OAuthController {
         ClientPrincipal principal = (ClientPrincipal) context.getUserPrincipal();
         JwtToken token = jwtUtil.builder(user.getId(), authorities, principal);
         return Response
-                .ok(token)
+                .ok(token, MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.CACHE_CONTROL, "no-cache")
                 .header(HttpHeaders.SET_COOKIE, RequestFilter.TOKEN_COOKIE_NAME + "=" + token.getAccess() + ";Max-Age=" + principal.getAccess() + ";Path=/;Secure;HttpOnly;SameSite=None")
                 .build();
