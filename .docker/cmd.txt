@@ -73,6 +73,8 @@ sudo systemctl reload nginx
 
 sudo certbot --nginx -d choydy.com/ -d www.choydy.com
 
+sudo chmod -R 777 /home/sixven/camp_sms/inputs
+
 /home/choydy/ssl
 
 chmod +x init-letsencrypt.sh
