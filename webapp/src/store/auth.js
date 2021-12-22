@@ -1,36 +1,59 @@
-import Cookies from 'js-cookie'
+import { SESSION } from '@/constants'
+import { logout } from '@/api/session'
 
-const KEY_SESSION = 'session'
-const KEY_EXPIRES = 'expires_in'
-const KEY_COOKIE = '_id'
-
-export const getToken = () => Cookies.get(KEY_COOKIE)
-
-const checkLogged = () => {
-  const session = localStorage.getItem(KEY_SESSION)
-  const expires = localStorage.getItem(KEY_EXPIRES)
-  return getToken() != null && session != null && expires != null
+const getSession = () => {
+  const session = localStorage.getItem(SESSION)
+  if (session) {
+    try {
+      return JSON.parse(session)
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error)
+    }
+  }
+  return null
 }
 
 export default {
   namespaced: true,
   state: {
-    logged: checkLogged()
+    session: getSession()
   },
   getters: {
-    logged: ({ logged }) => logged
+    logged: ({ session }) => session != null,
+    exp: ({ session }) => session != null && session.exp,
+    id: ({ session }) => session != null && session.a,
+    roles: ({ session }) => session != null && session.b
   },
   mutations: {
-    setLogged(state) {
-      state.logged = state
+    setSession(state) {
+      state.session = state
     }
   },
   actions: {
-    clearAuthentication({ commit }) {
-      localStorage.removeItem(KEY_SESSION)
-      localStorage.removeItem(KEY_EXPIRES)
-      Cookies.remove(KEY_COOKIE)
-      commit('setLogged', false)
+    setAuthentication({ commit }, { access_token }) {
+      try {
+        const [, payloadData] = access_token.split('.')
+        localStorage.setItem(SESSION, Buffer.from(payloadData, 'base64'))
+        commit('setSession', getSession())
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+        localStorage.removeItem(SESSION)
+        commit('setSession', null)
+      }
+    },
+    async clearAuthentication({ commit }) {
+      try {
+        await logout()
+      } catch (error) {
+        localStorage.removeItem(SESSION)
+        // eslint-disable-next-line no-console
+        console.log(error)
+      } finally {
+        localStorage.removeItem(SESSION)
+        commit('setSession', null)
+      }
     }
   }
 }

@@ -2,14 +2,14 @@
   <div class="sidebar-wrapper">
     <nav :class="{ sidebar: true, sidebarStatic, sidebarOpened }" @mouseenter="sidebarMouseEnter" @mouseleave="sidebarMouseLeave">
       <header class="logo">
-        <router-link to="/app/dashboard"><img src="@/assets/images/logo-w.png" alt="logo" /></router-link>
+        <router-link to="/admin"><img src="@/assets/images/logo-w.png" alt="logo" /></router-link>
       </header>
       <h5 class="navTitle first">Menu</h5>
       <ul class="nav">
         <NavLink :active-item="activeItem" header="Thống kê" link="/admin" icon-name="las la-home" index="dashboard" is-header />
         <NavLink :active-item="activeItem" header="Tạo bài đăng" link="/admin/create-post" icon-name="las la-plus-circle" index="create" is-header />
         <NavLink :active-item="activeItem" header="Bài đã đăng" link="/admin/post-list" icon-name="lab la-blogger" index="post" is-header />
-        <NavLink
+        <!-- <NavLink
           :active-item="activeItem"
           header="Danh mục"
           link="/app/components"
@@ -20,7 +20,7 @@
             { header: 'Tình dục', link: '/app/components/icons' },
             { header: 'Hentai', link: '/app/components/maps' }
           ]"
-        />
+        /> -->
       </ul>
       <h5 class="navTitle">Dung lượng</h5>
       <div class="sidebarAlerts">

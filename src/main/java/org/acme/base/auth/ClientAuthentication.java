@@ -7,15 +7,19 @@ import java.security.Principal;
 
 public class ClientAuthentication implements SecurityContext {
 
-    private final ClientPrincipal principal;
+    private final ClientPrincipal p;
 
     public ClientAuthentication(Oauth2Client client) {
-        this.principal = new ClientPrincipal(client);
+        this(client.getAccess(), client.getRefresh(), client.getDomain());
+    }
+
+    public ClientAuthentication(Object accessTokenValidity, Object refreshTokenValidity, String domain) {
+        this.p = new ClientPrincipal(accessTokenValidity, refreshTokenValidity, domain);
     }
 
     @Override
     public Principal getUserPrincipal() {
-        return principal;
+        return p;
     }
 
     @Override

@@ -6,18 +6,18 @@ import java.util.UUID;
 
 public class JwtAuthentication implements SecurityContext {
 
-    private final JwtPrincipal principal;
+    private final JwtPrincipal p;
 
     public JwtAuthentication(UUID i) throws IllegalArgumentException {
         if (i == null) {
             throw new IllegalArgumentException("Id must not null !");
         }
-        this.principal = new JwtPrincipal(i);
+        this.p = new JwtPrincipal(i);
     }
 
     @Override
     public Principal getUserPrincipal() {
-        return principal;
+        return p;
     }
 
     @Override
