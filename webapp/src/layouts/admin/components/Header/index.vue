@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import Nprogress from 'nprogress'
 import { mapState, mapActions } from 'vuex'
 import './index.scss'
 
@@ -88,9 +89,18 @@ export default {
         this.changeSidebarActive(paths.join('/'))
       }
     },
-    logout() {
-      this.clearAuthentication()
-      window.location.reload()
+    async logout() {
+      Nprogress.start()
+      try {
+        await this.clearAuthentication()
+        window.location.reload()
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+        window.location.reload()
+      } finally {
+        Nprogress.done()
+      }
     }
   }
 }
