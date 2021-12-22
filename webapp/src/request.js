@@ -1,15 +1,12 @@
 import { fetch } from 'whatwg-fetch'
-import { getToken } from '@/store/auth'
 
 const config = (url, method, body, headers = {}) => {
-  const token = getToken()
   let configs = {
     method,
     credentials: 'same-origin', // <-- includes cookies in the request
     headers: {
       ...headers,
-      Accept: 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {})
+      Accept: 'application/json'
     }
   }
   if (method !== 'GET') {
@@ -43,7 +40,7 @@ const del = (url) => config(url, 'DELETE')
 
 const oauth = (url, body) =>
   config(url, 'POST', body, {
-    Authorization: 'Basic ZjhhNjE5MTMtOWQ4OS00ZjBlLTgwOTAtNGFlZWQ1MzY3NWVlOmJnVmtZcDNzNlJnVWtYbjJyNWFkQGY0YzYxMyFkZWIz'
+    Authorization: 'Basic ZjRhZWVkNTM2NzVlZTpiZ1ZrWXAzczZSZ1VrWG4ycjVhZEBmNGM2MTMhZGViMw=='
   })
 
 export { get, post, put, del, oauth }

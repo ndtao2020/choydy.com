@@ -1,12 +1,12 @@
 package org.acme;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.quarkus.runtime.LaunchMode;
 import org.acme.base.auth.ClientAuthentication;
 import org.acme.base.encoder.BCryptPasswordEncoder;
 import org.acme.base.jwt.JwtUtil;
 import org.acme.constants.Role;
 import org.acme.constants.SecurityPath;
-import org.acme.model.Oauth2Client;
 import org.acme.service.Oauth2ClientService;
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.core.Headers;
@@ -16,24 +16,24 @@ import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.ext.Provider;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Provider
 @PreMatching
 public class RequestFilter implements ContainerRequestFilter {
 
-    public static final String CSRF_TOKEN_COOKIE_NAME = "csrf";
+    private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
+
+    public static final String TOKEN_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Host-" : "") + "cid";
     private static final String AUTHORIZATION = "AUTHORIZATION";
     private static final ServerResponse ACCESS_DENIED = new ServerResponse("Access denied for this resource", 401, new Headers<>());
 
-    @Inject
-    Logger log;
     @Inject
     JwtUtil jwtUtil;
     @Inject
@@ -61,13 +61,20 @@ public class RequestFilter implements ContainerRequestFilter {
     }
 
     private void bearerAuth(ContainerRequestContext requestContext, Role role) {
+        String token;
         final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
         if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
-            requestContext.abortWith(ACCESS_DENIED);
-            return;
+            Cookie tokenCookie = requestContext.getCookies().get(TOKEN_COOKIE_NAME);
+            if (tokenCookie == null) {
+                requestContext.abortWith(ACCESS_DENIED);
+                return;
+            }
+            token = tokenCookie.getValue();
+        } else {
+            token = apiKeyHeader.get(0).substring(7);
         }
         try {
-            JsonNode jsonNode = jwtUtil.validate(apiKeyHeader.get(0).substring(7));
+            JsonNode jsonNode = jwtUtil.validate(token);
             if (role != null) {
                 boolean c = true;
                 Iterator<JsonNode> roles = jwtUtil.getRoles(jsonNode);
@@ -84,7 +91,7 @@ public class RequestFilter implements ContainerRequestFilter {
             }
             requestContext.setSecurityContext(jwtUtil.parse(jsonNode));
         } catch (Exception e) {
-            log.error(e.getMessage());
+            logger.error(e.getMessage());
             requestContext.abortWith(new ServerResponse(e.getMessage(), 401, null));
         }
     }
@@ -97,7 +104,7 @@ public class RequestFilter implements ContainerRequestFilter {
         }
         String h = apiKeyHeader.get(0);
         if (!h.startsWith("Basic")) {
-            log.error("Invalid basic authentication token !");
+            logger.error("Invalid basic authentication token !");
             requestContext.abortWith(ACCESS_DENIED);
             return;
         }
@@ -105,19 +112,19 @@ public class RequestFilter implements ContainerRequestFilter {
             String t = new String(Base64.getDecoder().decode(h.substring(6).getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
             int l = t.indexOf(":");
             if (l == -1) {
-                log.error("Invalid basic authentication token !");
+                logger.error("Invalid basic authentication token !");
                 requestContext.abortWith(ACCESS_DENIED);
                 return;
             }
-            Oauth2Client oauth2Client = oauth2ClientService.loadClientByClientId(UUID.fromString(t.substring(0, l)));
-            if (!passwordEncoder.matches(t.substring(l + 1), oauth2Client.getSecret())) {
-                log.error("Authentication failed: secret is not matched !");
+            Object[] results = oauth2ClientService.loadShortByClientId(t.substring(0, l));
+            if (!passwordEncoder.matches(t.substring(l + 1), results[0].toString())) {
+                logger.error("Authentication failed: secret is not matched !");
                 requestContext.abortWith(ACCESS_DENIED);
                 return;
             }
-            requestContext.setSecurityContext(new ClientAuthentication(oauth2Client));
+            requestContext.setSecurityContext(new ClientAuthentication(results[1], results[2], results[3].toString()));
         } catch (Exception e) {
-            log.error(e.getMessage());
+            logger.error(e.getMessage());
             requestContext.abortWith(ACCESS_DENIED);
         }
     }

@@ -15,24 +15,23 @@ import java.util.UUID;
 @ApplicationScoped
 public class Oauth2ClientService {
 
-    @Inject
-    Logger log;
+    private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
+    private static final String regex = ",";
 
     @Inject
     EntityManager em;
-
     @Inject
     RedisClient redisClient;
-
     @Inject
     ObjectMapper objectMapper;
 
     public Oauth2Client loadClientByClientId(UUID clientId) throws AuthenticationException {
         Oauth2Client data;
         try {
-            Response response = redisClient.hget("clients", clientId.toString());
+            Response response = redisClient.hget("client", clientId.toString());
             data = objectMapper.readValue(response.toBytes(), Oauth2Client.class);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             data = null;
         }
         if (data == null) {
@@ -41,11 +40,44 @@ public class Oauth2ClientService {
                 throw new AuthenticationException("Id " + clientId + " is not exist !");
             }
             try {
-                redisClient.hsetnx("clients", clientId.toString(), objectMapper.writeValueAsString(oauth2Client));
+                redisClient.hsetnx("client", clientId.toString(), objectMapper.writeValueAsString(oauth2Client));
             } catch (Exception e) {
-                log.error(e.getMessage());
+                logger.error(e.getMessage());
             }
             return oauth2Client;
+        }
+        return data;
+    }
+
+    public Object[] loadShortByClientId(String clientId) throws AuthenticationException {
+        Object[] data = null;
+        try {
+            Response r = redisClient.hget("client", clientId);
+            if (r != null) {
+                data = r.toString().split(regex);
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        if (data == null) {
+            Object result = em
+                    .createNativeQuery("select secret,access,refresh,domain from " + Oauth2Client.PATH + " where id=?1")
+                    .setParameter(1, clientId)
+                    .getSingleResult();
+            if (result == null) {
+                throw new AuthenticationException("Id " + clientId + " is not exist !");
+            }
+            Object[] out = (Object[]) result;
+            try {
+                StringBuilder str = new StringBuilder();
+                for (Object o : out) {
+                    str.append(o).append(regex);
+                }
+                redisClient.hsetnx("client", clientId, str.substring(0, str.length() - regex.length()));
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+            return out;
         }
         return data;
     }

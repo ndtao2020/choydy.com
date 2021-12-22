@@ -1,38 +1,39 @@
 package org.acme.base.auth;
 
-import org.acme.model.Oauth2Client;
-
 import java.security.Principal;
-import java.util.UUID;
 
 public class ClientPrincipal implements Principal {
 
-    private final UUID id;
-    private final Integer accessTokenValidity;
-    private final Integer refreshTokenValidity;
-    private final String domain;
+    private final Object a;
+    private final Object r;
+    private final String d;
 
-    public ClientPrincipal(Oauth2Client client) {
-        this.id = client.getId();
-        this.accessTokenValidity = client.getAccessTokenValidity();
-        this.refreshTokenValidity = client.getRefreshTokenValidity();
-        this.domain = client.getDomain();
+    public ClientPrincipal(Object accessTokenValidity, Object refreshTokenValidity, String domain) {
+        this.a = accessTokenValidity;
+        this.r = refreshTokenValidity;
+        this.d = domain;
     }
 
     @Override
     public String getName() {
-        return id.toString();
+        return d;
     }
 
     public Integer getAccessTokenValidity() {
-        return accessTokenValidity;
+        if (a instanceof Integer) {
+            return (Integer) a;
+        }
+        return Integer.parseInt(a.toString());
     }
 
     public Integer getRefreshTokenValidity() {
-        return refreshTokenValidity;
+        if (r instanceof Integer) {
+            return (Integer) r;
+        }
+        return Integer.parseInt(r.toString());
     }
 
     public String getDomain() {
-        return domain;
+        return d;
     }
 }

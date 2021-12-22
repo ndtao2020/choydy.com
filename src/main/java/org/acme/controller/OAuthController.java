@@ -2,6 +2,7 @@ package org.acme.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.quarkus.security.UnauthorizedException;
+import org.acme.RequestFilter;
 import org.acme.base.auth.ClientPrincipal;
 import org.acme.base.dto.CheckDTO;
 import org.acme.base.dto.JwtToken;
@@ -31,7 +32,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.sql.SQLException;
 import java.util.List;
@@ -56,7 +59,7 @@ public class OAuthController {
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
-    public JwtToken login(@Context SecurityContext context, LoginDTO loginDTO) throws SQLException {
+    public Response login(@Context SecurityContext context, LoginDTO loginDTO) throws SQLException {
         if (loginDTO.getUsername() == null || loginDTO.getPassword() == null) {
             throw new BadRequestException("Username and Password can not be empty !");
         }
@@ -68,9 +71,23 @@ public class OAuthController {
     }
 
     @POST
+    @Path("/social")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response loginBySocial(@Context SecurityContext context, @Valid SocialLoginDTO loginDTO) throws UnauthorizedException, BadRequestException, SQLException {
+        if (loginDTO.getEmail() == null || loginDTO.getPassword() == null) {
+            throw new BadRequestException("Email and Password can not be empty !");
+        }
+        User user = userService.loadUserByUsername(loginDTO.getEmail());
+        if (user == null) {
+            user = createUser((ClientPrincipal) context.getUserPrincipal(), loginDTO);
+        }
+        return validate(context, user);
+    }
+
+    @POST
     @Path("/refresh")
     @Produces(MediaType.APPLICATION_JSON)
-    public JwtToken refresh(@Context SecurityContext context, TokenDTO token) {
+    public Response refresh(@Context SecurityContext context, TokenDTO token) {
         if (token.getToken() == null) {
             throw new BadRequestException("Token can not be empty !");
         }
@@ -115,20 +132,6 @@ public class OAuthController {
         }
         this.sendMailConfirm((ClientPrincipal) context.getUserPrincipal(), user.getId(), user.getName(), user.getEmail());
         return new CheckDTO(true);
-    }
-
-    @POST
-    @Path("/social")
-    @Produces(MediaType.APPLICATION_JSON)
-    public JwtToken loginBySocial(@Context SecurityContext context, @Valid SocialLoginDTO loginDTO) throws UnauthorizedException, BadRequestException, SQLException {
-        if (loginDTO.getEmail() == null || loginDTO.getPassword() == null) {
-            throw new BadRequestException("Email and Password can not be empty !");
-        }
-        User user = userService.loadUserByUsername(loginDTO.getEmail());
-        if (user == null) {
-            user = createUser((ClientPrincipal) context.getUserPrincipal(), loginDTO);
-        }
-        return validate(context, user);
     }
 
     @POST
@@ -180,7 +183,7 @@ public class OAuthController {
         return new CheckDTO(true);
     }
 
-    private JwtToken validate(SecurityContext context, User user) {
+    private Response validate(SecurityContext context, User user) {
         if (Boolean.FALSE.equals(user.getEnabled())) {
             throw new UnauthorizedException("User have not permission to login !");
         }
@@ -189,7 +192,12 @@ public class OAuthController {
         if (authorities == null) {
             throw new UnauthorizedException("Tài khoản của bạn hiện không có vai trò nào để đăng nhập !");
         }
-        return jwtUtil.builder(user.getId(), authorities, (ClientPrincipal) context.getUserPrincipal());
+        JwtToken jwtToken = jwtUtil.builder(user.getId(), authorities, (ClientPrincipal) context.getUserPrincipal());
+        return Response
+                .ok(jwtToken)
+                .header(HttpHeaders.CACHE_CONTROL, "no-cache")
+                .header(HttpHeaders.SET_COOKIE, RequestFilter.TOKEN_COOKIE_NAME + "=" + jwtToken.getAccess() + ";Path=/;Secure;HttpOnly;SameSite=None")
+                .build();
     }
 
     private void sendMailConfirm(ClientPrincipal authentication, UUID id, String name, String email) {

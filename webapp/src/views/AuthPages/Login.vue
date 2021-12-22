@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie'
 import Nprogress from 'nprogress'
 import { mapState } from 'vuex'
 import { submit } from '@/api/auth/login'
@@ -73,7 +72,6 @@ export default {
         const [, payloadData] = access_token.split('.')
         localStorage.setItem('session', Buffer.from(payloadData, 'base64').toString())
         localStorage.setItem('expires_in', expires_in)
-        Cookies.set('_id', access_token, { path: '/', expires: 8, secure: true, sameSite: 'None' })
         // redirect
         this.redirectPage()
       } catch (error) {
