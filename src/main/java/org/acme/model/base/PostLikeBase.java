@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 public abstract class PostLikeBase {
 
     @Column(nullable = false)
-    private Timestamp created;
+    private Long created;
 
     public PostLikeBase(PostLikeBase postLikeBase) {
         this.created = postLikeBase.getCreated();

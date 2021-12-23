@@ -6,31 +6,33 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.acme.model.base.PostLikeBase;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
 @Setter
-@Embeddable
+@Entity
 @NoArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {Post.PATH_ID, User.PATH_ID, LikeType.PATH_ID}))
+@Table
 public class PostLike extends PostLikeBase implements Serializable {
 
     @Transient
     public static final String PATH = "postlike";
 
+    @Id
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Post post;
 
+    @Id
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)

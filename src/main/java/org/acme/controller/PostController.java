@@ -77,17 +77,17 @@ public class PostController extends BaseController {
 
     // ========================= [LIKES] =========================
     @GET
-    @Path("/like")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<?> getAllByPostId(@QueryParam(ID) UUID postId) throws BadRequestException {
-        return postLikeService.findByPostId(postId);
-    }
-
-    @GET
     @Path("/like/type")
     @Produces(MediaType.APPLICATION_JSON)
     public List<?> getAllTypes() {
         return likeTypeService.findAll();
+    }
+
+    @GET
+    @Path("/like")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<?> getAllByPostId(@QueryParam(ID) UUID postId) throws BadRequestException {
+        return postLikeService.findByPostId(postId);
     }
 
     // ========================= [COMMENTS] =========================

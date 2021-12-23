@@ -15,7 +15,7 @@ public class PostLikeDTO extends PostLikeBase {
 
     private UUID postId;
     private UUID userId;
-    private String likeTypeCode;
+    private String likeTypeId;
 
     public PostLikeDTO(PostLike postLike) {
         super(postLike);
