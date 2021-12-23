@@ -35,7 +35,7 @@ export default {
   top: 75px;
   width: 250px;
   height: 100%;
-  background: var(--iq-white);
+  background: var(--white);
   transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.1);

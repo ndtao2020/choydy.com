@@ -32,7 +32,7 @@ export default {
   margin: 0 0 0 5px;
   padding: 0;
   width: 100%;
-  border-left: 3px solid var(--iq-light-primary);
+  border-left: 3px solid var(--white);
 }
 .iq-timeline li {
   margin-left: 15px;
@@ -44,9 +44,9 @@ export default {
   position: absolute;
   top: 20px;
   left: -24px;
-  border: 3px solid var(--iq-primary);
+  border: 3px solid var(--gray-dark);
   border-radius: 90px;
   padding: 5px;
-  background: var(--iq-white);
+  background: var(--white);
 }
 </style>

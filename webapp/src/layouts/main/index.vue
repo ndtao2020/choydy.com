@@ -3,9 +3,9 @@
     <div class="wrapper">
       <sidebar />
       <NavBar />
-      <RightSideBar toggle-class="top-50 setting-toggle iq-card">
+      <right-sideBar toggle-class="top-50 setting-toggle iq-card">
         <i slot="icon" class="ri-sound-module-fill font-size-18 text-primary" />
-      </RightSideBar>
+      </right-sideBar>
       <div
         v-if="
           $route.name == 'social.friend-list' ||
@@ -39,7 +39,6 @@
 
 <script>
 import '@/assets/scss/style.scss'
-import '@/assets/css/custom.css'
 
 export default {
   name: 'MainLayout',

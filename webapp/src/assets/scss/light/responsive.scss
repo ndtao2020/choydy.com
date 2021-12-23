@@ -100,10 +100,6 @@ NOTE: This file contains the styling for responsive Template.
   .right-sidebar-mini.right-sidebar .media-body {
     opacity: 1;
   }
-  .without-right-sidebar .iq-footer {
-    width: calc(100vw - 90px);
-    margin-left: 80px;
-  }
   .iq-footer {
     margin-left: 80px;
     width: calc(100vw - 163px);
@@ -204,7 +200,7 @@ NOTE: This file contains the styling for responsive Template.
     opacity: 0;
     top: 100%;
     width: 260px;
-    background: var(--iq-white);
+    background: var(--white);
     height: 80vh;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -218,7 +214,7 @@ NOTE: This file contains the styling for responsive Template.
   }
   .iq-menu-horizontal ul.iq-menu.d-flex {
     display: block !important;
-    background: var(--iq-white);
+    background: var(--white);
   }
   .iq-menu-horizontal .iq-sidebar-menu .iq-menu li a {
     padding: 15px 20px 15px 30px;
@@ -228,9 +224,6 @@ NOTE: This file contains the styling for responsive Template.
     box-shadow: none;
   }
   .iq-search-bar .searchbox {
-    width: 100%;
-  }
-  .without-right-sidebar .iq-footer {
     width: 100%;
   }
 }
@@ -295,8 +288,8 @@ NOTE: This file contains the styling for responsive Template.
   }
   .iq-top-navbar .navbar-toggler {
     position: static;
-    color: var(--iq-primary);
-    background: var(--iq-light-primary);
+    color: var(--gray-dark);
+    background: var(--white);
     border: none;
     padding: 7px 10px;
     border-radius: 5px;
@@ -308,7 +301,7 @@ NOTE: This file contains the styling for responsive Template.
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--iq-white);
+    background: var(--white);
     -webkit-box-shadow: 0px 5px 12px 0px rgba(55, 73, 72, 0.15);
     -moz-box-shadow: 0px 5px 12px 0px rgba(55, 73, 72, 0.15);
     box-shadow: 0px 5px 12px 0px rgba(55, 73, 72, 0.15);
@@ -367,7 +360,7 @@ NOTE: This file contains the styling for responsive Template.
     max-width: 320px;
     top: 0;
     z-index: 9;
-    background: var(--iq-white);
+    background: var(--white);
     transform: translateX(-100%);
     opacity: 0;
     transition: all 0.45s ease 0s;
@@ -406,7 +399,7 @@ NOTE: This file contains the styling for responsive Template.
     display: block;
   }
   .sidebar-toggle {
-    background: var(--iq-light-primary);
+    background: var(--white);
     padding: 12px 10px;
     margin-right: 15px;
     border-radius: 5px;
@@ -414,7 +407,7 @@ NOTE: This file contains the styling for responsive Template.
     width: 40px;
     line-height: 17px;
     text-align: center;
-    color: var(--iq-primary);
+    color: var(--gray-dark);
   }
   #chat-user-detail-popup {
     overflow-y: scroll;
@@ -583,15 +576,6 @@ NOTE: This file contains the styling for responsive Template.
   .iq-advance-course.d-flex {
     display: block !important;
     text-align: center;
-  }
-  .right-block .image-absulute.image-absulute-1 {
-    right: 50px;
-  }
-  .right-block .image-absulute.image-absulute-2 {
-    left: 40px;
-    right: auto;
-    top: auto;
-    bottom: 50px;
   }
   .iq-search-bar {
     display: none;
@@ -765,9 +749,6 @@ NOTE: This file contains the styling for responsive Template.
   }
   .iq-top-navbar .iq-sub-dropdown {
     right: -50px;
-  }
-  .iq-top-navbar .iq-sub-dropdown.iq-user-dropdown {
-    right: 0;
   }
   .iq-birthday-block .d-flex {
     display: block !important;
