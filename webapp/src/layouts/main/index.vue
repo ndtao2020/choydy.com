@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import '@/assets/scss/style.scss'
+import '@/assets/scss/main/main.scss'
 
 export default {
   name: 'MainLayout',

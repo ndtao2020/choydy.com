@@ -10,11 +10,14 @@
 @import "~bootstrap/scss/buttons";
 @import "~bootstrap/scss/dropdown";
 @import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/list-group";
 @import "~bootstrap/scss/utilities";
+// vue
+@import '~bootstrap-vue/dist/bootstrap-vue.min.css';
 // custom
-@import './light/typography';
-@import './light/style';
-@import './light/responsive';
+@import 'typography';
+@import 'style';
+@import 'responsive';
 // custom
 body {
   font-family: 'Montserrat';

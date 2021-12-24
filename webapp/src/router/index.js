@@ -39,7 +39,7 @@ const router = new VueRouter({
         {
           path: '',
           name: 'home',
-          component: () => import('@/views/Apps/Social/SocialApp'),
+          component: () => import('@/views/Main'),
           meta: {
             title: 'Trang chủ',
             metaTags: [

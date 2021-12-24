@@ -8,16 +8,16 @@
           </div>
           <div class="media-support-info mt-2">
             <h5 class="mb-0">
-              <b-link href="javascript:void(0)" class="">{{ post.user.name }}</b-link>
+              <b-link class="">{{ post.user.name }}</b-link>
             </h5>
             <p class="mb-0 text-secondary">{{ post.time }}</p>
           </div>
           <div class="iq-card-header-toolbar d-flex align-items-center">
             <b-dropdown id="dropdownMenuButton40" right variant="none" menu-class="p-0">
               <template #button-content>
-                <b-link href="javascript:void(0)" class="text-secondary"><i class="ml-3 ri-more-2-line"></i></b-link>
+                <b-link class="text-secondary"><i class="ml-3 ri-more-2-line"></i></b-link>
               </template>
-              <a class="dropdown-item p-3" href="javascript:void(0)" @click="isFollowed(!post.is_follow)">
+              <a class="dropdown-item p-3" @click="isFollowed(!post.is_follow)">
                 <div class="d-flex align-items-top">
                   <div class="icon font-size-20"><i class="ri-user-unfollow-line"></i></div>
                   <div class="data ml-2">
@@ -31,7 +31,7 @@
                   </div>
                 </div>
               </a>
-              <a href="javascript:void(0)" class="dropdown-item p-3">
+              <a class="dropdown-item p-3">
                 <div class="d-flex align-items-top">
                   <div class="icon font-size-20"><i class="ri-save-line"></i></div>
                   <div class="data ml-2">
@@ -40,7 +40,7 @@
                   </div>
                 </div>
               </a>
-              <a href="javascript:void(0)" class="dropdown-item p-3">
+              <a class="dropdown-item p-3">
                 <div class="d-flex align-items-top">
                   <div class="icon font-size-20"><i class="ri-close-circle-line"></i></div>
                   <div class="data ml-2">
@@ -49,7 +49,7 @@
                   </div>
                 </div>
               </a>
-              <a class="dropdown-item p-3" href="javascript:void(0)">
+              <a class="dropdown-item p-3">
                 <div class="d-flex align-items-top">
                   <div class="icon font-size-20"><i class="ri-notification-line"></i></div>
                   <div class="data ml-2">
@@ -78,78 +78,35 @@
               <div class="like-data">
                 <div class="dropdown">
                   <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                    <img :src="require('../../../../assets/images/icon/01.png')" class="img-fluid" alt="" />
+                    <img :src="require('@/assets/images/icon/01.png')" class="img-fluid" alt="" />
                   </span>
                   <div class="dropdown-menu" style="">
                     <a
                       class="ml-2 mr-2"
-                      href="javascript:void(0)"
                       data-toggle="tooltip"
                       data-placement="top"
                       title=""
                       data-original-title="Like"
                       @click="isLiked(!post.is_liked)"
-                      ><img :src="require('../../../../assets/images/icon/01.png')" class="img-fluid" alt=""
+                      ><img :src="require('@/assets/images/icon/01.png')" class="img-fluid" alt=""
                     /></a>
-                    <a
-                      class="mr-2"
-                      href="javascript:void(0)"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title=""
-                      data-original-title="Love"
-                      @click="isLiked(!post.is_liked)"
-                      ><img :src="require('../../../../assets/images/icon/02.png')" class="img-fluid" alt=""
+                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Love" @click="isLiked(!post.is_liked)"
+                      ><img :src="require('@/assets/images/icon/02.png')" class="img-fluid" alt=""
                     /></a>
-                    <a
-                      class="mr-2"
-                      href="javascript:void(0)"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title=""
-                      data-original-title="Happy"
-                      @click="isLiked(!post.is_liked)"
-                      ><img :src="require('../../../../assets/images/icon/03.png')" class="img-fluid" alt=""
+                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Happy" @click="isLiked(!post.is_liked)"
+                      ><img :src="require('@/assets/images/icon/03.png')" class="img-fluid" alt=""
                     /></a>
-                    <a
-                      class="mr-2"
-                      href="javascript:void(0)"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title=""
-                      data-original-title="HaHa"
-                      @click="isLiked(!post.is_liked)"
-                      ><img :src="require('../../../../assets/images/icon/04.png')" class="img-fluid" alt=""
+                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="HaHa" @click="isLiked(!post.is_liked)"
+                      ><img :src="require('@/assets/images/icon/04.png')" class="img-fluid" alt=""
                     /></a>
-                    <a
-                      class="mr-2"
-                      href="javascript:void(0)"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title=""
-                      data-original-title="Think"
-                      @click="isLiked(!post.is_liked)"
-                      ><img :src="require('../../../../assets/images/icon/05.png')" class="img-fluid" alt=""
+                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Think" @click="isLiked(!post.is_liked)"
+                      ><img :src="require('@/assets/images/icon/05.png')" class="img-fluid" alt=""
                     /></a>
-                    <a
-                      class="mr-2"
-                      href="javascript:void(0)"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title=""
-                      data-original-title="Sade"
-                      @click="isLiked(!post.is_liked)"
-                      ><img :src="require('../../../../assets/images/icon/06.png')" class="img-fluid" alt=""
+                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sade" @click="isLiked(!post.is_liked)"
+                      ><img :src="require('@/assets/images/icon/06.png')" class="img-fluid" alt=""
                     /></a>
-                    <a
-                      class="mr-2"
-                      href="javascript:void(0)"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title=""
-                      data-original-title="Lovely"
-                      @click="isLiked(!post.is_liked)"
-                      ><img :src="require('../../../../assets/images/icon/07.png')" class="img-fluid" alt=""
+                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lovely" @click="isLiked(!post.is_liked)"
+                      ><img :src="require('@/assets/images/icon/07.png')" class="img-fluid" alt=""
                     /></a>
                   </div>
                 </div>
@@ -160,13 +117,13 @@
                     {{ post.likes }} Likes
                   </span>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="javascript:void(0)">Max Emum</a>
-                    <a class="dropdown-item" href="javascript:void(0)">Bill Yerds</a>
-                    <a class="dropdown-item" href="javascript:void(0)">Hap E. Birthday</a>
-                    <a class="dropdown-item" href="javascript:void(0)">Tara Misu</a>
-                    <a class="dropdown-item" href="javascript:void(0)">Midge Itz</a>
-                    <a class="dropdown-item" href="javascript:void(0)">Sal Vidge</a>
-                    <a class="dropdown-item" href="javascript:void(0)">Other</a>
+                    <a class="dropdown-item">Max Emum</a>
+                    <a class="dropdown-item">Bill Yerds</a>
+                    <a class="dropdown-item">Hap E. Birthday</a>
+                    <a class="dropdown-item">Tara Misu</a>
+                    <a class="dropdown-item">Midge Itz</a>
+                    <a class="dropdown-item">Sal Vidge</a>
+                    <a class="dropdown-item">Other</a>
                   </div>
                 </div>
               </div>
@@ -177,20 +134,20 @@
                   {{ post.comments.length }} Comment
                 </span>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0)">Max Emum</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Bill Yerds</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Hap E. Birthday</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Tara Misu</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Midge Itz</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Sal Vidge</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Other</a>
+                  <a class="dropdown-item">Max Emum</a>
+                  <a class="dropdown-item">Bill Yerds</a>
+                  <a class="dropdown-item">Hap E. Birthday</a>
+                  <a class="dropdown-item">Tara Misu</a>
+                  <a class="dropdown-item">Midge Itz</a>
+                  <a class="dropdown-item">Sal Vidge</a>
+                  <a class="dropdown-item">Other</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="share-block d-flex align-items-center feather-icon mr-3">
-          <a href="javascript:void(0)"><i class="ri-share-line"></i> <span class="ml-1">99 Share</span></a>
+          <a><i class="ri-share-line"></i> <span class="ml-1">99 Share</span></a>
         </div>
       </div>
       <hr />
@@ -228,7 +185,7 @@
 export default {
   name: 'SocialPost',
   components: {
-    IqCard: () => import('@/components/socialvue/cards/iq-card')
+    IqCard: () => import('./IqCard')
   },
   props: {
     post: Object
@@ -259,7 +216,7 @@ export default {
     // saveComment(postComment) {
     saveComment() {
       // this.post.comments.push({
-      //   image: require('../../../../assets/images/user/user-04.jpg'),
+      //   image: require('@/assets/images/user/user-04.jpg'),
       //   user: { name: 'Sandy S', msg: postComment, time: new Date() },
       //   is_commentLike: false
       // })
