@@ -13,14 +13,11 @@ import java.util.List;
 @Dependent
 public class FileStorageService {
 
-    private static final Logger logger = Logger.getLogger(FileStorageService.class);
-
-    private static final String BUCKET_IMAGE = "img";
-    private static final String BUCKET_VIDEO = "vid";
-
     public static final List<String> IMAGE_TYPES = List.of("image/jpeg", "image/png", "image/gif");
     public static final List<String> VIDEO_TYPES = List.of("video/mp4", "video/webm");
-
+    private static final Logger logger = Logger.getLogger(FileStorageService.class);
+    private static final String BUCKET_IMAGE = "img";
+    private static final String BUCKET_VIDEO = "vid";
     private final String url = ConfigProvider.getConfig().getConfigValue("quarkus.upload.folder").getValue();
 
     private String generatePathFile(String bucket, String table, String id, String fileName) {

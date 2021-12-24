@@ -7,9 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -25,11 +23,9 @@ import java.util.Objects;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {Post.PATH_ID, "tag"}))
 public class PostTag implements Serializable {
 
-    private static final long serialVersionUID = 1234L;
-
     @Transient
     public static final String PATH = "posttag";
-
+    private static final long serialVersionUID = 1234L;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)

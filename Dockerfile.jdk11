@@ -1,5 +1,5 @@
 # --------------> The build image
-FROM quay.io/quarkus/ubi-quarkus-mandrel:21.3.0.0-Final-java17 as builder
+FROM quay.io/quarkus/ubi-quarkus-mandrel:21.3.0.0-Final-java11 as builder
 # copy
 WORKDIR /app
 # copy
@@ -19,7 +19,7 @@ RUN apk add --no-cache wget
 RUN wget -O /usr/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64
 
 # --------------> The production image
-FROM quay.io/quarkus/quarkus-micro-image:1.0
+FROM registry.access.redhat.com/ubi8/ubi-minimal
 WORKDIR /work
 # Update
 RUN microdnf update -y && microdnf clean all && rm -rf /var/cache/yum

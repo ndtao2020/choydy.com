@@ -161,7 +161,7 @@ public class BCrypt {
      * @param rs  the destination buffer for the base64-encoded string
      * @throws IllegalArgumentException if the length is invalid
      */
-    void encode_base64(byte d[], int len, StringBuilder rs) throws IllegalArgumentException {
+    void encode_base64(byte[] d, int len, StringBuilder rs) throws IllegalArgumentException {
         int off = 0;
         int c1, c2;
 
@@ -200,7 +200,7 @@ public class BCrypt {
      * @return the decoded value of x
      */
     private byte char64(char x) {
-        if (x < 0 || x >= index_64.length) {
+        if (x >= index_64.length) {
             return -1;
         }
         return index_64[x];
@@ -211,21 +211,20 @@ public class BCrypt {
      * this is *not* compatible with the standard MIME-base64 encoding.
      *
      * @param s       the string to decode
-     * @param maxolen the maximum number of bytes to decode
      * @return an array containing the decoded bytes
      * @throws IllegalArgumentException if maxolen is invalid
      */
-    byte[] decode_base64(String s, int maxolen) throws IllegalArgumentException {
+    byte[] decode_base64(String s) throws IllegalArgumentException {
         StringBuilder rs = new StringBuilder();
         int off = 0, slen = s.length(), olen = 0;
-        byte ret[];
+        byte[] ret;
         byte c1, c2, c3, c4, o;
 
-        if (maxolen <= 0) {
+        if (BCrypt.BCRYPT_SALT_LEN <= 0) {
             throw new IllegalArgumentException("Invalid maxolen");
         }
 
-        while (off < slen - 1 && olen < maxolen) {
+        while (off < slen - 1 && olen < BCrypt.BCRYPT_SALT_LEN) {
             c1 = char64(s.charAt(off++));
             c2 = char64(s.charAt(off++));
             if (c1 == -1 || c2 == -1) {
@@ -234,7 +233,7 @@ public class BCrypt {
             o = (byte) (c1 << 2);
             o |= (c2 & 0x30) >> 4;
             rs.append((char) o);
-            if (++olen >= maxolen || off >= slen) {
+            if (++olen >= BCrypt.BCRYPT_SALT_LEN || off >= slen) {
                 break;
             }
             c3 = char64(s.charAt(off++));
@@ -244,7 +243,7 @@ public class BCrypt {
             o = (byte) ((c2 & 0x0f) << 4);
             o |= (c3 & 0x3c) >> 2;
             rs.append((char) o);
-            if (++olen >= maxolen || off >= slen) {
+            if (++olen >= BCrypt.BCRYPT_SALT_LEN || off >= slen) {
                 break;
             }
             c4 = char64(s.charAt(off++));
@@ -270,9 +269,9 @@ public class BCrypt {
      *              non-benign sign extension
      * @return correct and buggy next word of material from data as int[2]
      */
-    private int[] streamtowords(byte data[], int offp[], int signp[]) {
+    private int[] streamtowords(byte[] data, int[] offp, int[] signp) {
         int i;
-        int words[] = {0, 0};
+        int[] words = {0, 0};
         int off = offp[0];
         int sign = signp[0];
 
@@ -297,8 +296,8 @@ public class BCrypt {
      * @param offp a "pointer" (as a one-entry array) to the current offset into data
      * @return the next word of material from data
      */
-    private int streamtoword(byte data[], int offp[]) {
-        int signp[] = {0};
+    private int streamtoword(byte[] data, int[] offp) {
+        int[] signp = {0};
         return streamtowords(data, offp, signp)[0];
     }
 
@@ -309,8 +308,8 @@ public class BCrypt {
      * @param offp a "pointer" (as a one-entry array) to the current offset into data
      * @return the next word of material from data
      */
-    private int streamtoword_bug(byte data[], int offp[]) {
-        int signp[] = {0};
+    private int streamtoword_bug(byte[] data, int[] offp) {
+        int[] signp = {0};
         return streamtowords(data, offp, signp)[1];
     }
 
@@ -363,7 +362,7 @@ public class BCrypt {
         rounds = Integer.parseInt(salt.substring(off, off + 2));
 
         real_salt = salt.substring(off + 3, off + 25);
-        saltb = decode_base64(real_salt, BCRYPT_SALT_LEN);
+        saltb = decode_base64(real_salt);
         if (minor >= 'a') {
             passwordb = Arrays.copyOf(passwordb, passwordb.length + 1);
         }
@@ -386,7 +385,7 @@ public class BCrypt {
 
     public String gensalt(String prefix, int log_rounds, SecureRandom random) throws IllegalArgumentException {
         StringBuilder rs = new StringBuilder();
-        byte rnd[] = new byte[BCRYPT_SALT_LEN];
+        byte[] rnd = new byte[BCRYPT_SALT_LEN];
         if (!prefix.startsWith("$2")
                 || (prefix.charAt(2) != 'a' && prefix.charAt(2) != 'y' && prefix.charAt(2) != 'b')) {
             throw new IllegalArgumentException("Invalid prefix");
@@ -421,7 +420,7 @@ public class BCrypt {
      * @param lr  an array containing the two 32-bit half blocks
      * @param off the position in the array of the blocks
      */
-    private void encipher(int lr[], int off) {
+    private void encipher(int[] lr, int off) {
         int i, n, l = lr[off], r = lr[off + 1];
 
         l ^= this.P[0];
@@ -457,12 +456,11 @@ public class BCrypt {
      *
      * @param key          an array containing the key
      * @param sign_ext_bug true to implement the 2x bug
-     * @param safety       bit 16 is set when the safety measure is requested
      */
-    private void key(byte key[], boolean sign_ext_bug, int safety) {
+    private void key(byte[] key, boolean sign_ext_bug) {
         int i;
-        int koffp[] = {0};
-        int lr[] = {0, 0};
+        int[] koffp = {0};
+        int[] lr = {0, 0};
         int plen = this.P.length, slen = this.S.length;
 
         for (i = 0; i < plen; i++) {
@@ -495,16 +493,16 @@ public class BCrypt {
      * @param sign_ext_bug true to implement the 2x bug
      * @param safety       bit 16 is set when the safety measure is requested
      */
-    private void ekskey(byte data[], byte key[], boolean sign_ext_bug, int safety) {
+    private void ekskey(byte[] data, byte[] key, boolean sign_ext_bug, int safety) {
         int i;
-        int koffp[] = {0}, doffp[] = {0};
-        int lr[] = {0, 0};
+        int[] koffp = {0}, doffp = {0};
+        int[] lr = {0, 0};
         int plen = this.P.length, slen = this.S.length;
-        int signp[] = {0}; // non-benign sign-extension flag
+        int[] signp = {0}; // non-benign sign-extension flag
         int diff = 0; // zero iff correct and buggy are same
 
         for (i = 0; i < plen; i++) {
-            int words[] = streamtowords(key, koffp, signp);
+            int[] words = streamtowords(key, koffp, signp);
             diff |= words[0] ^ words[1];
             this.P[i] = this.P[i] ^ words[sign_ext_bug ? 1 : 0];
         }
@@ -556,11 +554,11 @@ public class BCrypt {
         }
     }
 
-    private byte[] crypt_raw(byte password[], byte salt[], int log_rounds, boolean sign_ext_bug, int safety) {
+    private byte[] crypt_raw(byte[] password, byte[] salt, int log_rounds, boolean sign_ext_bug, int safety) {
         int rounds, i, j;
-        int cdata[] = bf_crypt_ciphertext.clone();
+        int[] cdata = bf_crypt_ciphertext.clone();
         int clen = cdata.length;
-        byte ret[];
+        byte[] ret;
 
         if (log_rounds < 4 || log_rounds > 31) {
             throw new IllegalArgumentException("Bad number of rounds");
@@ -573,8 +571,8 @@ public class BCrypt {
         init_key();
         ekskey(salt, password, sign_ext_bug, safety);
         for (i = 0; i < rounds; i++) {
-            key(password, sign_ext_bug, safety);
-            key(salt, false, safety);
+            key(password, sign_ext_bug);
+            key(salt, false);
         }
 
         for (i = 0; i < 64; i++) {

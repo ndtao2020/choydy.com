@@ -2,7 +2,6 @@ package org.acme.base.encoder;
 
 import javax.enterprise.context.Dependent;
 import java.nio.charset.StandardCharsets;
-import java.util.regex.Pattern;
 
 @Dependent
 public class BCryptPasswordEncoder {
