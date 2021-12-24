@@ -60,13 +60,13 @@ public class RequestFilter implements ContainerRequestFilter {
         }
     }
 
-    private void bearerAuth(ContainerRequestContext requestContext, Role role) {
+    private void bearerAuth(ContainerRequestContext rc, Role role) {
         String token;
-        final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
+        final List<String> apiKeyHeader = rc.getHeaders().get(AUTHORIZATION);
         if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
-            Cookie tokenCookie = requestContext.getCookies().get(TOKEN_COOKIE_NAME);
+            Cookie tokenCookie = rc.getCookies().get(TOKEN_COOKIE_NAME);
             if (tokenCookie == null) {
-                requestContext.abortWith(ACCESS_DENIED);
+                rc.abortWith(ACCESS_DENIED);
                 return;
             }
             token = tokenCookie.getValue();
@@ -85,27 +85,27 @@ public class RequestFilter implements ContainerRequestFilter {
                     }
                 }
                 if (c) {
-                    requestContext.abortWith(ACCESS_DENIED);
+                    rc.abortWith(ACCESS_DENIED);
                     return;
                 }
             }
-            requestContext.setSecurityContext(jwtUtil.parse(jsonNode));
+            rc.setSecurityContext(jwtUtil.parse(jsonNode));
         } catch (Exception e) {
             logger.error(e.getMessage());
-            requestContext.abortWith(new ServerResponse(e.getMessage(), 401, null));
+            rc.abortWith(new ServerResponse(e.getMessage(), 401, null));
         }
     }
 
-    private void basicAuth(ContainerRequestContext requestContext) {
-        final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
+    private void basicAuth(ContainerRequestContext rc) {
+        final List<String> apiKeyHeader = rc.getHeaders().get(AUTHORIZATION);
         if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
-            requestContext.abortWith(ACCESS_DENIED);
+            rc.abortWith(ACCESS_DENIED);
             return;
         }
         String h = apiKeyHeader.get(0);
         if (!h.startsWith("Basic")) {
             logger.error("Invalid basic authentication token !");
-            requestContext.abortWith(ACCESS_DENIED);
+            rc.abortWith(ACCESS_DENIED);
             return;
         }
         try {
@@ -113,19 +113,19 @@ public class RequestFilter implements ContainerRequestFilter {
             int l = t.indexOf(":");
             if (l == -1) {
                 logger.error("Invalid basic authentication token !");
-                requestContext.abortWith(ACCESS_DENIED);
+                rc.abortWith(ACCESS_DENIED);
                 return;
             }
-            Object[] results = oauth2ClientService.loadShortByClientId(t.substring(0, l));
-            if (!passwordEncoder.matches(t.substring(l + 1), results[0].toString())) {
+            Object[] r = oauth2ClientService.loadShortByClientId(t.substring(0, l));
+            if (!passwordEncoder.matches(t.substring(l + 1), r[0].toString())) {
                 logger.error("Authentication failed: secret is not matched !");
-                requestContext.abortWith(ACCESS_DENIED);
+                rc.abortWith(ACCESS_DENIED);
                 return;
             }
-            requestContext.setSecurityContext(new ClientAuthentication(results[1], results[2], results[3].toString()));
+            rc.setSecurityContext(new ClientAuthentication(r[1], r[2], r[3].toString()));
         } catch (Exception e) {
             logger.error(e.getMessage());
-            requestContext.abortWith(ACCESS_DENIED);
+            rc.abortWith(ACCESS_DENIED);
         }
     }
 }

@@ -9,12 +9,12 @@ public class ClientAuthentication implements SecurityContext {
 
     private final ClientPrincipal p;
 
-    public ClientAuthentication(Oauth2Client client) {
-        this(client.getAccess(), client.getRefresh(), client.getDomain());
+    public ClientAuthentication(Oauth2Client c) {
+        this(c.getAccess(), c.getRefresh(), c.getDomain());
     }
 
-    public ClientAuthentication(Object accessTokenValidity, Object refreshTokenValidity, String domain) {
-        this.p = new ClientPrincipal(accessTokenValidity, refreshTokenValidity, domain);
+    public ClientAuthentication(Object a, Object r, String d) {
+        this.p = new ClientPrincipal(a, r, d);
     }
 
     @Override

@@ -110,6 +110,6 @@ export default {
 .dropdown-menu .dropdown-item:focus,
 .dropdown-menu .dropdown-item:hover {
   background: transparent;
-  color: var(--iq-primary) !important;
+  color: var(--gray-dark) !important;
 }
 </style>

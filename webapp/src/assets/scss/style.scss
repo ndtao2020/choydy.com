@@ -1,20 +1,32 @@
-@mixin light-body {
-  font-family: 'Montserrat', sans-serif; font-weight: 400; font-style: normal; font-size: 14px; line-height: 1.8; padding: 0; margin: 0; color: var(--iq-body-text); background: var(--iq-light);
+// custom
+@import './light/typography';
+@import './light/style';
+@import './light/responsive';
+// custom
+body {
+  font-family: 'Montserrat';
+  // font-size: 14px;
+  line-height: 1.8;
 }
-// @mixin dark-body {
-//   font-family: 'Montserrat', sans-serif; font-weight: 400; font-style: normal; font-size: 14px; line-height: 1.8; padding: 0; margin: 0; color: var(--iq-dark-body-text); background: var(--iq-dark-bg);
-// }
-[dir="ltr"] {
-  &[mode="light"] {
-    body { @include light-body; }
-    @import "../css/light/typography";
-    @import "../css/light/style";
-    @import "../css/light/responsive";
-  }
-  // &[mode="dark"] {
-  //   body { @include dark-body; }
-  //   @import "../css/dark/typography";
-  //   @import "../css/dark/style";
-  //   @import "../css/dark/responsive";
-  // }
+/* Track */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 20px;
+}
+/* Track */
+.dropdown-menu:focus {
+  outline: none !important;
+}
+.iq-sidebar-menu .iq-menu li.active .iq-submenu li > .router-link-active {
+  color: var(--gray-dark) !important;
+  border-radius: 0;
 }

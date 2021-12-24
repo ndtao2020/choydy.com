@@ -1,53 +1,6 @@
-/*
-Template: Vito - Responsive Bootstrap 4 Admin Dashboard Template
-Author: iqonicthemes.in
-Design and Developed by: iqonicthemes.in
-NOTE: This file contains the styling for responsive Template.
-*/
-
-/*================================================
-[  Table of contents  ]
-================================================
-
-:: Font
-:: Import Css
-:: General
-:: Input
-:: Loading
-:: Background Color
-:: Background Color Opacity
-:: Text Color
-:: Line Height
-:: Font Size
-:: Avatar Size
-:: Margin Bottom
-:: Card
-:: Background overlay color
-:: Buttons
-:: Alert
-:: list Group
-
-======================================
-[ End table content ]
-======================================*/
 /*---------------------------------------------------------------------
 General
 -----------------------------------------------------------------------*/
-*::-moz-selection {
-  background: var(--iq-primary);
-  color: var(--iq-white);
-  text-shadow: none;
-}
-::-moz-selection {
-  background: var(--iq-primary);
-  color: var(--iq-white);
-  text-shadow: none;
-}
-::selection {
-  background: var(--iq-primary);
-  color: var(--iq-white);
-  text-shadow: none;
-}
 a,
 .btn {
   -webkit-transition: all 0.5s ease-out 0s;
@@ -63,10 +16,10 @@ btn {
   outline: medium none !important;
 }
 a {
-  color: var(--iq-primary);
+  color: var(--gray-dark);
 }
 hr {
-  border-color: var(--iq-border-light);
+  border-color: var(--white);
 }
 .rounded-circle {
   border-radius: 50% !important;
@@ -84,7 +37,7 @@ h6 {
   font-weight: 400;
   margin: 0px;
   line-height: 1.5;
-  color: var(--iq-title-text);
+  color: var(--gray-dark);
 }
 h1 a,
 h2 a,
@@ -202,14 +155,14 @@ label {
   height: 45px;
   line-height: 45px;
   background: transparent;
-  border: 1px solid var(--iq-border-light);
+  border: 1px solid var(--white);
   font-size: 14px;
-  color: var(--iq-secondary);
+  color: var(--secondary);
   border-radius: 10px;
 }
 .form-control:focus {
   color: var(--iq-dark);
-  border-color: var(--iq-primary);
+  border-color: var(--gray-dark);
   box-shadow: none;
 }
 .form-control-sm {
@@ -246,7 +199,7 @@ dl dd:last-child {
 .right-sidebar-toggle {
   position: absolute;
   margin-left: -44px;
-  background: var(--iq-white);
+  background: var(--white);
   padding: 15px;
   display: inline;
   top: 0;
@@ -256,7 +209,7 @@ dl dd:last-child {
   cursor: pointer;
 }
 .right-sidebar-panel {
-  background-color: var(--iq-white);
+  background-color: var(--white);
   box-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
   height: 91vh;
   padding: 15px;
@@ -279,41 +232,17 @@ Background Color
 ------------------------------------------------*/
 .bg-primary,
 .badge-primary {
-  color: var(--iq-white);
-  background: var(--iq-primary) !important;
+  color: var(--white);
+  background: var(--gray-dark) !important;
 }
 .bg-secondary,
 .badge-secondary {
-  color: var(--iq-white);
-  background-color: var(--iq-secondary) !important;
-}
-.bg-success,
-.badge-success {
-  color: var(--iq-white);
-  background: var(--iq-success) !important;
-}
-.bg-danger,
-.badge-danger {
-  color: var(--iq-white);
-  background: var(--iq-danger) !important;
-}
-.bg-warning,
-.badge-warning {
-  color: var(--iq-white);
-  background: var(--iq-warning) !important;
-}
-.bg-info,
-.badge-info {
-  color: var(--iq-white);
-  background: var(--iq-info) !important;
-}
-.bg-light,
-.badge-light {
-  background-color: var(--iq-light) !important;
+  color: var(--white);
+  background-color: var(--secondary) !important;
 }
 .bg-dark,
 .badge-dark {
-  color: var(--iq-white);
+  color: var(--white);
   background-color: var(--iq-dark) !important;
 }
 
@@ -347,84 +276,13 @@ Custom Background Color
 }
 
 /*----------------------------------------------
-Background Color Opacity
-------------------------------------------------*/
-.iq-bg-primary {
-  background: var(--iq-light-primary) !important;
-  color: var(--iq-primary) !important;
-}
-.iq-bg-secondary {
-  background: var(--iq-light-secondary) !important;
-  color: var(--iq-secondary) !important;
-}
-.iq-bg-success {
-  background: var(--iq-light-success) !important;
-  color: var(--iq-success) !important;
-}
-.iq-bg-danger {
-  background: var(--iq-light-danger) !important;
-  color: var(--iq-danger) !important;
-}
-.iq-bg-warning {
-  background: var(--iq-light-warning) !important;
-  color: var(--iq-warning) !important;
-}
-.iq-bg-info {
-  background: var(--iq-light-info) !important;
-  color: var(--iq-info-dark) !important;
-}
-.iq-bg-dark {
-  background: var(--iq-light-dark) !important;
-  color: var(--iq-dark) !important;
-}
-
-/*--------------*/
-.iq-bg-primary-hover:hover {
-  background: var(--iq-light-primary) !important;
-  color: var(--iq-primary);
-}
-.iq-bg-secondary-hover:hover {
-  background: var(--iq-light-secondary) !important;
-}
-.iq-bg-success-hover:hover {
-  background: var(--iq-light-success) !important;
-}
-.iq-bg-danger-hover:hover {
-  background: var(--iq-light-danger) !important;
-}
-.iq-bg-warning-hover:hover {
-  background: var(--iq-light-warning) !important;
-}
-.iq-bg-info-hover:hover {
-  background: var(--iq-light-info) !important;
-}
-.iq-bg-dark-hover:hover {
-  background: var(--iq-light-dark) !important;
-}
-
-/*----------------------------------------------
 Text Color
 ------------------------------------------------*/
 .text-primary {
-  color: var(--iq-primary) !important;
+  color: var(--gray-dark) !important;
 }
 .text-secondary {
-  color: var(--iq-secondary) !important;
-}
-.text-success {
-  color: var(--iq-success) !important;
-}
-.text-danger {
-  color: var(--iq-danger) !important;
-}
-.text-warning {
-  color: var(--iq-warning) !important;
-}
-.text-info {
-  color: var(--iq-info) !important;
-}
-.text-light {
-  color: var(--iq-light) !important;
+  color: var(--secondary) !important;
 }
 .text-dark {
   color: var(--iq-dark) !important;
@@ -458,16 +316,9 @@ Line Height
 .line-height {
   line-height: normal;
 }
-.line-height-2 {
-  line-height: 2;
-}
 .line-height-4 {
   line-height: 40px;
 }
-.line-height-6 {
-  line-height: 60px;
-}
-
 /*----------------------------------------------
 Font Size
 ------------------------------------------------*/
@@ -486,13 +337,6 @@ Font Size
 .font-size-20 {
   font-size: 20px !important;
 }
-.font-size-32 {
-  font-size: 32px !important;
-}
-.font-size-40 {
-  font-size: 40px !important;
-}
-
 /*----------------------------------------------
 Avatar Size
 ------------------------------------------------*/
@@ -586,7 +430,7 @@ Margin Bottom
 Card
 ------------------------------------------------*/
 .iq-card {
-  background: var(--iq-white);
+  background: var(--white);
   -webkit-border-radius: 15px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -603,7 +447,7 @@ Card
   min-height: 60px;
   -ms-flex-align: center !important;
   align-items: center !important;
-  border-bottom: 1px solid var(--iq-border-light);
+  border-bottom: 1px solid var(--white);
 }
 .iq-card .iq-card-header .iq-header-title {
   display: inline-block;
@@ -613,14 +457,14 @@ Card
   margin-bottom: 0;
 }
 .iq-card-header-toolbar .nav-item a {
-  color: var(--iq-body-text);
+  color: var(--secondary);
   padding: 4px 12px;
   font-size: 14px;
 }
 .iq-card-header-toolbar .dropdown-toggle i {
   font-size: 22px;
   line-height: normal;
-  color: var(--iq-body-text);
+  color: var(--secondary);
 }
 .iq-card-header-toolbar .dropdown-toggle::after {
   display: none;
@@ -628,34 +472,34 @@ Card
 
 /*--------------*/
 .nav-pills .nav-item a {
-  color: var(--iq-body-text);
+  color: var(--secondary);
 }
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
-  color: var(--iq-primary);
-  background: var(--iq-light-primary);
+  color: var(--gray-dark);
+  background: var(--white);
 }
 .nav-pills .nav-link:hover {
-  color: var(--iq-primary);
+  color: var(--gray-dark);
 }
 
 /*--------------*/
 .nav-tabs {
-  border-bottom: 2px solid var(--iq-light-primary);
+  border-bottom: 2px solid var(--white);
   margin-bottom: 15px;
 }
 .nav-tabs .nav-item {
   margin-bottom: -2px;
 }
 .nav-tabs .nav-item a {
-  color: var(--iq-body-text);
+  color: var(--secondary);
   border: none;
   border-bottom: 2px solid transparent;
 }
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
-  border-bottom: 2px solid var(--iq-primary);
-  color: var(--iq-primary);
+  border-bottom: 2px solid var(--gray-dark);
+  color: var(--gray-dark);
 }
 
 /*---------------------------------------------------------------------
@@ -798,41 +642,16 @@ Buttons
   border-radius: 5px;
   line-height: normal;
 }
-.iq-sign-btn:hover {
-  color: var(--iq-white) !important;
-  background: var(--iq-danger) !important;
-}
-
 /*--------------*/
 .btn-primary {
-  background: var(--iq-primary);
-  border-color: var(--iq-primary);
-  color: var(--iq-white);
+  background: var(--gray-dark);
+  border-color: var(--gray-dark);
+  color: var(--white);
 }
 .btn-secondary {
-  background-color: var(--iq-secondary);
-  border-color: var(--iq-secondary);
-  color: var(--iq-white);
-}
-.btn-success {
-  background-color: var(--iq-success);
-  border-color: var(--iq-success);
-}
-.btn-danger {
-  background-color: var(--iq-danger);
-  border-color: var(--iq-danger);
-}
-.btn-warning {
-  background-color: var(--iq-warning);
-  border-color: var(--iq-warning);
-}
-.btn-info {
-  background-color: var(--iq-info);
-  border-color: var(--iq-info);
-}
-.btn-light {
-  background-color: var(--iq-light);
-  border-color: var(--iq-light);
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+  color: var(--white);
 }
 .btn-dark {
   background-color: var(--iq-dark);
@@ -841,45 +660,25 @@ Buttons
 
 /*--------------*/
 .btn-primary:hover {
-  background: var(--iq-primary-hover);
-  border-color: var(--iq-primary-hover);
+  background: var(--blue);
+  border-color: var(--blue);
 }
 a.bg-primary:focus,
 a.bg-primary:hover,
 button.bg-primary:focus,
 button.bg-primary:hover {
-  background: var(--iq-primary-hover) !important;
-  border-color: var(--iq-primary-hover);
+  background: var(--blue) !important;
+  border-color: var(--blue);
 }
 
 /*--------------*/
 .btn-outline-primary {
-  color: var(--iq-primary);
-  border-color: var(--iq-primary);
+  color: var(--gray-dark);
+  border-color: var(--gray-dark);
 }
 .btn-outline-secondary {
-  color: var(--iq-secondary);
-  border-color: var(--iq-secondary);
-}
-.btn-outline-success {
-  color: var(--iq-success);
-  border-color: var(--iq-success);
-}
-.btn-outline-danger {
-  color: var(--iq-danger);
-  border-color: var(--iq-danger);
-}
-.btn-outline-warning {
-  color: var(--iq-warning);
-  border-color: var(--iq-warning);
-}
-.btn-outline-info {
-  color: var(--iq-info);
-  border-color: var(--iq-info);
-}
-.btn-outline-light {
-  color: var(--iq-light);
-  border-color: var(--iq-light);
+  color: var(--secondary);
+  border-color: var(--secondary);
 }
 .btn-outline-dark {
   color: var(--iq-dark);
@@ -888,90 +687,20 @@ button.bg-primary:hover {
 
 /*------------------*/
 .btn-outline-primary:hover {
-  color: var(--iq-white);
-  background-color: var(--iq-primary);
-  border-color: var(--iq-primary);
+  color: var(--white);
+  background-color: var(--gray-dark);
+  border-color: var(--gray-dark);
 }
 .btn-outline-secondary:hover {
-  color: var(--iq-white);
-  background-color: var(--iq-secondary);
-  border-color: var(--iq-secondary);
-}
-.btn-outline-success:hover {
-  color: var(--iq-white);
-  background-color: var(--iq-success);
-  border-color: var(--iq-success);
-}
-.btn-outline-danger:hover {
-  color: var(--iq-white);
-  background-color: var(--iq-danger);
-  border-color: var(--iq-danger);
-}
-.btn-outline-warning:hover {
-  color: var(--iq-white);
-  background-color: var(--iq-warning);
-  border-color: var(--iq-warning);
-}
-.btn-outline-info:hover {
-  color: var(--iq-white);
-  background-color: var(--iq-info);
-  border-color: var(--iq-info);
-}
-.btn-outline-light:hover {
-  color: var(--iq-white);
-  background-color: var(--iq-light);
-  border-color: var(--iq-light);
+  color: var(--white);
+  background-color: var(--secondary);
+  border-color: var(--secondary);
 }
 .btn-outline-dark:hover {
-  color: var(--iq-white);
+  color: var(--white);
   background-color: var(--iq-dark);
   border-color: var(--iq-dark);
 }
-
-/*----------------------------------------------
-Alert
-------------------------------------------------*/
-.alert-primary {
-  color: var(--iq-primary);
-  border-color: var(--iq-primary);
-  background-color: var(--iq-light-color);
-}
-.alert-secondary {
-  color: var(--iq-secondary);
-  border-color: var(--iq-secondary-dark);
-  background-color: var(--iq-light-secondary);
-}
-.alert-success {
-  color: var(--iq-success);
-  border-color: var(--iq-success-dark);
-  background-color: var(--iq-light-success);
-}
-.alert-danger {
-  color: var(--iq-danger);
-  border-color: var(--iq-danger-dark);
-  background-color: var(--iq-light-danger);
-}
-.alert-warning {
-  color: var(--iq-warning);
-  border-color: var(--iq-warning-dark);
-  background-color: var(--iq-light-warning);
-}
-.alert-info {
-  color: var(--iq-info);
-  border-color: var(--iq-info-dark);
-  background-color: var(--iq-light-info);
-}
-.alert-light {
-  color: var(--iq-secondary);
-  border-color: var(--iq-secondary-dark);
-  background-color: var(--iq-light);
-}
-.alert-dark {
-  color: var(--iq-dark);
-  border-color: var(--iq-dark);
-  background-color: var(--iq-light-dark);
-}
-
 /*--------------*/
 .alert {
   display: -webkit-box;
@@ -1006,7 +735,7 @@ Alert
   font-size: 20px;
   font-weight: 400;
   line-height: 1;
-  color: var(--iq-white);
+  color: var(--white);
   text-shadow: none;
   opacity: 1;
 }
@@ -1018,69 +747,22 @@ Alert
 /*----------------------------------------------
 list Group
 ------------------------------------------------*/
-.list-group-item-primary {
-  background-color: var(--iq-light-color);
-  color: var(--iq-primary);
-}
-.list-group-item-secondary {
-  color: var(--iq-secondary);
-  background-color: var(--iq-light-secondary);
-}
-.list-group-item-success {
-  color: var(--iq-success);
-  background-color: var(--iq-light-success);
-}
-.list-group-item-danger {
-  color: var(--iq-danger);
-  background-color: var(--iq-light-danger);
-}
-.list-group-item-warning {
-  color: var(--iq-warning);
-  background-color: var(--iq-light-warning);
-}
-.list-group-item-info {
-  color: var(--iq-info);
-  background-color: var(--iq-light-info);
-}
-.list-group-item-light {
-  color: var(--iq-secondary);
-  background-color: var(--iq-light);
-}
-.list-group-item-dark {
-  color: var(--iq-dark);
-  background-color: var(--iq-light-dark);
-}
 .list-group-item-action {
   color: var(--iq-dark);
 }
 .list-group-item.active {
-  background-color: var(--iq-primary);
-  border-color: var(--iq-primary);
+  background-color: var(--gray-dark);
+  border-color: var(--gray-dark);
 }
 
 /*----------------------------------------------
 Border
 ------------------------------------------------*/
 .border-primary {
-  border-color: var(--iq-primary) !important;
+  border-color: var(--gray-dark) !important;
 }
 .border-secondary {
-  border-color: var(--iq-secondary) !important;
-}
-.border-success {
-  border-color: var(--iq-success) !important;
-}
-.border-danger {
-  border-color: var(--iq-danger) !important;
-}
-.border-warning {
-  border-color: var(--iq-warning) !important;
-}
-.border-info {
-  border-color: var(--iq-info) !important;
-}
-.border-light {
-  border-color: var(--iq-light) !important;
+  border-color: var(--secondary) !important;
 }
 .border-dark {
   border-color: var(--iq-dark) !important;
