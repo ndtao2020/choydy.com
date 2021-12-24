@@ -23,8 +23,10 @@ module.exports = {
     }
   },
   chainWebpack: (config) => {
-    config.plugins.delete('case-sensitive-paths')
-    config.plugins.delete('friendly-errors')
+    if (isProd) {
+      config.plugins.delete('case-sensitive-paths')
+      config.plugins.delete('friendly-errors')
+    }
     config.plugins.delete('hash-module-ids')
     config.plugins.delete('named-chunks')
     config.plugins.delete('preload')
