@@ -28,9 +28,8 @@ import java.util.Objects;
 @PreMatching
 public class RequestFilter implements ContainerRequestFilter {
 
-    private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
-
     public static final String TOKEN_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Host-" : "") + "cid";
+    private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
     private static final String AUTHORIZATION = "AUTHORIZATION";
     private static final ServerResponse ACCESS_DENIED = new ServerResponse("Access denied for this resource", 401, new Headers<>());
 
@@ -60,6 +59,16 @@ public class RequestFilter implements ContainerRequestFilter {
         }
     }
 
+    private boolean checkRole(JsonNode jsonNode, Role role) {
+        Iterator<JsonNode> roles = jwtUtil.getRoles(jsonNode);
+        while (roles.hasNext()) {
+            if (role.toString().equals(roles.next().asText())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void bearerAuth(ContainerRequestContext rc, Role role) {
         String token;
         final List<String> apiKeyHeader = rc.getHeaders().get(AUTHORIZATION);
@@ -75,19 +84,9 @@ public class RequestFilter implements ContainerRequestFilter {
         }
         try {
             JsonNode jsonNode = jwtUtil.validate(token);
-            if (role != null) {
-                boolean c = true;
-                Iterator<JsonNode> roles = jwtUtil.getRoles(jsonNode);
-                while (roles.hasNext()) {
-                    if (role.toString().equals(roles.next().asText())) {
-                        c = false;
-                        break;
-                    }
-                }
-                if (c) {
-                    rc.abortWith(ACCESS_DENIED);
-                    return;
-                }
+            if (role != null && !checkRole(jsonNode, role)) {
+                rc.abortWith(ACCESS_DENIED);
+                return;
             }
             rc.setSecurityContext(jwtUtil.parse(jsonNode));
         } catch (Exception e) {
