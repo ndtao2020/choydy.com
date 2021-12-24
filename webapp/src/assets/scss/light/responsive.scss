@@ -192,37 +192,6 @@ NOTE: This file contains the styling for responsive Template.
     width: 600px;
     top: -118px;
   }
-  .iq-menu-horizontal {
-    position: absolute;
-    left: -100%;
-    right: 0;
-    width: 100%;
-    opacity: 0;
-    top: 100%;
-    width: 260px;
-    background: var(--white);
-    height: 80vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    transition: all 0.45s ease 0s;
-  }
-  .iq-page-menu-horizontal.sidebar-main .iq-menu-horizontal {
-    opacity: 1;
-    left: 0;
-    transition: all 0.45s ease 0s;
-    border-radius: 15px;
-  }
-  .iq-menu-horizontal ul.iq-menu.d-flex {
-    display: block !important;
-    background: var(--white);
-  }
-  .iq-menu-horizontal .iq-sidebar-menu .iq-menu li a {
-    padding: 15px 20px 15px 30px;
-  }
-  .iq-menu-horizontal .iq-sidebar-menu .iq-menu li ul {
-    position: static;
-    box-shadow: none;
-  }
   .iq-search-bar .searchbox {
     width: 100%;
   }

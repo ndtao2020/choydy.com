@@ -22,8 +22,11 @@ module.exports = {
       }
     }
   },
-  outputDir: 'build',
   chainWebpack: (config) => {
+    config.plugins.delete('case-sensitive-paths')
+    config.plugins.delete('friendly-errors')
+    config.plugins.delete('hash-module-ids')
+    config.plugins.delete('named-chunks')
     config.plugins.delete('preload')
     config.plugins.delete('prefetch')
   },
@@ -37,15 +40,20 @@ module.exports = {
               terserOptions: { compress: { drop_console: true } }
             })
           ],
+          chunkIds: false,
+          namedChunks: !isProd,
+          namedModules: !isProd,
           runtimeChunk: {
             name: (entrypoint) => `r~${entrypoint.name}`
           },
           mergeDuplicateChunks: false,
+          removeEmptyChunks: true,
           removeAvailableModules: true,
           splitChunks: {
+            name: () => `c`,
             chunks: 'all',
             maxInitialRequests: Infinity,
-            maxSize: 200000
+            maxSize: 300000
           }
         }
   }

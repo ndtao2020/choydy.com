@@ -1,21 +1,6 @@
 /*---------------------------------------------------------------------
 General
 -----------------------------------------------------------------------*/
-*::-moz-selection {
-  background: var(--gray-dark);
-  color: var(--white);
-  text-shadow: none;
-}
-::-moz-selection {
-  background: var(--gray-dark);
-  color: var(--white);
-  text-shadow: none;
-}
-::selection {
-  background: var(--gray-dark);
-  color: var(--white);
-  text-shadow: none;
-}
 a,
 .btn {
   -webkit-transition: all 0.5s ease-out 0s;

@@ -1,28 +1,17 @@
-// vars
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
 // custom
 @import './light/typography';
 @import './light/style';
 @import './light/responsive';
 // custom
 body {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 14px;
+  font-family: 'Montserrat';
+  // font-size: 14px;
   line-height: 1.8;
-  padding: 0;
-  margin: 0;
 }
 /* Track */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
-  border-radius: 20px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
   border-radius: 20px;
 }
 ::-webkit-scrollbar-thumb {
@@ -34,43 +23,8 @@ body {
   border-radius: 20px;
 }
 /* Track */
-.top-50 {
-  top: 50% !important;
-}
-.font-size-22 {
-  font-size: 22px;
-}
-.font-size-24 {
-  font-size: 24px;
-}
-.font-size-26 {
-  font-size: 26px;
-}
-.font-size-28 {
-  font-size: 28px;
-}
-.height-150 {
-  height: 150px !important;
-}
 .dropdown-menu:focus {
   outline: none !important;
-}
-.setting-toggle {
-  padding-right: 12px;
-}
-.iq-menu-horizontal .iq-sidebar-menu .iq-menu li.active ul {
-  display: none !important;
-}
-.iq-menu-horizontal .iq-sidebar-menu .iq-menu li > a::before {
-  background: unset;
-}
-.iq-menu-horizontal .iq-sidebar-menu .iq-menu li.active > a {
-  color: unset;
-  background: unset;
-}
-.iq-sidebar.sidebar-dark .iq-menu li.active .iq-submenu li > .router-link-active {
-  background: #1e1e1e !important;
-  color: #fff !important;
 }
 .iq-sidebar-menu .iq-menu li.active .iq-submenu li > .router-link-active {
   color: var(--gray-dark) !important;

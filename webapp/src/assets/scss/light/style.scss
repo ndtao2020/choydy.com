@@ -1,25 +1,3 @@
-*::-moz-selection {
-  background: var(--gray-dark);
-  color: var(--white);
-  text-shadow: none;
-}
-::-moz-selection {
-  background: var(--gray-dark);
-  color: var(--white);
-  text-shadow: none;
-}
-::selection {
-  background: var(--gray-dark);
-  color: var(--white);
-  text-shadow: none;
-}
-/* Definition Lists */
-dl dd {
-  margin-bottom: 15px;
-}
-dl dd:last-child {
-  margin-bottom: 0px;
-}
 /* Table */
 a:hover {
   text-decoration: none;

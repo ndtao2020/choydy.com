@@ -3,7 +3,7 @@
     <div class="wrapper">
       <sidebar />
       <NavBar />
-      <right-sideBar toggle-class="top-50 setting-toggle iq-card">
+      <right-sideBar>
         <i slot="icon" class="ri-sound-module-fill font-size-18 text-primary" />
       </right-sideBar>
       <div

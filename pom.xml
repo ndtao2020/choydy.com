@@ -198,7 +198,7 @@
                                     <outputDirectory>${basedir}/target/classes/META-INF/resources</outputDirectory>
                                     <resources>
                                         <resource>
-                                            <directory>${basedir}/webapp/build</directory>
+                                            <directory>${basedir}/webapp/dist</directory>
                                             <filtering>false</filtering>
                                         </resource>
                                     </resources>
