@@ -21,14 +21,15 @@ RUN wget -O /usr/dumb-init https://github.com/Yelp/dumb-init/releases/download/v
 # --------------> The production image
 FROM quay.io/quarkus/quarkus-micro-image:1.0
 WORKDIR /work
-# Update
-RUN microdnf update -y && microdnf clean all && rm -rf /var/cache/yum
-RUN chown 1001 /work && chmod "g+rwX" /work && chown 1001:root /work
 # Copy
 COPY --chown=1001:root ./key /work/key
 COPY --chown=1001:root --from=builder /app/target/*-runner /work/app
 COPY --from=downloader /usr/dumb-init /usr/dumb-init
-
+# set up permissions for user `1001`
+RUN chmod 775 /work /work/application \
+  && chown -R 1001 /work \
+  && chmod -R "g+rwX" /work \
+  && chown -R 1001:root /work
 RUN mkdir -p /work/upload && chown -R 1001:root /work/upload
 RUN chmod +x /usr/dumb-init
 VOLUME /work/upload
