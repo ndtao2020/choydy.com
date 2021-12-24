@@ -2,7 +2,13 @@ import * as req from '@/request'
 
 const url = `/public/post`
 
-const getPosts = () => req.get(url)
+const getPosts = (page, size, search) => {
+  let u = `${url}?p=${page}&s=${size}`
+  if (search) {
+    u += `&search=${search}`
+  }
+  return req.get(u)
+}
 const getPostById = (id) => req.get(`${url}/id?id=${id}`)
 
 // Like

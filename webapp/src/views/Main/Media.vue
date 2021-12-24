@@ -22,20 +22,14 @@
         </div>
       </div>
     </template>
-    <!-- <hr class="m-0" /> -->
-    <div class="user-post pl-4">
-      <h2>{{ post.title }}</h2>
-      <p v-if="post.content">{{ post.content }}</p>
-      <b-button v-for="tag in tags" :key="tag" variant="link">#{{ tag }}</b-button>
-      <div>
+    <hr class="m-0" />
+    <div class="user-post">
+      <p v-if="post.content" class="p-2">{{ post.content }}</p>
+      <div id="photo-grid">
         <img v-for="(image, index) in post.images" :key="index" :src="image" />
       </div>
-      <div v-for="(a, i) in media" :key="i" class="d-flex">
-        <img v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'" class="mx-auto" :src="getURL(a)" />
-        <video v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" class="mx-auto" width="70%" :src="getURL(a)" controls autoplay />
-      </div>
     </div>
-    <div class="comment-area p-3">
+    <!-- <div class="comment-area p-3">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center justify-content-between">
           <div class="like-block position-relative d-flex align-items-center">
@@ -79,26 +73,44 @@
               <div class="total-like-block ml-2 mr-3">
                 <div class="dropdown">
                   <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                    {{ post.likes }} Lượt thích
+                    {{ post.likes }} Likes
                   </span>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item">Max Emum</a>
+                    <a class="dropdown-item">Bill Yerds</a>
+                    <a class="dropdown-item">Hap E. Birthday</a>
+                    <a class="dropdown-item">Tara Misu</a>
+                    <a class="dropdown-item">Midge Itz</a>
+                    <a class="dropdown-item">Sal Vidge</a>
+                    <a class="dropdown-item">Other</a>
+                  </div>
                 </div>
               </div>
             </div>
-            <!-- <div class="total-comment-block">
+            <div class="total-comment-block">
               <div class="dropdown">
                 <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                  {{ post.comments }} Bình luận
+                  {{ post.comments.length }} Comment
                 </span>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item">Max Emum</a>
+                  <a class="dropdown-item">Bill Yerds</a>
+                  <a class="dropdown-item">Hap E. Birthday</a>
+                  <a class="dropdown-item">Tara Misu</a>
+                  <a class="dropdown-item">Midge Itz</a>
+                  <a class="dropdown-item">Sal Vidge</a>
+                  <a class="dropdown-item">Other</a>
+                </div>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
         <div class="share-block d-flex align-items-center feather-icon mr-3">
-          <span class="ml-1">{{ post.shares }} Chia sẻ</span>
+          <a><i class="ri-share-line"></i> <span class="ml-1">99 Share</span></a>
         </div>
       </div>
       <hr />
-      <!-- <ul class="post-comments p-0 m-0">
+      <ul class="post-comments p-0 m-0">
         <li v-for="(postComment, postCommentIndex) in post.comments" :key="postComment.id" class="mb-2">
           <div class="d-flex flex-wrap">
             <div class="user-img">
@@ -118,14 +130,14 @@
             </div>
           </div>
         </li>
-      </ul> -->
-      <!-- <b-form class="comment-text d-flex align-items-center mt-3">
+      </ul>
+      <b-form class="comment-text d-flex align-items-center mt-3">
         <b-form-input v-model="commentMessage" type="text" class="rounded" placeholder="Lovely!" @keyup.enter="saveComment(commentMessage)" />
         <div class="comment-attagement d-flex">
           <b-link><i class="ri-send-plane-line mr-2" @click="saveComment(commentMessage)"></i></b-link>
         </div>
-      </b-form> -->
-    </div>
+      </b-form>
+    </div> -->
   </iq-card>
 </template>
 
@@ -134,8 +146,6 @@ import moment from 'moment'
 // import { getCatalogs } from '@/api/catalog'
 import { getPostById } from '@/api/post'
 import { getUserById } from '@/api/user'
-import { findAllTagByPostId } from '@/api/tag'
-import { findAllMediaByPostId } from '@/api/media'
 
 export default {
   components: {
@@ -149,8 +159,6 @@ export default {
       loading: false,
       user: {},
       post: {},
-      tags: [],
-      media: [],
       commentMessage: ''
     }
   },
@@ -168,16 +176,6 @@ export default {
         if (data) {
           this.post = data
           this.user = await getUserById(data.userId)
-          if (data.tags) {
-            this.tags = data.tags
-          } else {
-            this.tags = await findAllTagByPostId(this.id)
-          }
-          if (data.media) {
-            this.media = data.media
-          } else {
-            this.media = await findAllMediaByPostId(this.id)
-          }
         }
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -185,10 +183,6 @@ export default {
       } finally {
         this.loading = false
       }
-    },
-    getURL(data) {
-      const [id, type] = data
-      return `/api/public/media?id=${id}&type=${type}`
     },
     isLiked(postLike) {
       // this.post.is_liked = postLike

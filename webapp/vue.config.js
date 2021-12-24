@@ -1,5 +1,6 @@
 const TerserPlugin = require('terser-webpack-plugin')
 const isProd = process.env.NODE_ENV === 'production'
+
 module.exports = {
   publicPath: isProd ? process.env.VUE_APP_BASE_URL : '/',
   productionSourceMap: !isProd,
@@ -13,10 +14,10 @@ module.exports = {
     compress: true,
     overlay: true,
     clientLogLevel: 'warning',
-    port: parseInt(process.env.PORT, 10) || 3000,
+    port: parseInt(process.env.PORT, 10) || 3001,
     proxy: {
       '^/api': {
-        target: 'http://localhost:8181',
+        target: process.env.VUE_APP_PROXY || 'http://localhost:8181',
         ws: true,
         changeOrigin: false
       }

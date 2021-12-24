@@ -3,8 +3,8 @@
     <b-col sm="12">
       <b-row class="m-0 p-0">
         <b-col lg="8">
-          <div v-for="post in socialPosts" :key="post.id">
-            <social-post :post="post"></social-post>
+          <div v-for="id in posts" :key="id">
+            <social-post :id="id" />
           </div>
         </b-col>
         <b-col lg="4">
@@ -58,7 +58,8 @@
 </template>
 
 <script>
-import { Posts } from '@/FackApi/api/SocialPost'
+import { getPosts } from '@/api/post'
+// import { Posts } from '@/FackApi/api/SocialPost'
 
 export default {
   name: 'HomePage',
@@ -68,12 +69,32 @@ export default {
   },
   data() {
     return {
-      socialPosts: Posts
+      loading: false,
+      posts: [],
+      page: 0,
+      size: 5
     }
+  },
+  mounted() {
+    this.fetchAllPost()
   },
   methods: {
     openLink() {
       window.open('https://www.facebook.com/profile.php?id=100069109730056', '_blank')
+    },
+    async fetchAllPost() {
+      this.loading = true
+      try {
+        const data = await getPosts(this.page, this.size)
+        if (data) {
+          this.posts = data
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      } finally {
+        this.loading = false
+      }
     }
   }
 }
