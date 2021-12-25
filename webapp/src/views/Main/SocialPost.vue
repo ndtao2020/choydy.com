@@ -16,7 +16,7 @@
           </div>
           <div class="iq-card-header-toolbar align-items-center">
             <h4 v-if="!loading" class="pl-4">{{ post.title }}</h4>
-            <b-link v-if="!loading" class="text-secondary">({{ catalog[0] }})</b-link>
+            <b-link v-if="!loading" class="float-right text-secondary">({{ catalog[0] }})</b-link>
           </div>
         </div>
       </div>
@@ -32,8 +32,14 @@
       <div class="mt-1" />
       <b-skeleton-img v-if="loading" height="500px" />
       <div v-for="(a, i) in media" v-else :key="i" class="d-flex">
-        <img v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'" class="mx-auto" :src="getURL(a)" />
-        <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :source="{ src: getURL(a), type: a[1] }" />
+        <img
+          v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'"
+          class="mx-auto"
+          :src="getURL(a)"
+          width="auto"
+          height="500px"
+        />
+        <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :post-id="postId" :src="getURL(a)" :type="a[1]" />
       </div>
     </div>
     <div class="comment-area p-3">
@@ -44,36 +50,16 @@
               <div class="like-data">
                 <div class="dropdown">
                   <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                    <img :src="require('@/assets/images/icon/01.png')" class="img-fluid" alt="" />
+                    <img src="@/assets/images/icon/01.png" class="img-fluid" alt="" />
                   </span>
                   <div class="dropdown-menu" style="">
-                    <a
-                      class="ml-2 mr-2"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title=""
-                      data-original-title="Like"
-                      @click="isLiked(!post.is_liked)"
-                      ><img :src="require('@/assets/images/icon/01.png')" class="img-fluid" alt=""
-                    /></a>
-                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Love" @click="isLiked(!post.is_liked)"
-                      ><img :src="require('@/assets/images/icon/02.png')" class="img-fluid" alt=""
-                    /></a>
-                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Happy" @click="isLiked(!post.is_liked)"
-                      ><img :src="require('@/assets/images/icon/03.png')" class="img-fluid" alt=""
-                    /></a>
-                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="HaHa" @click="isLiked(!post.is_liked)"
-                      ><img :src="require('@/assets/images/icon/04.png')" class="img-fluid" alt=""
-                    /></a>
-                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Think" @click="isLiked(!post.is_liked)"
-                      ><img :src="require('@/assets/images/icon/05.png')" class="img-fluid" alt=""
-                    /></a>
-                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sade" @click="isLiked(!post.is_liked)"
-                      ><img :src="require('@/assets/images/icon/06.png')" class="img-fluid" alt=""
-                    /></a>
-                    <a class="mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Lovely" @click="isLiked(!post.is_liked)"
-                      ><img :src="require('@/assets/images/icon/07.png')" class="img-fluid" alt=""
-                    /></a>
+                    <img class="ml-2 mr-2 img-fluid" src="@/assets/images/icon/01.png" alt="" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/02.png" alt="" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/03.png" alt="" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/04.png" alt="" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/05.png" alt="" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/06.png" alt="" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/07.png" alt="" />
                   </div>
                 </div>
               </div>
@@ -85,47 +71,12 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="total-comment-block">
-              <div class="dropdown">
-                <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                  {{ post.comments }} Bình luận
-                </span>
-              </div>
-            </div> -->
           </div>
         </div>
         <div class="share-block d-flex align-items-center feather-icon mr-3">
           <span class="ml-1">{{ post.shares }} Chia sẻ</span>
         </div>
       </div>
-      <!-- <hr /> -->
-      <!-- <ul class="post-comments p-0 m-0">
-        <li v-for="(postComment, postCommentIndex) in post.comments" :key="postComment.id" class="mb-2">
-          <div class="d-flex flex-wrap">
-            <div class="user-img">
-              <b-img :src="postComment.image" alt="userimg" class="avatar-35" rounded="circle" fluid />
-            </div>
-            <div class="comment-data-block ml-3">
-              <h6>{{ postComment.user.name }}</h6>
-              <p class="mb-0">{{ postComment.user.msg }}</p>
-              <div class="d-flex flex-wrap align-items-center comment-activity">
-                <b-link @click="isLikedComment(postCommentIndex, !postComment.is_commentLike)">
-                  <span v-if="!postComment.is_commentLike" class="text-primary">like</span>
-                  <span v-else class="text-secondary">unlike</span>
-                </b-link>
-                <b-link>reply</b-link>
-                <span>{{ postComment.user.time }}</span>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul> -->
-      <!-- <b-form class="comment-text d-flex align-items-center mt-3">
-        <b-form-input v-model="commentMessage" type="text" class="rounded" placeholder="Lovely!" @keyup.enter="saveComment(commentMessage)" />
-        <div class="comment-attagement d-flex">
-          <b-link><i class="ri-send-plane-line mr-2" @click="saveComment(commentMessage)"></i></b-link>
-        </div>
-      </b-form> -->
     </div>
   </iq-card>
 </template>
@@ -145,7 +96,7 @@ export default {
     IqCard: () => import('./IqCard')
   },
   props: {
-    id: String
+    postId: String
   },
   data() {
     return {
@@ -163,12 +114,12 @@ export default {
   },
   methods: {
     formatTime(value) {
-      return moment(value).fromNow()
+      return moment(value).locale('vi').fromNow()
     },
     async fetchPostById() {
       this.loading = true
       try {
-        const data = await getPostById(this.id)
+        const data = await getPostById(this.postId)
         if (data) {
           this.post = data
           this.user = await getUserById(data.userId)
@@ -176,12 +127,12 @@ export default {
           if (data.tags) {
             this.tags = data.tags
           } else {
-            this.tags = await findAllTagByPostId(this.id)
+            this.tags = await findAllTagByPostId(this.postId)
           }
           if (data.media) {
             this.media = data.media
           } else {
-            this.media = await findAllMediaByPostId(this.id)
+            this.media = await findAllMediaByPostId(this.postId)
           }
         }
       } catch (error) {
@@ -194,38 +145,7 @@ export default {
     getURL(data) {
       const [id, type] = data
       return `/api/public/media?id=${id}&type=${type}`
-    },
-    isLiked(postLike) {
-      // this.post.is_liked = postLike
-
-      if (postLike) {
-        // this.post.likes += 1
-      } else {
-        // this.post.likes -= 1
-      }
-    },
-    // isFollowed(follow) {
-    isFollowed() {
-      // this.post.is_follow = follow
-    },
-    // isLikedComment(index, like) {
-    isLikedComment() {
-      // this.post.comments[index].is_commentLike = like
-    },
-    saveComment() {
-      this.commentMessage = ''
     }
   }
 }
 </script>
-
-<style>
-.dropdown-item {
-  color: #212529 !important;
-}
-.dropdown-menu .dropdown-item:focus,
-.dropdown-menu .dropdown-item:hover {
-  background: transparent;
-  color: var(--gray-dark) !important;
-}
-</style>

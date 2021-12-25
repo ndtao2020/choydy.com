@@ -1,8 +1,9 @@
 <template>
-  <div class="player">
+  <div ref="player" class="player">
     <div class="player__sizer">
       <video
         ref="video"
+        loop
         @play="onVideoPlay"
         @pause="onVideoPause"
         @click="togglePlay"
@@ -15,7 +16,7 @@
         @waiting="isWaiting = true"
         @canplay="isWaiting = false"
       >
-        <source :type="source.type" :src="source.src" />
+        <source :type="type" :src="src" />
       </video>
     </div>
     <div class="player__gradient" />
@@ -24,27 +25,20 @@
     </div>
     <div class="d-flex player__controls py-3">
       <div class="mx-2" @click="togglePlay">
-        <img v-if="isPlaying" src="@/assets/icons/player/pause.svg" width="30" height="30" />
-        <img v-else src="@/assets/icons/player/play.svg" width="30" height="30" />
+        <img v-if="isPlaying" src="@/assets/icons/player/pause.svg" width="25" height="25" />
+        <img v-else src="@/assets/icons/player/play.svg" width="25" height="25" />
       </div>
-      <slider class="player__seeker mx-2" :max="duration" :value="currentTime" @input="seek">
+      <slider v-if="!hideProgress" class="player__seeker mx-2" :max="duration" :value="currentTime" @input="seek">
         <template #bar>
           <div class="player__seeker-buffered" :style="bufferedStyle" />
         </template>
       </slider>
-      <div class="player__time">{{ currentTimeFormatted }}</div>
-      <div class="mx-3" @click="toggleSound">
-        <img v-if="isMuted" src="@/assets/icons/player/mute.svg" width="30" height="30" />
-        <img v-else src="@/assets/icons/player/volume.svg" width="30" height="30" />
+      <div v-if="!hideProgress" class="mr-2 player__time">{{ currentTimeFormatted }}</div>
+      <div class="ml-auto mr-2" @click="toggleSound">
+        <img v-if="isMuted" src="@/assets/icons/player/mute.svg" width="25" height="25" />
+        <img v-else src="@/assets/icons/player/volume.svg" width="25" height="25" />
       </div>
-      <slider class="player__sound-slider mr-4" :style="{ width: '100px' }" :value="isMuted ? 0 : volume" @input="onVolumeSliderChange" />
-      <!-- <div dense color="transparent" flat>
-        <v-btn color="white" icon @click="toggleFullscreen">
-          <v-icon>
-            {{ isFullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen' }}
-          </v-icon>
-        </v-btn>
-      </div> -->
+      <slider class="player__sound-slider mr-4" :style="{ width: '80px' }" :value="isMuted ? 0 : volume" @input="onVolumeSliderChange" />
     </div>
   </div>
 </template>
@@ -56,13 +50,13 @@ export default {
   name: 'MediaPlayer',
   components: { Slider },
   props: {
-    source: {
-      type: Object,
-      required: true,
-      validator: (source) => source.type && source.src
-    }
+    type: String,
+    src: String,
+    hideProgress: Boolean
   },
   data: () => ({
+    observer: null,
+    isVisible: false,
     isPlaying: false,
     isMuted: false,
     isFullscreen: false,
@@ -96,17 +90,44 @@ export default {
       this.$nextTick(() => {
         this.$refs.video.load()
       })
+    },
+    isVisible: function () {
+      const { video } = this.$refs
+      if (this.isVisible) {
+        if (video.paused) {
+          video.play()
+        }
+      } else {
+        if (!video.paused) {
+          video.pause()
+        }
+      }
     }
+  },
+  created() {
+    this.observer = new IntersectionObserver(this.onElementObserved, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5
+    })
   },
   mounted() {
     document.addEventListener('keyup', this.onDocumentKeyUp)
     // screenfull.onchange(this.onFullscreenChange)
+    this.observer.observe(this.$refs.player)
+  },
+  beforeDestroy() {
+    this.observer.unobserve(this.$refs.player)
   },
   methods: {
     onDocumentKeyUp(e) {
       if (e.keyCode === 32) {
         this.togglePlay()
       }
+    },
+    onElementObserved(entries) {
+      const [entry] = entries
+      this.isVisible = entry.isIntersecting
     },
     onVideoPlay() {
       this.isPlaying = true

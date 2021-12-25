@@ -9,10 +9,6 @@
 </template>
 
 <script>
-import lerp from 'lerp'
-import clamp from 'lodash/clamp'
-import throttle from 'lodash/throttle'
-
 export default {
   name: 'MediaSlider',
   props: {
@@ -58,7 +54,6 @@ export default {
     }
   },
   mounted() {
-    this.onWindowResize = throttle(this.onWindowResize, 200)
     this.calcDimensions()
     window.addEventListener('resize', this.onWindowResize)
     document.addEventListener('mouseup', this.onDocumentMouseUp)
@@ -109,7 +104,7 @@ export default {
       const { barWidth } = this
       const relativeX = this.getRelativeXPosition(e, bar)
       const delta = relativeX / barWidth
-      this.$emit('input', lerp(this.min, this.max, delta))
+      this.$emit('input', this.min * (1 - delta) + this.max * delta)
     },
     offsetX(el) {
       const { left } = el.getBoundingClientRect()
@@ -118,9 +113,8 @@ export default {
     },
     getRelativeXPosition(e, target) {
       const elOffsetX = this.offsetX(target)
-      const elWidth = target.offsetWidth
-      const value = e.pageX - elOffsetX
-      return clamp(value, 0, elWidth)
+      // const elWidth = target.offsetWidth
+      return e.pageX - elOffsetX
     }
   }
 }
