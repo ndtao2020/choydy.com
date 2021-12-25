@@ -4,35 +4,36 @@
       <div class="user-post-data p-3">
         <div class="d-flex flex-wrap">
           <div class="media-support-user-img mr-3">
-            <b-img rounded="circle" fluid :src="user.avatar" alt="" />
+            <b-skeleton v-if="loading" type="avatar" />
+            <b-img v-else rounded="circle" fluid :src="user.avatar" alt="" />
           </div>
-          <div class="media-support-info mt-2">
+          <div class="media-support-info">
             <h5 class="mb-0">
-              <b-link class="">{{ user.name }}</b-link>
+              <b-skeleton v-if="loading" animation="wave" width="100%" />
+              <b-link v-else class="">{{ user.name }}</b-link>
             </h5>
             <p class="mb-0 text-secondary">{{ formatTime(post.created) }}</p>
           </div>
-          <div class="iq-card-header-toolbar d-flex align-items-center">
-            <b-dropdown id="dropdownMenuButton40" right variant="none" menu-class="p-0">
-              <template #button-content>
-                <b-link class="text-secondary">Basss</b-link>
-              </template>
-            </b-dropdown>
+          <div class="iq-card-header-toolbar align-items-center">
+            <h4 v-if="!loading" class="pl-4">{{ post.title }}</h4>
+            <b-link v-if="!loading" class="text-secondary">({{ catalog[0] }})</b-link>
           </div>
         </div>
       </div>
     </template>
-    <!-- <hr class="m-0" /> -->
-    <div class="user-post pl-4">
-      <h2>{{ post.title }}</h2>
-      <p v-if="post.content">{{ post.content }}</p>
-      <b-button v-for="tag in tags" :key="tag" variant="link">#{{ tag }}</b-button>
-      <div>
-        <img v-for="(image, index) in post.images" :key="index" :src="image" />
-      </div>
-      <div v-for="(a, i) in media" :key="i" class="d-flex">
+    <div class="user-post">
+      <b-card v-if="loading" class="mx-4 mb-3">
+        <b-skeleton animation="wave" width="85%"></b-skeleton>
+        <b-skeleton animation="wave" width="55%"></b-skeleton>
+      </b-card>
+      <p v-if="!loading && post.content" class="pl-4">
+        {{ post.content }}<b-button v-for="tag in tags" :key="tag" variant="link">#{{ tag }}</b-button>
+      </p>
+      <div class="mt-1" />
+      <b-skeleton-img v-if="loading" height="500px" />
+      <div v-for="(a, i) in media" v-else :key="i" class="d-flex">
         <img v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'" class="mx-auto" :src="getURL(a)" />
-        <video v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" class="mx-auto" width="70%" :src="getURL(a)" controls autoplay />
+        <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :source="{ src: getURL(a), type: a[1] }" />
       </div>
     </div>
     <div class="comment-area p-3">
@@ -79,7 +80,7 @@
               <div class="total-like-block ml-2 mr-3">
                 <div class="dropdown">
                   <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                    {{ post.likes }} Lượt thích
+                    {{ post.likes }}
                   </span>
                 </div>
               </div>
@@ -97,7 +98,7 @@
           <span class="ml-1">{{ post.shares }} Chia sẻ</span>
         </div>
       </div>
-      <hr />
+      <!-- <hr /> -->
       <!-- <ul class="post-comments p-0 m-0">
         <li v-for="(postComment, postCommentIndex) in post.comments" :key="postComment.id" class="mb-2">
           <div class="d-flex flex-wrap">
@@ -131,7 +132,8 @@
 
 <script>
 import moment from 'moment'
-// import { getCatalogs } from '@/api/catalog'
+import Player from './Player'
+import { getCatalogById } from '@/api/catalog'
 import { getPostById } from '@/api/post'
 import { getUserById } from '@/api/user'
 import { findAllTagByPostId } from '@/api/tag'
@@ -139,6 +141,7 @@ import { findAllMediaByPostId } from '@/api/media'
 
 export default {
   components: {
+    Player,
     IqCard: () => import('./IqCard')
   },
   props: {
@@ -148,6 +151,7 @@ export default {
     return {
       loading: false,
       user: {},
+      catalog: [],
       post: {},
       tags: [],
       media: [],
@@ -168,6 +172,7 @@ export default {
         if (data) {
           this.post = data
           this.user = await getUserById(data.userId)
+          this.catalog = await getCatalogById(data.catalogId)
           if (data.tags) {
             this.tags = data.tags
           } else {

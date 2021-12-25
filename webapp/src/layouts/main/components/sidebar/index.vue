@@ -49,7 +49,7 @@ export default {
       try {
         const data = await getCatalogs()
         if (data) {
-          this.catalogs = data.l
+          this.catalogs = data
         }
       } catch (error) {
         // eslint-disable-next-line no-console

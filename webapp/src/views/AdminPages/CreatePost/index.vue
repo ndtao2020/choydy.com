@@ -147,8 +147,8 @@ export default {
     async loadCatalogs() {
       this.loading = true
       try {
-        const { l } = await getCatalogs()
-        this.catalogs = l.map(([id, name]) => ({
+        const data = await getCatalogs()
+        this.catalogs = data.map(([id, name]) => ({
           value: id,
           text: name
         }))

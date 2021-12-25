@@ -59,7 +59,6 @@
 
 <script>
 import { getPosts } from '@/api/post'
-// import { Posts } from '@/FackApi/api/SocialPost'
 
 export default {
   name: 'HomePage',
