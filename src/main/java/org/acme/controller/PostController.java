@@ -44,14 +44,17 @@ public class PostController extends BaseController {
     // ========================= [POST] =========================
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<?> findAllPost(@QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s, @QueryParam(SEARCH_PARAM) String search) {
-        return postService.search(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s, search);
+    public List<?> findAllPost(@QueryParam(PAGE_PARAM) Integer page, @QueryParam(SIZE_PARAM) Integer size, @QueryParam(SEARCH_PARAM) String search, @QueryParam("c") Long catalogId) {
+        if (catalogId == null) {
+            return postService.search(page == null ? PAGE_DEFAULT : page, size == null ? SIZE_DEFAULT : size, search);
+        }
+        return postService.search(page == null ? PAGE_DEFAULT : page, size == null ? SIZE_DEFAULT : size, catalogId, search);
     }
 
     @GET
     @Path("/" + ID)
     @Produces(MediaType.APPLICATION_JSON)
-    public PostDTO postId(@QueryParam(ID) UUID postId) {
+    public PostDTO postId(@QueryParam(ID_PARAM) UUID postId) {
         PostDTO postDTO = postService.findDTOById(postId);
         if (postDTO == null) {
             throw new BadRequestException("The post id does not exist !");
@@ -63,7 +66,7 @@ public class PostController extends BaseController {
     @GET
     @Path("/tag")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<?> findAllTagByPostId(@QueryParam(ID) UUID postId) throws SQLDataException {
+    public List<?> findAllTagByPostId(@QueryParam(ID_PARAM) UUID postId) throws SQLDataException {
         return postTagService.findByPostId(postId);
     }
 
@@ -71,7 +74,7 @@ public class PostController extends BaseController {
     @GET
     @Path("/" + Media.PATH)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<?> findAllMediaByPostId(@QueryParam(ID) UUID postId) throws SQLDataException {
+    public List<?> findAllMediaByPostId(@QueryParam(ID_PARAM) UUID postId) throws SQLDataException {
         return mediaService.findByPostId(postId);
     }
 
@@ -86,7 +89,7 @@ public class PostController extends BaseController {
     @GET
     @Path("/like")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<?> getAllByPostId(@QueryParam(ID) UUID postId) throws BadRequestException {
+    public List<?> getAllByPostId(@QueryParam(ID_PARAM) UUID postId) throws BadRequestException {
         return postLikeService.findByPostId(postId);
     }
 
@@ -94,14 +97,14 @@ public class PostController extends BaseController {
     @GET
     @Path("/" + Comment.PATH)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<?> findAll(@QueryParam(ID) UUID postId, @QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s) {
+    public List<?> findAll(@QueryParam(ID_PARAM) UUID postId, @QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s) {
         return commentService.findByCommentId(postId, p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s);
     }
 
     @GET
     @Path("/" + Comment.PATH + "/" + ID)
     @Produces(MediaType.APPLICATION_JSON)
-    public CommentDTO commentId(@QueryParam(ID) UUID commentId) {
+    public CommentDTO commentId(@QueryParam(ID_PARAM) UUID commentId) {
         CommentDTO commentDTO = commentService.findDTOById(commentId);
         if (commentDTO == null) {
             throw new BadRequestException("The post id does not exist !");

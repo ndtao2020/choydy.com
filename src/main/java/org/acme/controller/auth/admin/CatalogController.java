@@ -59,7 +59,7 @@ public class CatalogController extends BaseController {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public CheckDTO delete(@QueryParam(ID) Long id) throws IllegalAccessException {
+    public CheckDTO delete(@QueryParam(ID_PARAM) Long id) throws IllegalAccessException {
         try {
             catalogService.delete(new Catalog(id));
             catalogService.deleteDTOById(id);

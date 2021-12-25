@@ -108,7 +108,7 @@ public class RequestFilter implements ContainerRequestFilter {
             return;
         }
         try {
-            String t = new String(Base64.getDecoder().decode(h.substring(6).getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
+            String t = new String(Base64.getDecoder().decode(h.substring(6)));
             int l = t.indexOf(":");
             if (l == -1) {
                 logger.error("Invalid basic authentication token !");

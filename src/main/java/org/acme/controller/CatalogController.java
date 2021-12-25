@@ -28,7 +28,7 @@ public class CatalogController extends BaseController {
     @GET
     @Path("/" + ID)
     @Produces(MediaType.APPLICATION_JSON)
-    public Object catalogId(@QueryParam(ID) Long catalogId) {
+    public Object catalogId(@QueryParam(ID_PARAM) Long catalogId) {
         return catalogService.findById(catalogId);
     }
 }

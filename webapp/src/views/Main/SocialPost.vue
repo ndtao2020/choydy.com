@@ -88,7 +88,7 @@ import { getCatalogById } from '@/api/catalog'
 import { getPostById } from '@/api/post'
 import { getUserById } from '@/api/user'
 import { findAllTagByPostId } from '@/api/tag'
-import { findAllMediaByPostId } from '@/api/media'
+import { getMediaLink, findAllMediaByPostId } from '@/api/media'
 
 export default {
   components: {
@@ -144,7 +144,7 @@ export default {
     },
     getURL(data) {
       const [id, type] = data
-      return `/api/public/media?id=${id}&type=${type}`
+      return getMediaLink(id, type)
     }
   }
 }
