@@ -10,7 +10,6 @@ import org.acme.service.PostLikeService;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -19,6 +18,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
+import java.sql.SQLException;
 import java.util.UUID;
 
 @Path(SecurityPath.AUTH_API_URL + "/" + PostLike.PATH)
@@ -31,7 +31,7 @@ public class PostLikeController extends BaseController {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public PostLikeDTO createLikeByPostId(@Context SecurityContext context, @QueryParam(ID) UUID postId, @QueryParam("type") String likeTypeId) throws BadRequestException {
+    public PostLikeDTO createLikeByPostId(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId, @QueryParam("t") String likeTypeId) throws SQLException {
         JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         // create post
         PostLikeDTO postLikeDTO = new PostLikeDTO();
@@ -45,7 +45,7 @@ public class PostLikeController extends BaseController {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public CheckDTO removeLikeByPostId(@Context SecurityContext context, @QueryParam(ID) UUID postId) throws BadRequestException {
+    public CheckDTO removeLikeByPostId(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId) {
         try {
             JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
             postLikeService.delete(postId, principal.getId());

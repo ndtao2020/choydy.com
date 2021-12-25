@@ -2,7 +2,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  publicPath: isProd ? process.env.VUE_APP_BASE_URL : '/',
+  publicPath: isProd ? process.env.BASE_URL : '/',
   productionSourceMap: !isProd,
   css: {
     sourceMap: !isProd

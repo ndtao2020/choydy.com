@@ -28,7 +28,7 @@ public class MediaController extends BaseController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getById(@QueryParam(ID) UUID id, @QueryParam("type") String type) throws SQLDataException, IOException {
+    public Response getById(@QueryParam(ID_PARAM) UUID id, @QueryParam("t") String type) throws SQLDataException, IOException {
         return Response
                 .ok(fileStorageService.getFile(mediaService.findCacheById(id)))
                 .header(HttpHeaders.CACHE_CONTROL, "max-age=604800")

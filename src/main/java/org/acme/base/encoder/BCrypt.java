@@ -210,7 +210,7 @@ public class BCrypt {
      * Decode a string encoded using bcrypt's base64 scheme to a byte array. Note that
      * this is *not* compatible with the standard MIME-base64 encoding.
      *
-     * @param s       the string to decode
+     * @param s the string to decode
      * @return an array containing the decoded bytes
      * @throws IllegalArgumentException if maxolen is invalid
      */

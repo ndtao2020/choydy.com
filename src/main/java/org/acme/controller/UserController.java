@@ -30,7 +30,7 @@ public class UserController extends BaseController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public UserShortDTO getById(@QueryParam(ID) UUID id) throws BadRequestException {
+    public UserShortDTO getById(@QueryParam(ID_PARAM) UUID id) throws BadRequestException {
         UserDTO userDTO = userService.findDTOById(id);
         if (userDTO == null) {
             throw new BadRequestException("Id does not exist !");

@@ -59,12 +59,44 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         return query.setFirstResult(page * size).setMaxResults(size).getResultList();
     }
 
+    public List<?> search(int page, int size, long catalogId, String search) {
+        String q = "from post where catalog_id=:c ";
+        if (search != null) {
+            q += "and title like :s or content like :s ";
+        }
+        Query query = getEm().createNativeQuery("select CAST (id AS varchar) " + q + "order by created desc");
+        query.setParameter("c", catalogId);
+        if (search != null) {
+            query.setParameter("s", "%" + search + "%");
+        }
+        return query.setFirstResult(page * size).setMaxResults(size).getResultList();
+    }
+
     public QueryPage searchDTOAndPagination(int page, int size, String search, String order, String... fields) {
         List<PostDTO> result = new ArrayList<>();
         for (Object obj : search(page, size, search, order, fields)) {
             result.add(this.findDTOById(UUID.fromString(obj.toString())));
         }
         return new QueryPage(result, getCountQuery(search, fields).getSingleResult());
+    }
+
+    @Transactional
+    public PostDTO updateLike(UUID postId, Long likes) throws SQLException {
+        // find by id
+        Post post = this.getById(postId);
+        if (post == null) {
+            throw new SQLException("The post id does not exist !");
+        }
+        post.setLikes(post.getLikes() + likes);
+        // update SQL
+        Post savedPost = this.update(post);
+        // update cache
+        PostDTO postDTO = this.findDTOById(postId);
+        if (postDTO == null) {
+            return this.saveDTOById(postId, this.convertToDTO(savedPost));
+        }
+        postDTO.setLikes(post.getLikes());
+        return this.saveDTOById(postId, postDTO);
     }
 
     @Transactional
@@ -165,7 +197,13 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
                 mediaService.update(media);
             }
         }
-        return convertToDTO(savedPost);
+        PostDTO postDTO = this.convertToDTO(savedPost);
+        try {
+            return this.saveDTOById(post.getId(), this.convertToDTO(savedPost));
+        } catch (Exception e) {
+            getLog().error(e.getMessage());
+            return postDTO;
+        }
     }
 
     @Transactional
@@ -203,6 +241,10 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
                 .setParameter(1, postId)
                 .executeUpdate();
         // clear cache
-        this.deleteDTOById(postId);
+        try {
+            this.deleteDTOById(postId);
+        } catch (Exception e) {
+            getLog().error(e.getMessage());
+        }
     }
 }

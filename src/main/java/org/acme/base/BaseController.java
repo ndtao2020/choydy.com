@@ -5,9 +5,11 @@ package org.acme.base;
  */
 public class BaseController {
     public static final String ID = "id";
+
+    public static final String ID_PARAM = "i";
     protected static final String ID_DESCRIPTION = "Tìm theo id";
 
-    protected static final String SEARCH_PARAM = "search";
+    protected static final String SEARCH_PARAM = "k";
     protected static final String SEARCH_DESCRIPTION = "Tìm môt cột của bảng với các điều kiện";
 
     protected static final String PAGE_PARAM = "p";
