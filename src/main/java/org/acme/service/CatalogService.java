@@ -7,6 +7,7 @@ import org.acme.model.dto.CatalogDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.Query;
+import java.util.List;
 
 @ApplicationScoped
 public class CatalogService extends BaseCacheService<Catalog, CatalogDTO, Long> {
@@ -18,6 +19,21 @@ public class CatalogService extends BaseCacheService<Catalog, CatalogDTO, Long> 
     @Override
     public CatalogDTO convertToDTO(Catalog data) {
         return new CatalogDTO(data);
+    }
+
+    public Object findById(Long id) {
+        return getEm()
+                .createNativeQuery("select name from " + getTableName(getDomainClass()) + " where id=?1")
+                .setParameter(1, id)
+                .getResultList();
+    }
+
+    public List<?> search(int page, int size) {
+        return getEm()
+                .createNativeQuery("select CAST (id as varchar),name from " + getTableName(getDomainClass()) + " order by priority desc")
+                .setFirstResult(page * size)
+                .setMaxResults(size)
+                .getResultList();
     }
 
     public QueryPage search(int page, int size, String search) {

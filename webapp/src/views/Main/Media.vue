@@ -4,39 +4,32 @@
       <div class="user-post-data p-3">
         <div class="d-flex flex-wrap">
           <div class="media-support-user-img mr-3">
-            <b-skeleton v-if="loading" type="avatar" />
-            <b-img v-else rounded="circle" fluid :src="user.avatar" alt="" />
+            <b-img rounded="circle" fluid :src="user.avatar" alt="" />
           </div>
-          <div class="media-support-info">
+          <div class="media-support-info mt-2">
             <h5 class="mb-0">
-              <b-skeleton v-if="loading" animation="wave" width="100%" />
-              <b-link v-else class="">{{ user.name }}</b-link>
+              <b-link class="">{{ user.name }}</b-link>
             </h5>
             <p class="mb-0 text-secondary">{{ formatTime(post.created) }}</p>
           </div>
-          <div class="iq-card-header-toolbar align-items-center">
-            <h4 v-if="!loading" class="pl-4">{{ post.title }}</h4>
-            <b-link v-if="!loading" class="text-secondary">({{ catalog[0] }})</b-link>
+          <div class="iq-card-header-toolbar d-flex align-items-center">
+            <b-dropdown id="dropdownMenuButton40" right variant="none" menu-class="p-0">
+              <template #button-content>
+                <b-link class="text-secondary">Basss</b-link>
+              </template>
+            </b-dropdown>
           </div>
         </div>
       </div>
     </template>
+    <hr class="m-0" />
     <div class="user-post">
-      <b-card v-if="loading" class="mx-4 mb-3">
-        <b-skeleton animation="wave" width="85%"></b-skeleton>
-        <b-skeleton animation="wave" width="55%"></b-skeleton>
-      </b-card>
-      <p v-if="!loading && post.content" class="pl-4">
-        {{ post.content }}<b-button v-for="tag in tags" :key="tag" variant="link">#{{ tag }}</b-button>
-      </p>
-      <div class="mt-1" />
-      <b-skeleton-img v-if="loading" height="500px" />
-      <div v-for="(a, i) in media" v-else :key="i" class="d-flex">
-        <img v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'" class="mx-auto" :src="getURL(a)" />
-        <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :source="{ src: getURL(a), type: a[1] }" />
+      <p v-if="post.content" class="p-2">{{ post.content }}</p>
+      <div id="photo-grid">
+        <img v-for="(image, index) in post.images" :key="index" :src="image" />
       </div>
     </div>
-    <div class="comment-area p-3">
+    <!-- <div class="comment-area p-3">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center justify-content-between">
           <div class="like-block position-relative d-flex align-items-center">
@@ -80,26 +73,44 @@
               <div class="total-like-block ml-2 mr-3">
                 <div class="dropdown">
                   <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                    {{ post.likes }}
+                    {{ post.likes }} Likes
                   </span>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item">Max Emum</a>
+                    <a class="dropdown-item">Bill Yerds</a>
+                    <a class="dropdown-item">Hap E. Birthday</a>
+                    <a class="dropdown-item">Tara Misu</a>
+                    <a class="dropdown-item">Midge Itz</a>
+                    <a class="dropdown-item">Sal Vidge</a>
+                    <a class="dropdown-item">Other</a>
+                  </div>
                 </div>
               </div>
             </div>
-            <!-- <div class="total-comment-block">
+            <div class="total-comment-block">
               <div class="dropdown">
                 <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                  {{ post.comments }} Bình luận
+                  {{ post.comments.length }} Comment
                 </span>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item">Max Emum</a>
+                  <a class="dropdown-item">Bill Yerds</a>
+                  <a class="dropdown-item">Hap E. Birthday</a>
+                  <a class="dropdown-item">Tara Misu</a>
+                  <a class="dropdown-item">Midge Itz</a>
+                  <a class="dropdown-item">Sal Vidge</a>
+                  <a class="dropdown-item">Other</a>
+                </div>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
         <div class="share-block d-flex align-items-center feather-icon mr-3">
-          <span class="ml-1">{{ post.shares }} Chia sẻ</span>
+          <a><i class="ri-share-line"></i> <span class="ml-1">99 Share</span></a>
         </div>
       </div>
-      <!-- <hr /> -->
-      <!-- <ul class="post-comments p-0 m-0">
+      <hr />
+      <ul class="post-comments p-0 m-0">
         <li v-for="(postComment, postCommentIndex) in post.comments" :key="postComment.id" class="mb-2">
           <div class="d-flex flex-wrap">
             <div class="user-img">
@@ -119,29 +130,25 @@
             </div>
           </div>
         </li>
-      </ul> -->
-      <!-- <b-form class="comment-text d-flex align-items-center mt-3">
+      </ul>
+      <b-form class="comment-text d-flex align-items-center mt-3">
         <b-form-input v-model="commentMessage" type="text" class="rounded" placeholder="Lovely!" @keyup.enter="saveComment(commentMessage)" />
         <div class="comment-attagement d-flex">
           <b-link><i class="ri-send-plane-line mr-2" @click="saveComment(commentMessage)"></i></b-link>
         </div>
-      </b-form> -->
-    </div>
+      </b-form>
+    </div> -->
   </iq-card>
 </template>
 
 <script>
 import moment from 'moment'
-import Player from './Player'
-import { getCatalogById } from '@/api/catalog'
+// import { getCatalogs } from '@/api/catalog'
 import { getPostById } from '@/api/post'
 import { getUserById } from '@/api/user'
-import { findAllTagByPostId } from '@/api/tag'
-import { findAllMediaByPostId } from '@/api/media'
 
 export default {
   components: {
-    Player,
     IqCard: () => import('./IqCard')
   },
   props: {
@@ -151,10 +158,7 @@ export default {
     return {
       loading: false,
       user: {},
-      catalog: [],
       post: {},
-      tags: [],
-      media: [],
       commentMessage: ''
     }
   },
@@ -172,17 +176,6 @@ export default {
         if (data) {
           this.post = data
           this.user = await getUserById(data.userId)
-          this.catalog = await getCatalogById(data.catalogId)
-          if (data.tags) {
-            this.tags = data.tags
-          } else {
-            this.tags = await findAllTagByPostId(this.id)
-          }
-          if (data.media) {
-            this.media = data.media
-          } else {
-            this.media = await findAllMediaByPostId(this.id)
-          }
         }
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -190,10 +183,6 @@ export default {
       } finally {
         this.loading = false
       }
-    },
-    getURL(data) {
-      const [id, type] = data
-      return `/api/public/media?id=${id}&type=${type}`
     },
     isLiked(postLike) {
       // this.post.is_liked = postLike
