@@ -3,9 +3,7 @@
     <b-col sm="12">
       <b-row class="m-0 p-0">
         <b-col lg="8">
-          <div v-for="id in posts" :key="id">
-            <social-post :id="id" />
-          </div>
+          <social-post v-for="(id, index) in posts" :key="index" :post-id="id" />
         </b-col>
         <b-col lg="4">
           <iq-card>
@@ -51,7 +49,7 @@
         </b-col>
       </b-row>
     </b-col>
-    <div class="col-sm-12 text-center">
+    <div v-if="hasData" class="col-sm-12 text-center">
       <img src="@/assets/images/page-img/page-load-loader.gif" alt="loader" width="75" height="100" />
     </div>
   </b-row>
@@ -71,22 +69,51 @@ export default {
       loading: false,
       posts: [],
       page: 0,
-      size: 5
+      size: 4,
+      hasData: true
     }
   },
-  mounted() {
+  watch: {
+    page: function () {
+      if (this.hasData) {
+        this.fetchAllPost(true)
+      }
+    }
+  },
+  beforeMount() {
     this.fetchAllPost()
+  },
+  mounted() {
+    window.addEventListener('scroll', this.onScroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onScroll)
   },
   methods: {
     openLink() {
       window.open('https://www.facebook.com/profile.php?id=100069109730056', '_blank')
     },
-    async fetchAllPost() {
+    onScroll() {
+      const { documentElement } = document
+      const a = documentElement.scrollTop + window.innerHeight
+      const b = documentElement.offsetHeight
+      if ((a / b) * 100 > 80) {
+        this.page += 1
+      }
+    },
+    async fetchAllPost(plus) {
       this.loading = true
       try {
         const data = await getPosts(this.page, this.size)
         if (data) {
-          this.posts = data
+          if (plus) {
+            data.forEach((e) => this.posts.push(e))
+          } else {
+            this.posts = data
+          }
+          if (data.length < this.size) {
+            this.hasData = false
+          }
         }
       } catch (error) {
         // eslint-disable-next-line no-console
