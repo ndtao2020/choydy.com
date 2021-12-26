@@ -54,19 +54,21 @@ export default {
     src: String,
     hideProgress: Boolean
   },
-  data: () => ({
-    observer: null,
-    isVisible: false,
-    isPlaying: false,
-    isMuted: false,
-    isFullscreen: false,
-    isLoading: false,
-    isWaiting: false,
-    volume: 1,
-    duration: 0,
-    currentTime: 0,
-    buffered: 0
-  }),
+  data() {
+    const volume = parseFloat(localStorage.getItem('vol') || 0.5)
+    return {
+      observer: null,
+      isPlaying: false,
+      isMuted: volume === 0,
+      isFullscreen: false,
+      isLoading: false,
+      isWaiting: false,
+      volume,
+      duration: 0,
+      currentTime: 0,
+      buffered: 0
+    }
+  },
   computed: {
     currentTimeFormatted() {
       return this.hhmmss(Math.round(this.currentTime))
@@ -90,18 +92,6 @@ export default {
       this.$nextTick(() => {
         this.$refs.video.load()
       })
-    },
-    isVisible: function () {
-      const { video } = this.$refs
-      if (this.isVisible) {
-        if (video.paused) {
-          video.play()
-        }
-      } else {
-        if (!video.paused) {
-          video.pause()
-        }
-      }
     }
   },
   created() {
@@ -118,6 +108,7 @@ export default {
   },
   beforeDestroy() {
     this.observer.unobserve(this.$refs.player)
+    this.observer = null
   },
   methods: {
     onDocumentKeyUp(e) {
@@ -126,8 +117,16 @@ export default {
       }
     },
     onElementObserved(entries) {
-      const [entry] = entries
-      this.isVisible = entry.isIntersecting
+      const { video } = this.$refs
+      if (entries[0].isIntersecting) {
+        if (video.paused) {
+          video.play()
+        }
+      } else {
+        if (!video.paused) {
+          video.pause()
+        }
+      }
     },
     onVideoPlay() {
       this.isPlaying = true
@@ -156,8 +155,10 @@ export default {
       }
       if (value <= 0) {
         video.muted = true
+        localStorage.setItem('vol', 0)
       }
       video.volume = value
+      localStorage.setItem('vol', value)
     },
     onFullscreenChange() {
       //   this.isFullscreen = this.$el === screenfull.element
@@ -241,7 +242,7 @@ export default {
     z-index: 1;
   }
   &__gradient {
-    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(0deg, #b5b5b5, transparent);
     position: absolute;
     bottom: 0;
     left: 0;

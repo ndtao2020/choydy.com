@@ -31,14 +31,8 @@
       </p>
       <div class="mt-1" />
       <b-skeleton-img v-if="loading" height="500px" />
-      <div v-for="(a, i) in media" v-else :key="i" class="d-flex">
-        <img
-          v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'"
-          class="mx-auto"
-          :src="getURL(a)"
-          width="auto"
-          height="500px"
-        />
+      <div v-for="(a, i) in media" v-else :key="i" class="d-flex post-media">
+        <img v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'" class="mx-auto" :src="getURL(a)" />
         <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :post-id="postId" :src="getURL(a)" :type="a[1]" />
       </div>
     </div>
