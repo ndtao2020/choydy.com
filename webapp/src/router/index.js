@@ -57,6 +57,28 @@ const router = new VueRouter({
               }
             ]
           }
+        },
+        {
+          path: 'catalog/:id',
+          name: 'home-catalog',
+          component: () => import('@/views/Main'),
+          meta: {
+            title: 'Danh mục',
+            metaTags: [
+              {
+                name: 'description',
+                content: 'Trang tin cập nhật những Meme hài hước, vui nhộn.'
+              },
+              {
+                name: 'og:title',
+                content: 'Trang chủ | ChoyDy.Com - Meme hài hước'
+              },
+              {
+                property: 'og:description',
+                content: 'Trang tin cập nhật những Meme hài hước, vui nhộn.'
+              }
+            ]
+          }
         }
       ]
     },

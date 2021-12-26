@@ -1,5 +1,5 @@
-import * as req from '@/request'
+import { publicGet } from '@/request'
 
-const getUserById = (id) => req.get(`/public/user?i=${id}`)
+const getUserById = (id) => publicGet(`/user?i=${id}`)
 
 export { getUserById }

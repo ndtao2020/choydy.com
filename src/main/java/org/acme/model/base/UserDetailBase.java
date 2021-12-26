@@ -1,8 +1,5 @@
 package org.acme.model.base;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.acme.base.BaseId;
 import org.acme.constants.Gender;
 
@@ -16,10 +13,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Getter
-@Setter
 @MappedSuperclass
-@NoArgsConstructor
 public abstract class UserDetailBase extends BaseId<UUID> {
 
     @Transient
@@ -46,6 +40,9 @@ public abstract class UserDetailBase extends BaseId<UUID> {
     @Column(columnDefinition = "TEXT")
     private String about;
 
+    public UserDetailBase() {
+    }
+
     protected UserDetailBase(UserDetailBase userDetailBase) {
         super(userDetailBase.getId());
         this.update(userDetailBase);
@@ -58,5 +55,53 @@ public abstract class UserDetailBase extends BaseId<UUID> {
         this.gender = userDetail.getGender();
         this.birthday = userDetail.getBirthday();
         this.about = userDetail.getAbout();
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 }

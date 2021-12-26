@@ -1,8 +1,5 @@
 package org.acme.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.acme.base.BaseId;
 
 import javax.persistence.Column;
@@ -11,10 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Getter
-@Setter
 @Table
-@NoArgsConstructor
 public class Oauth2Client extends BaseId<String> {
 
     @Transient
@@ -36,4 +30,55 @@ public class Oauth2Client extends BaseId<String> {
     private String domain;
 
     private String redirect;
+
+    public Oauth2Client() {
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
+
+    public Boolean getApprove() {
+        return approve;
+    }
+
+    public void setApprove(Boolean approve) {
+        this.approve = approve;
+    }
+
+    public Integer getAccess() {
+        return access;
+    }
+
+    public void setAccess(Integer access) {
+        this.access = access;
+    }
+
+    public Integer getRefresh() {
+        return refresh;
+    }
+
+    public void setRefresh(Integer refresh) {
+        this.refresh = refresh;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public String getRedirect() {
+        return redirect;
+    }
+
+    public void setRedirect(String redirect) {
+        this.redirect = redirect;
+    }
 }

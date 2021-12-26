@@ -1,15 +1,11 @@
 package org.acme.model.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.MediaType;
 import java.io.InputStream;
 
-@Getter
-@Setter
 public class PostMultipartDTO {
 
     @FormParam("file")
@@ -27,4 +23,36 @@ public class PostMultipartDTO {
     @FormParam("data")
     @PartType(MediaType.TEXT_PLAIN)
     public String data;
+
+    public InputStream getFile() {
+        return file;
+    }
+
+    public void setFile(InputStream file) {
+        this.file = file;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
 }

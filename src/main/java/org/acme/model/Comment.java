@@ -1,9 +1,6 @@
 package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.acme.model.base.CommentBase;
 
 import javax.persistence.Entity;
@@ -14,10 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Getter
-@Setter
 @Table
-@NoArgsConstructor
 public class Comment extends CommentBase {
 
     @Transient
@@ -39,4 +33,31 @@ public class Comment extends CommentBase {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     private Comment parent;
+
+    public Comment() {
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Comment getParent() {
+        return parent;
+    }
+
+    public void setParent(Comment parent) {
+        this.parent = parent;
+    }
 }

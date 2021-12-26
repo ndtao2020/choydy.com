@@ -1,9 +1,6 @@
 package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.acme.base.BaseId;
 
 import javax.persistence.Entity;
@@ -16,10 +13,7 @@ import javax.persistence.UniqueConstraint;
 import java.util.UUID;
 
 @Entity
-@Data
-@NoArgsConstructor
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {User.PATH_ID, Authority.PATH_ID}))
-@EqualsAndHashCode(callSuper = true)
 public class UserAuthority extends BaseId<UUID> {
 
     @Transient
@@ -35,8 +29,27 @@ public class UserAuthority extends BaseId<UUID> {
     @JoinColumn(nullable = false)
     private Authority authority;
 
+    public UserAuthority() {
+    }
+
     public UserAuthority(User user, Authority authority) {
         this.user = user;
+        this.authority = authority;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Authority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(Authority authority) {
         this.authority = authority;
     }
 }

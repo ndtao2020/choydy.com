@@ -1,14 +1,14 @@
-import * as req from '@/request'
+import { adminGet, adminPost, adminDel } from '@/request'
 
-const createPost = (body) => req.post('/admin/post', body)
-const deletePost = (id) => req.del(`/admin/post?i=${id}`)
+const createPost = (body) => adminPost('/post', body)
+const deletePost = (id) => adminDel(`/post?i=${id}`)
 
 const postList = (page, size, search) => {
-  let url = `/admin/post?p=${page || 0}&s=${size || 10}`
+  let url = `/post?p=${page || 0}&s=${size || 10}`
   if (search != null) {
     url += `&search=${search}`
   }
-  return req.get(url)
+  return adminGet(url)
 }
 
 export { createPost, deletePost, postList }

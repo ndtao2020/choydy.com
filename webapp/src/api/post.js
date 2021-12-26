@@ -1,18 +1,21 @@
-import * as req from '@/request'
+import { publicGet } from '@/request'
 
-const url = `/public/post`
+const url = `/post`
 
-const getPosts = (page, size, search) => {
+const getPosts = (page, size, catalogId, search) => {
   let u = `${url}?p=${page}&s=${size}`
+  if (catalogId) {
+    u += `&c=${catalogId}`
+  }
   if (search) {
     u += `&k=${search}`
   }
-  return req.get(u)
+  return publicGet(u)
 }
-const getPostById = (id) => req.get(`${url}/id?i=${id}`)
+const getPostById = (id) => publicGet(`${url}/id?i=${id}`)
 
 // Like
-const getAllLikeTypes = () => req.get(`${url}/like/type`)
-const getAllLikeByPostId = (id) => req.get(`${url}/like?i=${id}`)
+const getAllLikeTypes = () => publicGet(`${url}/like/type`)
+const getAllLikeByPostId = (id) => publicGet(`${url}/like?i=${id}`)
 
 export { getPosts, getPostById, getAllLikeTypes, getAllLikeByPostId }

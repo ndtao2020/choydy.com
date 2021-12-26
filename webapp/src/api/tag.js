@@ -1,5 +1,5 @@
-import * as req from '@/request'
+import { publicGet } from '@/request'
 
-const findAllTagByPostId = (id) => req.get(`/public/post/tag?i=${id}`)
+const findAllTagByPostId = (id) => publicGet(`/post/tag?i=${id}`)
 
 export { findAllTagByPostId }

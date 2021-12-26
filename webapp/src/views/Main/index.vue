@@ -49,27 +49,41 @@
 </template>
 
 <script>
+import IqCard from './IqCard'
+import SocialPost from './SocialPost'
 import { getPosts } from '@/api/post'
+
+const size = 3
 
 export default {
   name: 'HomePage',
   components: {
-    IqCard: () => import('./IqCard'),
-    SocialPost: () => import('./SocialPost')
+    IqCard,
+    SocialPost
   },
   data() {
     return {
       loading: false,
       posts: [],
       page: 0,
-      has: true
+      has: true,
+      calatalogId: undefined
+    }
+  },
+  watch: {
+    $route({ params }) {
+      this.posts = []
+      this.calatalogId = params.id
+      this.fetchData(this.page, true)
     }
   },
   beforeMount() {
+    const { params } = this.$route
+    this.calatalogId = params.id
     this.fetchData(0)
   },
   mounted() {
-    setTimeout(() => window.addEventListener('scroll', this.onScroll), 1000)
+    window.addEventListener('scroll', this.onScroll)
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.onScroll)
@@ -79,29 +93,27 @@ export default {
       window.open('https://www.facebook.com/profile.php?id=100069109730056', '_blank')
     },
     onScroll() {
-      if (!this.has) {
+      if (this.loading || !this.has) {
         return
       }
       const { documentElement } = document
       const a = documentElement.scrollTop + window.innerHeight
-      const b = documentElement.offsetHeight
-      if ((a / b) * 100 > 90) {
-        const p = this.page + 1
-        this.page = p
-        this.fetchData(p, true)
+      if ((a / documentElement.offsetHeight) * 100 > 85) {
+        this.page = this.page + 1
+        this.fetchData(this.page, true)
       }
     },
     async fetchData(page, plus) {
       this.loading = true
       try {
-        const data = await getPosts(page, 4)
+        const data = await getPosts(page, size, this.calatalogId)
         if (data) {
           if (plus) {
             data.forEach((e) => this.posts.push(e))
           } else {
             this.posts = data
           }
-          if (data.length < 4) {
+          if (data.length < size) {
             this.has = false
           }
         }

@@ -1,8 +1,5 @@
 package org.acme.model.base;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.acme.base.BaseEntity;
 
 import javax.persistence.Column;
@@ -11,10 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-@Getter
-@Setter
 @MappedSuperclass
-@NoArgsConstructor
 public abstract class UserBase extends BaseEntity<UUID> {
 
     @NotNull(message = "Name cannot be null")
@@ -34,6 +28,9 @@ public abstract class UserBase extends BaseEntity<UUID> {
     private String timezone;
 
     private String avatar;
+
+    public UserBase() {
+    }
 
     protected UserBase(UUID id) {
         super(id);
@@ -58,5 +55,45 @@ public abstract class UserBase extends BaseEntity<UUID> {
         this.active = user.getActive();
         this.timezone = user.getTimezone();
         this.avatar = user.getAvatar();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

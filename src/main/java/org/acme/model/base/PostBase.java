@@ -1,8 +1,5 @@
 package org.acme.model.base;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.acme.base.BaseId;
 
 import javax.persistence.Column;
@@ -10,10 +7,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-@Getter
-@Setter
 @MappedSuperclass
-@NoArgsConstructor
 public abstract class PostBase extends BaseId<UUID> {
 
     @Column(nullable = false)
@@ -34,6 +28,9 @@ public abstract class PostBase extends BaseId<UUID> {
     @Column(nullable = false)
     private Boolean disable;
 
+    public PostBase() {
+    }
+
     public PostBase(UUID id) {
         super(id);
     }
@@ -48,5 +45,69 @@ public abstract class PostBase extends BaseId<UUID> {
         this.shares = postBase.getShares();
         this.comments = postBase.getComments();
         this.disable = postBase.getDisable();
+    }
+
+    public Long getCreated() {
+        return created;
+    }
+
+    public void setCreated(Long created) {
+        this.created = created;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
+    }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
+    }
+
+    public Long getShares() {
+        return shares;
+    }
+
+    public void setShares(Long shares) {
+        this.shares = shares;
+    }
+
+    public Long getComments() {
+        return comments;
+    }
+
+    public void setComments(Long comments) {
+        this.comments = comments;
+    }
+
+    public Boolean getDisable() {
+        return disable;
+    }
+
+    public void setDisable(Boolean disable) {
+        this.disable = disable;
     }
 }

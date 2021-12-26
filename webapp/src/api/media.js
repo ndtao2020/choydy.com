@@ -1,6 +1,6 @@
-import * as req from '@/request'
+import { publ, publicGet } from '@/request'
 
-const getMediaLink = (id, type) => `/api/public/media?i=${id}&t=${type}`
-const findAllMediaByPostId = (id) => req.get(`/public/post/media?i=${id}`)
+const getMediaLink = (id, type) => publ(`/media?i=${id}&t=${type}`)
+const findAllMediaByPostId = (id) => publicGet(`/post/media?i=${id}`)
 
 export { getMediaLink, findAllMediaByPostId }

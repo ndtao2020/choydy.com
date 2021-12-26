@@ -1,9 +1,5 @@
 package org.acme.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,10 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Getter
-@Setter
 @Table
-@NoArgsConstructor
 public class Country {
 
     @Transient
@@ -35,7 +28,58 @@ public class Country {
     @Column(name = "phone_code", nullable = false)
     private Integer phoneCode;
 
+    public Country() {
+    }
+
     public Country(String iso) {
         this.iso = iso;
+    }
+
+    public String getIso() {
+        return iso;
+    }
+
+    public void setIso(String iso) {
+        this.iso = iso;
+    }
+
+    public String getIso3() {
+        return iso3;
+    }
+
+    public void setIso3(String iso3) {
+        this.iso3 = iso3;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public Integer getNumCode() {
+        return numCode;
+    }
+
+    public void setNumCode(Integer numCode) {
+        this.numCode = numCode;
+    }
+
+    public Integer getPhoneCode() {
+        return phoneCode;
+    }
+
+    public void setPhoneCode(Integer phoneCode) {
+        this.phoneCode = phoneCode;
     }
 }

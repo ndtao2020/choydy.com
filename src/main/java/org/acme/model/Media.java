@@ -1,9 +1,6 @@
 package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.acme.model.base.MediaBase;
 
 import javax.persistence.Entity;
@@ -14,10 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Getter
-@Setter
 @Table
-@NoArgsConstructor
 public class Media extends MediaBase {
 
     @Transient
@@ -29,4 +23,15 @@ public class Media extends MediaBase {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Post post;
+
+    public Media() {
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }
