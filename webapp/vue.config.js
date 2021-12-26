@@ -56,7 +56,7 @@ module.exports = {
             name: () => `c`,
             chunks: 'all',
             maxInitialRequests: Infinity,
-            maxSize: 300000
+            maxSize: 1000000
           }
         }
   }

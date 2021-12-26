@@ -25,7 +25,7 @@
           >
             <li :class="[isActive && isExactActive && 'active']">
               <a :href="href" :class="[isActive && isExactActive && 'active']" @click="navigate">
-                <img :src="require(`@/assets/icons/smile/${catalog[0] <= 15 ? catalog[0] : 0}.svg`)" height="25" width="25" />
+                <img :src="require(`@/assets/icons/smile/${catalog[0] <= 30 ? catalog[0] : 0}.svg`)" height="25" width="25" />
                 <span class="ml-2">{{ catalog[1] }}</span>
               </a>
             </li>
