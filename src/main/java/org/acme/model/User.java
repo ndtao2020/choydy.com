@@ -1,9 +1,6 @@
 package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.acme.base.dto.RegisterDTO;
 import org.acme.base.dto.SocialLoginDTO;
 import org.acme.model.base.UserBase;
@@ -25,13 +22,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Getter
-@Setter
 @Table(
         name = "user_sys",
         uniqueConstraints = @UniqueConstraint(columnNames = {"username", "email"})
 )
-@NoArgsConstructor
 public class User extends UserBase {
 
     @Transient
@@ -67,6 +61,9 @@ public class User extends UserBase {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = User.PATH)
     private transient List<UserSocialNetwork> userSocialNetworks;
 
+    public User() {
+    }
+
     public User(UUID id) {
         super(id);
     }
@@ -89,5 +86,53 @@ public class User extends UserBase {
         // add social network
         this.userSocialNetworks = new ArrayList<>();
         this.userSocialNetworks.add(new UserSocialNetwork(socialLoginDTO, this, socialNetwork));
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public UserDetail getUserDetail() {
+        return userDetail;
+    }
+
+    public void setUserDetail(UserDetail userDetail) {
+        this.userDetail = userDetail;
+    }
+
+    public List<UserAuthority> getUserAuthorities() {
+        return userAuthorities;
+    }
+
+    public void setUserAuthorities(List<UserAuthority> userAuthorities) {
+        this.userAuthorities = userAuthorities;
+    }
+
+    public List<UserSocialNetwork> getUserSocialNetworks() {
+        return userSocialNetworks;
+    }
+
+    public void setUserSocialNetworks(List<UserSocialNetwork> userSocialNetworks) {
+        this.userSocialNetworks = userSocialNetworks;
     }
 }

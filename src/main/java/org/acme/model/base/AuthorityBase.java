@@ -1,8 +1,5 @@
 package org.acme.model.base;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.acme.constants.Role;
 
 import javax.persistence.Column;
@@ -14,10 +11,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
 @MappedSuperclass
-@NoArgsConstructor
 public abstract class AuthorityBase {
 
     @Id
@@ -32,6 +26,10 @@ public abstract class AuthorityBase {
     @Column(nullable = false)
     private String name;
 
+    public AuthorityBase() {
+
+    }
+
     protected AuthorityBase(AuthorityBase authority) {
         this.id = Role.valueOf(authority.getAuthority());
         this.name = authority.getName();
@@ -39,5 +37,21 @@ public abstract class AuthorityBase {
 
     public String getAuthority() {
         return this.id.name();
+    }
+
+    public Role getId() {
+        return id;
+    }
+
+    public void setId(Role id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

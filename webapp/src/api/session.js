@@ -1,6 +1,6 @@
-import * as req from '@/request'
+import { authGet, authDel } from '@/request'
 
-const session = () => req.get(`/auth/est`)
-const logout = () => req.del(`/auth/est`)
+const session = () => authGet(`/est`)
+const logout = () => authDel(`/est`)
 
 export { session, logout }

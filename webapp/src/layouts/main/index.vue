@@ -20,7 +20,7 @@ import '@/assets/scss/main/main.scss'
 export default {
   name: 'MainLayout',
   components: {
-    Sidebar: () => import('./components/sidebar'),
+    Sidebar: () => import('./components/Sidebar'),
     NavBar: () => import('./components/navbar'),
     RightSideBar: () => import('./components/rightsidebar'),
     Footer: () => import('./components/footer')

@@ -15,7 +15,14 @@
           <b-card v-if="loading">
             <b-skeleton v-for="i in 15" :key="i" animation="fade" width="100%" class="mb-3" height="35px" />
           </b-card>
-          <router-link v-for="catalog in catalogs" v-else :key="catalog[0]" v-slot="{ href, navigate, isActive, isExactActive }" to="/" custom>
+          <router-link
+            v-for="catalog in catalogs"
+            v-else
+            :key="catalog[0]"
+            v-slot="{ href, navigate, isActive, isExactActive }"
+            :to="'/catalog/' + catalog[0]"
+            custom
+          >
             <li :class="[isActive && isExactActive && 'active']">
               <a :href="href" :class="[isActive && isExactActive && 'active']" @click="navigate">
                 <img :src="require(`@/assets/icons/smile/${catalog[0] <= 15 ? catalog[0] : 0}.svg`)" height="25" width="25" />

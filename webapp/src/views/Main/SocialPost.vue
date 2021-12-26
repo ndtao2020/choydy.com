@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import IqCard from './IqCard'
 import moment from 'moment'
 import Player from './Player'
 import { getCatalogById } from '@/api/catalog'
@@ -87,7 +88,7 @@ import { getMediaLink, findAllMediaByPostId } from '@/api/media'
 export default {
   components: {
     Player,
-    IqCard: () => import('./IqCard')
+    IqCard
   },
   props: {
     postId: String

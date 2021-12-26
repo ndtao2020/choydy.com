@@ -1,9 +1,6 @@
 package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -13,19 +10,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Getter
-@Setter
 @Embeddable
-@NoArgsConstructor
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {Post.PATH_ID, "tag"}))
 public class PostTag implements Serializable {
 
     @Transient
     public static final String PATH = "posttag";
+    @Serial
     private static final long serialVersionUID = 1234L;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
@@ -39,6 +36,9 @@ public class PostTag implements Serializable {
         this.tag = tag;
     }
 
+    public PostTag() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,5 +50,21 @@ public class PostTag implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(post, tag);
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

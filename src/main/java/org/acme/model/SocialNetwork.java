@@ -1,8 +1,6 @@
 package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.acme.model.base.SocialNetworkBase;
 
 import javax.persistence.CascadeType;
@@ -14,8 +12,6 @@ import java.util.List;
 
 @Entity
 @Table
-@Data
-@EqualsAndHashCode(callSuper = true)
 public class SocialNetwork extends SocialNetworkBase {
 
     @Transient
@@ -28,4 +24,31 @@ public class SocialNetwork extends SocialNetworkBase {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "socialNetwork")
     private List<UserSocialNetwork> userSocialNetworks;
+
+    public SocialNetwork() {
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
+
+    public List<UserSocialNetwork> getUserSocialNetworks() {
+        return userSocialNetworks;
+    }
+
+    public void setUserSocialNetworks(List<UserSocialNetwork> userSocialNetworks) {
+        this.userSocialNetworks = userSocialNetworks;
+    }
 }

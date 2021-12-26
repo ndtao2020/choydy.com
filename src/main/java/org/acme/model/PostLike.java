@@ -1,9 +1,6 @@
 package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.acme.model.base.PostLikeBase;
 
 import javax.persistence.Entity;
@@ -13,19 +10,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Getter
-@Setter
 @Entity
-@NoArgsConstructor
 @Table
 public class PostLike extends PostLikeBase implements Serializable {
 
     @Transient
     public static final String PATH = "postlike";
-
+    @Serial
+    private static final long serialVersionUID = 65L;
     @Id
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,6 +39,9 @@ public class PostLike extends PostLikeBase implements Serializable {
     @JoinColumn(nullable = false)
     private LikeType likeType;
 
+    public PostLike() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,5 +53,29 @@ public class PostLike extends PostLikeBase implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(post, user, likeType);
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LikeType getLikeType() {
+        return likeType;
+    }
+
+    public void setLikeType(LikeType likeType) {
+        this.likeType = likeType;
     }
 }

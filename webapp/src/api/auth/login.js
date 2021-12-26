@@ -1,8 +1,8 @@
-import * as req from '../../request'
+import { oauth } from '@/request'
 
 const submit = (username, password) =>
-  req.oauth(
-    '/oauth/login',
+  oauth(
+    '/login',
     JSON.stringify({
       username,
       password

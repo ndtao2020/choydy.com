@@ -1,12 +1,20 @@
 package org.acme.base.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class CheckDTO {
     private Boolean check;
+
+    public CheckDTO() {
+    }
+
+    public CheckDTO(Boolean check) {
+        this.check = check;
+    }
+
+    public Boolean getCheck() {
+        return check;
+    }
+
+    public void setCheck(Boolean check) {
+        this.check = check;
+    }
 }

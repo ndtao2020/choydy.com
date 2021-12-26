@@ -1,6 +1,6 @@
-import * as req from '@/request'
+import { publicGet } from '@/request'
 
-const getCatalogs = () => req.get('/public/catalog')
-const getCatalogById = (id) => req.get(`/public/catalog/id?i=${id}`)
+const getCatalogs = () => publicGet('/catalog')
+const getCatalogById = (id) => publicGet(`/catalog/id?i=${id}`)
 
 export { getCatalogs, getCatalogById }

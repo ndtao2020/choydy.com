@@ -2,9 +2,6 @@ package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.acme.base.dto.RegisterDTO;
 import org.acme.model.base.UserDetailBase;
 
@@ -17,9 +14,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 public class UserDetail extends UserDetailBase {
 
     @JsonIgnore
@@ -32,9 +26,28 @@ public class UserDetail extends UserDetailBase {
     @JoinColumn(nullable = false)
     private Country country;
 
+    public UserDetail() {
+    }
+
     public UserDetail(User user, RegisterDTO registerDTO) {
         this.user = user;
         this.country = new Country("VI");
         this.setPhoneNumber(registerDTO.getPhoneNumber());
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }

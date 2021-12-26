@@ -1,8 +1,5 @@
 package org.acme.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.acme.base.BaseId;
 
 import javax.persistence.Column;
@@ -11,10 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Getter
-@Setter
 @Table
-@NoArgsConstructor
 public class LikeType extends BaseId<String> {
 
     @Transient
@@ -24,4 +18,15 @@ public class LikeType extends BaseId<String> {
 
     @Column(nullable = false)
     private String name;
+
+    public LikeType() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

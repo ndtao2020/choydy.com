@@ -23,22 +23,22 @@
     <div v-show="isLoading || isWaiting" class="player__loader">
       <img src="@/assets/images/logo.png" class="img-fluid" alt="logo" width="160" height="45" />
     </div>
-    <div class="d-flex player__controls py-3">
+    <div class="d-flex player__controls py-2">
       <div class="mx-2" @click="togglePlay">
         <img v-if="isPlaying" src="@/assets/icons/player/pause.svg" width="25" height="25" />
         <img v-else src="@/assets/icons/player/play.svg" width="25" height="25" />
       </div>
-      <slider v-if="!hideProgress" class="player__seeker mx-2" :max="duration" :value="currentTime" @input="seek">
+      <slider v-if="!hideProgress" class="mx-3 my-auto player__seeker" :max="duration" :value="currentTime" @input="seek">
         <template #bar>
           <div class="player__seeker-buffered" :style="bufferedStyle" />
         </template>
       </slider>
-      <div v-if="!hideProgress" class="mr-2 player__time">{{ currentTimeFormatted }}</div>
-      <div class="ml-auto mr-2" @click="toggleSound">
+      <!-- <div v-if="!hideProgress" class="mr-2 mx-auto player__time">{{ currentTimeFormatted }}</div> -->
+      <div class="ml-auto mx-3" @click="toggleSound">
         <img v-if="isMuted" src="@/assets/icons/player/mute.svg" width="25" height="25" />
         <img v-else src="@/assets/icons/player/volume.svg" width="25" height="25" />
       </div>
-      <slider class="player__sound-slider mr-4" :style="{ width: '80px' }" :value="isMuted ? 0 : volume" @input="onVolumeSliderChange" />
+      <slider class="player__sound-slider mr-3 my-auto" :style="{ width: '80px' }" :value="isMuted ? 0 : volume" @input="onVolumeSliderChange" />
     </div>
   </div>
 </template>
@@ -55,11 +55,11 @@ export default {
     hideProgress: Boolean
   },
   data() {
-    const volume = parseFloat(localStorage.getItem('vol') || 0.5)
+    const volume = parseFloat(localStorage.getItem('vol') || 0)
     return {
       observer: null,
       isPlaying: false,
-      isMuted: volume === 0,
+      isMuted: volume <= 0,
       isFullscreen: false,
       isLoading: false,
       isWaiting: false,
@@ -118,14 +118,13 @@ export default {
     },
     onElementObserved(entries) {
       const { video } = this.$refs
+      if (!video) {
+        return
+      }
       if (entries[0].isIntersecting) {
-        if (video.paused) {
-          video.play()
-        }
+        this.playVideo(video)
       } else {
-        if (!video.paused) {
-          video.pause()
-        }
+        this.pauseVideo(video)
       }
     },
     onVideoPlay() {
@@ -136,15 +135,26 @@ export default {
     },
     onVideoLoadedMetaData() {
       const { video } = this.$refs
+      if (!video) {
+        return
+      }
       this.duration = video.duration
       this.currentTime = video.currentTime
     },
     onVideoTimeUpdate() {
       const { video } = this.$refs
-      this.currentTime = video.currentTime
+      if (!video) {
+        return
+      }
+      if (video) {
+        this.currentTime = video.currentTime
+      }
     },
     onVideoVolumeChange() {
       const { video } = this.$refs
+      if (!video) {
+        return
+      }
       this.isMuted = video.muted
       this.volume = video.volume
     },
@@ -165,6 +175,9 @@ export default {
     },
     onVideoProgress() {
       const { video } = this.$refs
+      if (!video) {
+        return
+      }
       const { duration } = video
       if (duration > 0) {
         const { currentTime, buffered } = video
@@ -181,9 +194,9 @@ export default {
     togglePlay() {
       const { video } = this.$refs
       if (video.paused) {
-        video.play()
+        this.playVideo(video)
       } else {
-        video.pause()
+        this.pauseVideo(video)
       }
     },
     toggleSound() {
@@ -201,6 +214,18 @@ export default {
       //   } else {
       //     screenfull.request($el)
       //   }
+    },
+    playVideo(video) {
+      if (video.paused) {
+        video.volume = this.volume
+        video.muted = this.isMuted
+        video.play()
+      }
+    },
+    pauseVideo(video) {
+      if (!video.paused) {
+        video.pause()
+      }
     },
     seek(time) {
       const { video } = this.$refs
@@ -224,11 +249,8 @@ export default {
   width: 100%;
   height: 500px;
   video {
-    position: absolute;
     width: 100%;
     height: 100%;
-    left: 0;
-    top: 0;
   }
   &__sizer {
     position: relative;
@@ -248,7 +270,7 @@ export default {
     left: 0;
     right: 0;
     z-index: 0;
-    height: 96px;
+    height: 60px;
     opacity: 0.9;
     pointer-events: none;
   }

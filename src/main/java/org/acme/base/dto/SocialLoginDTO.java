@@ -1,13 +1,9 @@
 package org.acme.base.dto;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.acme.constants.Social;
 
 import javax.validation.constraints.NotNull;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
 public class SocialLoginDTO extends RegisterDTO {
 
     @NotNull
@@ -20,4 +16,39 @@ public class SocialLoginDTO extends RegisterDTO {
     private Social social;
 
     private String avatar;
+
+    public SocialLoginDTO() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+    public Social getSocial() {
+        return social;
+    }
+
+    public void setSocial(Social social) {
+        this.social = social;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 }

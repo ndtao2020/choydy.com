@@ -2,9 +2,6 @@ package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.acme.model.base.PostBase;
 
 import javax.persistence.CascadeType;
@@ -20,10 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Getter
-@Setter
 @Table(indexes = {@Index(columnList = "created"), @Index(columnList = User.PATH_ID), @Index(columnList = "title,content")})
-@NoArgsConstructor
 public class Post extends PostBase {
 
     @Transient
@@ -45,11 +39,38 @@ public class Post extends PostBase {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = Post.PATH)
     private List<Media> media;
 
+    public Post() {
+    }
+
     public Post(UUID id) {
         super(id);
     }
 
     public Post(PostBase postBase) {
         super(postBase);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
+    }
+
+    public List<Media> getMedia() {
+        return media;
+    }
+
+    public void setMedia(List<Media> media) {
+        this.media = media;
     }
 }
