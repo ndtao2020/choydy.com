@@ -18,7 +18,6 @@
       show-empty
     >
       <template #cell(tags)="row"><Tag :id="row.item.id" :tags="row.value" /></template>
-      <template #cell(userId)="row"><User :id="row.value" /></template>
       <template #cell(created)="row">{{ formatTime(row.value) }}</template>
       <template #cell(actions)="row">
         <b-button size="sm" variant="success">
@@ -81,8 +80,7 @@ export default {
   components: {
     Widget: () => import('@/components/Widget'),
     Tag: () => import('./Tag'),
-    Media: () => import('./Media'),
-    User: () => import('./User')
+    Media: () => import('./Media')
   },
   data() {
     return {
@@ -95,7 +93,7 @@ export default {
         { key: 'count', label: 'Lượt xem', sortable: true, sortDirection: 'desc' },
         { key: 'likes', label: 'Lượt thích', sortable: true, sortDirection: 'desc' },
         { key: 'shares', label: 'Chia sẻ', sortable: true, sortDirection: 'desc' },
-        { key: 'userId', label: '🧑', sortable: true, sortDirection: 'desc' },
+        { key: 'username', label: '🧑', sortable: true, sortDirection: 'desc' },
         { key: 'created', label: '⏱️', sortable: true, sortDirection: 'desc' },
         { key: 'actions', label: '' }
       ],

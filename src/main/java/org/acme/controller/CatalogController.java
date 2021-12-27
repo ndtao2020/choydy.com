@@ -22,7 +22,10 @@ public class CatalogController extends BaseController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<?> findAllPost(@QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s) {
-        return catalogService.search(p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s);
+        if (p != null && s != null) {
+            return catalogService.search(p, s);
+        }
+        return catalogService.search();
     }
 
     @GET

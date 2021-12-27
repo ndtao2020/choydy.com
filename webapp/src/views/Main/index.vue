@@ -34,7 +34,7 @@
             <h4 slot="title" class="card-title">Quảng cáo</h4>
             <template #body>
               <img
-                src="https://i.pinimg.com/originals/7d/74/40/7d7440fb4115bda08c82dd040e461c97.gif"
+                src="https://kinsta.com/wp-content/uploads/2020/06/half-page-1-1.png"
                 class="img-fluid rounded"
                 alt="Responsive image"
                 width="100%"

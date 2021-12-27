@@ -42,8 +42,14 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     @Override
     public PostDTO convertToDTO(Post data) {
         PostDTO postDTO = new PostDTO(data);
-        postDTO.setUserId(data.getUser().getId());
-        postDTO.setCatalogId(data.getCatalog().getId());
+        // user
+        User user = data.getUser();
+        postDTO.setAvatar(user.getAvatar());
+        postDTO.setUsername(user.getName());
+        // catalog
+        Catalog catalog = data.getCatalog();
+        postDTO.setCatalogId(catalog.getId());
+        postDTO.setCatalogName(catalog.getName());
         return postDTO;
     }
 
