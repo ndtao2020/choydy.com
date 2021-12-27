@@ -4,8 +4,15 @@
 
 <script>
 import 'nprogress/nprogress.css'
+import { mapActions } from 'vuex'
 
 export default {
-  name: 'App'
+  name: 'App',
+  mounted() {
+    this.initDB()
+  },
+  methods: {
+    ...mapActions('database', ['initDB'])
+  }
 }
 </script>

@@ -7,10 +7,8 @@ import java.util.UUID;
 
 public class PostDTO extends PostBase {
 
-    private String avatar;
-    private String username;
+    private UUID userId;
     private Long catalogId;
-    private String catalogName;
 
     // child
     private List<?> tags;
@@ -23,20 +21,12 @@ public class PostDTO extends PostBase {
         super(postBase);
     }
 
-    public String getAvatar() {
-        return avatar;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     public Long getCatalogId() {
@@ -45,14 +35,6 @@ public class PostDTO extends PostBase {
 
     public void setCatalogId(Long catalogId) {
         this.catalogId = catalogId;
-    }
-
-    public String getCatalogName() {
-        return catalogName;
-    }
-
-    public void setCatalogName(String catalogName) {
-        this.catalogName = catalogName;
     }
 
     public List<?> getTags() {
