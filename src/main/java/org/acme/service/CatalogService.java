@@ -28,6 +28,12 @@ public class CatalogService extends BaseCacheService<Catalog, CatalogDTO, Long> 
                 .getResultList();
     }
 
+    public List<?> search() {
+        return getEm()
+                .createNativeQuery("select CAST (id as varchar),name from " + getTableName(getDomainClass()) + " order by priority desc")
+                .getResultList();
+    }
+
     public List<?> search(int page, int size) {
         return getEm()
                 .createNativeQuery("select CAST (id as varchar),name from " + getTableName(getDomainClass()) + " order by priority desc")
