@@ -5,12 +5,12 @@
         <div class="d-flex flex-wrap">
           <div class="media-support-user-img mr-3">
             <b-skeleton v-if="loading" type="avatar" />
-            <b-img v-else rounded="circle" fluid :src="user.avatar" alt="" />
+            <b-img v-else rounded="circle" fluid :src="user[1]" alt="" />
           </div>
           <div class="media-support-info">
             <h5 class="mb-0">
               <b-skeleton v-if="loading" animation="wave" width="100%" />
-              <b-link v-else class="">{{ user.name }}</b-link>
+              <b-link v-else class="">{{ user[0] }}</b-link>
             </h5>
             <p class="mb-0 text-secondary">{{ formatTime(post.created) }}</p>
           </div>
@@ -77,8 +77,8 @@
 
 <script>
 import IqCard from './IqCard'
-import moment from 'moment'
 import Player from './Player'
+import { dateDiff } from '@/moment'
 import { getCatalogById } from '@/api/catalog'
 import { getPostById } from '@/api/post'
 import { getUserById } from '@/api/user'
@@ -96,9 +96,9 @@ export default {
   data() {
     return {
       loading: false,
-      user: {},
-      catalog: [],
       post: {},
+      user: [],
+      catalog: [],
       tags: [],
       media: [],
       commentMessage: ''
@@ -109,7 +109,10 @@ export default {
   },
   methods: {
     formatTime(value) {
-      return moment(value).locale('vi').fromNow()
+      if (value) {
+        return dateDiff(new Date(value))
+      }
+      return ''
     },
     async fetchPostById() {
       this.loading = true

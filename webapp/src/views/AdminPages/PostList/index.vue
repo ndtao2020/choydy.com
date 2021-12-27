@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+import { formatDate } from '@/moment'
 import { postList, deletePost } from '@/api/admin/post'
 
 export default {
@@ -131,7 +131,7 @@ export default {
       }
     },
     formatTime(timestamp) {
-      return moment(timestamp).format('DD/MM/YYYY - hh:mm')
+      return formatDate(timestamp)
     },
     async deletePost(id) {
       const confirm = await this.$bvModal.msgBoxConfirm(`Bạn đã thật sự muốn xóa bài này ?`, {

@@ -1,6 +1,5 @@
 package org.acme.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.redis.client.RedisClient;
 import io.vertx.redis.client.Response;
 import org.acme.model.Oauth2Client;
@@ -10,7 +9,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.security.sasl.AuthenticationException;
-import java.util.UUID;
 
 @ApplicationScoped
 public class Oauth2ClientService {
@@ -22,32 +20,6 @@ public class Oauth2ClientService {
     EntityManager em;
     @Inject
     RedisClient redisClient;
-    @Inject
-    ObjectMapper objectMapper;
-
-    public Oauth2Client loadClientByClientId(UUID clientId) throws AuthenticationException {
-        Oauth2Client data;
-        try {
-            Response response = redisClient.hget("client", clientId.toString());
-            data = objectMapper.readValue(response.toBytes(), Oauth2Client.class);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            data = null;
-        }
-        if (data == null) {
-            Oauth2Client oauth2Client = em.find(Oauth2Client.class, clientId);
-            if (oauth2Client == null) {
-                throw new AuthenticationException("Id " + clientId + " is not exist !");
-            }
-            try {
-                redisClient.hsetnx("client", clientId.toString(), objectMapper.writeValueAsString(oauth2Client));
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-            }
-            return oauth2Client;
-        }
-        return data;
-    }
 
     public Object[] loadShortByClientId(String clientId) throws AuthenticationException {
         Object[] data = null;

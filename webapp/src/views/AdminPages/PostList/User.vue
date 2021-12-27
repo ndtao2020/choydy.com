@@ -29,8 +29,8 @@ export default {
       try {
         const data = await getUserById(this.id)
         if (data) {
-          this.avatar = data.avatar
-          this.name = data.name
+          this.avatar = data[1]
+          this.name = data[0]
         }
       } catch (e) {
         // eslint-disable-next-line no-console

@@ -72,7 +72,7 @@ export default {
   },
   watch: {
     $route({ params }) {
-      this.posts = []
+      this.resetData()
       this.calatalogId = params.id
       this.fetchData(this.page, true)
     }
@@ -81,6 +81,9 @@ export default {
     const { params } = this.$route
     this.calatalogId = params.id
     this.fetchData(0)
+    // scroll to the top of the document
+    document.body.scrollTop = 0 // For Safari
+    document.documentElement.scrollTop = 0 // For Chrome, Firefox, IE and Opera
   },
   mounted() {
     window.addEventListener('scroll', this.onScroll)
@@ -91,6 +94,11 @@ export default {
   methods: {
     openLink() {
       window.open('https://www.facebook.com/profile.php?id=100069109730056', '_blank')
+    },
+    resetData() {
+      this.posts = []
+      this.page = 0
+      this.has = true
     },
     onScroll() {
       if (this.loading || !this.has) {
