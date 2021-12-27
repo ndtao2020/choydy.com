@@ -5,7 +5,7 @@
         <b-col lg="8">
           <social-post v-for="(id, index) in posts" :key="index" :post-id="id" />
         </b-col>
-        <b-col lg="4">
+        <b-col lg="4" class="main-banner">
           <iq-card>
             <h4 slot="title" class="card-title">Mạng xã hội</h4>
             <template #body>
