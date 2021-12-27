@@ -61,7 +61,7 @@ public class PostTagService {
             // set new cache
             postDTO.setTags(tags);
             try {
-                postService.saveDTOById(postId, postDTO);
+                postService.updateDTOById(postId, postDTO);
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }

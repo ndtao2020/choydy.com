@@ -1,4 +1,5 @@
 const TerserPlugin = require('terser-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
@@ -35,6 +36,12 @@ module.exports = {
   },
   configureWebpack: {
     devtool: isProd ? undefined : 'source-map',
+    plugins: [
+      new BundleAnalyzerPlugin({
+        openAnalyzer: isProd,
+        analyzerMode: isProd ? 'static' : 'server'
+      })
+    ],
     optimization: !isProd
       ? undefined
       : {

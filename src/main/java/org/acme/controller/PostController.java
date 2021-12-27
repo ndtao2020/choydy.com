@@ -6,7 +6,6 @@ import org.acme.model.Comment;
 import org.acme.model.Media;
 import org.acme.model.Post;
 import org.acme.model.dto.CommentDTO;
-import org.acme.model.dto.PostDTO;
 import org.acme.service.CommentService;
 import org.acme.service.LikeTypeService;
 import org.acme.service.MediaService;
@@ -54,12 +53,8 @@ public class PostController extends BaseController {
     @GET
     @Path("/" + ID)
     @Produces(MediaType.APPLICATION_JSON)
-    public PostDTO postId(@QueryParam(ID_PARAM) UUID postId) {
-        PostDTO postDTO = postService.findDTOById(postId);
-        if (postDTO == null) {
-            throw new BadRequestException("The post id does not exist !");
-        }
-        return postDTO;
+    public Object postId(@QueryParam(ID_PARAM) UUID postId) {
+        return postService.findObjectById(postId);
     }
 
     // ========================= [TAGS] =========================
@@ -98,7 +93,7 @@ public class PostController extends BaseController {
     @Path("/" + Comment.PATH)
     @Produces(MediaType.APPLICATION_JSON)
     public List<?> findAll(@QueryParam(ID_PARAM) UUID postId, @QueryParam(PAGE_PARAM) Integer p, @QueryParam(SIZE_PARAM) Integer s) {
-        return commentService.findByCommentId(postId, p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s);
+        return commentService.findByPostId(postId, p == null ? PAGE_DEFAULT : p, s == null ? SIZE_DEFAULT : s);
     }
 
     @GET

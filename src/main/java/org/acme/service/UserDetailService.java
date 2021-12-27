@@ -39,20 +39,20 @@ public class UserDetailService extends BaseService<UserDetail, UserDetailDTO, UU
         if (userDTO == null) {
             return null;
         }
-        UserDetailDTO userDetailDTO = userDTO.getDetail();
-        if (userDetailDTO == null) {
+        UserDetailDTO dto = userDTO.getDetail();
+        if (dto == null) {
             UserDetail userDetail = this.getByUserId(userId);
             if (userDetail == null) {
                 return null;
             }
-            UserDetailDTO userDetailDTO1 = this.convertToDTO(userDetail);
+            UserDetailDTO userDetailDTO = this.convertToDTO(userDetail);
             // set new cache
-            userDTO.setDetail(userDetailDTO1);
-            userService.saveDTOById(userId, userDTO);
+            userDTO.setDetail(userDetailDTO);
+            userService.updateDTOById(userId, userDTO);
             // return
-            return userDetailDTO1;
+            return userDetailDTO;
         }
-        return userDetailDTO;
+        return dto;
     }
 
     public void updateCache(UUID userId, UserDetail userDetail) throws NullPointerException {
@@ -62,6 +62,6 @@ public class UserDetailService extends BaseService<UserDetail, UserDetailDTO, UU
         }
         // set new cache
         userDTO.setDetail(this.convertToDTO(userDetail));
-        userService.saveDTOById(userId, userDTO);
+        userService.updateDTOById(userId, userDTO);
     }
 }

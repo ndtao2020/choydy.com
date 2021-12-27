@@ -36,7 +36,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     FileStorageService fileStorageService;
 
     protected PostService() {
-        super(Post.class, PostDTO.class, Post.PATH);
+        super(Post.class, PostDTO.class, Post.PATH, 2592000L);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
             return this.saveDTOById(postId, this.convertToDTO(savedPost));
         }
         postDTO.setLikes(post.getLikes());
-        return this.saveDTOById(postId, postDTO);
+        return this.updateDTOById(postId, postDTO);
     }
 
     @Transactional
@@ -199,7 +199,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         }
         PostDTO postDTO = this.convertToDTO(savedPost);
         try {
-            return this.saveDTOById(post.getId(), this.convertToDTO(savedPost));
+            return this.updateDTOById(post.getId(), this.convertToDTO(savedPost));
         } catch (Exception e) {
             getLog().error(e.getMessage());
             return postDTO;

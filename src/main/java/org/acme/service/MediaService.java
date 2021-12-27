@@ -19,7 +19,7 @@ public class MediaService extends BaseCacheService<Media, MediaDTO, UUID> {
     PostService postService;
 
     protected MediaService() {
-        super(Media.class, MediaDTO.class, Media.PATH);
+        super(Media.class, MediaDTO.class, Media.PATH, 2592000L);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class MediaService extends BaseCacheService<Media, MediaDTO, UUID> {
     }
 
     public String findCacheById(UUID id) throws SQLDataException {
-        String data = fetchFromCache(id.toString(), String.class);
+        String data = fetchCache(id.toString());
         if (data == null) {
             Object media = getEm()
                     .createNativeQuery("select link from " + getTableName(getDomainClass()) + " where id=?1")
@@ -37,12 +37,7 @@ public class MediaService extends BaseCacheService<Media, MediaDTO, UUID> {
             if (media == null) {
                 throw new SQLDataException("Data does not exist with id !");
             }
-            try {
-                getRedisClient().hsetnx(getRedisKey(), id.toString(), media.toString());
-            } catch (Exception e) {
-                getLog().error(e.getMessage());
-            }
-            return media.toString();
+            return this.saveObjectById(id, media.toString(), true).toString();
         }
         return data;
     }
@@ -64,7 +59,7 @@ public class MediaService extends BaseCacheService<Media, MediaDTO, UUID> {
             // set new cache
             postDTO.setMedia(media);
             try {
-                postService.saveDTOById(postId, postDTO);
+                postService.updateDTOById(postId, postDTO);
             } catch (Exception e) {
                 getLog().error(e.getMessage());
             }

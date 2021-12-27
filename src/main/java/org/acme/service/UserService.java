@@ -9,8 +9,8 @@ import org.acme.model.dto.UserDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.UUID;
 
@@ -24,12 +24,27 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
     SocialNetworkService socialNetworkService;
 
     protected UserService() {
-        super(User.class, UserDTO.class, User.PATH);
+        super(User.class, UserDTO.class, User.PATH, 2592000L);
     }
 
     @Override
     public UserDTO convertToDTO(User user) {
         return new UserDTO(user);
+    }
+
+    public Object getShortDetail(UUID id) throws SQLDataException {
+        String dto = fetchCache(id.toString());
+        if (dto == null) {
+            Object data = getEm()
+                    .createNativeQuery("select name,avatar from " + getTableName(getDomainClass()) + " where id=?1")
+                    .setParameter(1, id)
+                    .getSingleResult();
+            if (data == null) {
+                throw new SQLDataException("Data does not exist with id !");
+            }
+            return this.saveObjectById(id, data, false);
+        }
+        return dto;
     }
 
     @Transactional
@@ -43,11 +58,10 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
     }
 
     public User loadUserByUsername(String username) throws SQLException {
-        // query
-        Query query = getEm().createNativeQuery("select CAST (id AS varchar),password,enabled from " + getTableName(getDomainClass()) + " where username=:u or email=:u");
-        query.setParameter("u", username);
         // result
-        Object[] data = (Object[]) query.getSingleResult();
+        Object[] data = (Object[]) getEm()
+                .createNativeQuery("select CAST (id AS varchar),password,enabled from " + getTableName(getDomainClass()) + " where username=:u or email=:u")
+                .setParameter("u", username).getSingleResult();
         if (data == null) {
             throw new SQLException("Username does not exist !");
         }

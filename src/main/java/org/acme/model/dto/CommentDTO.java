@@ -2,6 +2,7 @@ package org.acme.model.dto;
 
 import org.acme.model.base.CommentBase;
 
+import java.util.List;
 import java.util.UUID;
 
 public class CommentDTO extends CommentBase {
@@ -9,6 +10,9 @@ public class CommentDTO extends CommentBase {
     private UUID postId;
     private UUID userId;
     private UUID parentId;
+
+    // child
+    private List<CommentDTO> children;
 
     public CommentDTO() {
     }
@@ -39,5 +43,13 @@ public class CommentDTO extends CommentBase {
 
     public void setParentId(UUID parentId) {
         this.parentId = parentId;
+    }
+
+    public List<CommentDTO> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<CommentDTO> children) {
+        this.children = children;
     }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 public abstract class BaseCacheService<T extends BaseId<I>, D extends BaseId<I>, I> extends BaseService<T, D, I> {
 
     private final String redisKey;
+    private final Long redisTTL;
 
     @Inject
     ObjectMapper mapper;
@@ -21,8 +22,13 @@ public abstract class BaseCacheService<T extends BaseId<I>, D extends BaseId<I>,
     RedisClient redisClient;
 
     protected BaseCacheService(Class<T> domainClass, Class<D> dClass, String redisKey) {
+        this(domainClass, dClass, redisKey, null);
+    }
+
+    protected BaseCacheService(Class<T> domainClass, Class<D> dClass, String redisKey, Long ttl) {
         super(domainClass, dClass);
         this.redisKey = redisKey;
+        this.redisTTL = ttl;
     }
 
     protected String getRedisKey() {
@@ -33,13 +39,17 @@ public abstract class BaseCacheService<T extends BaseId<I>, D extends BaseId<I>,
         return redisKey + "-list";
     }
 
-    public RedisClient getRedisClient() {
-        return redisClient;
+    protected String fetchCache(String key) {
+        try {
+            return redisClient.hget(getRedisKey(), key).toString();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     protected D fetchFromCache(String key) {
         try {
-            return mapper.readValue(redisClient.hget(getRedisKey(), key).toString(), getDtoClass());
+            return mapper.readValue(fetchCache(key), getDtoClass());
         } catch (Exception e) {
             return null;
         }
@@ -71,6 +81,15 @@ public abstract class BaseCacheService<T extends BaseId<I>, D extends BaseId<I>,
         return dto;
     }
 
+    public Object findObjectById(I id) {
+        Object dto = fetchCache(id.toString());
+        if (dto == null) {
+            T data = super.getById(id);
+            return data == null ? null : this.saveDTOById(id, this.convertToDTO(data));
+        }
+        return dto;
+    }
+
     public D findDTOByObjectId(Object id) {
         D dto = fetchFromCache(id.toString());
         if (dto == null) {
@@ -82,18 +101,32 @@ public abstract class BaseCacheService<T extends BaseId<I>, D extends BaseId<I>,
 
     public D saveDTOById(I id, D data) {
         try {
-            redisClient.hdel(List.of(getRedisKey(), id.toString()));
             redisClient.hsetnx(getRedisKey(), id.toString(), mapper.writeValueAsString(data));
+            if (redisTTL != null) {
+                redisClient.expire(getRedisKey(), redisTTL + "");
+            }
         } catch (Exception e) {
             getLog().error(e.getMessage());
         }
         return data;
     }
 
-    public List<D> saveAllDTOById(I id, List<D> data) {
+    public Object saveObjectById(I id, Object data, boolean noParse) {
         try {
-            redisClient.hdel(List.of(getRedisListKey(), id.toString()));
-            redisClient.hsetnx(getRedisListKey(), id.toString(), mapper.writeValueAsString(data));
+            redisClient.hsetnx(getRedisKey(), id.toString(), noParse ? data.toString() : mapper.writeValueAsString(data));
+            if (redisTTL != null) {
+                redisClient.expire(getRedisKey(), redisTTL + "");
+            }
+        } catch (Exception e) {
+            getLog().error(e.getMessage());
+        }
+        return data;
+    }
+
+    public D updateDTOById(I id, D data) {
+        try {
+            redisClient.hdel(List.of(getRedisKey(), id.toString()));
+            redisClient.hsetnx(getRedisKey(), id.toString(), mapper.writeValueAsString(data));
         } catch (Exception e) {
             getLog().error(e.getMessage());
         }
