@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLDataException;
 import java.util.UUID;
@@ -29,9 +30,10 @@ public class MediaController extends BaseController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getById(@QueryParam(ID_PARAM) UUID id, @QueryParam("t") String type) throws SQLDataException, IOException {
+        final File file = fileStorageService.getFile(mediaService.findCacheById(id));
         return Response
-                .ok(fileStorageService.getFile(mediaService.findCacheById(id)))
-                .header(HttpHeaders.CACHE_CONTROL, "max-age=604800")
+                .ok(file)
+                .header(HttpHeaders.CACHE_CONTROL, "max-age=2419200")
                 .header(HttpHeaders.CONTENT_TYPE, type)
                 .build();
     }

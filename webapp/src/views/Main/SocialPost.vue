@@ -6,7 +6,7 @@
           <div class="d-flex">
             <div class="media-support-user-img mr-2 pt-2">
               <b-skeleton v-if="loading" type="avatar" />
-              <b-img v-else rounded="circle" fluid :src="user[1]" alt="" height="auto" width="auto" />
+              <img v-else class="img-fluid rounded-circle" :src="user[1]" alt="" height="35" width="35" />
             </div>
             <div class="media-support-info">
               <div class="mb-0">
@@ -34,7 +34,13 @@
       <div class="mt-1" />
       <b-skeleton-img v-if="loading" height="500px" />
       <div v-for="(a, i) in media" v-else :key="i" class="d-flex post-media">
-        <img v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'" class="mx-auto" :src="getURL(a)" />
+        <img
+          v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'"
+          class="mx-auto"
+          :src="getURL(a)"
+          height="auto"
+          width="auto"
+        />
         <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :post-id="postId" :src="getURL(a)" :type="a[1]" />
       </div>
     </div>
@@ -46,16 +52,16 @@
               <div class="like-data">
                 <div class="dropdown">
                   <span>
-                    <img src="@/assets/images/icon/01.png" class="img-fluid" alt="" />
+                    <img src="@/assets/images/icon/01.png" class="img-fluid" alt="" height="24" width="24" />
                   </span>
                   <div class="dropdown-menu" style="">
-                    <img class="ml-2 mr-2 img-fluid" src="@/assets/images/icon/01.png" alt="" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/02.png" alt="" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/03.png" alt="" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/04.png" alt="" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/05.png" alt="" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/06.png" alt="" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/07.png" alt="" />
+                    <img class="ml-2 mr-2 img-fluid" src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/02.png" alt="" height="24" width="24" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/03.png" alt="" height="24" width="24" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/04.png" alt="" height="24" width="24" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/05.png" alt="" height="24" width="24" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/06.png" alt="" height="24" width="24" />
+                    <img class="mr-2 img-fluid" src="@/assets/images/icon/07.png" alt="" height="24" width="24" />
                   </div>
                 </div>
               </div>
@@ -133,12 +139,22 @@ export default {
           if (data.tags) {
             this.tags = data.tags
           } else {
-            this.tags = await findAllTagByPostId(this.postId)
+            try {
+              this.tags = await findAllTagByPostId(this.postId)
+            } catch (error) {
+              // eslint-disable-next-line no-console
+              console.log(error)
+            }
           }
           if (data.media) {
             this.media = data.media
           } else {
-            this.media = await findAllMediaByPostId(this.postId)
+            try {
+              this.media = await findAllMediaByPostId(this.postId)
+            } catch (error) {
+              // eslint-disable-next-line no-console
+              console.log(error)
+            }
           }
         }
       } catch (error) {

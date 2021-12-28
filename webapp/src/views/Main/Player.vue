@@ -35,15 +35,21 @@
       </slider>
       <!-- <div v-if="!hideProgress" class="mr-2 mx-auto player__time">{{ currentTimeFormatted }}</div> -->
       <div class="ml-auto mx-3" @click="toggleSound">
-        <img v-if="isMuted" src="@/assets/icons/player/mute.svg" width="25" height="25" />
+        <img v-if="playerIsMuted" src="@/assets/icons/player/mute.svg" width="25" height="25" />
         <img v-else src="@/assets/icons/player/volume.svg" width="25" height="25" />
       </div>
-      <slider class="player__sound-slider mr-3 my-auto" :style="{ width: '80px' }" :value="isMuted ? 0 : volume" @input="onVolumeSliderChange" />
+      <slider
+        class="player__sound-slider mr-3 my-auto"
+        :style="{ width: '80px' }"
+        :value="playerIsMuted ? 0 : playerVolume"
+        @input="onVolumeSliderChange"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 import Slider from './Slider'
 
 export default {
@@ -58,23 +64,22 @@ export default {
     return {
       observer: null,
       isPlaying: false,
-      isMuted: true,
-      isFullscreen: false,
+      // isFullscreen: false,
       isLoading: false,
       isWaiting: false,
-      volume: parseFloat(localStorage.getItem('vol') || 0),
       duration: 0,
       currentTime: 0,
       buffered: 0
     }
   },
   computed: {
-    currentTimeFormatted() {
-      return this.hhmmss(Math.round(this.currentTime))
-    },
-    durationFormatted() {
-      return this.hhmmss(Math.round(this.duration))
-    },
+    ...mapState('layout', ['playerVolume', 'playerIsMuted']),
+    // currentTimeFormatted() {
+    //   return this.hhmmss(Math.round(this.currentTime))
+    // },
+    // durationFormatted() {
+    //   return this.hhmmss(Math.round(this.duration))
+    // },
     bufferedStyle() {
       return {
         transformOrigin: 'left center',
@@ -110,6 +115,7 @@ export default {
     this.observer = null
   },
   methods: {
+    ...mapMutations('layout', ['changePlayerVolume', 'changePlayerIsMuted']),
     onDocumentKeyUp(e) {
       if (e.keyCode === 32) {
         this.togglePlay()
@@ -154,8 +160,8 @@ export default {
       if (!video) {
         return
       }
-      this.isMuted = video.muted
-      this.volume = video.volume
+      this.changePlayerVolume(video.volume)
+      this.changePlayerIsMuted(video.muted)
     },
     onVolumeSliderChange(value) {
       const { video } = this.$refs
@@ -166,7 +172,8 @@ export default {
         video.muted = true
         localStorage.setItem('vol', 0)
       }
-      video.volume = value
+      // video.volume = value
+      this.changePlayerVolume(value)
       localStorage.setItem('vol', value)
     },
     onFullscreenChange() {
@@ -215,19 +222,18 @@ export default {
       //   }
     },
     playVideo(video) {
-      if (video.paused) {
-        video.volume = this.volume
-        video.muted = this.isMuted
-        video.play()
-      }
+      video.volume = this.playerVolume
+      video.muted = this.playerIsMuted
+      video.play()
     },
     pauseVideo(video) {
-      if (!video.paused) {
-        video.pause()
-      }
+      video.pause()
     },
     seek(time) {
       const { video } = this.$refs
+      if (!video) {
+        return
+      }
       this.currentTime = time
       video.currentTime = time
     },
@@ -269,7 +275,7 @@ export default {
     left: 0;
     right: 0;
     z-index: 0;
-    height: 60px;
+    height: 35px;
     opacity: 0.9;
     pointer-events: none;
   }

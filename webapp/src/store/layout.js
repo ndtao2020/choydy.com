@@ -3,6 +3,8 @@ import isScreen from '@/core/screenHelper'
 export default {
   namespaced: true,
   state: {
+    playerVolume: parseFloat(localStorage.getItem('vol') || 0),
+    playerIsMuted: parseFloat(localStorage.getItem('vol') || 0) === 0,
     sidebarClose: false,
     sidebarStatic: false,
     sidebarActiveElement: null,
@@ -11,6 +13,12 @@ export default {
     chatNotificationPopover: false
   },
   mutations: {
+    changePlayerVolume(state, value) {
+      state.playerVolume = value
+    },
+    changePlayerIsMuted(state, value) {
+      state.playerIsMuted = value
+    },
     setSidebarStatic(state) {
       state.sidebarStatic = state
     },
