@@ -10,18 +10,18 @@
             <h4 slot="title" class="card-title">Mạng xã hội</h4>
             <template #body>
               <ul class="media-story m-0 p-0">
+                <li class="d-flex align-items-center active mb-4" @click="openLink">
+                  <img src="@/assets/images/facebook/avatar.jpg" alt="story-img" width="60" height="60" />
+                  <div class="stories-data ml-3">
+                    <h5>ChoyDy</h5>
+                    <p class="mb-0">377 Người theo dõi</p>
+                  </div>
+                </li>
                 <li class="d-flex align-items-center active mb-4">
                   <img src="@/assets/images/facebook/unnamed.jpg" alt="story-img" width="60" height="60" />
                   <div class="stories-data ml-3">
                     <h5>Nóng</h5>
                     <p class="mb-0">962 Người đăng ký</p>
-                  </div>
-                </li>
-                <li class="d-flex align-items-center active mb-4" @click="openLink">
-                  <img src="@/assets/images/facebook/avatar.jpg" alt="story-img" width="60" height="60" />
-                  <div class="stories-data ml-3">
-                    <h5>Dyn Kye</h5>
-                    <p class="mb-0">377 Người theo dõi</p>
                   </div>
                 </li>
               </ul>

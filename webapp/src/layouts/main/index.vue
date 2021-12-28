@@ -22,7 +22,7 @@ export default {
   components: {
     Sidebar: () => import('./components/Sidebar'),
     NavBar: () => import('./components/navbar'),
-    RightSideBar: () => import('./components/rightsidebar'),
+    RightSideBar: () => import('./components/RightSideBar'),
     Footer: () => import('./components/footer')
   }
 }

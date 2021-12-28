@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { findAllTagByPostId } from '@/api/tag'
+import { findAllTagByPostId } from '@/api/post'
 
 export default {
   name: 'SimpleTag',
