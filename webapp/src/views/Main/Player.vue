@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 import Slider from './Slider'
 
 export default {
@@ -69,6 +70,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('layout', ['playerVolume']),
     currentTimeFormatted() {
       return this.hhmmss(Math.round(this.currentTime))
     },
@@ -110,6 +112,7 @@ export default {
     this.observer = null
   },
   methods: {
+    ...mapMutations('layout', ['changePlayerVolume']),
     onDocumentKeyUp(e) {
       if (e.keyCode === 32) {
         this.togglePlay()
@@ -155,7 +158,8 @@ export default {
         return
       }
       this.isMuted = video.muted
-      this.volume = video.volume
+      // this.volume = video.volume
+      this.changePlayerVolume(video.volume)
     },
     onVolumeSliderChange(value) {
       const { video } = this.$refs
@@ -166,7 +170,8 @@ export default {
         video.muted = true
         localStorage.setItem('vol', 0)
       }
-      video.volume = value
+      // video.volume = value
+      this.changePlayerVolume(value)
       localStorage.setItem('vol', value)
     },
     onFullscreenChange() {
@@ -216,7 +221,7 @@ export default {
     },
     playVideo(video) {
       if (video.paused) {
-        video.volume = this.volume
+        video.volume = this.playerVolume
         video.muted = this.isMuted
         video.play()
       }
