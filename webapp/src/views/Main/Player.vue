@@ -24,7 +24,7 @@
       <img src="@/assets/images/logo.png" class="img-fluid" alt="logo" width="160" height="45" />
     </div>
     <div class="d-flex player__controls py-2">
-      <div class="mx-2" @click="togglePlay">
+      <div class="ml-2" @click="togglePlay">
         <img v-if="isPlaying" src="@/assets/icons/player/pause.svg" width="25" height="25" />
         <img v-else src="@/assets/icons/player/play.svg" width="25" height="25" />
       </div>
@@ -55,15 +55,14 @@ export default {
     hideProgress: Boolean
   },
   data() {
-    const volume = parseFloat(localStorage.getItem('vol') || 0)
     return {
       observer: null,
       isPlaying: false,
-      isMuted: volume <= 0,
+      isMuted: true,
       isFullscreen: false,
       isLoading: false,
       isWaiting: false,
-      volume,
+      volume: parseFloat(localStorage.getItem('vol') || 0),
       duration: 0,
       currentTime: 0,
       buffered: 0
@@ -247,7 +246,7 @@ export default {
 .player {
   position: relative;
   width: 100%;
-  height: 500px;
+  max-height: 500px;
   video {
     width: 100%;
     height: 100%;
@@ -279,6 +278,10 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
+    img {
+      width: 25px;
+      height: 25px;
+    }
   }
   &__seeker-buffered {
     position: absolute;

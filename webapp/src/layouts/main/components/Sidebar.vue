@@ -74,7 +74,6 @@ export default {
   position: fixed;
   z-index: 999;
   top: 75px;
-  width: 250px;
   height: 100%;
   background: var(--white);
   transition: all 0.3s ease-in-out;

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { getMediaLink, findAllMediaByPostId } from '@/api/media'
+import { getMediaLink, findAllMediaByPostId } from '@/api/post'
 
 export default {
   name: 'SimpleTag',

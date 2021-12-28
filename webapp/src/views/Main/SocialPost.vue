@@ -2,21 +2,23 @@
   <iq-card body-class="p-0">
     <template #body>
       <div class="user-post-data p-3">
-        <div class="d-flex flex-wrap">
-          <div class="media-support-user-img mr-3">
-            <b-skeleton v-if="loading" type="avatar" />
-            <b-img v-else rounded="circle" fluid :src="user[1]" alt="" />
+        <div class="media-support">
+          <div class="d-flex">
+            <div class="media-support-user-img mr-2 pt-2">
+              <b-skeleton v-if="loading" type="avatar" />
+              <b-img v-else rounded="circle" fluid :src="user[1]" alt="" height="auto" width="auto" />
+            </div>
+            <div class="media-support-info">
+              <div class="mb-0">
+                <b-skeleton v-if="loading" animation="wave" width="100%" />
+                <b-link v-else>{{ user[0] }}</b-link>
+              </div>
+              <p class="mb-0 text-secondary">{{ formatTime(post.created) }}</p>
+            </div>
           </div>
-          <div class="media-support-info">
-            <h5 class="mb-0">
-              <b-skeleton v-if="loading" animation="wave" width="100%" />
-              <b-link v-else class="">{{ user[0] }}</b-link>
-            </h5>
-            <p class="mb-0 text-secondary">{{ formatTime(post.created) }}</p>
-          </div>
-          <div class="iq-card-header-toolbar align-items-center">
-            <h4 v-if="!loading" class="pl-4">{{ post.title }}</h4>
-            <b-link v-if="!loading" class="float-right text-secondary">({{ catalog[0] }})</b-link>
+          <div class="media-support-title">
+            <span v-if="!loading" class="title">{{ post.title }}</span>
+            <span v-if="!loading" class="catalog text-secondary">({{ catalog[0] }})</span>
           </div>
         </div>
       </div>
@@ -26,7 +28,7 @@
         <b-skeleton animation="wave" width="85%"></b-skeleton>
         <b-skeleton animation="wave" width="55%"></b-skeleton>
       </b-card>
-      <p v-if="!loading && post.content" class="pl-4">
+      <p v-if="!loading && post.content" class="pl-3">
         {{ post.content }}<b-button v-for="tag in tags" :key="tag" variant="link">#{{ tag }}</b-button>
       </p>
       <div class="mt-1" />
@@ -36,14 +38,14 @@
         <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :post-id="postId" :src="getURL(a)" :type="a[1]" />
       </div>
     </div>
-    <div class="comment-area p-3">
+    <div class="comment-area py-1 px-3">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center justify-content-between">
           <div class="like-block position-relative d-flex align-items-center">
             <div class="d-flex align-items-center">
               <div class="like-data">
                 <div class="dropdown">
-                  <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                  <span>
                     <img src="@/assets/images/icon/01.png" class="img-fluid" alt="" />
                   </span>
                   <div class="dropdown-menu" style="">
@@ -57,9 +59,9 @@
                   </div>
                 </div>
               </div>
-              <div class="total-like-block ml-2 mr-3">
+              <div class="total-like-block ml-2">
                 <div class="dropdown">
-                  <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                  <span>
                     {{ post.likes }}
                   </span>
                 </div>
@@ -67,9 +69,7 @@
             </div>
           </div>
         </div>
-        <div class="share-block d-flex align-items-center feather-icon mr-3">
-          <span class="ml-1">{{ post.shares }} Chia sẻ</span>
-        </div>
+        <div class="share-block">{{ post.shares }} Chia sẻ</div>
       </div>
     </div>
   </iq-card>

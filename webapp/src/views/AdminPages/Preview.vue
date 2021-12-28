@@ -86,19 +86,6 @@ export default {
     tab: [Number],
     image: [Object, String],
     video: [Object, String]
-  },
-  data() {
-    return {
-      commentMessage: ''
-    }
-  },
-  methods: {
-    isLiked() {},
-    isFollowed() {},
-    isLikedComment() {},
-    saveComment() {
-      this.commentMessage = ''
-    }
   }
 }
 </script>
