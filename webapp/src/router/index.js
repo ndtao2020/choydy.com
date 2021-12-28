@@ -2,13 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Nprogress from 'nprogress'
 import store from '@/store'
+import seo from '@/seo'
 import { SESSION } from '@/constants'
 // routes
 import adminChildRoutes from './admin'
 
 Vue.use(VueRouter)
-
-const keyMeta = `FvxcFbL1BSizNhO2svY`
 
 // Nprogress.configure({ showSpinner: false })
 
@@ -61,24 +60,7 @@ const router = new VueRouter({
         {
           path: 'catalog/:id',
           name: 'home-catalog',
-          component: () => import('@/views/Main'),
-          meta: {
-            title: 'Danh mục',
-            metaTags: [
-              {
-                name: 'description',
-                content: 'Trang tin cập nhật những Meme hài hước, vui nhộn.'
-              },
-              {
-                name: 'og:title',
-                content: 'Trang chủ | ChoyDy.Com - Meme hài hước'
-              },
-              {
-                property: 'og:description',
-                content: 'Trang tin cập nhật những Meme hài hước, vui nhộn.'
-              }
-            ]
-          }
+          component: () => import('@/views/Main')
         }
       ]
     },
@@ -87,29 +69,11 @@ const router = new VueRouter({
   ]
 })
 
-router.beforeEach(({ path, matched, meta = {} }, from, next) => {
+router.beforeEach(({ path, meta = {} }, from, next) => {
   // loading
   Nprogress.start()
-  // set up title
-  document.title = `${meta.title || '404'} | ChoyDy.Com - Meme hài hước`
-  // set up meta
-  const nearestWithMeta = matched
-    .slice()
-    .reverse()
-    .find((r) => r.meta && r.meta.metaTags)
-  // Turn the meta tag definitions into actual elements in the head.
-  // Remove any stale meta tags from the document using the key attribute we set below.
-  Array.from(document.querySelectorAll(`[${keyMeta}]`)).map((el) => el.parentNode.removeChild(el))
-  nearestWithMeta &&
-    nearestWithMeta.meta.metaTags
-      .map((tagDef) => {
-        const tag = document.createElement('meta')
-        Object.keys(tagDef).forEach((key) => tag.setAttribute(key, tagDef[key]))
-        tag.setAttribute(keyMeta, '')
-        return tag
-      })
-      // Add the meta tags to the document head.
-      .forEach((tag) => document.head.appendChild(tag))
+  // seo
+  seo(meta)
   //check auth
   const { auth, roles } = meta
   if (auth) {

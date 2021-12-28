@@ -6,7 +6,7 @@
           <div class="d-flex">
             <div class="media-support-user-img mr-2 pt-2">
               <b-skeleton v-if="loading" type="avatar" />
-              <img v-else class="img-fluid rounded-circle" :src="user[1]" alt="" height="auto" width="auto" />
+              <img v-else class="img-fluid rounded-circle" :src="user[1]" alt="" height="35" width="35" />
             </div>
             <div class="media-support-info">
               <div class="mb-0">
