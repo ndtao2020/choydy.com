@@ -12,42 +12,34 @@
           <social-post v-for="(id, index) in posts" v-else :key="index" :post-id="id" />
         </b-col>
         <b-col lg="4" class="main-banner">
-          <iq-card>
-            <h4 slot="title" class="card-title">Mạng xã hội</h4>
-            <template #body>
-              <ul class="media-story m-0 p-0">
-                <li class="d-flex align-items-center active mb-4" @click="openLink">
-                  <img src="@/assets/images/facebook/avatar.jpg" alt="story-img" width="60" height="60" />
-                  <div class="stories-data ml-3">
-                    <h5>ChoyDy</h5>
-                    <p class="mb-0">377 Người theo dõi</p>
-                  </div>
-                </li>
-                <li class="d-flex align-items-center active mb-4">
-                  <img src="@/assets/images/facebook/unnamed.jpg" alt="story-img" width="60" height="60" />
-                  <div class="stories-data ml-3">
-                    <h5>Nóng</h5>
-                    <p class="mb-0">962 Người đăng ký</p>
-                  </div>
-                </li>
-              </ul>
-              <b-link class="btn btn-danger d-block mt-3" href="https://www.youtube.com/channel/UC4uxhittpSxavMAKP0-M4CQ" target="_blank">
-                Xem chi tiết
-              </b-link>
-            </template>
-          </iq-card>
-          <iq-card>
-            <h4 slot="title" class="card-title">Quảng cáo</h4>
-            <template #body>
-              <img
-                src="https://kinsta.com/wp-content/uploads/2020/06/half-page-1-1.png"
-                class="img-fluid rounded"
-                alt="Responsive image"
-                width="100%"
-                height="400"
-              />
-            </template>
-          </iq-card>
+          <div class="iq-card iq-card-header">
+            <h4 slot="title" class="card-title p-3">Mạng xã hội</h4>
+            <ul class="media-story m-0 px-3 pb-1">
+              <li class="d-flex align-items-center active mb-4" @click="openLink('https://www.facebook.com/choydycom')">
+                <img src="@/assets/images/facebook/avatar.jpg" alt="story-img" width="60" height="60" />
+                <div class="stories-data ml-3">
+                  <h5>ChoyDy</h5>
+                  <p class="mb-0">377 Người theo dõi</p>
+                </div>
+              </li>
+              <li class="d-flex align-items-center active mb-4" @click="openLink('https://www.youtube.com/channel/UC4uxhittpSxavMAKP0-M4CQ')">
+                <img src="@/assets/images/facebook/unnamed.jpg" alt="story-img" width="60" height="60" />
+                <div class="stories-data ml-3">
+                  <h5>Nóng</h5>
+                  <p class="mb-0">962 Người đăng ký</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <img
+              src="https://kinsta.com/wp-content/uploads/2020/06/half-page-1-1.png"
+              class="img-fluid rounded"
+              alt="Responsive image"
+              width="100%"
+              height="400"
+            />
+          </div>
         </b-col>
       </b-row>
     </b-col>
@@ -55,7 +47,6 @@
 </template>
 
 <script>
-import IqCard from './IqCard'
 import SocialPost from './SocialPost'
 import seoMeta from '@/seo'
 import { getPosts } from '@/api/post'
@@ -66,7 +57,6 @@ const size = 3
 export default {
   name: 'HomePage',
   components: {
-    IqCard,
     SocialPost
   },
   data() {
@@ -102,8 +92,8 @@ export default {
     window.removeEventListener('scroll', this.onScroll)
   },
   methods: {
-    openLink() {
-      window.open('https://www.facebook.com/choydycom', '_blank')
+    openLink(link) {
+      window.open(link, '_blank')
     },
     resetData() {
       this.posts = []
