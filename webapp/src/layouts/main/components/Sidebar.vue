@@ -2,30 +2,11 @@
   <div class="iq-sidebar">
     <div id="sidebar-scrollbar" class="mt-2">
       <nav class="iq-sidebar-menu">
-        <!-- <b-collapse tag="ul" class="iq-menu" :visible="true">
-          <hr />
-          <b-card v-if="loading">
-            <b-skeleton v-for="i in 15" :key="i" animation="fade" width="100%" class="mb-3" height="35px" />
-          </b-card>
-          <router-link
-            v-for="catalog in catalogs"
-            :key="catalog[0]"
-            v-slot="{ href, navigate, isActive, isExactActive }"
-            :to="'/catalog/' + catalog[0]"
-            custom
-          >
-            <li :class="[isActive && isExactActive && 'active']">
-              <a :href="href" :class="[isActive && isExactActive && 'active']" @click="navigate">
-                <img :src="require(`@/assets/icons/smile/${catalog[0] <= 30 ? catalog[0] : 0}.svg`)" height="25" width="25" />
-                <span class="ml-2">{{ catalog[1] }}</span>
-              </a>
-            </li>
-          </router-link>
-        </b-collapse> -->
         <b-collapse tag="ul" class="iq-menu" :visible="true">
           <template v-for="root in catalogs">
-            <div :key="root.a0">
-              <span>{{ root.a1 }} ---------------</span>
+            <div :key="root.a0" class="d-flex menu-root my-2">
+              <span class="mx-auto menu-root-text text-secondary">{{ root.a1 }}</span>
+              <hr class="my-auto menu-root-break" />
             </div>
             <router-link
               v-for="catalog in root.children"
@@ -36,7 +17,7 @@
             >
               <li :class="[isActive && isExactActive && 'active']">
                 <a :href="href" :class="[isActive && isExactActive && 'active']" @click="navigate">
-                  <img :src="require(`@/assets/icons/smile/${catalog.a0 <= 30 ? catalog.a0 : 0}.svg`)" height="25" width="25" />
+                  <img :src="require(`@/assets/icons/smile/${catalog.a0 <= 50 ? catalog.a0 : 0}.svg`)" height="25" width="25" />
                   <span class="ml-2">{{ catalog.a1 }}</span>
                 </a>
               </li>
@@ -71,7 +52,6 @@ export default {
         if (data) {
           this.catalogs = generateTreeFromArray(data, 0, 3)
         }
-        console.log(this.catalogs)
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error)

@@ -8,7 +8,7 @@
           <b-alert v-if="error" show variant="warning">{{ error }}</b-alert>
           <b-form @submit.prevent="handleSubmit">
             <b-form-group label="Danh mục (*)">
-              <b-form-select v-model="post.catalogId" :options="catalogs" />
+              <b-form-select v-model="post.catalogId" :options="filterCatalog(tabIndex === 0 ? 10001 : 10000)" />
             </b-form-group>
             <b-form-group label="Tiêu đề (*)">
               <b-form-input v-model="post.title" type="text" placeholder="Nhập tiêu đề"> </b-form-input>
@@ -68,11 +68,11 @@
                   </b-form-file>
                 </b-tab>
                 <b-tab title="Nếu đăng clip">
-                  <b-form-file v-model="postImage" :state="Boolean(postImage)" accept="video/mp4,video/webm" @change="changeVideo">
+                  <b-form-file v-model="postVideo" :state="Boolean(postVideo)" accept="video/mp4,video/webm" @change="changeVideo">
                     <template #placeholder>Chọn video bạn cần hiển thị</template>
                     <template slot="file-name" slot-scope="{ names }">
                       <b-badge variant="dark">{{ names[0] }}</b-badge>
-                      <b-badge v-if="names.length > 1" variant="dark" class="ml-1"> + {{ names.length - 1 }} More files </b-badge>
+                      <b-badge v-if="names.length > 1" variant="dark" class="ml-1"> + {{ names.length - 1 }} Nhiều hơn</b-badge>
                     </template>
                   </b-form-file>
                 </b-tab>
@@ -148,9 +148,10 @@ export default {
       this.loading = true
       try {
         const data = await getCatalogs()
-        this.catalogs = data.map(([id, name]) => ({
+        this.catalogs = data.map(([id, name, , parrent]) => ({
           value: id,
-          text: name
+          text: name,
+          parrent
         }))
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -158,6 +159,9 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    filterCatalog(id) {
+      return this.catalogs.filter((x) => x.parrent === id)
     },
     onHide(evt) {
       if (evt.trigger === 'backdrop') {
@@ -216,7 +220,7 @@ export default {
       try {
         const formData = new FormData()
         const file = this.tabIndex === 0 ? this.postImage : this.postVideo
-        const fileName = file.name
+        const fileName = (file.name + '').split(' ').join('-')
         formData.append('file', file)
         formData.append('fileName', fileName.length > 20 ? fileName.substring(fileName.length - 19, fileName.length) : fileName)
         formData.append('fileType', file.type)
