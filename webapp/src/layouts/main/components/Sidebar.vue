@@ -2,22 +2,13 @@
   <div class="iq-sidebar">
     <div id="sidebar-scrollbar" class="mt-2">
       <nav class="iq-sidebar-menu">
-        <b-collapse tag="ul" class="iq-menu" :visible="true">
-          <router-link v-slot="{ href, navigate, isActive, isExactActive }" to="/" custom>
-            <li :class="[isActive && isExactActive && 'active']">
-              <a :href="href" :class="[isActive && isExactActive && 'active']" @click="navigate">
-                <img src="@/assets/icons/news2.svg" height="25" width="25" />
-                <span class="ml-2">{{ $t('sidebar.newsfeed') }}</span>
-              </a>
-            </li>
-          </router-link>
+        <!-- <b-collapse tag="ul" class="iq-menu" :visible="true">
           <hr />
           <b-card v-if="loading">
             <b-skeleton v-for="i in 15" :key="i" animation="fade" width="100%" class="mb-3" height="35px" />
           </b-card>
           <router-link
             v-for="catalog in catalogs"
-            v-else
             :key="catalog[0]"
             v-slot="{ href, navigate, isActive, isExactActive }"
             :to="'/catalog/' + catalog[0]"
@@ -30,6 +21,27 @@
               </a>
             </li>
           </router-link>
+        </b-collapse> -->
+        <b-collapse tag="ul" class="iq-menu" :visible="true">
+          <template v-for="root in catalogs">
+            <div :key="root.a0">
+              <span>{{ root.a1 }} ---------------</span>
+            </div>
+            <router-link
+              v-for="catalog in root.children"
+              :key="catalog.a0"
+              v-slot="{ href, navigate, isActive, isExactActive }"
+              :to="'/catalog/' + catalog.a0"
+              custom
+            >
+              <li :class="[isActive && isExactActive && 'active']">
+                <a :href="href" :class="[isActive && isExactActive && 'active']" @click="navigate">
+                  <img :src="require(`@/assets/icons/smile/${catalog.a0 <= 30 ? catalog.a0 : 0}.svg`)" height="25" width="25" />
+                  <span class="ml-2">{{ catalog.a1 }}</span>
+                </a>
+              </li>
+            </router-link>
+          </template>
         </b-collapse>
       </nav>
     </div>
@@ -38,6 +50,7 @@
 
 <script>
 import { getCatalogs } from '@/api/catalog'
+import { generateTreeFromArray } from '@/utils'
 
 export default {
   name: 'MainSidebar',
@@ -56,8 +69,9 @@ export default {
       try {
         const data = await getCatalogs()
         if (data) {
-          this.catalogs = data
+          this.catalogs = generateTreeFromArray(data, 0, 3)
         }
+        console.log(this.catalogs)
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error)
@@ -76,6 +90,7 @@ export default {
   top: 75px;
   height: 100%;
   background: var(--white);
+  max-width: 260px;
   transition: all 0.3s ease-in-out;
   box-shadow: 0px 0px 20px 0px rgba(44, 101, 144, 0.1);
 }

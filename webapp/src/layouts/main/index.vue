@@ -2,9 +2,7 @@
   <div class="wrapper">
     <sidebar />
     <NavBar />
-    <right-sideBar>
-      <i slot="icon" class="ri-sound-module-fill font-size-18 text-primary" />
-    </right-sideBar>
+    <right-sideBar />
     <div class="content-page">
       <div class="container">
         <router-view />
@@ -21,7 +19,7 @@ export default {
   name: 'MainLayout',
   components: {
     Sidebar: () => import('./components/Sidebar'),
-    NavBar: () => import('./components/navbar'),
+    NavBar: () => import('./components/Navbar'),
     RightSideBar: () => import('./components/RightSideBar'),
     Footer: () => import('./components/footer')
   }

@@ -1,7 +1,6 @@
 package org.acme;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.quarkus.runtime.LaunchMode;
 import org.acme.base.auth.ClientAuthentication;
 import org.acme.base.encoder.BCryptPasswordEncoder;
 import org.acme.base.jwt.JwtUtil;
@@ -27,7 +26,8 @@ import java.util.Objects;
 @PreMatching
 public class RequestFilter implements ContainerRequestFilter {
 
-    public static final String TOKEN_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Host-" : "") + "cid";
+    public static final String TOKEN_COOKIE_NAME = "cid";
+    //    public static final String TOKEN_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Host-" : "") + "cid";
     private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
     private static final String AUTHORIZATION = "AUTHORIZATION";
     private static final ServerResponse ACCESS_DENIED = new ServerResponse("Access denied for this resource", 401, new Headers<>());

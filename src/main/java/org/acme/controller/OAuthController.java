@@ -1,6 +1,7 @@
 package org.acme.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.quarkus.mailer.Mailer;
 import io.quarkus.security.UnauthorizedException;
 import org.acme.RequestFilter;
 import org.acme.base.auth.ClientPrincipal;
@@ -47,6 +48,8 @@ public class OAuthController {
 
     @Inject
     JwtUtil jwtUtil;
+    @Inject
+    Mailer mailer;
     @Inject
     UserService userService;
     @Inject

@@ -1,0 +1,13 @@
+@import "~nprogress/nprogress.css";
+@import '~bootstrap-vue/dist/bootstrap-vue.min.css';
+// font
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fonts/Montserrat-Regular.ttf) format('woff2');
+}
+body {
+  font-family: Montserrat;
+}

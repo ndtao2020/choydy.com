@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import 'nprogress/nprogress.css'
 import { mapActions } from 'vuex'
+import '@/assets/scss/index.scss'
 
 export default {
   name: 'App',

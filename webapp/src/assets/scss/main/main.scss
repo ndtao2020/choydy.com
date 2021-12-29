@@ -16,14 +16,6 @@
 @import 'typography';
 @import 'style';
 @import 'responsive';
-// font
-@font-face {
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(../../fonts/Montserrat-Regular.ttf) format('woff2');
-}
 // custom
 body {
   font-family: Montserrat;

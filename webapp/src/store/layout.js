@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state: {
     playerVolume: parseFloat(localStorage.getItem('vol') || 0),
-    playerIsMuted: parseFloat(localStorage.getItem('vol') || 0) === 0,
+    playerIsMuted: true,
     sidebarClose: false,
     sidebarStatic: false,
     sidebarActiveElement: null,
