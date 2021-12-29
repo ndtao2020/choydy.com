@@ -28,18 +28,13 @@ public class CatalogService extends BaseCacheService<Catalog, CatalogDTO, Long> 
                 .getResultList();
     }
 
-    public List<?> search() {
-        return getEm()
-                .createNativeQuery("select CAST (id as varchar),name from " + getTableName(getDomainClass()) + " order by priority desc")
-                .getResultList();
-    }
-
-    public List<?> search(int page, int size) {
-        return getEm()
-                .createNativeQuery("select CAST (id as varchar),name from " + getTableName(getDomainClass()) + " order by priority desc")
-                .setFirstResult(page * size)
-                .setMaxResults(size)
-                .getResultList();
+    public List<?> search(Integer page, Integer size) {
+        Query query = getEm().createNativeQuery("select id,name,priority,parent_id from " + getTableName(getDomainClass()));
+        if (page != null && size != null) {
+            query.setFirstResult(page * size);
+            query.setMaxResults(size);
+        }
+        return query.getResultList();
     }
 
     public QueryPage search(int page, int size, String search) {
@@ -47,7 +42,7 @@ public class CatalogService extends BaseCacheService<Catalog, CatalogDTO, Long> 
         if (search != null) {
             q += " where name like :s";
         }
-        Query query = getEm().createNativeQuery("select CAST (id as varchar),name,priority " + q + " order by priority desc");
+        Query query = getEm().createNativeQuery("select id,name,priority " + q);
         Query cQuery = getEm().createNativeQuery("select count(id) " + q);
         if (search != null) {
             query.setParameter("s", "%" + search + "%");

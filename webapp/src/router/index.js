@@ -32,6 +32,10 @@ const router = new VueRouter({
     },
     ...adminChildRoutes,
     {
+      path: '/post/:postid/m/:mediaid',
+      component: () => import('@/views/Post')
+    },
+    {
       path: '/',
       component: () => import('@/layouts/main'),
       children: [

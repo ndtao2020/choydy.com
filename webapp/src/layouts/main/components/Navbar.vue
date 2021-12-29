@@ -4,7 +4,9 @@
       <nav class="navbar navbar-expand-lg navbar-light p-0">
         <div class="iq-navbar-logo d-flex justify-content-between">
           <div class="align-self-center">
-            <img src="@/assets/images/logo.png" class="img-fluid" alt="logo" width="160" height="45" />
+            <router-link to="/">
+              <img src="@/assets/images/logo.png" class="img-fluid" alt="logo" width="160" height="45" />
+            </router-link>
           </div>
           <div class="iq-menu-bt align-self-center">
             <div class="wrapper-menu" @click="miniSidebar">

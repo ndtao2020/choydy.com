@@ -1,24 +1,23 @@
+const exp = 60 * 60 * 24 * 1000
+const options = {
+  keyPath: 'id'
+}
+
 const config = {
   post: {
     name: 'post',
-    exp: 60 * 60 * 24 * 7 * 1000,
-    options: {
-      keyPath: 'id'
-    }
+    exp,
+    options
   },
   user: {
     name: 'user',
-    exp: 60 * 60 * 24 * 7 * 1000,
-    options: {
-      keyPath: 'id'
-    }
+    exp,
+    options
   },
   catalog: {
     name: 'catalog',
-    exp: 60 * 60 * 24 * 7 * 1000,
-    options: {
-      keyPath: 'id'
-    }
+    exp,
+    options
   }
 }
 

@@ -52,6 +52,10 @@ sudo ufw deny 6379/tcp && sudo ufw delete deny 6379/tcp
 
 #######################################################################################################################
 
+# change password
+sudo passwd root
+
+# update
 sudo apt update && sudo apt upgrade -y
 sudo apt autoremove
 sudo apt list --upgradable
