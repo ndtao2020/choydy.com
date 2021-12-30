@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import BootstrapVue from 'bootstrap-vue'
 import { mapState, mapActions } from 'vuex'
 import './Layout.scss'
 
@@ -30,6 +32,7 @@ export default {
     ...mapState('layout', ['sidebarClose', 'sidebarStatic'])
   },
   created() {
+    Vue.use(BootstrapVue)
     const staticSidebar = JSON.parse(localStorage.getItem('sidebarStatic'))
     if (staticSidebar) {
       this.setSidebarStatic(true)
