@@ -2,6 +2,7 @@
 FROM quay.io/quarkus/ubi-quarkus-mandrel:21.3.0.0-Final-java17 as builder
 # copy
 WORKDIR /app
+ENV VUE_APP_PROXY=https://choydy.com
 # copy
 COPY ./.mvn ./.mvn
 COPY ./src ./src
@@ -10,7 +11,6 @@ COPY ./mvnw ./mvnw
 COPY ./pom.xml ./pom.xml
 # build
 USER root
-ENV VUE_APP_PROXY https://choydy.com
 RUN chmod +x mvnw && ./mvnw package -Pnative && rm -rf ./src && rm -rf ./webapp && rm -f ./pom.xml
 
 # --------------> The download image
