@@ -10,7 +10,7 @@
           <div class="media-support-info">
             <div class="mb-0">
               <b-skeleton v-if="loading" animation="wave" width="100%" />
-              <b-link v-else>{{ user[0] }}</b-link>
+              <a v-else target="_self" href="#">{{ user[0] }}</a>
             </div>
             <p class="mb-0 text-secondary">{{ formatTime(post.created) }}</p>
           </div>
@@ -22,23 +22,17 @@
       </div>
     </div>
     <div class="user-post">
-      <b-card v-if="loading" class="mx-4 mb-3">
+      <div v-if="loading" class="mx-4 mb-3">
         <b-skeleton animation="wave" width="85%"></b-skeleton>
         <b-skeleton animation="wave" width="55%"></b-skeleton>
-      </b-card>
+      </div>
       <p v-if="!loading && post.content" class="pl-3">
-        {{ post.content }}<b-button v-for="tag in tags" :key="tag" variant="link">#{{ tag }}</b-button>
+        {{ post.content }}<button v-for="tag in tags" :key="tag" type="button" class="btn btn-link">#{{ tag }}</button>
       </p>
       <div class="mt-1" />
       <b-skeleton-img v-if="loading" height="500px" />
       <div v-for="(a, i) in media" v-else :key="i" class="d-flex post-media">
-        <img
-          v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'"
-          class="mx-auto"
-          :src="getURL(a)"
-          height="auto"
-          width="auto"
-        />
+        <img v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'" class="mx-auto" :src="getURL(a)" height="500" width="500" />
         <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :post-id="postId" :src="getURL(a)" :type="a[1]" />
       </div>
     </div>
@@ -85,10 +79,13 @@ import { dateDiff } from '@/moment'
 import { getUserById } from '@/api/user'
 import { getCatalogById } from '@/api/catalog'
 import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink } from '@/api/post'
+import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
 export default {
   components: {
-    Player
+    Player,
+    BSkeleton,
+    BSkeletonImg
   },
   props: {
     postId: String

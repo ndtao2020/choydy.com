@@ -1,6 +1,6 @@
 <template>
   <div class="auth-page">
-    <b-container v-if="!logged">
+    <div v-if="!logged" class="container">
       <h5 class="auth-logo">
         <i class="fa fa-circle text-primary"></i>
         <img src="@/assets/images/logo.png" alt="logo" />
@@ -9,29 +9,29 @@
       <div class="widget-auth mx-auto">
         <p class="widget-auth-info mb-3">Vui lòng nhập tên đăng nhập và mật khẩu</p>
         <form class="mt" @submit.prevent="login">
-          <b-alert class="alert-sm" variant="danger" :show="!!errorMessage">
+          <div v-if="errorMessage" class="alert alert-sm alert-danger">
             {{ errorMessage }}
-          </b-alert>
+          </div>
           <div class="form-group">
             <input v-model="username" class="form-control no-border" required type="text" name="username" placeholder="Tên đăng nhập" />
           </div>
           <div class="form-group">
             <input v-model="password" class="form-control no-border" required type="password" name="password" placeholder="Mật khẩu" />
           </div>
-          <b-button type="submit" size="sm" class="auth-btn mb-3" variant="inverse">Đăng nhập</b-button>
+          <button type="submit" class="btn auth-btn mb-3 btn-inverse btn-sm">Đăng nhập</button>
           <p class="widget-auth-info">Hoặc đăng nhập bởi</p>
           <div class="social-buttons">
-            <b-button variant="primary" class="social-button mb-2">
+            <button type="button" class="btn social-button mb-2 btn-primary">
               <i class="social-icon social-google"></i>
               <p class="social-text">GOOGLE</p>
-            </b-button>
+            </button>
           </div>
         </form>
         <p class="widget-auth-info">Bạn chưa có tài khoản? đăng ký ngay</p>
         <router-link class="d-block text-center" to="login">Tạo tài khoản</router-link>
       </div>
-    </b-container>
-    <footer class="auth-footer">2021 &copy; Meme hài hước - <a href="https://choydy.com">ChoyDy.com</a></footer>
+    </div>
+    <footer class="auth-footer">2022 &copy; Meme hài hước - <a href="https://choydy.com">ChoyDy.com</a></footer>
   </div>
 </template>
 

@@ -53,8 +53,15 @@
 </template>
 
 <script>
+import { BCollapse } from 'bootstrap-vue/src/components/collapse'
+import { BNavbarToggle } from 'bootstrap-vue/src/components/navbar'
+
 export default {
   name: 'MainNavBar',
+  components: {
+    BCollapse,
+    BNavbarToggle
+  },
   methods: {
     scrollTop() {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })

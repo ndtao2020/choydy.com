@@ -2,7 +2,7 @@
   <div class="iq-sidebar">
     <div id="sidebar-scrollbar" class="mt-2">
       <nav class="iq-sidebar-menu">
-        <b-collapse tag="ul" class="iq-menu" :visible="true">
+        <ul class="iq-menu">
           <template v-for="root in catalogs">
             <div :key="root.a0" class="d-flex menu-root my-2">
               <span class="mx-auto menu-root-text text-secondary">{{ root.a1 }}</span>
@@ -23,7 +23,7 @@
               </li>
             </router-link>
           </template>
-        </b-collapse>
+        </ul>
       </nav>
     </div>
   </div>

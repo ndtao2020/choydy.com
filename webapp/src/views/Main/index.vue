@@ -1,17 +1,17 @@
 <template>
-  <b-row>
-    <b-col sm="12">
-      <b-row class="m-0 p-0">
-        <b-col lg="8">
-          <b-card v-if="!isLoaded">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row m-0 p-0">
+        <div class="col-lg-8">
+          <div v-if="!isLoaded">
             <b-skeleton animation="wave" width="85%"></b-skeleton>
             <b-skeleton animation="wave" width="55%"></b-skeleton>
             <b-skeleton animation="wave" width="70%"></b-skeleton>
             <b-skeleton-img />
-          </b-card>
+          </div>
           <social-post v-for="(id, index) in posts" v-else :key="index" :post-id="id" />
-        </b-col>
-        <b-col lg="4" class="main-banner">
+        </div>
+        <div class="main-banner col-lg-4">
           <div class="iq-card iq-card-header">
             <h4 slot="title" class="card-title p-3">Mạng xã hội</h4>
             <ul class="media-story m-0 px-3 pb-1">
@@ -40,10 +40,10 @@
               height="400"
             />
           </div>
-        </b-col>
-      </b-row>
-    </b-col>
-  </b-row>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -51,13 +51,16 @@ import SocialPost from './SocialPost'
 import seoMeta from '@/seo'
 import { getPosts } from '@/api/post'
 import { getCatalogById } from '@/api/catalog'
+import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
 const size = 3
 
 export default {
   name: 'HomePage',
   components: {
-    SocialPost
+    SocialPost,
+    BSkeleton,
+    BSkeletonImg
   },
   data() {
     return {
