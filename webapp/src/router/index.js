@@ -45,26 +45,18 @@ const router = new VueRouter({
           component: () => import('@/views/Main'),
           meta: {
             title: 'Trang chủ',
-            metaTags: [
-              {
-                name: 'description',
-                content: 'Trang tin cập nhật những Meme hài hước, vui nhộn.'
-              },
-              {
-                name: 'og:title',
-                content: 'Trang chủ | ChoyDy.Com - Meme hài hước'
-              },
-              {
-                property: 'og:description',
-                content: 'Trang tin cập nhật những Meme hài hước, vui nhộn.'
-              }
-            ]
+            description: 'Trang tin cập nhật những Meme hài hước, vui nhộn.'
           }
         },
         {
           path: 'catalog/:id',
           name: 'home-catalog',
           component: () => import('@/views/Main')
+        },
+        {
+          path: 'post/:id',
+          name: 'post-detail',
+          component: () => import('@/views/Detail')
         }
       ]
     },
@@ -77,11 +69,10 @@ router.beforeEach(({ path, meta = {} }, from, next) => {
   // loading
   Nprogress.start()
   // seo
-  seo(meta)
+  seo(path, meta)
   //check auth
   const { auth, roles } = meta
   if (auth) {
-    // const logged = store.getters['auth/logged']
     const exp = store.getters['auth/exp']
     if (!exp) {
       return next({ name: 'login', query: { redirect: path } })
