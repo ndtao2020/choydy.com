@@ -56,7 +56,7 @@ const router = new VueRouter({
         {
           path: 'post/:id',
           name: 'post-detail',
-          component: () => import('@/views/Detail')
+          component: () => import('@/views/Main/Detail')
         }
       ]
     },

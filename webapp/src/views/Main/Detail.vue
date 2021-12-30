@@ -1,5 +1,5 @@
 <template>
-  <social-post :post-id="postId" />
+  <social-post :post-id="$route.params.id" />
 </template>
 
 <script>
@@ -10,15 +10,6 @@ export default {
   name: 'HomePage',
   components: {
     SocialPost
-  },
-  data() {
-    return {
-      loading: false,
-      postId: null
-    }
-  },
-  mounted() {
-    this.postId = this.$route.params.id
   }
 }
 </script>
