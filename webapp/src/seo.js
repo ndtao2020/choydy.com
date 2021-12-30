@@ -7,7 +7,9 @@ const createTag = (...obj) => {
   document.head.appendChild(tag)
 }
 
-const changeTitle = (path, { title, description, image, video }) => {
+const changeTitle = (meta, path) => {
+  if (!meta) return
+  const { title, description, image, video } = meta
   // Turn the meta tag definitions into actual elements in the head.
   // Remove any stale meta tags from the document using the key attribute we set below.
   Array.from(document.querySelectorAll(`[${keyMeta}]`)).map((el) => el.parentNode.removeChild(el))
@@ -27,13 +29,15 @@ const changeTitle = (path, { title, description, image, video }) => {
   }
   // domain
   const domain = process.env.VUE_APP_PROXY
-  // set url
-  createTag(['name', 'og:url'], ['content', domain + path])
-  createTag(['name', 'twitter:url'], ['content', domain + path])
   // set image
   const img = image || '/img/logo/full-logo-share.png'
   createTag(['name', 'og:image'], ['content', domain + img])
   createTag(['name', 'twitter:image'], ['content', domain + img])
+  // set url
+  if (path) {
+    createTag(['name', 'og:url'], ['content', domain + path])
+    createTag(['name', 'twitter:url'], ['content', domain + path])
+  }
   // set video
   if (video) {
     createTag(['name', 'og:type'], ['content', 'video'])
