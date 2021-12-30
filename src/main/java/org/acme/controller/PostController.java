@@ -45,16 +45,14 @@ public class PostController extends BaseController {
     // ========================= [POST] =========================
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findAllPost(@QueryParam(PAGE_PARAM) Integer page, @QueryParam(SIZE_PARAM) Integer size, @QueryParam(SEARCH_PARAM) String search, @QueryParam("c") Long catalogId) {
+    public List<?> findAllPost(@QueryParam(PAGE_PARAM) Integer page, @QueryParam(SIZE_PARAM) Integer size, @QueryParam(SEARCH_PARAM) String search, @QueryParam("c") Long catalogId) {
         List<?> list;
         if (catalogId == null) {
             list = postService.search(page == null ? PAGE_DEFAULT : page, size == null ? SIZE_DEFAULT : size, search);
         } else {
             list = postService.search(page == null ? PAGE_DEFAULT : page, size == null ? SIZE_DEFAULT : size, catalogId, search);
         }
-        return Response.ok(list)
-                .header(HttpHeaders.CACHE_CONTROL, "public,immutable,max-age=900")
-                .build();
+        return list;
     }
 
     @GET
