@@ -31,7 +31,7 @@ module.exports = {
     }
     config.plugins.delete('hash-module-ids')
     config.plugins.delete('named-chunks')
-    config.plugins.delete('preload')
+    // config.plugins.delete('preload')
     config.plugins.delete('prefetch')
   },
   configureWebpack: {

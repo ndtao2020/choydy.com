@@ -52,7 +52,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         if (search != null) {
             q += "where title like :s or content like :s ";
         }
-        Query query = getEm().createNativeQuery("select CAST (id AS varchar) " + q + "order by created desc");
+        Query query = getEm().createNativeQuery("select CAST (id AS varchar) " + q);
         if (search != null) {
             query.setParameter("s", "%" + search + "%");
         }

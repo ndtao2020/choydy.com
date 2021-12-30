@@ -51,12 +51,18 @@ const router = new VueRouter({
         {
           path: 'catalog/:id',
           name: 'home-catalog',
-          component: () => import('@/views/Main')
+          component: () => import('@/views/Main'),
+          meta: {
+            title: 'Danh mục'
+          }
         },
         {
           path: 'post/:id',
           name: 'post-detail',
-          component: () => import('@/views/Main/Detail')
+          component: () => import('@/views/Main/Detail'),
+          meta: {
+            title: 'Bài đăng'
+          }
         }
       ]
     },
@@ -69,7 +75,7 @@ router.beforeEach(({ path, meta = {} }, from, next) => {
   // loading
   Nprogress.start()
   // seo
-  seo(path, meta)
+  seo(meta, path)
   //check auth
   const { auth, roles } = meta
   if (auth) {
