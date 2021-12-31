@@ -7,9 +7,9 @@ const createTag = (...obj) => {
   document.head.appendChild(tag)
 }
 
-const changeTitle = (meta, path) => {
+const changeTitle = (meta) => {
   if (!meta) return
-  const { title, description, image, video } = meta
+  const { title, description } = meta
   // Turn the meta tag definitions into actual elements in the head.
   // Remove any stale meta tags from the document using the key attribute we set below.
   Array.from(document.querySelectorAll(`[${keyMeta}]`)).map((el) => el.parentNode.removeChild(el))
@@ -27,29 +27,29 @@ const changeTitle = (meta, path) => {
     createTag(['property', 'og:description'], ['content', description])
     createTag(['property', 'twitter:description'], ['content', description])
   }
-  // domain
-  const domain = process.env.VUE_APP_PROXY
-  // set image
-  const img = image || '/img/logo/full-logo-share.png'
-  createTag(['name', 'og:image'], ['content', domain + img])
-  createTag(['name', 'twitter:image'], ['content', domain + img])
-  // set url
-  if (path) {
-    createTag(['name', 'og:url'], ['content', domain + path])
-    createTag(['name', 'twitter:url'], ['content', domain + path])
-  }
-  // set video
-  if (video) {
-    createTag(['name', 'og:type'], ['content', 'video'])
-    createTag(['name', 'og:video'], ['content', domain + video])
-    createTag(['name', 'og:video:width'], ['content', '600'])
-    createTag(['name', 'og:video:height'], ['content', '500'])
-    createTag(['name', 'twitter:video'], ['content', domain + video])
-  } else {
-    createTag(['name', 'og:type'], ['content', 'website'])
-  }
-  // others
-  createTag(['name', 'twitter:card'], ['content', 'summary_large_image'])
+  // // domain
+  // const domain = process.env.VUE_APP_PROXY
+  // // set image
+  // const img = image || '/img/logo/full-logo-share.png'
+  // createTag(['name', 'og:image'], ['content', domain + img])
+  // createTag(['name', 'twitter:image'], ['content', domain + img])
+  // // set url
+  // if (path) {
+  //   createTag(['name', 'og:url'], ['content', domain + path])
+  //   createTag(['name', 'twitter:url'], ['content', domain + path])
+  // }
+  // // set video
+  // if (video) {
+  //   createTag(['name', 'og:type'], ['content', 'video'])
+  //   createTag(['name', 'og:video'], ['content', domain + video])
+  //   createTag(['name', 'og:video:width'], ['content', '600'])
+  //   createTag(['name', 'og:video:height'], ['content', '500'])
+  //   createTag(['name', 'twitter:video'], ['content', domain + video])
+  // } else {
+  //   createTag(['name', 'og:type'], ['content', 'website'])
+  // }
+  // // others
+  // createTag(['name', 'twitter:card'], ['content', 'summary_large_image'])
 }
 
 export default changeTitle

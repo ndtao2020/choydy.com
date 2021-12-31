@@ -19,9 +19,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.sql.SQLDataException;
 import java.util.List;
 import java.util.UUID;
@@ -45,30 +43,28 @@ public class PostController extends BaseController {
     // ========================= [POST] =========================
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findAllPost(@QueryParam(PAGE_PARAM) Integer page, @QueryParam(SIZE_PARAM) Integer size, @QueryParam(SEARCH_PARAM) String search, @QueryParam("c") Long catalogId) {
+    public List<?> findAllPost(@QueryParam(PAGE_PARAM) Integer page, @QueryParam(SIZE_PARAM) Integer size, @QueryParam(SEARCH_PARAM) String search, @QueryParam("c") Long catalogId) {
         List<?> list;
         if (catalogId == null) {
             list = postService.search(page == null ? PAGE_DEFAULT : page, size == null ? SIZE_DEFAULT : size, search);
         } else {
             list = postService.search(page == null ? PAGE_DEFAULT : page, size == null ? SIZE_DEFAULT : size, catalogId, search);
         }
-        return Response.ok(list)
-                .header(HttpHeaders.CACHE_CONTROL, "public,immutable,max-age=900")
-                .build();
+        return list;
     }
 
     @GET
     @Path("/" + ID)
     @Produces(MediaType.APPLICATION_JSON)
-    public Object postId(@QueryParam(ID_PARAM) UUID postId) {
-        return postService.findObjectById(postId);
+    public Object postId(@QueryParam(ID_PARAM) String postId) throws SQLDataException {
+        return postService.customFindObjectById(postId);
     }
 
     // ========================= [TAGS] =========================
     @GET
     @Path("/tag")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<?> findAllTagByPostId(@QueryParam(ID_PARAM) UUID postId) throws SQLDataException {
+    public List<?> findAllTagByPostId(@QueryParam(ID_PARAM) String postId) throws SQLDataException {
         return postTagService.findByPostId(postId);
     }
 
@@ -76,7 +72,7 @@ public class PostController extends BaseController {
     @GET
     @Path("/" + Media.PATH)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<?> findAllMediaByPostId(@QueryParam(ID_PARAM) UUID postId) throws SQLDataException {
+    public List<?> findAllMediaByPostId(@QueryParam(ID_PARAM) String postId) throws SQLDataException {
         return mediaService.findByPostId(postId);
     }
 

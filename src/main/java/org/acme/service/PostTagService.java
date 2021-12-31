@@ -45,28 +45,29 @@ public class PostTagService {
                 .getResultList();
     }
 
-    public List<?> findByPostId(UUID postId) throws SQLDataException {
-        PostDTO postDTO = postService.findDTOById(postId);
+    public List<?> findByPostId(String postId) throws SQLDataException {
+        PostDTO postDTO = postService.customFindDTOById(postId);
         if (postDTO == null) {
             throw new SQLDataException("Post id does not exist !");
         }
         List<?> list = postDTO.getTags();
         if (list == null) {
-            List<?> tags = em.createNativeQuery("select tag from " + PostTag.PATH + " where " + Post.PATH_ID + "=?1")
-                    .setParameter(1, postId)
-                    .getResultList();
-            if (tags == null) {
-                throw new SQLDataException("Data does not exist with Post id !");
-            }
-            // set new cache
-            postDTO.setTags(tags);
             try {
-                postService.updateDTOById(postId, postDTO);
+                UUID uuid = UUID.fromString(postId);
+                List<?> tags = em.createNativeQuery("select tag from " + PostTag.PATH + " where " + Post.PATH_ID + "=?1")
+                        .setParameter(1, uuid)
+                        .getResultList();
+                if (tags == null) {
+                    throw new SQLDataException("Data does not exist with Post id !");
+                }
+                // set new cache
+                postDTO.setTags(tags);
+                postService.updateDTOById(uuid, postDTO);
+                // return
+                return tags;
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }
-            // return
-            return tags;
         }
         return list;
     }

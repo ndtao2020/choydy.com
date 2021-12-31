@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.io.InputStream;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +48,41 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         return postDTO;
     }
 
+    public PostDTO customFindDTOById(String id) throws SQLDataException {
+        PostDTO dto = fetchFromCache(id);
+        if (dto == null) {
+            try {
+                UUID uuid = UUID.fromString(id);
+                Post data = super.getById(uuid);
+                return data == null ? null : this.saveDTOById(uuid, this.convertToDTO(data));
+            } catch (Exception e) {
+                throw new SQLDataException(e.getMessage());
+            }
+        }
+        return dto;
+    }
+
+    public Object customFindObjectById(String id) throws SQLDataException {
+        Object dto = fetchCache(id);
+        if (dto == null) {
+            try {
+                UUID uuid = UUID.fromString(id);
+                Post data = super.getById(uuid);
+                return data == null ? null : this.saveDTOById(uuid, this.convertToDTO(data));
+            } catch (Exception e) {
+                throw new SQLDataException(e.getMessage());
+            }
+        }
+        return dto;
+    }
+
     public List<?> search(int page, int size, String search) {
         String q = "from post ";
         if (search != null) {
             q += "where title like :s or content like :s ";
         }
-        Query query = getEm().createNativeQuery("select CAST (id AS varchar) " + q);
+//        Query query = getEm().createNativeQuery("select CAST (id AS varchar) " + q + "order by random()");
+        Query query = getEm().createNativeQuery("select CAST (id AS varchar) " + q + "order by created desc");
         if (search != null) {
             query.setParameter("s", "%" + search + "%");
         }

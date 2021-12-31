@@ -27,44 +27,46 @@ public class MediaService extends BaseCacheService<Media, MediaDTO, UUID> {
         return new MediaDTO(data);
     }
 
-    public String findCacheById(UUID id) throws SQLDataException {
-        String data = fetchCache(id.toString());
+    public String findCacheById(String id) throws SQLDataException {
+        String data = fetchCache(id);
         if (data == null) {
+            UUID uuid = UUID.fromString(id);
             Object media = getEm()
                     .createNativeQuery("select link from " + getTableName(getDomainClass()) + " where id=?1")
-                    .setParameter(1, id)
+                    .setParameter(1, uuid)
                     .getSingleResult();
             if (media == null) {
                 throw new SQLDataException("Data does not exist with id !");
             }
-            return this.saveObjectById(id, media.toString(), true).toString();
+            return this.saveObjectById(uuid, media.toString(), true).toString();
         }
         return data;
     }
 
-    public List<?> findByPostId(UUID postId) throws SQLDataException {
-        PostDTO postDTO = postService.findDTOById(postId);
+    public List<?> findByPostId(String postId) throws SQLDataException {
+        PostDTO postDTO = postService.customFindDTOById(postId);
         if (postDTO == null) {
             throw new SQLDataException("Post id does not exist !");
         }
         List<?> list = postDTO.getMedia();
         if (list == null) {
-            List<?> media = getEm()
-                    .createNativeQuery("select CAST (id AS varchar),type from " + getTableName(getDomainClass()) + " where " + Post.PATH_ID + "=?1")
-                    .setParameter(1, postId)
-                    .getResultList();
-            if (media == null) {
-                throw new SQLDataException("Data does not exist with Post id !");
-            }
-            // set new cache
-            postDTO.setMedia(media);
             try {
-                postService.updateDTOById(postId, postDTO);
+                UUID uuid = UUID.fromString(postId);
+                List<?> media = getEm()
+                        .createNativeQuery("select CAST (id AS varchar),type from " + getTableName(getDomainClass()) + " where " + Post.PATH_ID + "=?1")
+                        .setParameter(1, uuid)
+                        .getResultList();
+                if (media == null) {
+                    throw new SQLDataException("Data does not exist with Post id !");
+                }
+                // set new cache
+                postDTO.setMedia(media);
+                postService.updateDTOById(uuid, postDTO);
+                // return
+                return media;
             } catch (Exception e) {
                 getLog().error(e.getMessage());
             }
-            // return
-            return media;
         }
         return list;
     }

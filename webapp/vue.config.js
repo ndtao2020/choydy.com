@@ -21,6 +21,11 @@ module.exports = {
         target: process.env.VUE_APP_PROXY || 'http://localhost:8181',
         ws: true,
         changeOrigin: false
+      },
+      '^/media': {
+        target: process.env.VUE_APP_PROXY || 'http://localhost:8181',
+        ws: true,
+        changeOrigin: false
       }
     }
   },

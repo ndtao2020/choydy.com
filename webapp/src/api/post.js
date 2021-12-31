@@ -1,4 +1,4 @@
-import { publ, publicGet } from '@/request'
+import { publicGet } from '@/request'
 import configDB from '@/database/base/config'
 import { searchData, saveData, updateData } from '@/database'
 
@@ -51,7 +51,7 @@ const findAllTagByPostId = async (postId) => {
   return tags
 }
 // media
-const getMediaLink = (id, type) => publ(`/media?i=${id}&t=${type}`)
+const getMediaLink = (id, type) => `/media/${id}?t=${type}`
 const findAllMediaByPostId = async (postId) => {
   const post = await getPostById(postId)
   if (!post) {

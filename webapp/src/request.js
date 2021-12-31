@@ -42,7 +42,6 @@ const config = (url, method, body, headers = {}) => {
 }
 
 // Public
-const publ = (url) => PREFIX + PUBLIC + url
 const publicGet = (url) => config(PUBLIC + url, 'GET')
 
 // Auth
@@ -63,7 +62,6 @@ const oauth = (url, body) =>
   })
 
 export {
-  publ,
   // Oauth
   oauth,
   // Public
