@@ -9,7 +9,11 @@ import org.acme.service.PostService;
 import org.acme.service.PostTagService;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
+import org.jcodec.api.FrameGrab;
+import org.jcodec.api.JCodecException;
+import org.jcodec.scale.AWTUtil;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,6 +22,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -42,9 +49,8 @@ public class HomeRoute {
 
     public static Response responseBuilder(Object entity) {
         return Response
-                .ok(entity)
+                .ok(entity, "text/html;charset=utf-8")
                 .header(HttpHeaders.CACHE_CONTROL, "public,immutable,max-age=1800")
-                .header(HttpHeaders.CONTENT_TYPE, "text/html; charset=utf-8")
                 .build();
     }
 
@@ -53,21 +59,26 @@ public class HomeRoute {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getById(@PathParam String id, @QueryParam("t") String type) throws SQLDataException {
         return Response
-                .ok(fileStorageService.getFile(mediaService.findCacheById(id)))
-                .header(HttpHeaders.CONTENT_TYPE, type)
+                .ok(fileStorageService.getFile(mediaService.findCacheById(id)), type)
                 .build();
     }
 
     @GET
     @Path("/" + Media.PATH + "/c/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response capture(@PathParam String id, @QueryParam("t") String type) throws IllegalAccessException, SQLDataException {
+    public Response capture(@PathParam String id, @QueryParam("t") String type) throws IllegalAccessException, SQLDataException, JCodecException, IOException {
         if (!FileStorageService.VIDEO_TYPES.contains(type)) {
             throw new IllegalAccessException("No support for type " + type + " !");
         }
+        final File file = fileStorageService.getFile(mediaService.findCacheById(id));
+        if (file == null) {
+            throw new IllegalAccessException("file not found !");
+        }
+        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        BufferedImage bufferedImage = AWTUtil.toBufferedImage(FrameGrab.getFrameFromFile(file, 10));
+        ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
         return Response
-                .ok(fileStorageService.getFile(mediaService.findCacheById(id)))
-                .header(HttpHeaders.CONTENT_TYPE, type)
+                .ok(byteArrayOutputStream.toByteArray(), "image/png")
                 .build();
     }
 
@@ -80,20 +91,34 @@ public class HomeRoute {
         if (postDTO == null) {
             return responseBuilder(resourceAsStream);
         }
-        assert resourceAsStream != null;
+        // validate
+        String title = postDTO.getTitle();
+        String description = postDTO.getContent();
+        String url = ConfigProvider.getConfig().getConfigValue("vue.app.proxy").getValue();
+        if (title == null || description == null || resourceAsStream == null || url == null) {
+            return responseBuilder(resourceAsStream);
+        }
+        // build
         String text = new String(resourceAsStream.readAllBytes(), StandardCharsets.UTF_8);
+        int indexS = text.indexOf(S_META);
+        int indexE = text.indexOf(E_META);
+        if (indexS == -1 || indexE == -1) {
+            return responseBuilder(resourceAsStream);
+        }
+        title = title.replaceAll("\"", "'");
+        description = description.replaceAll("\"", "'");
         // substring
         StringBuilder builder = new StringBuilder();
-        builder.append(text, 0, text.indexOf(S_META));
+        builder.append(text, 0, indexS);
         // title FB,Twitter
-        builder.append("<title>").append(postDTO.getTitle()).append("</title>");
-        builder.append("<meta name=\"title\" content=\"").append(postDTO.getTitle()).append("\">");
-        builder.append("<meta property=\"og:title\" content=\"").append(postDTO.getTitle()).append("\">");
-        builder.append("<meta name=\"twitter:title\" content=\"").append(postDTO.getTitle()).append("\">");
+        builder.append("<title>").append(title).append("</title>");
+        builder.append("<meta name=\"title\" content=\"").append(title).append("\">");
+        builder.append("<meta property=\"og:title\" content=\"").append(title).append("\">");
+        builder.append("<meta name=\"twitter:title\" content=\"").append(title).append("\">");
         // description FB,Twitter
-        builder.append("<meta name=\"description\" content=\"").append(postDTO.getContent()).append("\">");
-        builder.append("<meta property=\"og:description\" content=\"").append(postDTO.getContent()).append("\">");
-        builder.append("<meta name=\"twitter:description\" content=\"").append(postDTO.getContent()).append("\">");
+        builder.append("<meta name=\"description\" content=\"").append(description).append("\">");
+        builder.append("<meta property=\"og:description\" content=\"").append(description).append("\">");
+        builder.append("<meta name=\"twitter:description\" content=\"").append(description).append("\">");
         // keywords
         List<?> tags = postTagService.findByPostId(id);
         if (tags != null && !tags.isEmpty()) {
@@ -105,45 +130,43 @@ public class HomeRoute {
             // append
             builder.append("<meta name=\"keywords\" content=\"").append(tagStr).append("\">");
         }
-        // url
-        String url = ConfigProvider.getConfig().getConfigValue("vue.app.proxy").getValue();
-        if (url != null) {
-            builder.append("<meta property=\"og:url\" content=\"").append(url).append("\">");
-            // type
-            List<?> media = mediaService.findByPostId(id);
-            if (media != null && !media.isEmpty()) {
-                List<?> mediaArr = (List<?>) media.get(0);
-                String mediaType = mediaArr.get(1).toString();
-                String link = url + "/" + Media.PATH + "/" + mediaArr.get(0) + "?t=" + mediaType;
-                // if images
-                if (FileStorageService.IMAGE_TYPES.contains(mediaType)) {
-                    // FB
-                    builder.append("<meta property=\"og:image\" content=\"").append(link).append("\">");
-                    builder.append("<meta property=\"og:image:type\" content=\"").append(mediaType).append("\">");
-                    // twitter
-                    builder.append("<meta property=\"twitter:card\" content=\"summary_large_image\">");
-                    builder.append("<meta property=\"twitter:image\" content=\"").append(id).append("\">");
-                }
-                // if videos
-                if (FileStorageService.VIDEO_TYPES.contains(mediaType)) {
-                    String capture = url + "/" + Media.PATH + "/c/" + mediaArr.get(0) + "?t=" + mediaType;
-                    // FB
-                    builder.append("<meta property=\"og:type\" content=\"video.other\">");
-                    builder.append("<meta property=\"og:video\" content=\"").append(link).append("\">");
-                    builder.append("<meta property=\"og:video:type\" content=\"").append(mediaType).append("\">");
-                    builder.append("<meta property=\"og:video:width\" content=\"350\">");
-                    builder.append("<meta property=\"og:video:height\" content=\"196\">");
-                    builder.append("<meta property=\"og:image\" content=\"").append(capture).append("\">");
-                    // twitter
-                    builder.append("<meta name=\"twitter:card\" content=\"player\">");
-                    builder.append("<meta name=\"twitter:player\" content=\"").append(link).append("\">");
-                    builder.append("<meta name=\"twitter:player:width\" content=\"350\">");
-                    builder.append("<meta name=\"twitter:player:height\" content=\"196\">");
-                    builder.append("<meta name=\"twitter:image\" content=\"").append(capture).append("\">");
-                }
+        // link
+        List<?> media = mediaService.findByPostId(id);
+        if (media != null && !media.isEmpty()) {
+            List<?> mediaArr = (List<?>) media.get(0);
+            String mediaType = mediaArr.get(1).toString();
+            String link = url + "/" + Media.PATH + "/" + mediaArr.get(0) + "?t=" + mediaType;
+            // url
+            builder.append("<link rel=\"canonical\" href=\"").append(link).append("\">");
+            builder.append("<meta property=\"og:url\" content=\"").append(link).append("\">");
+            // if images
+            if (FileStorageService.IMAGE_TYPES.contains(mediaType)) {
+                // FB
+                builder.append("<meta property=\"og:image\" content=\"").append(link).append("\">");
+                builder.append("<meta property=\"og:image:type\" content=\"").append(mediaType).append("\">");
+                // twitter
+                builder.append("<meta property=\"twitter:card\" content=\"summary_large_image\">");
+                builder.append("<meta property=\"twitter:image\" content=\"").append(id).append("\">");
+            }
+            // if videos
+            if (FileStorageService.VIDEO_TYPES.contains(mediaType)) {
+                String capture = url + "/" + Media.PATH + "/c/" + mediaArr.get(0) + "?t=" + mediaType;
+                // FB
+                builder.append("<meta property=\"og:type\" content=\"video.other\">");
+                builder.append("<meta property=\"og:video\" content=\"").append(link).append("\">");
+                builder.append("<meta property=\"og:video:type\" content=\"").append(mediaType).append("\">");
+                builder.append("<meta property=\"og:video:width\" content=\"350\">");
+                builder.append("<meta property=\"og:video:height\" content=\"196\">");
+                builder.append("<meta property=\"og:image\" content=\"").append(capture).append("\">");
+                // twitter
+                builder.append("<meta name=\"twitter:card\" content=\"player\">");
+                builder.append("<meta name=\"twitter:player\" content=\"").append(link).append("\">");
+                builder.append("<meta name=\"twitter:player:width\" content=\"350\">");
+                builder.append("<meta name=\"twitter:player:height\" content=\"196\">");
+                builder.append("<meta name=\"twitter:image\" content=\"").append(capture).append("\">");
             }
         }
-        builder.append(text.substring(text.indexOf(E_META)));
+        builder.append(text.substring(indexE));
         // return
         return responseBuilder(builder.toString());
     }
