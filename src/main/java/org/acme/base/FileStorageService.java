@@ -30,6 +30,10 @@ public class FileStorageService {
         return url + path;
     }
 
+    public String getThumbnail(String path) {
+        return path + ".png";
+    }
+
     public File getFile(String path) {
         return new File(getFullPath(path));
     }
@@ -54,10 +58,11 @@ public class FileStorageService {
         }
     }
 
-    public String uploadVideo(String table, String id, String fileName, InputStream inputStream) {
+    public String uploadVideo(String table, String id, String fileName, InputStream inputStream, InputStream thumbnail) {
         try {
             String path = generatePathFile(BUCKET_VIDEO, table, id, fileName);
             FileUtils.copyInputStreamToFile(inputStream, getFile(path));
+            FileUtils.copyInputStreamToFile(thumbnail, getFile(getThumbnail(path)));
             return path;
         } catch (Exception e) {
             logger.error("uploadVideo: " + e.getMessage());

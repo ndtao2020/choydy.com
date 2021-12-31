@@ -24,6 +24,10 @@ public class PostMultipartDTO {
     @PartType(MediaType.TEXT_PLAIN)
     public String data;
 
+    @FormParam("thumbnail")
+    @PartType(MediaType.APPLICATION_OCTET_STREAM)
+    public InputStream thumbnail;
+
     public InputStream getFile() {
         return file;
     }
@@ -54,5 +58,13 @@ public class PostMultipartDTO {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public InputStream getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(InputStream thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

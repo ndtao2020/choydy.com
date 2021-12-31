@@ -25,10 +25,20 @@
         <b-button v-for="tag in post.tags" :key="tag" variant="link">#{{ tag }}</b-button>
         <div>
           <img v-if="tab === 0 && image" :src="image" />
-          <video v-if="tab === 1 && video" width="90%" :src="video" controls autoplay />
+          <video
+            v-if="tab === 1 && video"
+            ref="video"
+            width="90%"
+            :src="video"
+            controls
+            autoplay
+            @loadedmetadata="onLoadedmetadata"
+            @timeupdate="onVideoTimeUpdate"
+          />
         </div>
       </div>
     </div>
+    <canvas ref="canvas" style="display: none" />
     <div class="comment-area p-3">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center justify-content-between">
@@ -86,6 +96,33 @@ export default {
     tab: [Number],
     image: [Object, String],
     video: [Object, String]
+  },
+  methods: {
+    onLoadedmetadata() {
+      const { video, canvas } = this.$refs
+      if (!video || !canvas) {
+        return
+      }
+      // Set canvas dimensions same as video dimensions
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+    },
+    onVideoTimeUpdate() {
+      const { video, canvas } = this.$refs
+      if (!video || !canvas) {
+        return
+      }
+      // Placing the current frame image of the video in the canvas
+      canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight)
+      // file
+      var blobBin = atob(canvas.toDataURL().split(',')[1])
+      var array = []
+      for (var i = 0; i < blobBin.length; i++) {
+        array.push(blobBin.charCodeAt(i))
+      }
+      // return
+      this.$emit('update', new Blob([new Uint8Array(array)], { type: 'image/png' }))
+    }
   }
 }
 </script>
