@@ -211,6 +211,8 @@ export default {
         video.volume = 0.5
       }
       video.muted = !video.muted
+      this.changePlayerVolume(video.volume)
+      this.changePlayerIsMuted(video.muted)
     },
     toggleFullscreen() {
       //   if (!screenfull.isEnabled) return

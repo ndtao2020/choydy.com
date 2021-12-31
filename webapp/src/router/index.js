@@ -59,10 +59,7 @@ const router = new VueRouter({
         {
           path: 'post/:id',
           name: 'post-detail',
-          component: () => import('@/views/Main/Detail'),
-          meta: {
-            title: 'Bài đăng'
-          }
+          component: () => import('@/views/Main/Detail')
         }
       ]
     },
