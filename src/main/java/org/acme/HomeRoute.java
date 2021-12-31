@@ -7,13 +7,9 @@ import org.acme.model.dto.PostDTO;
 import org.acme.service.MediaService;
 import org.acme.service.PostService;
 import org.acme.service.PostTagService;
-import org.bytedeco.javacv.FFmpegFrameGrabber;
-import org.bytedeco.javacv.Frame;
-import org.bytedeco.javacv.Java2DFrameConverter;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,8 +18,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -57,43 +51,7 @@ public class HomeRoute {
     @Path("/" + Media.PATH + "/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getById(@PathParam String id, @QueryParam("t") String type) throws SQLDataException {
-        return Response
-                .ok(fileStorageService.getFile(mediaService.findCacheById(id)), type)
-                .build();
-    }
-
-    @GET
-    @Path("/" + Media.PATH + "/c/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response capture(@PathParam String id, @QueryParam("t") String type) throws IllegalAccessException, SQLDataException, IOException {
-        if (!FileStorageService.VIDEO_TYPES.contains(type)) {
-            throw new IllegalAccessException("No support for type " + type + " !");
-        }
-        final String path = fileStorageService.getFullPath(mediaService.findCacheById(id));
-        if (path == null) {
-            throw new IllegalAccessException("file not found !");
-        }
-        try (FFmpegFrameGrabber fFmpegFrameGrabber = new FFmpegFrameGrabber(path)) {
-            int flag = 0;
-            fFmpegFrameGrabber.start();
-            final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            // Get the total number of video frames
-            while (flag <= fFmpegFrameGrabber.getLengthInFrames()) {
-                // Get every frame
-                Frame frame = fFmpegFrameGrabber.grabImage();
-                if (frame != null && flag == 5) {
-                    Java2DFrameConverter converter = new Java2DFrameConverter();
-                    ImageIO.write(converter.getBufferedImage(frame), "png", byteArrayOutputStream);
-                    break;
-                }
-                flag++;
-            }
-            return Response
-                    .ok(byteArrayOutputStream.toByteArray(), "image/png")
-                    .build();
-        } catch (Exception e) {
-            return Response.ok(new File(path), type).build();
-        }
+        return Response.ok(fileStorageService.getFile(mediaService.findCacheById(id)), type).build();
     }
 
     @GET
@@ -168,7 +126,7 @@ public class HomeRoute {
             }
             // if videos
             if (FileStorageService.VIDEO_TYPES.contains(mediaType)) {
-                String capture = url + "/" + Media.PATH + "/c/" + mediaArr.get(0) + "?t=" + mediaType;
+                String capture = url + "/img/logo/full-logo-share.png";
                 // FB
                 builder.append("<meta property=\"og:type\" content=\"video.other\">");
                 builder.append("<meta property=\"og:video\" content=\"").append(link).append("\">");
