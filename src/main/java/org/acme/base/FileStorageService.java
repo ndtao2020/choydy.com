@@ -26,8 +26,12 @@ public class FileStorageService {
         return "/" + bucket + "/" + year.substring(2) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + table + id + fileName;
     }
 
+    public String getFullPath(String path) {
+        return url + path;
+    }
+
     public File getFile(String path) {
-        return new File(url + path);
+        return new File(getFullPath(path));
     }
 
     public void deleteFile(String path) {
