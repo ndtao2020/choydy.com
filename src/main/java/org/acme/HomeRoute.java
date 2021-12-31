@@ -18,6 +18,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -52,6 +53,20 @@ public class HomeRoute {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getById(@PathParam String id, @QueryParam("t") String type) throws SQLDataException {
         return Response.ok(fileStorageService.getFile(mediaService.findCacheById(id)), type).build();
+    }
+
+    @GET
+    @Path("/" + Media.PATH + "/c/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response capture(@PathParam String id, @QueryParam("t") String type) throws IllegalAccessException, SQLDataException, IOException {
+        if (!FileStorageService.VIDEO_TYPES.contains(type)) {
+            throw new IllegalAccessException("No support for type " + type + " !");
+        }
+        final String path = fileStorageService.getFullPath(mediaService.findCacheById(id));
+        if (path == null) {
+            throw new IllegalAccessException("file not found !");
+        }
+        return Response.ok(new File(fileStorageService.getThumbnail(path)), "image/png").build();
     }
 
     @GET
@@ -126,7 +141,7 @@ public class HomeRoute {
             }
             // if videos
             if (FileStorageService.VIDEO_TYPES.contains(mediaType)) {
-                String capture = url + "/img/logo/full-logo-share.png";
+                String capture = url + "/" + Media.PATH + "/c/" + mediaArr.get(0) + "?t=" + mediaType;
                 // FB
                 builder.append("<meta property=\"og:type\" content=\"video.other\">");
                 builder.append("<meta property=\"og:video\" content=\"").append(link).append("\">");

@@ -2,6 +2,7 @@ package org.acme.controller.auth.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.acme.base.BaseController;
+import org.acme.base.FileStorageService;
 import org.acme.base.QueryPage;
 import org.acme.base.UpdateList;
 import org.acme.base.auth.JwtPrincipal;
@@ -62,10 +63,13 @@ public class PostController extends BaseController {
         JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         try {
             PostDTO postDTO = mapper.readValue(data.getData(), PostDTO.class);
-            if (postDTO.getCatalogId() == null || postDTO.getTags() == null) {
+            if (data.getFileType() == null || postDTO.getCatalogId() == null || postDTO.getTags() == null) {
                 throw new NullPointerException("Catalog Id and tags must not null !");
             }
-            return postService.create(principal.getId(), postDTO, data.getFileType(), data.getFileName(), data.getFile());
+            if (FileStorageService.VIDEO_TYPES.contains(data.getFileType()) && data.getThumbnail() == null) {
+                throw new NullPointerException("The thumbnail must not null !");
+            }
+            return postService.create(principal.getId(), postDTO, data.getFileType(), data.getFileName(), data.getFile(), data.getThumbnail());
         } catch (Exception e) {
             logger.error(e.getMessage());
             throw new IllegalAccessException(e.getMessage());
@@ -123,7 +127,7 @@ public class PostController extends BaseController {
             post.setTitle(postDTO.getTitle());
             post.setContent(postDTO.getContent());
             // update
-            return postService.update(post, postDTO.getCatalogId(), new UpdateList<>(inserts, removes), data.getFileType(), data.getFileName(), data.getFile());
+            return postService.update(post, postDTO.getCatalogId(), new UpdateList<>(inserts, removes), data.getFileType(), data.getFileName(), data.getFile(), data.getThumbnail());
         } catch (Exception e) {
             logger.error(e.getMessage());
             throw new IllegalAccessException(e.getMessage());

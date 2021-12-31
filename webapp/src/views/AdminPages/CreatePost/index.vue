@@ -85,7 +85,7 @@
       <b-col>
         <widget>
           <h4 class="text-center mb-1">Xem trước bài đăng</h4>
-          <Preview :post="post" :tab="tabIndex" :image="urlImage" :video="urlVideo" />
+          <Preview :post="post" :tab="tabIndex" :image="urlImage" :video="urlVideo" @update="onVideoTimeUpdate" />
         </widget>
       </b-col>
     </b-row>
@@ -137,7 +137,8 @@ export default {
       urlImage: null,
       postImage: null,
       urlVideo: null,
-      postVideo: null
+      postVideo: null,
+      thumbnail: null
     }
   },
   mounted() {
@@ -159,6 +160,9 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    onVideoTimeUpdate(file) {
+      this.thumbnail = file
     },
     filterCatalog(id) {
       return this.catalogs.filter((x) => x.parrent === id)
@@ -196,9 +200,11 @@ export default {
         this.error = 'Vui lòng chọn ít nhất 1 hình ảnh !'
         return
       }
-      if (this.tabIndex === 1 && !this.postVideo) {
-        this.error = 'Vui lòng chọn ít nhất 1 video !'
-        return
+      if (this.tabIndex === 1) {
+        if (!this.postVideo || !this.thumbnail) {
+          this.error = 'Vui lòng chọn ít nhất 1 video !'
+          return
+        }
       }
       const confirm = await this.$bvModal.msgBoxConfirm('Bạn đã thật sự muốn đăng bài ?', {
         title: 'Please Confirm',
@@ -225,6 +231,9 @@ export default {
         formData.append('fileName', fileName.length > 20 ? fileName.substring(fileName.length - 19, fileName.length) : fileName)
         formData.append('fileType', file.type)
         formData.append('data', JSON.stringify(this.post))
+        if (this.thumbnail) {
+          formData.append('thumbnail', this.thumbnail)
+        }
         await createPost(formData)
         // redirect
         this.$router.push('/admin/post-list')

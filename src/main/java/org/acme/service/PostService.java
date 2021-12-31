@@ -130,7 +130,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     }
 
     @Transactional
-    public PostDTO create(UUID userId, PostDTO postDTO, String fileType, String fileName, InputStream file) throws SQLException {
+    public PostDTO create(UUID userId, PostDTO postDTO, String fileType, String fileName, InputStream file, InputStream thumbnail) throws SQLException {
         // validate
         if (!(FileStorageService.IMAGE_TYPES.contains(fileType) || FileStorageService.VIDEO_TYPES.contains(fileType))) {
             throw new SQLException("The file type does not support !");
@@ -181,7 +181,10 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
             }
             // if videos
             if (FileStorageService.VIDEO_TYPES.contains(fileType)) {
-                media1.setLink(fileStorageService.uploadVideo(Post.PATH, mediaId, fileName, file));
+                if (thumbnail == null) {
+                    throw new NullPointerException("The thumbnail must not null !");
+                }
+                media1.setLink(fileStorageService.uploadVideo(Post.PATH, mediaId, fileName, file, thumbnail));
             }
             mediaService.update(media1);
         }
@@ -189,7 +192,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     }
 
     @Transactional
-    public PostDTO update(Post post, Long catalogId, UpdateList<String> TagList, String fileType, String fileName, InputStream file) throws SQLException {
+    public PostDTO update(Post post, Long catalogId, UpdateList<String> TagList, String fileType, String fileName, InputStream file, InputStream thumbnail) throws SQLException {
         // validate
         Catalog catalog = catalogService.getById(catalogId);
         if (catalog == null) {
@@ -222,7 +225,10 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
                 }
                 // if video
                 if (FileStorageService.VIDEO_TYPES.contains(fileType)) {
-                    media.setLink(fileStorageService.uploadVideo(Post.PATH, mediaId, fileName, file));
+                    if (thumbnail == null) {
+                        throw new NullPointerException("The thumbnail must not null !");
+                    }
+                    media.setLink(fileStorageService.uploadVideo(Post.PATH, mediaId, fileName, file, thumbnail));
                 }
                 mediaService.update(media);
             }
