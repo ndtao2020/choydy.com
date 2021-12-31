@@ -69,11 +69,6 @@
         <!-- https://mvnrepository.com/artifact/org.bytedeco/javacv -->
         <dependency>
             <groupId>org.bytedeco</groupId>
-            <artifactId>javacpp</artifactId>
-            <version>1.5.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bytedeco</groupId>
             <artifactId>javacv</artifactId>
             <version>1.5.6</version>
         </dependency>
@@ -81,11 +76,6 @@
             <groupId>org.bytedeco</groupId>
             <artifactId>javacv-platform</artifactId>
             <version>1.5.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>ffmpeg-platform</artifactId>
-            <version>4.4-1.5.6</version>
         </dependency>
     </dependencies>
     <build>
@@ -224,6 +214,7 @@
             </build>
             <properties>
                 <quarkus.package.type>native</quarkus.package.type>
+                <quarkus.native.additional-build-args>--no-fallback --allow-incomplete-classpath</quarkus.native.additional-build-args>
             </properties>
         </profile>
     </profiles>
