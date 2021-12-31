@@ -7,11 +7,11 @@ import org.acme.model.dto.PostDTO;
 import org.acme.service.MediaService;
 import org.acme.service.PostService;
 import org.acme.service.PostTagService;
+import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.javacv.Frame;
+import org.bytedeco.javacv.Java2DFrameConverter;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
-import org.jcodec.api.FrameGrab;
-import org.jcodec.api.JCodecException;
-import org.jcodec.scale.AWTUtil;
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
@@ -22,7 +22,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -66,20 +65,35 @@ public class HomeRoute {
     @GET
     @Path("/" + Media.PATH + "/c/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response capture(@PathParam String id, @QueryParam("t") String type) throws IllegalAccessException, SQLDataException, JCodecException, IOException {
+    public Response capture(@PathParam String id, @QueryParam("t") String type) throws IllegalAccessException, SQLDataException, IOException {
         if (!FileStorageService.VIDEO_TYPES.contains(type)) {
             throw new IllegalAccessException("No support for type " + type + " !");
         }
-        final File file = fileStorageService.getFile(mediaService.findCacheById(id));
-        if (file == null) {
+        final String path = fileStorageService.getFullPath(mediaService.findCacheById(id));
+        if (path == null) {
             throw new IllegalAccessException("file not found !");
         }
-        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        BufferedImage bufferedImage = AWTUtil.toBufferedImage(FrameGrab.getFrameFromFile(file, 10));
-        ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
-        return Response
-                .ok(byteArrayOutputStream.toByteArray(), "image/png")
-                .build();
+        try (FFmpegFrameGrabber fFmpegFrameGrabber = new FFmpegFrameGrabber(path)) {
+            int flag = 0;
+            fFmpegFrameGrabber.start();
+            final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            // Get the total number of video frames
+            while (flag <= fFmpegFrameGrabber.getLengthInFrames()) {
+                // Get every frame
+                Frame frame = fFmpegFrameGrabber.grabImage();
+                if (frame != null && flag == 5) {
+                    Java2DFrameConverter converter = new Java2DFrameConverter();
+                    ImageIO.write(converter.getBufferedImage(frame), "png", byteArrayOutputStream);
+                    break;
+                }
+                flag++;
+            }
+            return Response
+                    .ok(byteArrayOutputStream.toByteArray(), "image/png")
+                    .build();
+        } catch (Exception e) {
+            return Response.ok(new File(path), type).build();
+        }
     }
 
     @GET
@@ -106,6 +120,9 @@ public class HomeRoute {
             return responseBuilder(resourceAsStream);
         }
         title = title.replaceAll("\"", "'");
+        if (title.length() <= 80) {
+            title += " | " + url.substring(8);
+        }
         description = description.replaceAll("\"", "'");
         // substring
         StringBuilder builder = new StringBuilder();
@@ -130,15 +147,16 @@ public class HomeRoute {
             // append
             builder.append("<meta name=\"keywords\" content=\"").append(tagStr).append("\">");
         }
+        // url
+        String fullUrl = url + "/" + Post.PATH + "/" + id;
+        builder.append("<link rel=\"canonical\" href=\"").append(fullUrl).append("\">");
+        builder.append("<meta property=\"og:url\" content=\"").append(fullUrl).append("\">");
         // link
         List<?> media = mediaService.findByPostId(id);
         if (media != null && !media.isEmpty()) {
             List<?> mediaArr = (List<?>) media.get(0);
             String mediaType = mediaArr.get(1).toString();
             String link = url + "/" + Media.PATH + "/" + mediaArr.get(0) + "?t=" + mediaType;
-            // url
-            builder.append("<link rel=\"canonical\" href=\"").append(link).append("\">");
-            builder.append("<meta property=\"og:url\" content=\"").append(link).append("\">");
             // if images
             if (FileStorageService.IMAGE_TYPES.contains(mediaType)) {
                 // FB
