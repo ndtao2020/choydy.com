@@ -42,7 +42,7 @@
           <div class="like-data">
             <div class="dropdown">
               <span>
-                <img src="@/assets/images/icon/01.png" class="" alt="" height="24" width="24" />
+                <img src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
               </span>
               <div class="dropdown-menu" style="">
                 <img class="ml-2 mr-2" src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
@@ -67,24 +67,25 @@
           <div class="mr-2 my-auto">{{ post.shares }}</div>
           <div class="dropdown">
             <span>
-              <img src="@/assets/icons/share.svg" class="" alt="" height="24" width="24" />
+              <img src="@/assets/icons/share.svg" alt="" height="24" width="24" />
             </span>
             <div class="dropdown-menu" style="">
-              <div class="px-3 py-2">
+              <div class="px-3 py-2" @click="shareFacebook">
                 <img class="mr-3" src="@/assets/icons/socials/facebook.png" alt="" height="30" width="30" />
                 <span>Chia sẻ Facebook</span>
               </div>
-              <div class="px-3 py-2">
+              <div class="px-3 py-2" @click="shareTwitter">
                 <img class="mr-3" src="@/assets/icons/socials/twitter.png" alt="" height="30" width="30" />
                 <span>Chia sẻ Twitter</span>
               </div>
-              <div class="px-3 py-2">
+              <div class="px-3 py-2" @click="shareZalo">
                 <img class="mr-3" src="@/assets/icons/socials/zalo.png" alt="" height="30" width="30" />
                 <span>Chia sẻ Zalo</span>
               </div>
-              <div class="px-3 py-2">
+              <div id="popover-button-sync" class="px-3 py-2" @click="copyLink">
                 <img class="mr-3" src="@/assets/icons/socials/link.png" alt="" height="30" width="30" />
-                <span>Sao chép đường dẫn</span>
+                <span class="mr-3">Sao chép link</span>
+                <img v-if="showCopiedLink" src="@/assets/icons/success.svg" alt="" height="24" width="24" />
               </div>
             </div>
           </div>
@@ -99,7 +100,7 @@ import Player from './Player'
 import { dateDiff } from '@/moment'
 import { getUserById } from '@/api/user'
 import { getCatalogById } from '@/api/catalog'
-import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink } from '@/api/post'
+import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateShare } from '@/api/post'
 import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
 export default {
@@ -114,6 +115,7 @@ export default {
   data() {
     return {
       loading: false,
+      showCopiedLink: false,
       post: {},
       user: [],
       catalog: [],
@@ -181,6 +183,52 @@ export default {
     getURL(data) {
       const [id, type] = data
       return getMediaLink(id, type)
+    },
+    fetchShare() {
+      try {
+        this.post.shares += 1
+        setTimeout(() => updateShare(this.postId), 1000)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      }
+    },
+    getShareURL() {
+      return `${process.env.VUE_APP_PROXY}/post/${this.postId}`
+    },
+    shareFacebook() {
+      const { title, content } = this.post
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.getShareURL())}&title=${encodeURIComponent(
+          title
+        )}&description=${encodeURIComponent(content)}&hashtag=${encodeURIComponent(this.tags.join(','))}`,
+        'Chia sẻ Facebook',
+        'popup'
+      )
+      this.fetchShare()
+    },
+    shareTwitter() {
+      const { title } = this.post
+      window.open(
+        `https://twitter.com/intent/tweet?url=${encodeURIComponent(this.getShareURL())}&via=@ndtao2020&text=${encodeURIComponent(
+          title
+        )}&hashtags=${encodeURIComponent(this.tags.join(','))}`,
+        'Chia sẻ Twitter',
+        'popup'
+      )
+      this.fetchShare()
+    },
+    shareZalo() {
+      const data = { url: this.getShareURL() }
+      window.open(`https://sp.zalo.me/share_inline?d=${Buffer.from(JSON.stringify(data)).toString('base64')}`, 'Chia sẻ Zalo', 'width=435,height=350')
+      this.fetchShare()
+    },
+    copyLink() {
+      this.showCopiedLink = true
+      navigator.clipboard.writeText(this.getShareURL())
+      setTimeout(() => {
+        this.showCopiedLink = false
+      }, 2000)
     }
   }
 }

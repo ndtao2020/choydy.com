@@ -130,6 +130,27 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     }
 
     @Transactional
+    public void updateShare(UUID postId) {
+        try {
+            // find by id
+            Post post = this.getById(postId);
+            post.setShares(post.getShares() + 1);
+            // update SQL
+            Post savedPost = this.update(post);
+            // update cache
+            PostDTO postDTO = this.findDTOById(postId);
+            if (postDTO == null) {
+                this.saveDTOById(postId, this.convertToDTO(savedPost));
+            } else {
+                postDTO.setShares(savedPost.getShares());
+                this.updateDTOById(postId, postDTO);
+            }
+        } catch (Exception e) {
+            this.getLog().error(e.getMessage());
+        }
+    }
+
+    @Transactional
     public PostDTO create(UUID userId, PostDTO postDTO, String fileType, String fileName, InputStream file, InputStream thumbnail) throws SQLException {
         // validate
         if (!(FileStorageService.IMAGE_TYPES.contains(fileType) || FileStorageService.VIDEO_TYPES.contains(fileType))) {

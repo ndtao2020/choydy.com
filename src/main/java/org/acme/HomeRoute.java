@@ -140,8 +140,8 @@ public class HomeRoute {
                 builder.append("<meta property=\"og:image\" content=\"").append(link).append("\">");
                 builder.append("<meta property=\"og:image:type\" content=\"").append(mediaType).append("\">");
                 // twitter
-                builder.append("<meta property=\"twitter:card\" content=\"summary_large_image\">");
-                builder.append("<meta property=\"twitter:image\" content=\"").append(id).append("\">");
+                builder.append("<meta name=\"twitter:card\" content=\"summary_large_image\">");
+                builder.append("<meta name=\"twitter:image\" content=\"").append(link).append("\">");
             }
             // if videos
             if (FileStorageService.VIDEO_TYPES.contains(mediaType)) {
