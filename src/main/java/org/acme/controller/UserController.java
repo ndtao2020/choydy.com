@@ -28,7 +28,7 @@ public class UserController extends BaseController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Object getById(@QueryParam(ID_PARAM) UUID id) throws SQLDataException {
+    public Object getById(@QueryParam(ID_PARAM) String id) throws SQLDataException {
         return userService.getShortDetail(id);
     }
 }

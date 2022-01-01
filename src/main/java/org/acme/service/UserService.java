@@ -32,17 +32,22 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
         return new UserDTO(user);
     }
 
-    public Object getShortDetail(UUID id) throws SQLDataException {
-        String dto = fetchCache(id.toString());
+    public Object getShortDetail(String id) throws SQLDataException {
+        String dto = fetchCache(id);
         if (dto == null) {
-            Object data = getEm()
-                    .createNativeQuery("select name,avatar from " + getTableName(getDomainClass()) + " where id=?1")
-                    .setParameter(1, id)
-                    .getSingleResult();
-            if (data == null) {
-                throw new SQLDataException("Data does not exist with id !");
+            try {
+                UUID uuid = UUID.fromString(id);
+                Object data = getEm()
+                        .createNativeQuery("select name,avatar from " + getTableName(getDomainClass()) + " where id=?1")
+                        .setParameter(1, uuid)
+                        .getSingleResult();
+                if (data == null) {
+                    throw new SQLDataException("Data does not exist with id !");
+                }
+                return this.saveObjectById(uuid, data, false);
+            } catch (Exception e) {
+                getLog().error(e.getMessage());
             }
-            return this.saveObjectById(id, data, false);
         }
         return dto;
     }

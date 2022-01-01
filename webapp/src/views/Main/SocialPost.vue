@@ -5,7 +5,7 @@
         <div class="d-flex">
           <div class="media-support-user-img mr-2 pt-2">
             <b-skeleton v-if="loading" type="avatar" />
-            <img v-else class="img-fluid rounded-circle" :src="user[1]" alt="" height="35" width="35" />
+            <img v-else class="rounded-circle" :src="user[1]" alt="" height="35" width="35" />
           </div>
           <div class="media-support-info">
             <div class="mb-0">
@@ -36,38 +36,59 @@
         <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :post-id="postId" :src="getURL(a)" :type="a[1]" />
       </div>
     </div>
-    <div class="comment-area py-1 px-3">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center justify-content-between">
-          <div class="like-block position-relative d-flex align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="like-data">
-                <div class="dropdown">
-                  <span>
-                    <img src="@/assets/images/icon/01.png" class="img-fluid" alt="" height="24" width="24" />
-                  </span>
-                  <div class="dropdown-menu" style="">
-                    <img class="ml-2 mr-2 img-fluid" src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/02.png" alt="" height="24" width="24" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/03.png" alt="" height="24" width="24" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/04.png" alt="" height="24" width="24" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/05.png" alt="" height="24" width="24" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/06.png" alt="" height="24" width="24" />
-                    <img class="mr-2 img-fluid" src="@/assets/images/icon/07.png" alt="" height="24" width="24" />
-                  </div>
-                </div>
+    <div class="py-1 px-3">
+      <div class="d-flex">
+        <div class="d-flex">
+          <div class="like-data">
+            <div class="dropdown">
+              <span>
+                <img src="@/assets/images/icon/01.png" class="" alt="" height="24" width="24" />
+              </span>
+              <div class="dropdown-menu" style="">
+                <img class="ml-2 mr-2" src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
+                <img class="mr-2" src="@/assets/images/icon/02.png" alt="" height="24" width="24" />
+                <img class="mr-2" src="@/assets/images/icon/03.png" alt="" height="24" width="24" />
+                <img class="mr-2" src="@/assets/images/icon/04.png" alt="" height="24" width="24" />
+                <img class="mr-2" src="@/assets/images/icon/05.png" alt="" height="24" width="24" />
+                <img class="mr-2" src="@/assets/images/icon/06.png" alt="" height="24" width="24" />
+                <img class="mr-2" src="@/assets/images/icon/07.png" alt="" height="24" width="24" />
               </div>
-              <div class="total-like-block ml-2">
-                <div class="dropdown">
-                  <span>
-                    {{ post.likes }}
-                  </span>
-                </div>
+            </div>
+          </div>
+          <div class="total-like-block ml-2">
+            <div class="dropdown">
+              <span>
+                {{ post.likes }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="ml-auto share-block d-flex">
+          <div class="mr-2 my-auto">{{ post.shares }}</div>
+          <div class="dropdown">
+            <span>
+              <img src="@/assets/icons/share.svg" class="" alt="" height="24" width="24" />
+            </span>
+            <div class="dropdown-menu" style="">
+              <div class="px-3 py-2">
+                <img class="mr-3" src="@/assets/icons/socials/facebook.png" alt="" height="30" width="30" />
+                <span>Chia sẻ Facebook</span>
+              </div>
+              <div class="px-3 py-2">
+                <img class="mr-3" src="@/assets/icons/socials/twitter.png" alt="" height="30" width="30" />
+                <span>Chia sẻ Twitter</span>
+              </div>
+              <div class="px-3 py-2">
+                <img class="mr-3" src="@/assets/icons/socials/zalo.png" alt="" height="30" width="30" />
+                <span>Chia sẻ Zalo</span>
+              </div>
+              <div class="px-3 py-2">
+                <img class="mr-3" src="@/assets/icons/socials/link.png" alt="" height="30" width="30" />
+                <span>Sao chép đường dẫn</span>
               </div>
             </div>
           </div>
         </div>
-        <div class="share-block">{{ post.shares }} Chia sẻ</div>
       </div>
     </div>
   </div>
@@ -107,7 +128,7 @@ export default {
   methods: {
     formatTime(value) {
       if (value) {
-        return dateDiff(new Date(value))
+        return dateDiff(value)
       }
       return ''
     },
