@@ -220,7 +220,7 @@ export default {
     },
     shareZalo() {
       const data = { url: this.getShareURL() }
-      window.open(`https://sp.zalo.me/share_inline?d=${Buffer.from(JSON.stringify(data)).toString('base64')}`, 'Chia sẻ Zalo', 'width=435,height=350')
+      window.open(`https://sp.zalo.me/share?d=${Buffer.from(JSON.stringify(data)).toString('base64')}`, 'Chia sẻ Zalo', 'popup')
       this.fetchShare()
     },
     copyLink() {
