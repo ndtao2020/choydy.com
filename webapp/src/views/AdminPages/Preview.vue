@@ -30,6 +30,7 @@
             ref="video"
             width="90%"
             :src="video"
+            loop
             controls
             autoplay
             @loadedmetadata="onLoadedmetadata"
@@ -38,7 +39,6 @@
         </div>
       </div>
     </div>
-    <canvas ref="canvas" style="display: none" />
     <div class="comment-area p-3">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center justify-content-between">
@@ -99,29 +99,22 @@ export default {
   },
   methods: {
     onLoadedmetadata() {
-      const { video, canvas } = this.$refs
-      if (!video || !canvas) {
+      const { video } = this.$refs
+      if (!video) {
         return
       }
-      // Set canvas dimensions same as video dimensions
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
+      this.$emit('loadmeta', {
+        width: video.videoWidth / 4,
+        height: video.videoHeight / 4
+      })
     },
     onVideoTimeUpdate() {
-      const { video, canvas } = this.$refs
-      if (!video || !canvas) {
+      const { video } = this.$refs
+      if (!video) {
         return
       }
-      // Placing the current frame image of the video in the canvas
-      canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight)
-      // file
-      var blobBin = atob(canvas.toDataURL().split(',')[1])
-      var array = []
-      for (var i = 0; i < blobBin.length; i++) {
-        array.push(blobBin.charCodeAt(i))
-      }
       // return
-      this.$emit('update', new Blob([new Uint8Array(array)], { type: 'image/png' }))
+      this.$emit('update', video)
     }
   }
 }

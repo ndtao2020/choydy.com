@@ -17,7 +17,7 @@
       stacked="md"
       show-empty
     >
-      <template #cell(tags)="row"><Tag :id="row.item.id" :tags="row.value" /></template>
+      <!-- <template #cell(tags)="row"><Tag :id="row.item.id" :tags="row.value" /></template> -->
       <template #cell(created)="row">{{ formatTime(row.value) }}</template>
       <template #cell(actions)="row">
         <b-button size="sm" variant="success">
@@ -79,7 +79,7 @@ export default {
   name: 'AdminPostList',
   components: {
     Widget: () => import('@/components/Widget'),
-    Tag: () => import('./Tag'),
+    // Tag: () => import('./Tag'),
     Media: () => import('./Media')
   },
   data() {
@@ -88,8 +88,8 @@ export default {
       items: [],
       fields: [
         { key: 'title', label: 'Tiêu đề', sortable: true, sortDirection: 'desc' },
-        { key: 'content', label: 'Nội dung', sortable: true, sortDirection: 'desc' },
-        { key: 'tags', label: 'Tag', sortable: true, sortDirection: 'desc' },
+        // { key: 'content', label: 'Nội dung', sortable: true, sortDirection: 'desc' },
+        // { key: 'tags', label: 'Tag', sortable: true, sortDirection: 'desc' },
         { key: 'count', label: 'Lượt xem', sortable: true, sortDirection: 'desc' },
         { key: 'likes', label: 'Lượt thích', sortable: true, sortDirection: 'desc' },
         { key: 'shares', label: 'Chia sẻ', sortable: true, sortDirection: 'desc' },

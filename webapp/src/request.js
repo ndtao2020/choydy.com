@@ -43,6 +43,7 @@ const config = (url, method, body, headers = {}) => {
 
 // Public
 const publicGet = (url) => config(PUBLIC + url, 'GET')
+const publicPost = (url) => config(PUBLIC + url, 'POST')
 
 // Auth
 const authGet = (url) => config(AUTH + url, 'GET')
@@ -66,6 +67,7 @@ export {
   oauth,
   // Public
   publicGet,
+  publicPost,
   // Auth
   authGet,
   authPost,

@@ -16,6 +16,7 @@ import org.acme.service.PostTagService;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -74,6 +75,13 @@ public class PostController extends BaseController {
     @Produces(MediaType.APPLICATION_JSON)
     public List<?> findAllMediaByPostId(@QueryParam(ID_PARAM) String postId) throws SQLDataException {
         return mediaService.findByPostId(postId);
+    }
+
+    // ========================= [SHARE] =========================
+    @POST
+    @Path("/share")
+    public void updateShare(@QueryParam(ID_PARAM) UUID postId) {
+        postService.updateShare(postId);
     }
 
     // ========================= [LIKES] =========================

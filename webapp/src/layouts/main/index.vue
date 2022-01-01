@@ -37,7 +37,7 @@
                     class="img-fluid rounded"
                     alt="Responsive image"
                     width="100%"
-                    height="400"
+                    height="800"
                   />
                 </div>
               </div>

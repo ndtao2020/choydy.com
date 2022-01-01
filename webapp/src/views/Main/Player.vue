@@ -4,6 +4,7 @@
       <video
         ref="video"
         loop
+        :poster="poster"
         @play="onVideoPlay"
         @pause="onVideoPause"
         @click="togglePlay"
@@ -58,6 +59,7 @@ export default {
   props: {
     type: String,
     src: String,
+    poster: String,
     hideProgress: Boolean
   },
   data() {

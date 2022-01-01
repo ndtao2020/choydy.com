@@ -68,13 +68,22 @@
                   </b-form-file>
                 </b-tab>
                 <b-tab title="Nếu đăng clip">
-                  <b-form-file v-model="postVideo" :state="Boolean(postVideo)" accept="video/mp4,video/webm" @change="changeVideo">
-                    <template #placeholder>Chọn video bạn cần hiển thị</template>
-                    <template slot="file-name" slot-scope="{ names }">
-                      <b-badge variant="dark">{{ names[0] }}</b-badge>
-                      <b-badge v-if="names.length > 1" variant="dark" class="ml-1"> + {{ names.length - 1 }} Nhiều hơn</b-badge>
-                    </template>
-                  </b-form-file>
+                  <div class="d-flex">
+                    <b-form-file
+                      v-model="postVideo"
+                      :state="Boolean(postVideo)"
+                      accept="video/mp4,video/webm"
+                      style="width: 200px"
+                      @change="changeVideo"
+                    >
+                      <template #placeholder>Chọn video bạn cần hiển thị</template>
+                      <template slot="file-name" slot-scope="{ names }">
+                        <b-badge variant="dark">{{ names[0] }}</b-badge>
+                        <b-badge v-if="names.length > 1" variant="dark" class="ml-1"> + {{ names.length - 1 }} Nhiều hơn</b-badge>
+                      </template>
+                    </b-form-file>
+                    <canvas ref="canvas" class="pl-2 mx-auto" style="max-height: 400px" />
+                  </div>
                 </b-tab>
               </b-tabs>
             </b-form-group>
@@ -85,7 +94,7 @@
       <b-col>
         <widget>
           <h4 class="text-center mb-1">Xem trước bài đăng</h4>
-          <Preview :post="post" :tab="tabIndex" :image="urlImage" :video="urlVideo" @update="onVideoTimeUpdate" />
+          <Preview :post="post" :tab="tabIndex" :image="urlImage" :video="urlVideo" @loadmeta="onLoadedmetadata" @update="onVideoTimeUpdate" />
         </widget>
       </b-col>
     </b-row>
@@ -161,9 +170,6 @@ export default {
         this.loading = false
       }
     },
-    onVideoTimeUpdate(file) {
-      this.thumbnail = file
-    },
     filterCatalog(id) {
       return this.catalogs.filter((x) => x.parrent === id)
     },
@@ -182,6 +188,30 @@ export default {
     changeVideo(e) {
       this.postVideo = e.target.files[0]
       this.urlVideo = URL.createObjectURL(this.postVideo)
+    },
+    onLoadedmetadata({ width, height }) {
+      const { canvas } = this.$refs
+      if (!canvas) {
+        return
+      }
+      canvas.width = width
+      canvas.height = height
+    },
+    onVideoTimeUpdate(video) {
+      const { canvas } = this.$refs
+      if (!canvas) {
+        return
+      }
+      // Placing the current frame image of the video in the canvas
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
+      // file
+      var blobBin = atob(canvas.toDataURL().split(',')[1])
+      var array = []
+      for (var i = 0; i < blobBin.length; i++) {
+        array.push(blobBin.charCodeAt(i))
+      }
+      // update
+      this.thumbnail = new Blob([new Uint8Array(array)], { type: 'image/png' })
     },
     tagValidator(tag) {
       // Individual tag validator function

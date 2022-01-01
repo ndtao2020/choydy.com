@@ -30,6 +30,10 @@ public class HomeRoute {
 
     private static final String S_META = "<meta bf9415284d71d>";
     private static final String E_META = "<meta e4e8ca427bd17>";
+
+    private static final String PATH_POST = "/" + Post.PATH;
+    private static final String PATH_MEDIA = "/" + Media.PATH;
+    private static final String PATH_MEDIA_CAPTURE = PATH_MEDIA + "/c";
     public static final String TEMPLATE_DIR = "/META-INF/resources/index.html";
 
     @Inject
@@ -49,14 +53,14 @@ public class HomeRoute {
     }
 
     @GET
-    @Path("/" + Media.PATH + "/{id}")
+    @Path(PATH_MEDIA + "/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getById(@PathParam String id, @QueryParam("t") String type) throws SQLDataException {
         return Response.ok(fileStorageService.getFile(mediaService.findCacheById(id)), type).build();
     }
 
     @GET
-    @Path("/" + Media.PATH + "/c/{id}")
+    @Path(PATH_MEDIA_CAPTURE + "/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response capture(@PathParam String id, @QueryParam("t") String type) throws IllegalAccessException, SQLDataException, IOException {
         if (!FileStorageService.VIDEO_TYPES.contains(type)) {
@@ -70,7 +74,7 @@ public class HomeRoute {
     }
 
     @GET
-    @Path("/" + Post.PATH + "/{id}")
+    @Path(PATH_POST + "/{id}")
     public Response getOne(@PathParam String id) throws IOException, SQLDataException {
         final InputStream resourceAsStream = HomeRoute.class.getResourceAsStream(TEMPLATE_DIR);
         // fetch data
@@ -121,7 +125,7 @@ public class HomeRoute {
             builder.append("<meta name=\"keywords\" content=\"").append(tagStr).append("\">");
         }
         // url
-        String fullUrl = url + "/" + Post.PATH + "/" + id;
+        String fullUrl = url + PATH_POST + "/" + id;
         builder.append("<link rel=\"canonical\" href=\"").append(fullUrl).append("\">");
         builder.append("<meta property=\"og:url\" content=\"").append(fullUrl).append("\">");
         // link
@@ -129,19 +133,19 @@ public class HomeRoute {
         if (media != null && !media.isEmpty()) {
             List<?> mediaArr = (List<?>) media.get(0);
             String mediaType = mediaArr.get(1).toString();
-            String link = url + "/" + Media.PATH + "/" + mediaArr.get(0) + "?t=" + mediaType;
+            String link = url + PATH_MEDIA + "/" + mediaArr.get(0) + "?t=" + mediaType;
             // if images
             if (FileStorageService.IMAGE_TYPES.contains(mediaType)) {
                 // FB
                 builder.append("<meta property=\"og:image\" content=\"").append(link).append("\">");
                 builder.append("<meta property=\"og:image:type\" content=\"").append(mediaType).append("\">");
                 // twitter
-                builder.append("<meta property=\"twitter:card\" content=\"summary_large_image\">");
-                builder.append("<meta property=\"twitter:image\" content=\"").append(id).append("\">");
+                builder.append("<meta name=\"twitter:card\" content=\"summary_large_image\">");
+                builder.append("<meta name=\"twitter:image\" content=\"").append(link).append("\">");
             }
             // if videos
             if (FileStorageService.VIDEO_TYPES.contains(mediaType)) {
-                String capture = url + "/" + Media.PATH + "/c/" + mediaArr.get(0) + "?t=" + mediaType;
+                String capture = url + PATH_MEDIA_CAPTURE + "/" + mediaArr.get(0) + "?t=" + mediaType;
                 // FB
                 builder.append("<meta property=\"og:type\" content=\"video.other\">");
                 builder.append("<meta property=\"og:video\" content=\"").append(link).append("\">");
