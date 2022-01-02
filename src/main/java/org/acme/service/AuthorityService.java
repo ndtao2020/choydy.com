@@ -29,12 +29,11 @@ public class AuthorityService {
     }
 
     public Authority getById(Role role) {
-        return em.find(Authority.class, role.toString());
+        return em.find(Authority.class, role);
     }
 
     public List<Authority> findAll() {
-        return em
-                .createQuery("from " + Authority.class.getPackageName() + "." + Authority.class.getSimpleName(), Authority.class)
+        return em.createQuery("from " + Authority.class.getPackageName() + "." + Authority.class.getSimpleName(), Authority.class)
                 .getResultList();
     }
 }

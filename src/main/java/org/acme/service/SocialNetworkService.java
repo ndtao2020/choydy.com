@@ -22,7 +22,7 @@ public class SocialNetworkService extends BaseService<SocialNetwork, SocialNetwo
     public SocialNetwork getByName(Social social) {
         return getEm()
                 .createQuery("from " + getNameEntity(getDomainClass()) + " where name=?1", getDomainClass())
-                .setParameter(1, social.name())
+                .setParameter(1, social)
                 .getSingleResult();
     }
 }

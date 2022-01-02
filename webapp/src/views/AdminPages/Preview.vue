@@ -104,8 +104,8 @@ export default {
         return
       }
       this.$emit('loadmeta', {
-        width: video.videoWidth / 4,
-        height: video.videoHeight / 4
+        width: video.videoWidth / 3,
+        height: video.videoHeight / 3
       })
     },
     onVideoTimeUpdate() {

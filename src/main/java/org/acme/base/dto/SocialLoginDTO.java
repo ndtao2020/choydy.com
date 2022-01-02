@@ -17,6 +17,8 @@ public class SocialLoginDTO extends RegisterDTO {
 
     private String avatar;
 
+    private CredentialDTO credential;
+
     public SocialLoginDTO() {
     }
 
@@ -50,5 +52,13 @@ public class SocialLoginDTO extends RegisterDTO {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public CredentialDTO getCredential() {
+        return credential;
+    }
+
+    public void setCredential(CredentialDTO credential) {
+        this.credential = credential;
     }
 }
