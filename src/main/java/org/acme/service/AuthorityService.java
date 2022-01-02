@@ -2,11 +2,13 @@ package org.acme.service;
 
 import org.acme.constants.Role;
 import org.acme.model.Authority;
+import org.acme.model.UserAuthority;
 import org.acme.model.dto.AuthorityDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,5 +37,11 @@ public class AuthorityService {
     public List<Authority> findAll() {
         return em.createQuery("from " + Authority.class.getPackageName() + "." + Authority.class.getSimpleName(), Authority.class)
                 .getResultList();
+    }
+
+    @Transactional
+    public UserAuthority save(UserAuthority userAuthority) {
+        em.persist(userAuthority);
+        return userAuthority;
     }
 }

@@ -138,39 +138,39 @@ export default {
       this.loading = true
       try {
         const data = await getPostById(this.postId)
-        if (data) {
-          this.post = data
+        if (!data) return this.$router.push('/')
+        // handle
+        this.post = data
+        try {
+          this.user = await getUserById(data.userId)
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(error)
+        }
+        try {
+          this.catalog = await getCatalogById(data.catalogId)
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(error)
+        }
+        if (data.tags) {
+          this.tags = data.tags
+        } else {
           try {
-            this.user = await getUserById(data.userId)
+            this.tags = await findAllTagByPostId(this.postId)
           } catch (error) {
             // eslint-disable-next-line no-console
             console.log(error)
           }
+        }
+        if (data.media) {
+          this.media = data.media
+        } else {
           try {
-            this.catalog = await getCatalogById(data.catalogId)
+            this.media = await findAllMediaByPostId(this.postId)
           } catch (error) {
             // eslint-disable-next-line no-console
             console.log(error)
-          }
-          if (data.tags) {
-            this.tags = data.tags
-          } else {
-            try {
-              this.tags = await findAllTagByPostId(this.postId)
-            } catch (error) {
-              // eslint-disable-next-line no-console
-              console.log(error)
-            }
-          }
-          if (data.media) {
-            this.media = data.media
-          } else {
-            try {
-              this.media = await findAllMediaByPostId(this.postId)
-            } catch (error) {
-              // eslint-disable-next-line no-console
-              console.log(error)
-            }
           }
         }
       } catch (error) {

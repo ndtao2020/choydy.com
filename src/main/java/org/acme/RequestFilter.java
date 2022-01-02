@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.vertx.core.http.HttpServerRequest;
 import org.acme.base.CsrfUtil;
 import org.acme.base.auth.ClientAuthentication;
+import org.acme.base.auth.SessionAuthentication;
 import org.acme.base.encoder.BCryptPasswordEncoder;
 import org.acme.base.jwt.JwtUtil;
 import org.acme.constants.Role;
@@ -30,8 +31,9 @@ import java.util.Objects;
 @PreMatching
 public class RequestFilter implements ContainerRequestFilter {
 
-    public static final String TOKEN_COOKIE_NAME = "cid";
     public static final String CSRF_COOKIE_NAME = "srf";
+    public static final String TOKEN_COOKIE_NAME = "cid";
+    public static final String CHECK_SESSION = SecurityPath.AUTH_API_URL + "/est";
     //    public static final String TOKEN_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Host-" : "") + "cid";
     private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
     private static final String AUTHORIZATION = "AUTHORIZATION";
@@ -74,11 +76,11 @@ public class RequestFilter implements ContainerRequestFilter {
             }
             this.basicAuth(requestContext);
         } else if (path.startsWith(SecurityPath.AUTH_API_URL)) {
-            this.bearerAuth(requestContext, null);
+            this.bearerAuth(requestContext, path, null);
         } else if (path.startsWith(SecurityPath.EDITOR_API_URL)) {
-            this.bearerAuth(requestContext, Role.EDITOR);
+            this.bearerAuth(requestContext, path, Role.EDITOR);
         } else if (path.startsWith(SecurityPath.ADMIN_API_URL)) {
-            this.bearerAuth(requestContext, Role.ADMIN);
+            this.bearerAuth(requestContext, path, Role.ADMIN);
         }
     }
 
@@ -92,7 +94,7 @@ public class RequestFilter implements ContainerRequestFilter {
         return false;
     }
 
-    private void bearerAuth(ContainerRequestContext rc, Role role) {
+    private void bearerAuth(ContainerRequestContext rc, String path, Role role) {
         String token;
         final List<String> apiKeyHeader = rc.getHeaders().get(AUTHORIZATION);
         if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
@@ -104,6 +106,15 @@ public class RequestFilter implements ContainerRequestFilter {
             token = tokenCookie.getValue();
         } else {
             token = apiKeyHeader.get(0).substring(7);
+        }
+        if (CHECK_SESSION.equals(path)) {
+            try {
+                rc.setSecurityContext(new SessionAuthentication(token.split("\\.")[1]));
+                return;
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+                rc.abortWith(new ServerResponse(e.getMessage(), 401, null));
+            }
         }
         try {
             JsonNode jsonNode = jwtUtil.validate(token);

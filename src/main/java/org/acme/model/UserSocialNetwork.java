@@ -19,7 +19,7 @@ import java.util.UUID;
 public class UserSocialNetwork extends BaseId<UUID> {
 
     @Transient
-    public static final String PATH = "userSocialNetwork";
+    public static final String PATH = "usersocialnetwork";
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)

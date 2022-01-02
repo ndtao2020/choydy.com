@@ -1,16 +1,23 @@
 package org.acme;
 
 import org.acme.base.FileStorageService;
+import org.acme.base.dto.CheckDTO;
+import org.acme.base.jwt.JwtUtil;
 import org.acme.model.Media;
 import org.acme.model.Post;
+import org.acme.model.User;
 import org.acme.model.dto.PostDTO;
 import org.acme.service.MediaService;
+import org.acme.service.Oauth2ClientService;
 import org.acme.service.PostService;
 import org.acme.service.PostTagService;
+import org.acme.service.UserService;
 import org.eclipse.microprofile.config.ConfigProvider;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -24,18 +31,24 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLDataException;
 import java.util.List;
+import java.util.UUID;
 
 @Path("/")
 public class HomeRoute {
 
+    public static final String TEMPLATE_DIR = "/META-INF/resources/index.html";
+    public static final String PATH_VERIFY_EMAIL = "/verify/email/";
     private static final String S_META = "<meta bf9415284d71d>";
     private static final String E_META = "<meta e4e8ca427bd17>";
-
     private static final String PATH_POST = "/" + Post.PATH;
     private static final String PATH_MEDIA = "/" + Media.PATH;
     private static final String PATH_MEDIA_CAPTURE = PATH_MEDIA + "/c";
-    public static final String TEMPLATE_DIR = "/META-INF/resources/index.html";
+    private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
 
+    @Inject
+    JwtUtil jwtUtil;
+    @Inject
+    UserService userService;
     @Inject
     PostService postService;
     @Inject
@@ -49,6 +62,41 @@ public class HomeRoute {
         return Response
                 .ok(entity, "text/html;charset=utf-8")
                 .header(HttpHeaders.CACHE_CONTROL, "public,immutable,max-age=1800")
+                .build();
+    }
+
+    @GET
+    @Path(PATH_VERIFY_EMAIL + "{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response verifyEmail(@PathParam String token) throws SQLDataException {
+        if (token == null) {
+            throw new BadRequestException("Token must not null !");
+        }
+        UUID id;
+        try {
+            id = jwtUtil.getId(jwtUtil.validate(token));
+        } catch (Exception e) {
+            throw new BadRequestException("Verify email was failed !");
+        }
+        if (id == null) {
+            throw new BadRequestException("Verify email was failed !");
+        }
+        User user = userService.getById(id);
+        if (user == null) {
+            throw new BadRequestException("User is not exist !");
+        }
+        if (Boolean.TRUE.equals(user.getActive())) {
+            throw new BadRequestException("Account has been activated !");
+        }
+        try {
+            user.setActive(true);
+            userService.save(user);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return Response.ok(new CheckDTO(true))
+                .status(Response.Status.MOVED_PERMANENTLY)
+                .header(HttpHeaders.LOCATION, "/")
                 .build();
     }
 

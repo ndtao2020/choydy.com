@@ -2,7 +2,6 @@ package org.acme.controller.auth;
 
 import org.acme.RequestFilter;
 import org.acme.base.dto.CheckDTO;
-import org.acme.constants.SecurityPath;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,7 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.security.Principal;
 
-@Path(SecurityPath.AUTH_API_URL + "/est")
+@Path(RequestFilter.CHECK_SESSION)
 public class SessionController {
 
     @GET
