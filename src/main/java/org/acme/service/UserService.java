@@ -4,7 +4,9 @@ import org.acme.base.dto.RegisterDTO;
 import org.acme.base.dto.SocialLoginDTO;
 import org.acme.base.service.BaseCacheService;
 import org.acme.constants.Role;
+import org.acme.model.Authority;
 import org.acme.model.User;
+import org.acme.model.UserAuthority;
 import org.acme.model.dto.UserDTO;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,9 +22,8 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
 
     @Inject
     AuthorityService authorityService;
-
     @Inject
-    SocialNetworkService socialNetworkService;
+    UserSocialNetworkService userSocialNetworkService;
 
     protected UserService() {
         super(User.class, UserDTO.class, User.PATH, 2592000L);
@@ -60,7 +61,15 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
 
     @Transactional
     public User create(SocialLoginDTO dto) {
-        return this.save(new User(dto, authorityService.getById(Role.USER), socialNetworkService.getByName(dto.getSocial())));
+        Authority authority = authorityService.getById(Role.USER);
+        // save user
+        User user = this.save(new User(dto, authority));
+        // save Authority
+        authorityService.save(new UserAuthority(user, authority));
+        // save SocialNetwork
+        userSocialNetworkService.create(dto, user);
+        // return
+        return user;
     }
 
     public User loadUserByUsername(String username) throws SQLException {

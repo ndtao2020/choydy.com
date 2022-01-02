@@ -12,7 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.sql.SQLDataException;
-import java.util.UUID;
 
 @Path(SecurityPath.PUBLIC_API_URL + "/" + User.PATH)
 public class UserController extends BaseController {

@@ -2,11 +2,13 @@ package org.acme.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.quarkus.security.UnauthorizedException;
+import org.acme.HomeRoute;
 import org.acme.RequestFilter;
 import org.acme.base.EmailUtil;
 import org.acme.base.auth.ClientPrincipal;
 import org.acme.base.dto.CheckDTO;
 import org.acme.base.dto.CredentialDTO;
+import org.acme.base.dto.GoogleDTO;
 import org.acme.base.dto.JwtToken;
 import org.acme.base.dto.LoginDTO;
 import org.acme.base.dto.RegisterDTO;
@@ -19,7 +21,6 @@ import org.acme.constants.SecurityPath;
 import org.acme.constants.Social;
 import org.acme.model.User;
 import org.acme.model.UserSocialNetwork;
-import org.acme.base.dto.GoogleDTO;
 import org.acme.model.dto.UserDTO;
 import org.acme.rest.GoogleService;
 import org.acme.service.UserAuthorityService;
@@ -219,7 +220,7 @@ public class OAuthController {
 
     private void sendMailConfirm(ClientPrincipal authentication, UUID id, String name, String email) {
         try {
-            emailUtil.sendMailConfirm(email, name, authentication.getDomain() + "/verify/email?token=" + jwtUtil.builderTokenToVerify(id));
+            emailUtil.sendMailConfirm(email, name, authentication.getDomain() + HomeRoute.PATH_VERIFY_EMAIL + jwtUtil.builderTokenToVerify(id));
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
@@ -237,7 +238,7 @@ public class OAuthController {
             }
             user = userService.create(loginDTO);
             assert user.getId() != null;
-            UserDTO dto = userService.findDTOById(user.getId());
+            User dto = userService.getById(user.getId());
             this.sendMailConfirm(principal, user.getId(), dto.getName(), dto.getEmail());
         } else {
             UserSocialNetwork userSocialNetwork = null;

@@ -101,15 +101,16 @@ export default {
             credential = GoogleAuthProvider.credentialFromResult(result)
           }
           if (social === 'FACEBOOK') {
-            provider = FacebookAuthProvider.credentialFromResult(result)
+            credential = FacebookAuthProvider.credentialFromResult(result)
           }
-          const { data } = await loginBySocialNetwork(social, credential, result.user)
-          if (data?.active) {
-            // dispatch(userAction.setUser(data))
-            this.$router.push('/')
-          } else {
-            this.$router.push(`/verify/activate?email=${data?.email}`)
-          }
+          // const { data } = await loginBySocialNetwork(social, credential, result.user)
+          // if (data?.active) {
+          //   this.$router.push('/')
+          // } else {
+          //   this.$router.push(`/verify/activate?email=${data?.email}`)
+          // }
+          await loginBySocialNetwork(social, credential, result.user)
+          this.$router.push('/')
         }
       } catch (err) {
         this.errorMessage = 'Đăng nhập thất bại !'

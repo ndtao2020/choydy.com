@@ -32,8 +32,9 @@ const router = new VueRouter({
     },
     ...adminChildRoutes,
     {
-      path: '/post/:postid/m/:mediaid',
-      component: () => import('@/views/Post')
+      path: '/verify/email/:token',
+      name: 'verify-email',
+      component: () => import('@/views/AuthPages/VerifyEmail')
     },
     {
       path: '/',

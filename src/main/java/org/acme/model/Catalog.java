@@ -14,15 +14,14 @@ import javax.persistence.Transient;
 @Table
 public class Catalog extends CatalogBase {
 
-    @JoinColumn
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Catalog parent;
-
     @Transient
     public static final String PATH = "catalog";
     @Transient
     public static final String PATH_ID = "catalog_id";
+    @JoinColumn
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Catalog parent;
 
     public Catalog() {
     }
