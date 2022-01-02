@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -64,16 +65,18 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
 
     public User loadUserByUsername(String username) throws SQLException {
         // result
-        Object[] data = (Object[]) getEm()
-                .createNativeQuery("select CAST (id AS varchar),password,enabled from " + getTableName(getDomainClass()) + " where username=:u or email=:u")
-                .setParameter("u", username).getSingleResult();
-        if (data == null) {
-            throw new SQLException("Username does not exist !");
+        List<?> resultList = getEm()
+                .createNativeQuery("select CAST (id AS varchar),password,enabled from user_sys where username=?1 or email=?1")
+                .setParameter(1, username)
+                .getResultList();
+        if (resultList == null || resultList.isEmpty()) {
+            return null;
         }
+        Object[] objects = (Object[]) resultList.get(0);
         User user = new User();
-        user.setId(UUID.fromString((String) data[0]));
-        user.setPassword((String) data[1]);
-        user.setEnabled((Boolean) data[2]);
+        user.setId(UUID.fromString((String) objects[0]));
+        user.setPassword((String) objects[1]);
+        user.setEnabled((Boolean) objects[2]);
         return user;
     }
 

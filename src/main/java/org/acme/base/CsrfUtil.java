@@ -1,7 +1,8 @@
 package org.acme.base;
 
-import net.bytebuddy.utility.RandomString;
+import org.acme.service.Oauth2ClientService;
 import org.eclipse.microprofile.config.ConfigProvider;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.Dependent;
 import java.nio.charset.StandardCharsets;
@@ -12,14 +13,16 @@ import java.util.Base64;
 @Dependent
 public class CsrfUtil {
 
+    private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
+
     private final String password;
 
     public CsrfUtil() {
         this.password = ConfigProvider.getConfig().getConfigValue("quarkus.csrf.pass").getValue();
     }
 
-    private String getChain(String random, String ip) {
-        return random + ip + this.password;
+    private String getChain(long time, String ip) {
+        return time + ip + this.password;
     }
 
     private byte[] digest(String payload) {
@@ -34,7 +37,7 @@ public class CsrfUtil {
     // Generating Secret Key using password and salt
     public String compact(String ip) {
         try {
-            String random = new RandomString(5).nextString();
+            long random = System.currentTimeMillis() + 604800016;
             byte[] hash = digest(getChain(random, ip));
             return random + "." + Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
         } catch (Exception e) {
@@ -44,11 +47,15 @@ public class CsrfUtil {
 
     public boolean verify(String ip, String encoded) {
         try {
-            String[] r = encoded.split("\\.");
-            byte[] hash = digest(getChain(r[0], ip));
-            return Arrays.equals(Base64.getUrlDecoder().decode(r[2]), hash);
+            String[] split = encoded.split("\\.");
+            long exp = Long.parseLong(split[0]);
+            if (System.currentTimeMillis() >= exp) {
+                return false;
+            }
+            return Arrays.equals(digest(getChain(exp, ip)), Base64.getUrlDecoder().decode(split[1]));
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            logger.error(e.getMessage());
+            return false;
         }
     }
 }

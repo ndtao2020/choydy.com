@@ -1,11 +1,12 @@
 package org.acme.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.quarkus.mailer.Mailer;
 import io.quarkus.security.UnauthorizedException;
 import org.acme.RequestFilter;
+import org.acme.base.EmailUtil;
 import org.acme.base.auth.ClientPrincipal;
 import org.acme.base.dto.CheckDTO;
+import org.acme.base.dto.CredentialDTO;
 import org.acme.base.dto.JwtToken;
 import org.acme.base.dto.LoginDTO;
 import org.acme.base.dto.RegisterDTO;
@@ -15,13 +16,17 @@ import org.acme.base.dto.TokenDTO;
 import org.acme.base.encoder.BCryptPasswordEncoder;
 import org.acme.base.jwt.JwtUtil;
 import org.acme.constants.SecurityPath;
+import org.acme.constants.Social;
 import org.acme.model.User;
 import org.acme.model.UserSocialNetwork;
+import org.acme.base.dto.GoogleDTO;
 import org.acme.model.dto.UserDTO;
+import org.acme.rest.GoogleService;
 import org.acme.service.UserAuthorityService;
 import org.acme.service.UserService;
 import org.acme.service.UserSocialNetworkService;
-import org.acme.utils.EmailUtil;
+import org.acme.utils.RandomUtil;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
@@ -49,7 +54,7 @@ public class OAuthController {
     @Inject
     JwtUtil jwtUtil;
     @Inject
-    Mailer mailer;
+    EmailUtil emailUtil;
     @Inject
     UserService userService;
     @Inject
@@ -58,6 +63,10 @@ public class OAuthController {
     UserAuthorityService userAuthorityService;
     @Inject
     UserSocialNetworkService userSocialNetworkService;
+
+    @Inject
+    @RestClient
+    GoogleService googleService;
 
     @POST
     @Path("/login")
@@ -75,8 +84,15 @@ public class OAuthController {
     @POST
     @Path("/social")
     public Response loginBySocial(@Context SecurityContext context, @Valid SocialLoginDTO loginDTO) throws UnauthorizedException, BadRequestException, SQLException {
-        if (loginDTO.getEmail() == null || loginDTO.getPassword() == null) {
-            throw new BadRequestException("Email and Password can not be empty !");
+        if (loginDTO.getSocial() == null || loginDTO.getEmail() == null || loginDTO.getCredential() == null) {
+            throw new BadRequestException("Email and Access Token can not be empty !");
+        }
+        CredentialDTO credentialDTO = loginDTO.getCredential();
+        if (loginDTO.getSocial().equals(Social.GOOGLE)) {
+            GoogleDTO googleDTO = googleService.checkGoogleToken(credentialDTO.getIdToken());
+            if (googleDTO == null) {
+                throw new BadRequestException("Không thể xác thực với Google !");
+            }
         }
         User user = userService.loadUserByUsername(loginDTO.getEmail());
         if (user == null) {
@@ -147,7 +163,7 @@ public class OAuthController {
         }
         try {
             ClientPrincipal principal = (ClientPrincipal) context.getUserPrincipal();
-            EmailUtil.sendMailResetPassword(user.getEmail(), user.getName(), principal.getDomain() + "/verify/password?token=" + jwtUtil.builderTokenToVerify(user.getId()));
+            emailUtil.sendMailResetPassword(user.getEmail(), user.getName(), principal.getDomain() + "/verify/password?token=" + jwtUtil.builderTokenToVerify(user.getId()));
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
@@ -203,7 +219,7 @@ public class OAuthController {
 
     private void sendMailConfirm(ClientPrincipal authentication, UUID id, String name, String email) {
         try {
-            EmailUtil.sendMailConfirm(email, name, authentication.getDomain() + "/verify/email?token=" + jwtUtil.builderTokenToVerify(id));
+            emailUtil.sendMailConfirm(email, name, authentication.getDomain() + "/verify/email?token=" + jwtUtil.builderTokenToVerify(id));
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
@@ -215,7 +231,7 @@ public class OAuthController {
         if (userSocialNetworks == null || userSocialNetworks.isEmpty()) {
             loginDTO.setUsername(loginDTO.getEmail());
             try {
-                loginDTO.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+                loginDTO.setPassword(passwordEncoder.encode(RandomUtil.random(20)));
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }
