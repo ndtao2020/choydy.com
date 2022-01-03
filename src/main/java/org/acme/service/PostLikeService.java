@@ -1,6 +1,5 @@
 package org.acme.service;
 
-import org.acme.model.LikeType;
 import org.acme.model.Post;
 import org.acme.model.PostLike;
 import org.acme.model.User;
@@ -23,27 +22,26 @@ public class PostLikeService {
     PostService postService;
 
     public List<?> findByPostId(UUID postId) {
-        return em.createNativeQuery("select " + User.PATH_ID + "," + LikeType.PATH_ID + ",created from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1")
+        return em.createNativeQuery("select " + User.PATH_ID + ",type,created from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1")
                 .setParameter(1, postId)
                 .getResultList();
     }
 
-    public Boolean findByPostIdAndUserId(UUID postId, UUID userId) {
-        List<?> list = em
-                .createNativeQuery("select created," + LikeType.PATH_ID + " from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1 and " + User.PATH_ID + "=?2")
+    public List<?> findByPostIdAndUserId(UUID postId, UUID userId) {
+        return em
+                .createNativeQuery("select type,created from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1 and " + User.PATH_ID + "=?2")
                 .setParameter(1, postId)
                 .setParameter(2, userId)
                 .getResultList();
-        return list != null && !list.isEmpty();
     }
 
     @Transactional
     public void save(PostLikeDTO postLikeDTO) throws SQLException {
-        em.createNativeQuery("INSERT INTO " + PostLike.PATH + " (created," + User.PATH_ID + "," + Post.PATH_ID + "," + LikeType.PATH_ID + ") VALUES(?1,?2,?3,?4)")
+        em.createNativeQuery("INSERT INTO " + PostLike.PATH + " (created," + User.PATH_ID + "," + Post.PATH_ID + ",type) VALUES(?1,?2,?3,?4)")
                 .setParameter(1, postLikeDTO.getCreated())
                 .setParameter(2, postLikeDTO.getUserId())
                 .setParameter(3, postLikeDTO.getPostId())
-                .setParameter(4, postLikeDTO.getLikeTypeId())
+                .setParameter(4, postLikeDTO.getType())
                 .executeUpdate();
         postService.updateLike(postLikeDTO.getPostId(), 1L);
     }

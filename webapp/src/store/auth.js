@@ -31,8 +31,8 @@ export default {
     async loadSession() {
       try {
         const data = await session()
-        if (data && data.i) {
-          return parseJWT(data.i)
+        if (data && data.name) {
+          return parseJWT(data.name)
         }
       } catch (error) {
         return null

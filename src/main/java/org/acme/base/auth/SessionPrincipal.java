@@ -1,13 +1,16 @@
 package org.acme.base.auth;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.security.Principal;
 
-public record SessionPrincipal(String i) implements Principal {
+public class SessionPrincipal implements Principal {
+
+    private final String i;
+
+    public SessionPrincipal(String i) {
+        this.i = i;
+    }
 
     @Override
-    @JsonIgnore
     public String getName() {
         return i;
     }

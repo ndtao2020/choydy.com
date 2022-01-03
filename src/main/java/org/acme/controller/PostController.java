@@ -7,7 +7,6 @@ import org.acme.model.Media;
 import org.acme.model.Post;
 import org.acme.model.dto.CommentDTO;
 import org.acme.service.CommentService;
-import org.acme.service.LikeTypeService;
 import org.acme.service.MediaService;
 import org.acme.service.PostLikeService;
 import org.acme.service.PostService;
@@ -34,8 +33,6 @@ public class PostController extends BaseController {
     PostTagService postTagService;
     @Inject
     MediaService mediaService;
-    @Inject
-    LikeTypeService likeTypeService;
     @Inject
     PostLikeService postLikeService;
     @Inject
@@ -85,13 +82,6 @@ public class PostController extends BaseController {
     }
 
     // ========================= [LIKES] =========================
-    @GET
-    @Path("/like/type")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<?> getAllTypes() {
-        return likeTypeService.findAll();
-    }
-
     @GET
     @Path("/like")
     @Produces(MediaType.APPLICATION_JSON)
