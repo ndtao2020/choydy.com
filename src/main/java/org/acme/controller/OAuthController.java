@@ -96,7 +96,7 @@ public class OAuthController {
                 throw new BadRequestException("Không thể xác thực với Google !");
             }
             logger.info("Logged: " + googleDTO.email);
-            if (loginDTO.getEmail().equals(googleDTO.email)) {
+            if (!loginDTO.getEmail().equals(googleDTO.email)) {
                 throw new BadRequestException("Không thể xác thực với Google ! wrong email !");
             }
         }
