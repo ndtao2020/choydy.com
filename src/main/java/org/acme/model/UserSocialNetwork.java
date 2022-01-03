@@ -44,9 +44,7 @@ public class UserSocialNetwork extends BaseId<UUID> {
     public UserSocialNetwork() {
     }
 
-    public UserSocialNetwork(SocialLoginDTO socialLoginDTO, User user, SocialNetwork socialNetwork) {
-        this.user = user;
-        this.socialNetwork = socialNetwork;
+    public UserSocialNetwork(SocialLoginDTO socialLoginDTO) {
         this.uid = socialLoginDTO.getId();
         this.email = socialLoginDTO.getEmail();
         this.phoneNumber = socialLoginDTO.getPhoneNumber();

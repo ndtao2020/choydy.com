@@ -32,9 +32,14 @@ const router = new VueRouter({
     },
     ...adminChildRoutes,
     {
-      path: '/verify/email/:token',
-      name: 'verify-email',
-      component: () => import('@/views/AuthPages/VerifyEmail')
+      path: '/verify/success',
+      name: 'verify-success',
+      component: () => import('@/views/AuthPages/VerifySuccess')
+    },
+    {
+      path: '/verify/failed',
+      name: 'verify-failed',
+      component: () => import('@/views/AuthPages/VerifyFailed')
     },
     {
       path: '/',

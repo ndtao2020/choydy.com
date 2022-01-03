@@ -7,6 +7,7 @@ import org.acme.constants.Role;
 import org.acme.model.Authority;
 import org.acme.model.User;
 import org.acme.model.UserAuthority;
+import org.acme.model.UserDetail;
 import org.acme.model.dto.UserDTO;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -22,6 +23,8 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
 
     @Inject
     AuthorityService authorityService;
+    @Inject
+    UserDetailService userDetailService;
     @Inject
     UserSocialNetworkService userSocialNetworkService;
 
@@ -56,16 +59,24 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
 
     @Transactional
     public User create(RegisterDTO dto) {
-        return this.save(new User(dto, authorityService.getById(Role.USER)));
+        // save user
+        User user = this.save(new User(dto));
+        // save detail
+        userDetailService.save(new UserDetail(user, dto));
+        // save Authority
+        authorityService.save(new UserAuthority(user, authorityService.getById(Role.USER)));
+        // return
+        return user;
     }
 
     @Transactional
     public User create(SocialLoginDTO dto) {
-        Authority authority = authorityService.getById(Role.USER);
         // save user
-        User user = this.save(new User(dto, authority));
+        User user = this.save(new User(dto));
+        // save detail
+        userDetailService.save(new UserDetail(user, dto));
         // save Authority
-        authorityService.save(new UserAuthority(user, authority));
+        authorityService.save(new UserAuthority(user, authorityService.getById(Role.USER)));
         // save SocialNetwork
         userSocialNetworkService.create(dto, user);
         // return

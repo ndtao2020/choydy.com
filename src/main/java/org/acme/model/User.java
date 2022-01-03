@@ -2,7 +2,6 @@ package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.acme.base.dto.RegisterDTO;
-import org.acme.base.dto.SocialLoginDTO;
 import org.acme.model.base.UserBase;
 
 import javax.persistence.CascadeType;
@@ -17,7 +16,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -68,24 +66,11 @@ public class User extends UserBase {
         super(id);
     }
 
-    public User(RegisterDTO registerDTO, Authority authority) {
+    public User(RegisterDTO registerDTO) {
         super(registerDTO.getName(), registerDTO.getEmail(), false, registerDTO.getTimezone());
         this.username = registerDTO.getUsername();
         this.password = registerDTO.getPassword();
         this.enabled = true;
-        // add info
-        this.userDetail = new UserDetail(this, registerDTO);
-        // add role
-        this.userAuthorities = new ArrayList<>();
-        this.userAuthorities.add(new UserAuthority(this, authority));
-    }
-
-    public User(SocialLoginDTO socialLoginDTO, Authority authority, SocialNetwork socialNetwork) {
-        this(socialLoginDTO, authority);
-        this.setAvatar(socialLoginDTO.getAvatar());
-        // add social network
-        this.userSocialNetworks = new ArrayList<>();
-        this.userSocialNetworks.add(new UserSocialNetwork(socialLoginDTO, this, socialNetwork));
     }
 
     public String getUsername() {
