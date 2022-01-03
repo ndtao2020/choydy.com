@@ -9,7 +9,6 @@ public class PostLikeDTO extends PostLikeBase {
 
     private UUID postId;
     private UUID userId;
-    private String likeTypeId;
 
     public PostLikeDTO() {
     }
@@ -32,13 +31,5 @@ public class PostLikeDTO extends PostLikeBase {
 
     public void setUserId(UUID userId) {
         this.userId = userId;
-    }
-
-    public String getLikeTypeId() {
-        return likeTypeId;
-    }
-
-    public void setLikeTypeId(String likeTypeId) {
-        this.likeTypeId = likeTypeId;
     }
 }

@@ -34,11 +34,6 @@ public class PostLike extends PostLikeBase implements Serializable {
     @JoinColumn(nullable = false)
     private User user;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    private LikeType likeType;
-
     public PostLike() {
     }
 
@@ -47,12 +42,12 @@ public class PostLike extends PostLikeBase implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PostLike postLike = (PostLike) o;
-        return post.equals(postLike.post) && user.equals(postLike.user) && likeType.equals(postLike.likeType);
+        return post.equals(postLike.post) && user.equals(postLike.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(post, user, likeType);
+        return Objects.hash(post, user);
     }
 
     public Post getPost() {
@@ -69,13 +64,5 @@ public class PostLike extends PostLikeBase implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public LikeType getLikeType() {
-        return likeType;
-    }
-
-    public void setLikeType(LikeType likeType) {
-        this.likeType = likeType;
     }
 }

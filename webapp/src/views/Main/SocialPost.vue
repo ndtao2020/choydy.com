@@ -41,7 +41,16 @@
         <div class="d-flex">
           <div class="like-data">
             <div class="dropdown">
-              <span>
+              <span v-if="isLiked">
+                <img v-if="isLiked[0] === 'normal'" class="ml-4 mr-2" src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'heart'" class="mr-2" src="@/assets/images/icon/02.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'haha'" class="mr-2" src="@/assets/images/icon/03.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'angry'" class="mr-2" src="@/assets/images/icon/04.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'ask'" class="mr-2" src="@/assets/images/icon/05.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'sad'" class="mr-2" src="@/assets/images/icon/06.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'love'" class="mr-2" src="@/assets/images/icon/07.png" alt="" height="24" width="24" />
+              </span>
+              <span v-else>
                 <img src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
               </span>
               <div class="dropdown-menu" style="">
@@ -57,9 +66,8 @@
           </div>
           <div class="total-like-block ml-2">
             <div class="dropdown">
-              <span>
-                {{ post.likes }}
-              </span>
+              <span v-if="isLiked" class="text-success">Đã thích</span>
+              <span v-else>{{ post.likes }}</span>
             </div>
           </div>
         </div>
@@ -97,11 +105,12 @@
 
 <script>
 import Player from './Player'
+import { mapGetters } from 'vuex'
 import { dateDiff } from '@/moment'
 import { getUserById } from '@/api/user'
 import { getCatalogById } from '@/api/catalog'
-import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateShare } from '@/api/post'
-import { createLike } from '@/api/auth/postlike'
+import { checkLiked } from '@/api/auth/postlike'
+import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateShare, createLike } from '@/api/post'
 import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
 export default {
@@ -116,6 +125,8 @@ export default {
   data() {
     return {
       loading: false,
+      likeLoading: false,
+      isLiked: null,
       showCopiedLink: false,
       post: {},
       user: [],
@@ -125,8 +136,14 @@ export default {
       commentMessage: ''
     }
   },
+  computed: {
+    ...mapGetters('auth', ['logged'])
+  },
   mounted() {
     this.fetchPostById()
+    if (this.logged) {
+      this.authLiked()
+    }
   },
   methods: {
     formatTime(value) {
@@ -181,14 +198,35 @@ export default {
         this.loading = false
       }
     },
+    async authLiked() {
+      this.likeLoading = true
+      try {
+        const data = await checkLiked(this.postId)
+        if (data) {
+          this.isLiked = data[0]
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      } finally {
+        this.likeLoading = false
+      }
+    },
     getURL(data) {
       const [id, type] = data
       return getMediaLink(id, type)
     },
     // like
     async addLike(type) {
+      if (!this.logged) {
+        return this.$router.push('/')
+      }
+      if (this.isLiked) {
+        return
+      }
       try {
         this.post.likes += 1
+        this.isLiked = [type, new Date().getTime()]
         await createLike(this.postId, type)
       } catch (error) {
         // eslint-disable-next-line no-console

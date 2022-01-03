@@ -1,5 +1,5 @@
 import configDB from '@/database/base/config'
-import { publicGet, publicPost } from '@/request'
+import { publicGet, publicPost, authPost, authDel } from '@/request'
 import { searchData, saveData, updateData } from '@/database'
 
 const url = `/post`
@@ -82,7 +82,22 @@ const updateShare = async (postId) => {
   }
 }
 // Like
-const getAllLikeTypes = () => publicGet(`${url}/like/type`)
 const getAllLikeByPostId = (id) => publicGet(`${url}/like?i=${id}`)
+const createLike = async (postId, type) => {
+  const post = await getPostById(postId)
+  if (!post) {
+    throw new Error('Post Id does not exist !')
+  }
+  try {
+    authPost(`/postlike?i=${postId}&t=${type}`)
+    post.likes += 1
+    await updateData(name, exp, post)
+    // eslint-disable-next-line no-empty
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error)
+  }
+}
+const removeLike = (id) => authDel(`/postlike?i=${id}`)
 // export
-export { getPosts, getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, getAllLikeTypes, getAllLikeByPostId, updateShare }
+export { getPosts, getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, getAllLikeByPostId, updateShare, createLike, removeLike }

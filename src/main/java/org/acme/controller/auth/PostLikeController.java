@@ -20,6 +20,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 @Path(SecurityPath.AUTH_API_URL + "/" + PostLike.PATH)
@@ -32,30 +33,46 @@ public class PostLikeController extends BaseController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Boolean checkLike(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId) throws SQLException {
+    public List<?> checkLike(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId) throws SQLException {
         JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         return postLikeService.findByPostIdAndUserId(postId, principal.getId());
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public PostLikeDTO createLike(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId, @QueryParam("t") String likeTypeId) throws SQLException {
+    public CheckDTO createLike(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId, @QueryParam("t") String type) throws SQLException {
         JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         // create post
-        PostLikeDTO postLikeDTO = new PostLikeDTO();
-        postLikeDTO.setCreated(System.currentTimeMillis());
-        postLikeDTO.setUserId(principal.getId());
-        postLikeDTO.setPostId(postId);
-        postLikeDTO.setLikeTypeId(likeTypeId);
-        postLikeService.save(postLikeDTO);
-        return postLikeDTO;
+        try {
+            // check post
+            List<?> list = postLikeService.findByPostIdAndUserId(postId, principal.getId());
+            if (list != null && !list.isEmpty()) {
+                return new CheckDTO(true);
+            }
+            PostLikeDTO postLikeDTO = new PostLikeDTO();
+            postLikeDTO.setCreated(System.currentTimeMillis());
+            postLikeDTO.setUserId(principal.getId());
+            postLikeDTO.setPostId(postId);
+            postLikeDTO.setType(type);
+            postLikeService.save(postLikeDTO);
+            return new CheckDTO(true);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new CheckDTO(false);
+        }
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public CheckDTO removeLike(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId) {
+        JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         try {
-            JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
+            // check post
+            List<?> list = postLikeService.findByPostIdAndUserId(postId, principal.getId());
+            if (list == null || list.isEmpty()) {
+                return new CheckDTO(true);
+            }
+            // remove like
             postLikeService.delete(postId, principal.getId());
             return new CheckDTO(true);
         } catch (Exception e) {
