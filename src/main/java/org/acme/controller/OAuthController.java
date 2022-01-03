@@ -43,6 +43,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -84,7 +85,7 @@ public class OAuthController {
 
     @POST
     @Path("/social")
-    public Response loginBySocial(@Context SecurityContext context, @Valid SocialLoginDTO loginDTO) throws UnauthorizedException, BadRequestException, SQLException {
+    public Response loginBySocial(@Context SecurityContext context, @Valid SocialLoginDTO loginDTO) throws UnauthorizedException, BadRequestException, SQLException, NoSuchAlgorithmException {
         if (loginDTO.getSocial() == null || loginDTO.getEmail() == null || loginDTO.getCredential() == null) {
             throw new BadRequestException("Email and Access Token can not be empty !");
         }
@@ -94,10 +95,11 @@ public class OAuthController {
             if (googleDTO == null) {
                 throw new BadRequestException("Không thể xác thực với Google !");
             }
+            logger.info("Logged: " + googleDTO.email);
         }
         User user = userService.loadUserByUsername(loginDTO.getEmail());
         if (user == null) {
-            user = createUser((ClientPrincipal) context.getUserPrincipal(), loginDTO);
+            return validate(context, createUser((ClientPrincipal) context.getUserPrincipal(), loginDTO));
         }
         return validate(context, user);
     }
@@ -226,20 +228,14 @@ public class OAuthController {
         }
     }
 
-    private User createUser(ClientPrincipal principal, SocialLoginDTO loginDTO) {
-        User user;
+    private User createUser(ClientPrincipal principal, SocialLoginDTO loginDTO) throws NoSuchAlgorithmException {
         List<UserSocialNetwork> userSocialNetworks = userSocialNetworkService.findByEmail(loginDTO.getEmail());
         if (userSocialNetworks == null || userSocialNetworks.isEmpty()) {
             loginDTO.setUsername(loginDTO.getEmail());
-            try {
-                loginDTO.setPassword(passwordEncoder.encode(RandomUtil.random(20)));
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-            }
-            user = userService.create(loginDTO);
-            assert user.getId() != null;
-            User dto = userService.getById(user.getId());
-            this.sendMailConfirm(principal, user.getId(), dto.getName(), dto.getEmail());
+            loginDTO.setPassword(passwordEncoder.encode(RandomUtil.random(20)));
+            User user = userService.create(loginDTO);
+            this.sendMailConfirm(principal, user.getId(), user.getName(), user.getEmail());
+            return user;
         } else {
             UserSocialNetwork userSocialNetwork = null;
             for (UserSocialNetwork s : userSocialNetworks) {
@@ -248,14 +244,15 @@ public class OAuthController {
                     break;
                 }
             }
+            User user;
             if (userSocialNetwork == null) {
                 user = userSocialNetworks.get(0).getUser();
                 userSocialNetworkService.create(loginDTO, user);
             } else {
                 user = userSocialNetwork.getUser();
             }
+            return user;
         }
-        return user;
     }
 
     private User findByToken(String token) throws BadRequestException {

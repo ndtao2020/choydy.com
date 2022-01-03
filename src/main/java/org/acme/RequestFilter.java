@@ -110,11 +110,11 @@ public class RequestFilter implements ContainerRequestFilter {
         if (CHECK_SESSION.equals(path)) {
             try {
                 rc.setSecurityContext(new SessionAuthentication(token.split("\\.")[1]));
-                return;
             } catch (Exception e) {
                 logger.error(e.getMessage());
                 rc.abortWith(new ServerResponse(e.getMessage(), 401, null));
             }
+            return;
         }
         try {
             JsonNode jsonNode = jwtUtil.validate(token);

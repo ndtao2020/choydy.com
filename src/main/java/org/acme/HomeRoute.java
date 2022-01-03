@@ -1,7 +1,6 @@
 package org.acme;
 
 import org.acme.base.FileStorageService;
-import org.acme.base.dto.CheckDTO;
 import org.acme.base.jwt.JwtUtil;
 import org.acme.model.Media;
 import org.acme.model.Post;
@@ -17,7 +16,6 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -70,33 +68,42 @@ public class HomeRoute {
     @Produces(MediaType.APPLICATION_JSON)
     public Response verifyEmail(@PathParam String token) throws SQLDataException {
         if (token == null) {
-            throw new BadRequestException("Token must not null !");
+            return Response.ok()
+                    .status(Response.Status.MOVED_PERMANENTLY)
+                    .header(HttpHeaders.LOCATION, "/verify/failed")
+                    .build();
         }
         UUID id;
         try {
             id = jwtUtil.getId(jwtUtil.validate(token));
         } catch (Exception e) {
-            throw new BadRequestException("Verify email was failed !");
+            return Response.ok()
+                    .status(Response.Status.MOVED_PERMANENTLY)
+                    .header(HttpHeaders.LOCATION, "/verify/failed")
+                    .build();
         }
         if (id == null) {
-            throw new BadRequestException("Verify email was failed !");
+            return Response.ok()
+                    .status(Response.Status.MOVED_PERMANENTLY)
+                    .header(HttpHeaders.LOCATION, "/verify/failed")
+                    .build();
         }
         User user = userService.getById(id);
-        if (user == null) {
-            throw new BadRequestException("User is not exist !");
-        }
         if (Boolean.TRUE.equals(user.getActive())) {
-            throw new BadRequestException("Account has been activated !");
+            return Response.ok()
+                    .status(Response.Status.MOVED_PERMANENTLY)
+                    .header(HttpHeaders.LOCATION, "/")
+                    .build();
         }
         try {
             user.setActive(true);
-            userService.save(user);
+            userService.update(user);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        return Response.ok(new CheckDTO(true))
+        return Response.ok()
                 .status(Response.Status.MOVED_PERMANENTLY)
-                .header(HttpHeaders.LOCATION, "/")
+                .header(HttpHeaders.LOCATION, "/verify/success")
                 .build();
     }
 

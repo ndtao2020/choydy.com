@@ -42,6 +42,9 @@ public class UserSocialNetworkService extends BaseService<UserSocialNetwork, Use
 
     @Transactional
     public void create(SocialLoginDTO dto, User user) {
-        this.save(new UserSocialNetwork(dto, user, socialNetworkService.getByName(dto.getSocial())));
+        UserSocialNetwork userSocialNetwork = new UserSocialNetwork(dto);
+        userSocialNetwork.setUser(user);
+        userSocialNetwork.setSocialNetwork(socialNetworkService.getByName(dto.getSocial()));
+        this.save(userSocialNetwork);
     }
 }
