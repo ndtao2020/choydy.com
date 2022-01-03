@@ -67,7 +67,12 @@ public class User extends UserBase {
     }
 
     public User(RegisterDTO registerDTO) {
+        this(registerDTO, null);
+    }
+
+    public User(RegisterDTO registerDTO, String avatar) {
         super(registerDTO.getName(), registerDTO.getEmail(), false, registerDTO.getTimezone());
+        this.setAvatar(avatar);
         this.username = registerDTO.getUsername();
         this.password = registerDTO.getPassword();
         this.enabled = true;

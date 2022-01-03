@@ -57,6 +57,11 @@ export default {
   computed: {
     ...mapGetters('auth', ['logged'])
   },
+  mounted() {
+    if (this.logged) {
+      this.$router.push('/')
+    }
+  },
   methods: {
     ...mapActions('auth', ['setAuthentication']),
     redirectPage() {
@@ -70,8 +75,9 @@ export default {
       Nprogress.start()
       try {
         const data = await submit(this.username, this.password)
-        if (data) {
-          this.setAuthentication(data)
+        if (data && data.access_token) {
+          const [, payloadData] = data.access_token.split('.')
+          this.setAuthentication(payloadData)
         }
         // redirect
         this.redirectPage()
@@ -109,8 +115,13 @@ export default {
           // } else {
           //   this.$router.push(`/verify/activate?email=${data?.email}`)
           // }
-          await loginBySocialNetwork(social, credential, result.user)
-          this.$router.push('/')
+          const data = await loginBySocialNetwork(social, credential, result.user)
+          if (data && data.access_token) {
+            const [, payloadData] = data.access_token.split('.')
+            this.setAuthentication(payloadData)
+          }
+          // redirect
+          this.redirectPage()
         }
       } catch (err) {
         this.errorMessage = 'Đăng nhập thất bại !'

@@ -6,12 +6,15 @@ import i18n from './i18n'
 
 Vue.config.productionTip = false
 
-new Vue({
-  router,
-  store,
-  i18n,
-  render: (h) => h(App)
-}).$mount('#app')
+store.dispatch('auth/loadSession').then(async (data) => {
+  await store.commit('auth/setSession', data)
+  new Vue({
+    router,
+    store,
+    i18n,
+    render: (h) => h(App)
+  }).$mount('#app')
+})
 
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'

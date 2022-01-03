@@ -28,6 +28,15 @@ public class PostLikeService {
                 .getResultList();
     }
 
+    public Boolean findByPostIdAndUserId(UUID postId, UUID userId) {
+        List<?> list = em
+                .createNativeQuery("select created," + LikeType.PATH_ID + " from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1 and " + User.PATH_ID + "=?2")
+                .setParameter(1, postId)
+                .setParameter(2, userId)
+                .getResultList();
+        return list != null && !list.isEmpty();
+    }
+
     @Transactional
     public void save(PostLikeDTO postLikeDTO) throws SQLException {
         em.createNativeQuery("INSERT INTO " + PostLike.PATH + " (created," + User.PATH_ID + "," + Post.PATH_ID + "," + LikeType.PATH_ID + ") VALUES(?1,?2,?3,?4)")

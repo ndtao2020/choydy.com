@@ -59,7 +59,7 @@ export default {
     Sidebar: () => import('./components/Sidebar'),
     NavBar: () => import('./components/Navbar'),
     RightSideBar: () => import('./components/RightSideBar'),
-    Footer: () => import('./components/footer')
+    Footer: () => import('./components/Footer')
   },
   methods: {
     openLink(link) {

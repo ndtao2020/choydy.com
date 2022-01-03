@@ -96,6 +96,9 @@ public class OAuthController {
                 throw new BadRequestException("Không thể xác thực với Google !");
             }
             logger.info("Logged: " + googleDTO.email);
+            if (loginDTO.getEmail().equals(googleDTO.email)) {
+                throw new BadRequestException("Không thể xác thực với Google ! wrong email !");
+            }
         }
         User user = userService.loadUserByUsername(loginDTO.getEmail());
         if (user == null) {
@@ -222,7 +225,8 @@ public class OAuthController {
 
     private void sendMailConfirm(ClientPrincipal authentication, UUID id, String name, String email) {
         try {
-            emailUtil.sendMailConfirm(email, name, authentication.getDomain() + HomeRoute.PATH_VERIFY_EMAIL + jwtUtil.builderTokenToVerify(id));
+            String path = HomeRoute.PATH_VERIFY_EMAIL + "?t=" + jwtUtil.builderTokenToVerify(id);
+            emailUtil.sendMailConfirm(email, name, authentication.getDomain() + path);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

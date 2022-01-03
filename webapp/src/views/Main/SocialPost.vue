@@ -45,13 +45,13 @@
                 <img src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
               </span>
               <div class="dropdown-menu" style="">
-                <img class="ml-2 mr-2" src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
-                <img class="mr-2" src="@/assets/images/icon/02.png" alt="" height="24" width="24" />
-                <img class="mr-2" src="@/assets/images/icon/03.png" alt="" height="24" width="24" />
-                <img class="mr-2" src="@/assets/images/icon/04.png" alt="" height="24" width="24" />
-                <img class="mr-2" src="@/assets/images/icon/05.png" alt="" height="24" width="24" />
-                <img class="mr-2" src="@/assets/images/icon/06.png" alt="" height="24" width="24" />
-                <img class="mr-2" src="@/assets/images/icon/07.png" alt="" height="24" width="24" />
+                <img class="ml-4 mr-2" src="@/assets/images/icon/01.png" alt="" height="24" width="24" @click="addLike('normal')" />
+                <img class="mr-2" src="@/assets/images/icon/02.png" alt="" height="24" width="24" @click="addLike('heart')" />
+                <img class="mr-2" src="@/assets/images/icon/03.png" alt="" height="24" width="24" @click="addLike('haha')" />
+                <img class="mr-2" src="@/assets/images/icon/04.png" alt="" height="24" width="24" @click="addLike('angry')" />
+                <img class="mr-2" src="@/assets/images/icon/05.png" alt="" height="24" width="24" @click="addLike('ask')" />
+                <img class="mr-2" src="@/assets/images/icon/06.png" alt="" height="24" width="24" @click="addLike('sad')" />
+                <img class="mr-2" src="@/assets/images/icon/07.png" alt="" height="24" width="24" @click="addLike('love')" />
               </div>
             </div>
           </div>
@@ -101,6 +101,7 @@ import { dateDiff } from '@/moment'
 import { getUserById } from '@/api/user'
 import { getCatalogById } from '@/api/catalog'
 import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateShare } from '@/api/post'
+import { createLike } from '@/api/auth/postlike'
 import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
 export default {
@@ -184,6 +185,17 @@ export default {
       const [id, type] = data
       return getMediaLink(id, type)
     },
+    // like
+    async addLike(type) {
+      try {
+        this.post.likes += 1
+        await createLike(this.postId, type)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      }
+    },
+    // share
     fetchShare() {
       try {
         this.post.shares += 1

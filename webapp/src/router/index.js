@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import Nprogress from 'nprogress'
 import store from '@/store'
 import seo from '@/seo'
-import { SESSION } from '@/constants'
 // routes
 import adminChildRoutes from './admin'
 
@@ -82,22 +81,12 @@ router.beforeEach(({ path, meta = {} }, from, next) => {
   //check auth
   const { auth, roles } = meta
   if (auth) {
-    const exp = store.getters['auth/exp']
-    if (!exp) {
+    const logged = store.getters['auth/logged']
+    if (!logged) {
       return next({ name: 'login', query: { redirect: path } })
     }
-    if (exp * 1000 <= new Date().getTime()) {
-      localStorage.removeItem(SESSION)
+    if (roles && roles.length && !checkRole(roles, store.getters['auth/roles'])) {
       return next({ name: 'login', query: { redirect: path } })
-    }
-    const userId = store.getters['auth/id']
-    if (!userId) {
-      return next({ name: 'login', query: { redirect: path } })
-    }
-    if (roles) {
-      if (!checkRole(roles, store.getters['auth/roles'])) {
-        return next({ name: 'login', query: { redirect: path } })
-      }
     }
   }
   next()

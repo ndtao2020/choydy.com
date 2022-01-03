@@ -28,21 +28,19 @@
           <img src="@/assets/icons/arrow-down.svg" height="20" width="20" />
         </b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
-          <!-- <ul class="navbar-nav ml-auto navbar-list">
+          <ul v-if="logged" class="navbar-list" style="cursor: pointer">
             <li>
               <a href="#" class="d-flex align-items-center">
-                <img
-                  src="https://lh3.googleusercontent.com/ogw/ADea4I6XqgDJ0gnzpP2blFAU_d88wpW2hOEhGdYlB2Sv=s64-c-mo"
-                  class="img-fluid rounded-circle"
-                  alt="user"
-                />
+                <img :src="user[1]" class="rounded-circle" alt="user" height="35" width="35" />
               </a>
             </li>
-          </ul> -->
-          <ul class="navbar-list">
+            <li>{{ user[0] }}</li>
+            <li><img class="ml-3" src="@/assets/icons/log-out.svg" height="20" width="20" @click="logout" /></li>
+          </ul>
+          <ul v-else class="navbar-list">
             <li>
               <a href="/login" class="search-toggle iq-waves-effect d-flex align-items-center">
-                Đăng nhập <img class="ml-1" src="@/assets/icons/sign-in.svg" height="20" width="20" />
+                Đăng nhập <img class="ml-2" src="@/assets/icons/lock.svg" height="20" width="20" />
               </a>
             </li>
           </ul>
@@ -53,6 +51,9 @@
 </template>
 
 <script>
+import Nprogress from 'nprogress'
+import { mapGetters, mapActions } from 'vuex'
+import { getUserById } from '@/api/user'
 import { BCollapse } from 'bootstrap-vue/src/components/collapse'
 import { BNavbarToggle } from 'bootstrap-vue/src/components/navbar'
 
@@ -62,13 +63,52 @@ export default {
     BCollapse,
     BNavbarToggle
   },
+  data() {
+    return {
+      loading: false,
+      user: []
+    }
+  },
+  computed: {
+    ...mapGetters('auth', ['logged', 'id'])
+  },
+  mounted() {
+    if (this.logged) {
+      this.fetchUserData()
+    }
+  },
   methods: {
+    ...mapActions('auth', ['clearAuthentication']),
+    async fetchUserData() {
+      this.loading = true
+      try {
+        this.user = await getUserById(this.id)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      } finally {
+        this.loading = false
+      }
+    },
     scrollTop() {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
     },
     miniSidebar() {
       document.querySelector('.wrapper-menu').classList.toggle('open')
       document.querySelector('body').classList.toggle('sidebar-main')
+    },
+    async logout() {
+      Nprogress.start()
+      try {
+        await this.clearAuthentication()
+        window.location.reload()
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+        window.location.reload()
+      } finally {
+        Nprogress.done()
+      }
     }
   }
 }

@@ -8,7 +8,7 @@ import '@/assets/scss/index.scss'
 
 export default {
   name: 'App',
-  mounted() {
+  created() {
     this.initDB()
   },
   methods: {
