@@ -72,7 +72,7 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
     @Transactional
     public User create(SocialLoginDTO dto) {
         // save user
-        User user = this.save(new User(dto));
+        User user = this.save(new User(dto, dto.getAvatar()));
         // save detail
         userDetailService.save(new UserDetail(user, dto));
         // save Authority

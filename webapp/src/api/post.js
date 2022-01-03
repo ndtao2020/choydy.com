@@ -65,9 +65,6 @@ const findAllMediaByPostId = async (postId) => {
   } catch {}
   return media
 }
-// Like
-const getAllLikeTypes = () => publicGet(`${url}/like/type`)
-const getAllLikeByPostId = (id) => publicGet(`${url}/like?i=${id}`)
 // Share
 const updateShare = async (postId) => {
   const post = await getPostById(postId)
@@ -84,5 +81,8 @@ const updateShare = async (postId) => {
     console.log(error)
   }
 }
+// Like
+const getAllLikeTypes = () => publicGet(`${url}/like/type`)
+const getAllLikeByPostId = (id) => publicGet(`${url}/like?i=${id}`)
 // export
 export { getPosts, getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, getAllLikeTypes, getAllLikeByPostId, updateShare }

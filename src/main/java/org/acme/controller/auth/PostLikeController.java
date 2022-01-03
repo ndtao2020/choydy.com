@@ -11,6 +11,7 @@ import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -29,9 +30,16 @@ public class PostLikeController extends BaseController {
     @Inject
     PostLikeService postLikeService;
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Boolean checkLike(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId) throws SQLException {
+        JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
+        return postLikeService.findByPostIdAndUserId(postId, principal.getId());
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public PostLikeDTO createLikeByPostId(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId, @QueryParam("t") String likeTypeId) throws SQLException {
+    public PostLikeDTO createLike(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId, @QueryParam("t") String likeTypeId) throws SQLException {
         JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
         // create post
         PostLikeDTO postLikeDTO = new PostLikeDTO();
@@ -45,7 +53,7 @@ public class PostLikeController extends BaseController {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public CheckDTO removeLikeByPostId(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId) {
+    public CheckDTO removeLike(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId) {
         try {
             JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
             postLikeService.delete(postId, principal.getId());

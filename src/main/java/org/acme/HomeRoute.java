@@ -35,7 +35,7 @@ import java.util.UUID;
 public class HomeRoute {
 
     public static final String TEMPLATE_DIR = "/META-INF/resources/index.html";
-    public static final String PATH_VERIFY_EMAIL = "/verify/email/";
+    public static final String PATH_VERIFY_EMAIL = "/verify/email";
     private static final String S_META = "<meta bf9415284d71d>";
     private static final String E_META = "<meta e4e8ca427bd17>";
     private static final String PATH_POST = "/" + Post.PATH;
@@ -64,9 +64,9 @@ public class HomeRoute {
     }
 
     @GET
-    @Path(PATH_VERIFY_EMAIL + "{token}")
+    @Path(PATH_VERIFY_EMAIL)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response verifyEmail(@PathParam String token) throws SQLDataException {
+    public Response verifyEmail(@QueryParam("t") String token) throws SQLDataException {
         if (token == null) {
             return Response.ok()
                     .status(Response.Status.MOVED_PERMANENTLY)
@@ -77,12 +77,14 @@ public class HomeRoute {
         try {
             id = jwtUtil.getId(jwtUtil.validate(token));
         } catch (Exception e) {
+            logger.error(e.getMessage());
             return Response.ok()
                     .status(Response.Status.MOVED_PERMANENTLY)
                     .header(HttpHeaders.LOCATION, "/verify/failed")
                     .build();
         }
         if (id == null) {
+            logger.error("id == null");
             return Response.ok()
                     .status(Response.Status.MOVED_PERMANENTLY)
                     .header(HttpHeaders.LOCATION, "/verify/failed")
