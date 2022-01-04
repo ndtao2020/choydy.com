@@ -42,20 +42,20 @@
           <div class="like-data">
             <div class="dropdown">
               <span v-if="isLiked">
-                <img v-if="isLiked[0] === 'normal'" src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'heart'" src="@/assets/images/icon/02.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'haha'" src="@/assets/images/icon/03.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'angry'" src="@/assets/images/icon/04.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'ask'" src="@/assets/images/icon/05.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'sad'" src="@/assets/images/icon/06.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'love'" src="@/assets/images/icon/07.png" alt="" height="24" width="24" />
+                <img v-if="isLiked === 'normal'" src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
+                <img v-if="isLiked === 'heart'" src="@/assets/images/icon/02.png" alt="" height="24" width="24" />
+                <img v-if="isLiked === 'haha'" src="@/assets/images/icon/03.png" alt="" height="24" width="24" />
+                <img v-if="isLiked === 'angry'" src="@/assets/images/icon/04.png" alt="" height="24" width="24" />
+                <img v-if="isLiked === 'ask'" src="@/assets/images/icon/05.png" alt="" height="24" width="24" />
+                <img v-if="isLiked === 'sad'" src="@/assets/images/icon/06.png" alt="" height="24" width="24" />
+                <img v-if="isLiked === 'love'" src="@/assets/images/icon/07.png" alt="" height="24" width="24" />
               </span>
               <span v-else>
                 <img src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
               </span>
               <div class="dropdown-menu" style="">
                 <img
-                  :class="['ml-3 mr-2', { 'liked-icon': isLiked && isLiked[0] === 'normal' }]"
+                  :class="['ml-3 mr-2', { 'liked-icon': isLiked === 'normal' }]"
                   src="@/assets/images/icon/01.png"
                   alt=""
                   height="24"
@@ -63,7 +63,7 @@
                   @click="toggleLike('normal')"
                 />
                 <img
-                  :class="['mr-2', { 'liked-icon': isLiked && isLiked[0] === 'heart' }]"
+                  :class="['mr-2', { 'liked-icon': isLiked === 'heart' }]"
                   src="@/assets/images/icon/02.png"
                   alt=""
                   height="24"
@@ -71,7 +71,7 @@
                   @click="toggleLike('heart')"
                 />
                 <img
-                  :class="['mr-2', { 'liked-icon': isLiked && isLiked[0] === 'haha' }]"
+                  :class="['mr-2', { 'liked-icon': isLiked === 'haha' }]"
                   src="@/assets/images/icon/03.png"
                   alt=""
                   height="24"
@@ -79,7 +79,7 @@
                   @click="toggleLike('haha')"
                 />
                 <img
-                  :class="['mr-2', { 'liked-icon': isLiked && isLiked[0] === 'angry' }]"
+                  :class="['mr-2', { 'liked-icon': isLiked === 'angry' }]"
                   src="@/assets/images/icon/04.png"
                   alt=""
                   height="24"
@@ -87,7 +87,7 @@
                   @click="toggleLike('angry')"
                 />
                 <img
-                  :class="['mr-2', { 'liked-icon': isLiked && isLiked[0] === 'ask' }]"
+                  :class="['mr-2', { 'liked-icon': isLiked === 'ask' }]"
                   src="@/assets/images/icon/05.png"
                   alt=""
                   height="24"
@@ -95,7 +95,7 @@
                   @click="toggleLike('ask')"
                 />
                 <img
-                  :class="['mr-2', { 'liked-icon': isLiked && isLiked[0] === 'sad' }]"
+                  :class="['mr-2', { 'liked-icon': isLiked === 'sad' }]"
                   src="@/assets/images/icon/06.png"
                   alt=""
                   height="24"
@@ -103,7 +103,7 @@
                   @click="toggleLike('sad')"
                 />
                 <img
-                  :class="{ 'liked-icon': isLiked && isLiked[0] === 'love' }"
+                  :class="{ 'liked-icon': isLiked === 'love' }"
                   src="@/assets/images/icon/07.png"
                   alt=""
                   height="24"
@@ -200,11 +200,13 @@ export default {
   computed: {
     ...mapGetters('auth', ['logged'])
   },
-  mounted() {
-    this.fetchPostById()
-    this.getAllLike()
+  async mounted() {
+    await this.fetchPostById()
     if (this.logged) {
-      this.authLiked()
+      await this.authLiked()
+    }
+    if (!this.isLiked) {
+      this.getAllLike()
     }
   },
   methods: {
@@ -312,11 +314,11 @@ export default {
             await removeLike(this.postId)
           } else {
             // update like
-            this.isLiked = [type, new Date().getTime()]
+            this.isLiked = type
             await updateLike(this.postId, type)
           }
         } else {
-          this.isLiked = [type, new Date().getTime()]
+          this.isLiked = type
           await createLike(this.postId, type)
         }
       } catch (error) {

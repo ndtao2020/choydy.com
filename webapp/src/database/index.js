@@ -9,23 +9,12 @@ export const openConnection = () =>
     if (!('indexedDB' in window)) {
       reject("This browser doesn't support IndexedDB")
     }
-    const request = window.indexedDB.open('d39zbi81v', 2)
+    const request = window.indexedDB.open('d39zbi81v')
     request.onupgradeneeded = (event) => {
       const db = event.target.result
-      switch (event.oldVersion) {
-        case 0: // no db created before
-        case 1:
-          for (const property in config) {
-            const obj = config[property]
-            db.createObjectStore(obj.name, obj.options)
-          }
-          break
-        case 2:
-          for (const property in config) {
-            const obj = config[property]
-            db.createObjectStore(obj.name, obj.options)
-          }
-          break
+      for (const property in config) {
+        const obj = config[property]
+        db.createObjectStore(obj.name, obj.options)
       }
     }
     request.onsuccess = (event) => resolve(event.target.result)

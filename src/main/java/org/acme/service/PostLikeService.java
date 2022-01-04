@@ -1,5 +1,8 @@
 package org.acme.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.quarkus.redis.client.RedisClient;
+import io.vertx.redis.client.Response;
 import org.acme.model.Post;
 import org.acme.model.PostLike;
 import org.acme.model.User;
@@ -20,8 +23,10 @@ public class PostLikeService {
 
     @Inject
     EntityManager em;
-//    @Inject
-//    RedisClient redisClient;
+    @Inject
+    ObjectMapper mapper;
+    @Inject
+    RedisClient redisClient;
 
     public List<?> findByPostId(UUID postId) {
         return em.createNativeQuery("select " + User.PATH_ID + ",type,created from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1")
@@ -29,41 +34,38 @@ public class PostLikeService {
                 .getResultList();
     }
 
-//    public Object statisticByPostId(String postId) {
-//        Object data;
-//        try {
-//            data = redisClient.hget(PostLike.PATH, postId);
-//        } catch (Exception e) {
-//            return null;
-//        }
-//        if (data == null) {
-//            try {
-//                List<?> statistic = em.createNativeQuery("select type,count(type) from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1 group by type")
-//                        .setParameter(1, UUID.fromString(postId))
-//                        .getResultList();
-//                if (statistic == null) {
-//                    throw new SQLDataException("Data does not exist with Post id !");
-//                }
-//                // update cache
-//                redisClient.hsetnx(PostLike.PATH, postId, statistic.toString());
-//                // return
-//                return statistic;
-//            } catch (Exception e) {
-//                logger.error(e.getMessage());
-//            }
-//        }
-//        return data;
-//    }
-
     public Object statisticByPostId(String postId) {
-        return em.createNativeQuery("select type,count(type) from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1 group by type")
-                .setParameter(1, UUID.fromString(postId))
-                .getResultList();
+        Object data = null;
+        try {
+            Response response = redisClient.hget(PostLike.PATH, postId);
+            if (response != null) {
+                data = response.toString();
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        if (data == null) {
+            try {
+                List<?> statistic = em.createNativeQuery("select type,count(type) from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1 group by type")
+                        .setParameter(1, UUID.fromString(postId))
+                        .getResultList();
+                if (statistic == null) {
+                    return null;
+                }
+                // update cache
+                redisClient.hsetnx(PostLike.PATH, postId, mapper.writeValueAsString(statistic));
+                // return
+                return statistic;
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        }
+        return data;
     }
 
     public List<?> findByPostIdAndUserId(UUID postId, UUID userId) {
         return em
-                .createNativeQuery("select type,created from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1 and " + User.PATH_ID + "=?2")
+                .createNativeQuery("select type from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1 and " + User.PATH_ID + "=?2")
                 .setParameter(1, postId)
                 .setParameter(2, userId)
                 .getResultList();
@@ -77,6 +79,11 @@ public class PostLikeService {
                 .setParameter(3, postId)
                 .setParameter(4, type)
                 .executeUpdate();
+        try {
+            redisClient.hdel(List.of(PostLike.PATH, postId.toString()));
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 
     @Transactional
@@ -87,6 +94,11 @@ public class PostLikeService {
                 .setParameter(3, postId)
                 .setParameter(4, userId)
                 .executeUpdate();
+        try {
+            redisClient.hdel(List.of(PostLike.PATH, postId.toString()));
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 
     @Transactional
@@ -95,5 +107,10 @@ public class PostLikeService {
                 .setParameter(1, postId)
                 .setParameter(2, userId)
                 .executeUpdate();
+        try {
+            redisClient.hdel(List.of(PostLike.PATH, postId.toString()));
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 }

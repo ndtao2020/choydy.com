@@ -1,10 +1,11 @@
 package org.acme.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.quarkus.mailer.Mail;
+import io.quarkus.mailer.Mailer;
 import io.quarkus.security.UnauthorizedException;
 import org.acme.HomeRoute;
 import org.acme.RequestFilter;
-import org.acme.base.EmailUtil;
 import org.acme.base.auth.ClientPrincipal;
 import org.acme.base.dto.CheckDTO;
 import org.acme.base.dto.CredentialDTO;
@@ -43,6 +44,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
@@ -56,8 +58,6 @@ public class OAuthController {
     @Inject
     JwtUtil jwtUtil;
     @Inject
-    EmailUtil emailUtil;
-    @Inject
     UserService userService;
     @Inject
     BCryptPasswordEncoder passwordEncoder;
@@ -65,6 +65,9 @@ public class OAuthController {
     UserAuthorityService userAuthorityService;
     @Inject
     UserSocialNetworkService userSocialNetworkService;
+
+    @Inject
+    Mailer mailer;
 
     @Inject
     @RestClient
@@ -169,7 +172,7 @@ public class OAuthController {
         }
         try {
             ClientPrincipal principal = (ClientPrincipal) context.getUserPrincipal();
-            emailUtil.sendMailResetPassword(user.getEmail(), user.getName(), principal.getDomain() + "/verify/password?token=" + jwtUtil.builderTokenToVerify(user.getId()));
+            this.sendMailResetPassword(user.getEmail(), user.getName(), principal.getDomain() + "/verify/password?token=" + jwtUtil.builderTokenToVerify(user.getId()));
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
@@ -228,8 +231,25 @@ public class OAuthController {
 
     private void sendMailConfirm(ClientPrincipal authentication, UUID id, String name, String email) {
         try {
-            String path = HomeRoute.PATH_VERIFY_EMAIL + "?t=" + jwtUtil.builderTokenToVerify(id);
-            emailUtil.sendMailConfirm(email, name, authentication.getDomain() + path);
+            String builder = "Xin chào " + name + " !\n" +
+                    "Truy cập liên kết này để xác minh địa chỉ email của bạn.\n" +
+                    authentication.getDomain() + HomeRoute.PATH_VERIFY_EMAIL + "?t=" + jwtUtil.builderTokenToVerify(id) + "\n" +
+                    "Nếu bạn không yêu cầu xác minh địa chỉ email này, bạn có thể bỏ qua email này.\n" +
+                    "Cảm ơn bạn!\n";
+            mailer.send(Mail.withText(email, "Xác minh email của bạn", builder));
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    public void sendMailResetPassword(String to, String name, String url) throws IOException {
+        try {
+            String builder = "Xin chào " + name + " !\n" +
+                    "Truy cập liên kết này để đặt lại mật khẩu cho tài khoản " + name + " của bạn.\n" +
+                    url + "\n" +
+                    "Nếu bạn không yêu cầu đặt lại mật khẩu, bạn có thể bỏ qua email này.\n" +
+                    "Cảm ơn bạn!\n";
+            mailer.send(Mail.withText(to, "Đặt lại mật khẩu của bạn", builder));
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
@@ -240,13 +260,13 @@ public class OAuthController {
         if (userSocialNetworks == null || userSocialNetworks.isEmpty()) {
             loginDTO.setUsername(loginDTO.getEmail());
             loginDTO.setPassword(passwordEncoder.encode(RandomUtil.random(20)));
+            User user = userService.create(loginDTO);
             try {
-                User user = userService.create(loginDTO);
                 this.sendMailConfirm(principal, user.getId(), user.getName(), user.getEmail());
-                return user;
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }
+            return user;
         } else {
             try {
                 UserSocialNetwork userSocialNetwork = null;

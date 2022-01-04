@@ -10,7 +10,7 @@ export default {
   name: 'App',
   async created() {
     await this.initDB()
-    setInterval(() => this.updateDatabase(), 20000)
+    setInterval(() => this.updateDatabase(), 30000)
   },
   methods: {
     ...mapActions('database', ['initDB', 'updateDatabase'])
