@@ -111,25 +111,6 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     }
 
     @Transactional
-    public PostDTO updateLike(UUID postId, Long likes) throws SQLException {
-        // find by id
-        Post post = this.getById(postId);
-        if (post == null) {
-            throw new SQLException("The post id does not exist !");
-        }
-        post.setLikes(post.getLikes() + likes);
-        // update SQL
-        Post savedPost = this.update(post);
-        // update cache
-        PostDTO postDTO = this.findDTOById(postId);
-        if (postDTO == null) {
-            return this.saveDTOById(postId, this.convertToDTO(savedPost));
-        }
-        postDTO.setLikes(post.getLikes());
-        return this.updateDTOById(postId, postDTO);
-    }
-
-    @Transactional
     public void updateShare(UUID postId) {
         try {
             // find by id
@@ -173,7 +154,6 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         // ======================================= phù phép
         // ======================================= phù phép
         post.setCount(0L);
-        post.setLikes(0L);
         post.setShares(0L);
         // ======================================= phù phép
         // ======================================= Media

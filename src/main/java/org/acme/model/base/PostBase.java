@@ -21,9 +21,7 @@ public abstract class PostBase extends BaseId<UUID> {
     private String content;
 
     private Long count = 0L;
-    private Long likes = 0L;
     private Long shares = 0L;
-    private Long comments = 0L;
 
     @Column(nullable = false)
     private Boolean disable;
@@ -41,9 +39,7 @@ public abstract class PostBase extends BaseId<UUID> {
         this.title = postBase.getTitle();
         this.content = postBase.getContent();
         this.count = postBase.getCount();
-        this.likes = postBase.getLikes();
         this.shares = postBase.getShares();
-        this.comments = postBase.getComments();
         this.disable = postBase.getDisable();
     }
 
@@ -79,28 +75,12 @@ public abstract class PostBase extends BaseId<UUID> {
         this.count = count;
     }
 
-    public Long getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Long likes) {
-        this.likes = likes;
-    }
-
     public Long getShares() {
         return shares;
     }
 
     public void setShares(Long shares) {
         this.shares = shares;
-    }
-
-    public Long getComments() {
-        return comments;
-    }
-
-    public void setComments(Long comments) {
-        this.comments = comments;
     }
 
     public Boolean getDisable() {

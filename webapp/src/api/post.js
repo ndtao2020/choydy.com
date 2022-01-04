@@ -83,6 +83,7 @@ const updateShare = async (postId) => {
 }
 // ======================================== Like
 const getAllLikeByPostId = (id) => publicGet(`${url}/like?i=${id}`)
+// logged
 const createLike = async (postId, type) => {
   const post = await getPostById(postId)
   if (!post) {
@@ -90,7 +91,6 @@ const createLike = async (postId, type) => {
   }
   try {
     authPost(`/postlike?i=${postId}&t=${type}`)
-    post.likes += 1
     await updateData(name, exp, post)
     // eslint-disable-next-line no-empty
   } catch (error) {
@@ -105,7 +105,6 @@ const updateLike = async (postId, type) => {
   }
   try {
     authPut(`/postlike?i=${postId}&t=${type}`)
-    post.likes += 1
     await updateData(name, exp, post)
     // eslint-disable-next-line no-empty
   } catch (error) {
@@ -120,9 +119,6 @@ const removeLike = async (postId) => {
   }
   try {
     authDel(`/postlike?i=${postId}`)
-    if (post.likes) {
-      post.likes -= 1
-    }
     await updateData(name, exp, post)
     // eslint-disable-next-line no-empty
   } catch (error) {

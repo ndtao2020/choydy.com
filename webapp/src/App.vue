@@ -8,11 +8,12 @@ import '@/assets/scss/index.scss'
 
 export default {
   name: 'App',
-  created() {
-    this.initDB()
+  async created() {
+    await this.initDB()
+    setInterval(() => this.updateDatabase(), 20000)
   },
   methods: {
-    ...mapActions('database', ['initDB'])
+    ...mapActions('database', ['initDB', 'updateDatabase'])
   }
 }
 </script>

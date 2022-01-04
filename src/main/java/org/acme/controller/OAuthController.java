@@ -206,6 +206,9 @@ public class OAuthController {
     }
 
     private Response validate(SecurityContext context, User user) {
+        if (user == null) {
+            throw new UnauthorizedException("Tài khoản không thể rỗng !");
+        }
         if (Boolean.FALSE.equals(user.getEnabled())) {
             throw new UnauthorizedException("User have not permission to login !");
         }
@@ -237,26 +240,35 @@ public class OAuthController {
         if (userSocialNetworks == null || userSocialNetworks.isEmpty()) {
             loginDTO.setUsername(loginDTO.getEmail());
             loginDTO.setPassword(passwordEncoder.encode(RandomUtil.random(20)));
-            User user = userService.create(loginDTO);
-            this.sendMailConfirm(principal, user.getId(), user.getName(), user.getEmail());
-            return user;
+            try {
+                User user = userService.create(loginDTO);
+                this.sendMailConfirm(principal, user.getId(), user.getName(), user.getEmail());
+                return user;
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         } else {
-            UserSocialNetwork userSocialNetwork = null;
-            for (UserSocialNetwork s : userSocialNetworks) {
-                if (s.getSocialNetwork().getName().equals(loginDTO.getSocial())) {
-                    userSocialNetwork = s;
-                    break;
+            try {
+                UserSocialNetwork userSocialNetwork = null;
+                for (UserSocialNetwork s : userSocialNetworks) {
+                    if (s.getSocialNetwork().getName().equals(loginDTO.getSocial())) {
+                        userSocialNetwork = s;
+                        break;
+                    }
                 }
+                User user;
+                if (userSocialNetwork == null) {
+                    user = userSocialNetworks.get(0).getUser();
+                    userSocialNetworkService.create(loginDTO, user);
+                } else {
+                    user = userSocialNetwork.getUser();
+                }
+                return user;
+            } catch (Exception e) {
+                logger.error(e.getMessage());
             }
-            User user;
-            if (userSocialNetwork == null) {
-                user = userSocialNetworks.get(0).getUser();
-                userSocialNetworkService.create(loginDTO, user);
-            } else {
-                user = userSocialNetwork.getUser();
-            }
-            return user;
         }
+        return null;
     }
 
     private User findByToken(String token) throws BadRequestException {
