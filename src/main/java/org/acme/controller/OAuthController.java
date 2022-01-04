@@ -105,7 +105,7 @@ public class OAuthController {
         }
         User user = userService.loadUserByUsername(loginDTO.getEmail());
         if (user == null) {
-            return validate(context, createUser((ClientPrincipal) context.getUserPrincipal(), loginDTO));
+            return validate(context, createUser(loginDTO));
         }
         return validate(context, user);
     }
@@ -255,18 +255,12 @@ public class OAuthController {
         }
     }
 
-    private User createUser(ClientPrincipal principal, SocialLoginDTO loginDTO) throws NoSuchAlgorithmException {
+    private User createUser(SocialLoginDTO loginDTO) throws NoSuchAlgorithmException {
         List<UserSocialNetwork> userSocialNetworks = userSocialNetworkService.findByEmail(loginDTO.getEmail());
         if (userSocialNetworks == null || userSocialNetworks.isEmpty()) {
             loginDTO.setUsername(loginDTO.getEmail());
             loginDTO.setPassword(passwordEncoder.encode(RandomUtil.random(20)));
-            User user = userService.create(loginDTO);
-            try {
-                this.sendMailConfirm(principal, user.getId(), user.getName(), user.getEmail());
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-            }
-            return user;
+            return userService.create(loginDTO);
         } else {
             try {
                 UserSocialNetwork userSocialNetwork = null;

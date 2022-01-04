@@ -9,12 +9,24 @@ export const openConnection = () =>
     if (!('indexedDB' in window)) {
       reject("This browser doesn't support IndexedDB")
     }
-    const request = window.indexedDB.open('d39zbi81v')
+    const request = window.indexedDB.open('d39zbi81v', 2)
     request.onupgradeneeded = (event) => {
       const db = event.target.result
-      for (const property in config) {
-        const obj = config[property]
-        db.createObjectStore(obj.name, obj.options)
+      if (event.oldVersion <= 1) {
+        for (const property in config) {
+          const obj = config[property]
+          db.createObjectStore(obj.name, obj.options)
+        }
+        return
+      }
+      // check new version
+      if (event.oldVersion !== event.newVersion) {
+        for (const property in config) {
+          const obj = config[property]
+          if (event.newVersion === obj.version) {
+            db.createObjectStore(obj.name, obj.options)
+          }
+        }
       }
     }
     request.onsuccess = (event) => resolve(event.target.result)
@@ -25,7 +37,7 @@ export const findAll = (collectionName) =>
   new Promise((resolve, reject) => {
     try {
       const database = store.getters['database/get']
-      const request = database.transaction([collectionName]).objectStore(collectionName).getAll()
+      const request = database.transaction([collectionName], 'readonly').objectStore(collectionName).getAll()
       request.onsuccess = () => resolve(request.result)
       request.onerror = (event) => reject(event)
     } catch (error) {
@@ -40,9 +52,9 @@ export const clearAllCollection = async () => {
       const obj = config[property]
       const list = await findAll(obj.name)
       if (list) {
-        list.forEach(async ({ id, exp }) => {
+        list.forEach(({ id, exp }) => {
           if (exp < current) {
-            await deleteData(obj.name, id)
+            deleteData(obj.name, id)
             // eslint-disable-next-line no-console
             console.log('Deleted: ', obj.name, id)
           }
@@ -59,7 +71,7 @@ export const searchData = (collectionName, id) =>
   new Promise((resolve, reject) => {
     try {
       const database = store.getters['database/get']
-      const request = database.transaction([collectionName]).objectStore(collectionName).get(id)
+      const request = database.transaction([collectionName], 'readonly').objectStore(collectionName).get(id)
       request.onsuccess = async () => {
         const data = request.result
         if (data) {

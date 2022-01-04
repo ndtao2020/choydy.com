@@ -158,19 +158,8 @@ import { mapGetters } from 'vuex'
 import { dateDiff } from '@/moment'
 import { getUserById } from '@/api/user'
 import { getCatalogById } from '@/api/catalog'
-import { checkLiked } from '@/api/auth/postlike'
-import {
-  getPostById,
-  findAllTagByPostId,
-  findAllMediaByPostId,
-  getMediaLink,
-  updateShare,
-  // like
-  getAllLikeByPostId,
-  createLike,
-  updateLike,
-  removeLike
-} from '@/api/post'
+import { getAllLikeByPostId, checkLiked, createLike, updateLike, removeLike } from '@/api/postlike'
+import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateShare } from '@/api/post'
 import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
 export default {

@@ -51,6 +51,7 @@ export default {
     return {
       username: '',
       password: '',
+      loading: false,
       errorMessage: null
     }
   },
@@ -67,28 +68,40 @@ export default {
     redirectPage() {
       window.location = this.$route.query.redirect || '/'
     },
+    updateAuthentication(access_token) {
+      const [, payloadData] = access_token.split('.')
+      this.setAuthentication(payloadData)
+    },
     async login() {
+      if (this.loading) {
+        return
+      }
       if (this.username.length < 5 || this.password.length < 8) {
         this.errorMessage = 'Thông tin đăng nhập quá ngắn'
         return
       }
       Nprogress.start()
+      this.loading = true
       try {
         const data = await submit(this.username, this.password)
         if (data && data.access_token) {
-          const [, payloadData] = data.access_token.split('.')
-          this.setAuthentication(payloadData)
+          this.updateAuthentication(data.access_token)
         }
         // redirect
         this.redirectPage()
       } catch (error) {
         this.errorMessage = 'Đăng nhập thất bại !'
       } finally {
+        this.loading = false
         Nprogress.done()
       }
     },
     async loginSocial(social) {
+      if (this.loading) {
+        return
+      }
       Nprogress.start()
+      this.loading = true
       try {
         // check provider
         let provider = null
@@ -109,16 +122,9 @@ export default {
           if (social === 'FACEBOOK') {
             credential = FacebookAuthProvider.credentialFromResult(result)
           }
-          // const { data } = await loginBySocialNetwork(social, credential, result.user)
-          // if (data?.active) {
-          //   this.$router.push('/')
-          // } else {
-          //   this.$router.push(`/verify/activate?email=${data?.email}`)
-          // }
           const data = await loginBySocialNetwork(social, credential, result.user)
           if (data && data.access_token) {
-            const [, payloadData] = data.access_token.split('.')
-            this.setAuthentication(payloadData)
+            this.updateAuthentication(data.access_token)
           }
           // redirect
           this.redirectPage()
@@ -126,6 +132,7 @@ export default {
       } catch (err) {
         this.errorMessage = 'Đăng nhập thất bại !'
       } finally {
+        this.loading = false
         Nprogress.done()
       }
     }

@@ -9,12 +9,12 @@ const createTag = (...obj) => {
 
 const changeTitle = (meta) => {
   if (!meta) return
-  const { title, description } = meta
-  // Turn the meta tag definitions into actual elements in the head.
-  // Remove any stale meta tags from the document using the key attribute we set below.
-  Array.from(document.querySelectorAll(`[${keyMeta}]`)).map((el) => el.parentNode.removeChild(el))
+  const { title } = meta
   // set up title
   if (title) {
+    // Turn the meta tag definitions into actual elements in the head.
+    // Remove any stale meta tags from the document using the key attribute we set below.
+    Array.from(document.querySelectorAll(`[${keyMeta}]`)).map((el) => el.parentNode.removeChild(el))
     const value = `${title || '404'} | ChoyDy.Com - Meme hài hước`
     document.title = value
     createTag(['name', 'title'], ['content', value])
@@ -22,11 +22,11 @@ const changeTitle = (meta) => {
     createTag(['property', 'twitter:title'], ['content', value])
   }
   // set up description
-  if (description) {
-    createTag(['name', 'description'], ['content', description])
-    createTag(['property', 'og:description'], ['content', description])
-    createTag(['property', 'twitter:description'], ['content', description])
-  }
+  // if (description) {
+  //   createTag(['name', 'description'], ['content', description])
+  //   createTag(['property', 'og:description'], ['content', description])
+  //   createTag(['property', 'twitter:description'], ['content', description])
+  // }
   // // domain
   // const domain = process.env.VUE_APP_PROXY
   // // set image
