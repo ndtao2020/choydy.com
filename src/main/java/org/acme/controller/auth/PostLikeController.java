@@ -5,7 +5,6 @@ import org.acme.base.auth.JwtPrincipal;
 import org.acme.base.dto.CheckDTO;
 import org.acme.constants.SecurityPath;
 import org.acme.model.PostLike;
-import org.acme.model.dto.PostLikeDTO;
 import org.acme.service.PostLikeService;
 import org.jboss.logging.Logger;
 
@@ -13,6 +12,7 @@ import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -49,12 +49,26 @@ public class PostLikeController extends BaseController {
             if (list != null && !list.isEmpty()) {
                 return new CheckDTO(true);
             }
-            PostLikeDTO postLikeDTO = new PostLikeDTO();
-            postLikeDTO.setCreated(System.currentTimeMillis());
-            postLikeDTO.setUserId(principal.getId());
-            postLikeDTO.setPostId(postId);
-            postLikeDTO.setType(type);
-            postLikeService.save(postLikeDTO);
+            postLikeService.save(System.currentTimeMillis(), type, postId, principal.getId());
+            return new CheckDTO(true);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new CheckDTO(false);
+        }
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public CheckDTO updateLike(@Context SecurityContext context, @QueryParam(ID_PARAM) UUID postId, @QueryParam("t") String type) throws SQLException {
+        JwtPrincipal principal = (JwtPrincipal) context.getUserPrincipal();
+        // create post
+        try {
+            // check post
+            List<?> list = postLikeService.findByPostIdAndUserId(postId, principal.getId());
+            if (list == null || list.isEmpty()) {
+                return new CheckDTO(true);
+            }
+            postLikeService.update(System.currentTimeMillis(), type, postId, principal.getId());
             return new CheckDTO(true);
         } catch (Exception e) {
             logger.error(e.getMessage());

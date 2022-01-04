@@ -67,6 +67,10 @@ public class RequestFilter implements ContainerRequestFilter {
                 return;
             }
         }
+        if (CHECK_SESSION.equals(path)) {
+            this.setCheckSession(requestContext);
+            return;
+        }
         // check jwt
         if (path.startsWith(SecurityPath.OAUTH_API_URL)) {
             final List<String> apiKeyHeader = requestContext.getHeaders().get(AUTHORIZATION);
@@ -75,12 +79,12 @@ public class RequestFilter implements ContainerRequestFilter {
                 return;
             }
             this.basicAuth(requestContext);
-        } else if (path.startsWith(SecurityPath.AUTH_API_URL)) {
-            this.bearerAuth(requestContext, path, null);
-        } else if (path.startsWith(SecurityPath.EDITOR_API_URL)) {
-            this.bearerAuth(requestContext, path, Role.EDITOR);
         } else if (path.startsWith(SecurityPath.ADMIN_API_URL)) {
-            this.bearerAuth(requestContext, path, Role.ADMIN);
+            this.bearerAuth(requestContext, Role.ADMIN);
+        } else if (path.startsWith(SecurityPath.EDITOR_API_URL)) {
+            this.bearerAuth(requestContext, Role.EDITOR);
+        } else if (path.startsWith(SecurityPath.AUTH_API_URL)) {
+            this.bearerAuth(requestContext, null);
         }
     }
 
@@ -94,26 +98,39 @@ public class RequestFilter implements ContainerRequestFilter {
         return false;
     }
 
-    private void bearerAuth(ContainerRequestContext rc, String path, Role role) {
+    private String parseToken(ContainerRequestContext rc) {
         String token;
         final List<String> apiKeyHeader = rc.getHeaders().get(AUTHORIZATION);
         if (Objects.isNull(apiKeyHeader) || apiKeyHeader.isEmpty()) {
             Cookie tokenCookie = rc.getCookies().get(TOKEN_COOKIE_NAME);
             if (tokenCookie == null) {
-                rc.abortWith(ACCESS_DENIED);
-                return;
+                return null;
             }
             token = tokenCookie.getValue();
         } else {
-            token = apiKeyHeader.get(0).substring(7);
-        }
-        if (CHECK_SESSION.equals(path)) {
-            try {
-                rc.setSecurityContext(new SessionAuthentication(token.split("\\.")[1]));
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-                rc.abortWith(new ServerResponse(e.getMessage(), 401, null));
+            String header = apiKeyHeader.get(0);
+            if (header == null) {
+                return null;
             }
+            token = header.substring(7);
+        }
+        return token;
+    }
+
+    private void setCheckSession(ContainerRequestContext rc) {
+        String token = parseToken(rc);
+        if (token == null) return;
+        try {
+            rc.setSecurityContext(new SessionAuthentication(token.split("\\.")[1]));
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    private void bearerAuth(ContainerRequestContext rc, Role role) {
+        String token = parseToken(rc);
+        if (token == null) {
+            rc.abortWith(ACCESS_DENIED);
             return;
         }
         try {

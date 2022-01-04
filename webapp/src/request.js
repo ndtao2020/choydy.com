@@ -34,7 +34,14 @@ const config = (url, method, body, headers = {}) => {
   return fetch(`${PREFIX}${url}`, configs)
     .then((res) => {
       if (res.status >= 200 && res.status < 300) {
-        return Promise.resolve(res.json())
+        const type = res.headers.get('Content-Type')
+        if (type === 'application/json') {
+          return Promise.resolve(res.json())
+        }
+        if (type === 'text/plain' || type === 'text/plain;charset=UTF-8') {
+          return Promise.resolve(res.text())
+        }
+        return Promise.resolve(res)
       }
       return Promise.reject(res.json())
     })

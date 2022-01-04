@@ -6,7 +6,7 @@ const options = {
 const config = {
   post: {
     name: 'post',
-    exp,
+    exp: 60 * 60 * 1000,
     options
   },
   user: {

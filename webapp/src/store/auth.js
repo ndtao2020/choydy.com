@@ -14,25 +14,25 @@ export default {
     roles: ({ session }) => session !== null && session.b
   },
   mutations: {
-    setSession(state, obj) {
+    setsession(state, obj) {
       state.session = obj
     }
   },
   actions: {
     async setAuthentication({ commit }, payload) {
       try {
-        commit('setSession', parseJWT(payload))
+        commit('setsession', parseJWT(payload))
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error)
-        commit('setSession', null)
+        commit('setsession', null)
       }
     },
-    async loadSession() {
+    async loadsession() {
       try {
         const data = await session()
-        if (data && data.name) {
-          return parseJWT(data.name)
+        if (data) {
+          return parseJWT(data)
         }
       } catch (error) {
         return null
@@ -46,7 +46,7 @@ export default {
         // eslint-disable-next-line no-console
         console.log(error)
       } finally {
-        commit('setSession', null)
+        commit('setsession', null)
       }
     }
   }

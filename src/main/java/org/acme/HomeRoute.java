@@ -18,10 +18,8 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +63,6 @@ public class HomeRoute {
 
     @GET
     @Path(PATH_VERIFY_EMAIL)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response verifyEmail(@QueryParam("t") String token) throws SQLDataException {
         if (token == null) {
             return Response.ok()
@@ -111,14 +108,12 @@ public class HomeRoute {
 
     @GET
     @Path(PATH_MEDIA + "/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getById(@PathParam String id, @QueryParam("t") String type) throws SQLDataException {
         return Response.ok(fileStorageService.getFile(mediaService.findCacheById(id)), type).build();
     }
 
     @GET
     @Path(PATH_MEDIA_CAPTURE + "/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response capture(@PathParam String id, @QueryParam("t") String type) throws IllegalAccessException, SQLDataException, IOException {
         if (!FileStorageService.VIDEO_TYPES.contains(type)) {
             throw new IllegalAccessException("No support for type " + type + " !");
