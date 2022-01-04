@@ -4,7 +4,6 @@ import org.acme.base.dto.RegisterDTO;
 import org.acme.base.dto.SocialLoginDTO;
 import org.acme.base.service.BaseCacheService;
 import org.acme.constants.Role;
-import org.acme.model.Authority;
 import org.acme.model.User;
 import org.acme.model.UserAuthority;
 import org.acme.model.UserDetail;
