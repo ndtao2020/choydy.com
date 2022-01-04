@@ -3,6 +3,7 @@ package org.acme.service;
 import org.acme.model.Post;
 import org.acme.model.PostLike;
 import org.acme.model.User;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -15,14 +16,48 @@ import java.util.UUID;
 @ApplicationScoped
 public class PostLikeService {
 
+    private static final Logger logger = Logger.getLogger(PostLikeService.class);
+
     @Inject
     EntityManager em;
-    @Inject
-    PostService postService;
+//    @Inject
+//    RedisClient redisClient;
 
     public List<?> findByPostId(UUID postId) {
         return em.createNativeQuery("select " + User.PATH_ID + ",type,created from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1")
                 .setParameter(1, postId)
+                .getResultList();
+    }
+
+//    public Object statisticByPostId(String postId) {
+//        Object data;
+//        try {
+//            data = redisClient.hget(PostLike.PATH, postId);
+//        } catch (Exception e) {
+//            return null;
+//        }
+//        if (data == null) {
+//            try {
+//                List<?> statistic = em.createNativeQuery("select type,count(type) from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1 group by type")
+//                        .setParameter(1, UUID.fromString(postId))
+//                        .getResultList();
+//                if (statistic == null) {
+//                    throw new SQLDataException("Data does not exist with Post id !");
+//                }
+//                // update cache
+//                redisClient.hsetnx(PostLike.PATH, postId, statistic.toString());
+//                // return
+//                return statistic;
+//            } catch (Exception e) {
+//                logger.error(e.getMessage());
+//            }
+//        }
+//        return data;
+//    }
+
+    public Object statisticByPostId(String postId) {
+        return em.createNativeQuery("select type,count(type) from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1 group by type")
+                .setParameter(1, UUID.fromString(postId))
                 .getResultList();
     }
 
@@ -42,7 +77,6 @@ public class PostLikeService {
                 .setParameter(3, postId)
                 .setParameter(4, type)
                 .executeUpdate();
-        postService.updateLike(postId, 1L);
     }
 
     @Transactional
@@ -61,6 +95,5 @@ public class PostLikeService {
                 .setParameter(1, postId)
                 .setParameter(2, userId)
                 .executeUpdate();
-        postService.updateLike(postId, -1L);
     }
 }

@@ -22,6 +22,7 @@ public class PostLike extends PostLikeBase implements Serializable {
     public static final String PATH = "postlike";
     @Serial
     private static final long serialVersionUID = 65L;
+
     @Id
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)

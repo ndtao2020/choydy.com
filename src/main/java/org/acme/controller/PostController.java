@@ -85,6 +85,13 @@ public class PostController extends BaseController {
     @GET
     @Path("/like")
     @Produces(MediaType.APPLICATION_JSON)
+    public Object getStatisticByPostId(@QueryParam(ID_PARAM) String postId) throws BadRequestException {
+        return postLikeService.statisticByPostId(postId);
+    }
+
+    @GET
+    @Path("/like/all")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<?> getAllByPostId(@QueryParam(ID_PARAM) UUID postId) throws BadRequestException {
         return postLikeService.findByPostId(postId);
     }

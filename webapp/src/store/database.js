@@ -1,4 +1,4 @@
-import { openConnection } from '@/database'
+import { openConnection, clearAllCollection } from '@/database'
 
 export default {
   namespaced: true,
@@ -18,6 +18,14 @@ export default {
       try {
         const db = await openConnection()
         commit('setDB', db)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      }
+    },
+    async updateDatabase() {
+      try {
+        await clearAllCollection()
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error)

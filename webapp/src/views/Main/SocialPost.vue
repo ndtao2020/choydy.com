@@ -116,7 +116,7 @@
           <div class="total-like-block ml-2">
             <div class="dropdown">
               <span v-if="isLiked" class="text-success">Đã thích</span>
-              <span v-else>{{ post.likes }}</span>
+              <span v-else>{{ likes ? getTotalLike(likes) : 0 }}</span>
             </div>
           </div>
         </div>
@@ -159,7 +159,18 @@ import { dateDiff } from '@/moment'
 import { getUserById } from '@/api/user'
 import { getCatalogById } from '@/api/catalog'
 import { checkLiked } from '@/api/auth/postlike'
-import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateShare, createLike, updateLike, removeLike } from '@/api/post'
+import {
+  getPostById,
+  findAllTagByPostId,
+  findAllMediaByPostId,
+  getMediaLink,
+  updateShare,
+  // like
+  getAllLikeByPostId,
+  createLike,
+  updateLike,
+  removeLike
+} from '@/api/post'
 import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
 export default {
@@ -175,6 +186,7 @@ export default {
     return {
       loading: false,
       likeLoading: false,
+      likes: [],
       isLiked: null,
       showCopiedLink: false,
       post: {},
@@ -190,6 +202,7 @@ export default {
   },
   mounted() {
     this.fetchPostById()
+    this.getAllLike()
     if (this.logged) {
       this.authLiked()
     }
@@ -247,6 +260,25 @@ export default {
         this.loading = false
       }
     },
+    getURL(data) {
+      const [id, type] = data
+      return getMediaLink(id, type)
+    },
+    // like
+    async getAllLike() {
+      this.likeLoading = true
+      try {
+        const data = await getAllLikeByPostId(this.postId)
+        if (data) {
+          this.likes = data
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      } finally {
+        this.likeLoading = false
+      }
+    },
     async authLiked() {
       this.likeLoading = true
       try {
@@ -261,22 +293,21 @@ export default {
         this.likeLoading = false
       }
     },
-    getURL(data) {
-      const [id, type] = data
-      return getMediaLink(id, type)
+    getTotalLike(likes) {
+      let total = 0
+      for (let index = 0; index < likes.length; index++) {
+        const element = likes[index]
+        total += element[1]
+      }
+      return total
     },
-    // like
     async toggleLike(type) {
       if (!this.logged) {
-        return this.$router.push('/')
+        return this.$router.push({ name: 'login', query: { redirect: `/post/${this.postId}` } })
       }
       try {
         if (this.isLiked) {
           if (this.isLiked[0] === type) {
-            // remove like
-            if (this.post.likes) {
-              this.post.likes -= 1
-            }
             this.isLiked = null
             await removeLike(this.postId)
           } else {
@@ -285,8 +316,6 @@ export default {
             await updateLike(this.postId, type)
           }
         } else {
-          // add like
-          this.post.likes += 1
           this.isLiked = [type, new Date().getTime()]
           await createLike(this.postId, type)
         }
