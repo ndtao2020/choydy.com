@@ -1,5 +1,5 @@
 import configDB from '@/database/base/config'
-import { publicGet, publicPost, authPost, authPut, authDel } from '@/request'
+import { publicGet, publicPost } from '@/request'
 import { searchData, saveData, updateData } from '@/database'
 
 const url = `/post`
@@ -81,61 +81,5 @@ const updateShare = async (postId) => {
     console.log(error)
   }
 }
-// ======================================== Like
-const getAllLikeByPostId = (id) => publicGet(`${url}/like?i=${id}`)
-// logged
-const createLike = async (postId, type) => {
-  const post = await getPostById(postId)
-  if (!post) {
-    throw new Error('Post Id does not exist !')
-  }
-  try {
-    authPost(`/postlike?i=${postId}&t=${type}`)
-    await updateData(name, exp, post)
-    // eslint-disable-next-line no-empty
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error)
-  }
-}
-const updateLike = async (postId, type) => {
-  const post = await getPostById(postId)
-  if (!post) {
-    throw new Error('Post Id does not exist !')
-  }
-  try {
-    authPut(`/postlike?i=${postId}&t=${type}`)
-    await updateData(name, exp, post)
-    // eslint-disable-next-line no-empty
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error)
-  }
-}
-const removeLike = async (postId) => {
-  const post = await getPostById(postId)
-  if (!post) {
-    throw new Error('Post Id does not exist !')
-  }
-  try {
-    authDel(`/postlike?i=${postId}`)
-    await updateData(name, exp, post)
-    // eslint-disable-next-line no-empty
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error)
-  }
-}
 // export
-export {
-  getPosts,
-  getPostById,
-  findAllTagByPostId,
-  findAllMediaByPostId,
-  getMediaLink,
-  getAllLikeByPostId,
-  updateShare,
-  createLike,
-  updateLike,
-  removeLike
-}
+export { getPosts, getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateShare }

@@ -38,10 +38,10 @@ const config = (url, method, body, headers = {}) => {
         if (type === 'application/json') {
           return Promise.resolve(res.json())
         }
-        if (type === 'text/plain' || type === 'text/plain;charset=UTF-8') {
-          return Promise.resolve(res.text())
-        }
-        return Promise.resolve(res)
+        // if (type === 'text/plain' || type === 'text/plain;charset=UTF-8') {
+        //   return Promise.resolve(res.text())
+        // }
+        return Promise.resolve(res.text())
       }
       return Promise.reject(res.json())
     })
