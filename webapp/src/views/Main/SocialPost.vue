@@ -42,25 +42,74 @@
           <div class="like-data">
             <div class="dropdown">
               <span v-if="isLiked">
-                <img v-if="isLiked[0] === 'normal'" class="ml-4 mr-2" src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'heart'" class="mr-2" src="@/assets/images/icon/02.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'haha'" class="mr-2" src="@/assets/images/icon/03.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'angry'" class="mr-2" src="@/assets/images/icon/04.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'ask'" class="mr-2" src="@/assets/images/icon/05.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'sad'" class="mr-2" src="@/assets/images/icon/06.png" alt="" height="24" width="24" />
-                <img v-if="isLiked[0] === 'love'" class="mr-2" src="@/assets/images/icon/07.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'normal'" src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'heart'" src="@/assets/images/icon/02.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'haha'" src="@/assets/images/icon/03.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'angry'" src="@/assets/images/icon/04.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'ask'" src="@/assets/images/icon/05.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'sad'" src="@/assets/images/icon/06.png" alt="" height="24" width="24" />
+                <img v-if="isLiked[0] === 'love'" src="@/assets/images/icon/07.png" alt="" height="24" width="24" />
               </span>
               <span v-else>
                 <img src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
               </span>
               <div class="dropdown-menu" style="">
-                <img class="ml-4 mr-2" src="@/assets/images/icon/01.png" alt="" height="24" width="24" @click="addLike('normal')" />
-                <img class="mr-2" src="@/assets/images/icon/02.png" alt="" height="24" width="24" @click="addLike('heart')" />
-                <img class="mr-2" src="@/assets/images/icon/03.png" alt="" height="24" width="24" @click="addLike('haha')" />
-                <img class="mr-2" src="@/assets/images/icon/04.png" alt="" height="24" width="24" @click="addLike('angry')" />
-                <img class="mr-2" src="@/assets/images/icon/05.png" alt="" height="24" width="24" @click="addLike('ask')" />
-                <img class="mr-2" src="@/assets/images/icon/06.png" alt="" height="24" width="24" @click="addLike('sad')" />
-                <img class="mr-2" src="@/assets/images/icon/07.png" alt="" height="24" width="24" @click="addLike('love')" />
+                <img
+                  :class="['ml-3 mr-2', { 'liked-icon': isLiked && isLiked[0] === 'normal' }]"
+                  src="@/assets/images/icon/01.png"
+                  alt=""
+                  height="24"
+                  width="24"
+                  @click="toggleLike('normal')"
+                />
+                <img
+                  :class="['mr-2', { 'liked-icon': isLiked && isLiked[0] === 'heart' }]"
+                  src="@/assets/images/icon/02.png"
+                  alt=""
+                  height="24"
+                  width="24"
+                  @click="toggleLike('heart')"
+                />
+                <img
+                  :class="['mr-2', { 'liked-icon': isLiked && isLiked[0] === 'haha' }]"
+                  src="@/assets/images/icon/03.png"
+                  alt=""
+                  height="24"
+                  width="24"
+                  @click="toggleLike('haha')"
+                />
+                <img
+                  :class="['mr-2', { 'liked-icon': isLiked && isLiked[0] === 'angry' }]"
+                  src="@/assets/images/icon/04.png"
+                  alt=""
+                  height="24"
+                  width="24"
+                  @click="toggleLike('angry')"
+                />
+                <img
+                  :class="['mr-2', { 'liked-icon': isLiked && isLiked[0] === 'ask' }]"
+                  src="@/assets/images/icon/05.png"
+                  alt=""
+                  height="24"
+                  width="24"
+                  @click="toggleLike('ask')"
+                />
+                <img
+                  :class="['mr-2', { 'liked-icon': isLiked && isLiked[0] === 'sad' }]"
+                  src="@/assets/images/icon/06.png"
+                  alt=""
+                  height="24"
+                  width="24"
+                  @click="toggleLike('sad')"
+                />
+                <img
+                  :class="{ 'liked-icon': isLiked && isLiked[0] === 'love' }"
+                  src="@/assets/images/icon/07.png"
+                  alt=""
+                  height="24"
+                  width="24"
+                  @click="toggleLike('love')"
+                />
               </div>
             </div>
           </div>
@@ -110,7 +159,7 @@ import { dateDiff } from '@/moment'
 import { getUserById } from '@/api/user'
 import { getCatalogById } from '@/api/catalog'
 import { checkLiked } from '@/api/auth/postlike'
-import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateShare, createLike } from '@/api/post'
+import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateShare, createLike, updateLike, removeLike } from '@/api/post'
 import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
 export default {
@@ -217,17 +266,30 @@ export default {
       return getMediaLink(id, type)
     },
     // like
-    async addLike(type) {
+    async toggleLike(type) {
       if (!this.logged) {
         return this.$router.push('/')
       }
-      if (this.isLiked) {
-        return
-      }
       try {
-        this.post.likes += 1
-        this.isLiked = [type, new Date().getTime()]
-        await createLike(this.postId, type)
+        if (this.isLiked) {
+          if (this.isLiked[0] === type) {
+            // remove like
+            if (this.post.likes) {
+              this.post.likes -= 1
+            }
+            this.isLiked = null
+            await removeLike(this.postId)
+          } else {
+            // update like
+            this.isLiked = [type, new Date().getTime()]
+            await updateLike(this.postId, type)
+          }
+        } else {
+          // add like
+          this.post.likes += 1
+          this.isLiked = [type, new Date().getTime()]
+          await createLike(this.postId, type)
+        }
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error)

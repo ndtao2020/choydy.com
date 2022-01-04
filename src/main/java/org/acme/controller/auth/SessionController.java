@@ -6,7 +6,6 @@ import org.acme.base.dto.CheckDTO;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -18,13 +17,15 @@ import java.security.Principal;
 public class SessionController {
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Principal get(@Context SecurityContext context) {
-        return context.getUserPrincipal();
+    public Response get(@Context SecurityContext context) {
+        Principal principal = context.getUserPrincipal();
+        return Response
+                .ok(principal == null ? null : principal.getName(), MediaType.TEXT_PLAIN)
+                .header(HttpHeaders.CACHE_CONTROL, "no-cache")
+                .build();
     }
 
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
     public Response logout(@Context SecurityContext context) {
         return Response
                 .ok(new CheckDTO(true))
