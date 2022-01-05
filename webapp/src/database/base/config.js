@@ -4,9 +4,10 @@ const options = {
 }
 
 const config = {
+  // ver 1
   post: {
     name: 'post',
-    exp: 60 * 60 * 1000,
+    exp,
     version: 1,
     options
   },

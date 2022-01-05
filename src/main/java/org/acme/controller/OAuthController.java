@@ -21,7 +21,6 @@ import org.acme.base.jwt.JwtUtil;
 import org.acme.constants.SecurityPath;
 import org.acme.constants.Social;
 import org.acme.model.User;
-import org.acme.model.UserSocialNetwork;
 import org.acme.model.dto.UserDTO;
 import org.acme.rest.GoogleService;
 import org.acme.service.UserAuthorityService;
@@ -68,7 +67,6 @@ public class OAuthController {
 
     @Inject
     Mailer mailer;
-
     @Inject
     @RestClient
     GoogleService googleService;
@@ -136,7 +134,7 @@ public class OAuthController {
             throw new BadRequestException("The account already exist !");
         }
         registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        User newUser = userService.create(registerDTO);
+        User newUser = userService.createWithRegister(registerDTO);
         this.sendMailConfirm((ClientPrincipal) context.getUserPrincipal(), newUser.getId(), newUser.getName(), newUser.getEmail());
         return new UserDTO(newUser);
     }
@@ -256,27 +254,26 @@ public class OAuthController {
     }
 
     private User createUser(SocialLoginDTO loginDTO) throws NoSuchAlgorithmException {
-        List<UserSocialNetwork> userSocialNetworks = userSocialNetworkService.findByEmail(loginDTO.getEmail());
+        List<?> userSocialNetworks = userSocialNetworkService.findByEmail(loginDTO.getEmail());
         if (userSocialNetworks == null || userSocialNetworks.isEmpty()) {
             loginDTO.setUsername(loginDTO.getEmail());
             loginDTO.setPassword(passwordEncoder.encode(RandomUtil.random(20)));
-            return userService.create(loginDTO);
+            return userService.createWithSocial(loginDTO);
         } else {
             try {
-                UserSocialNetwork userSocialNetwork = null;
-                for (UserSocialNetwork s : userSocialNetworks) {
-                    if (s.getSocialNetwork().getName().equals(loginDTO.getSocial())) {
-                        userSocialNetwork = s;
-                        break;
+                for (Object socialNetworks : userSocialNetworks) {
+                    Object[] objects = (Object[]) socialNetworks;
+                    Long socialNetworkId = (Long) objects[0];
+                    UUID userId = UUID.fromString((String) objects[1]);
+                    if (Social.GOOGLE.equals(loginDTO.getSocial()) && socialNetworkId.equals(1L)) {
+                        return userService.getById(userId);
+                    }
+                    if (Social.FACEBOOK.equals(loginDTO.getSocial()) && socialNetworkId.equals(2L)) {
+                        return userService.getById(userId);
                     }
                 }
-                User user;
-                if (userSocialNetwork == null) {
-                    user = userSocialNetworks.get(0).getUser();
-                    userSocialNetworkService.create(loginDTO, user);
-                } else {
-                    user = userSocialNetwork.getUser();
-                }
+                User user = userService.findByEmail(loginDTO.getEmail());
+                userSocialNetworkService.create(loginDTO, user);
                 return user;
             } catch (Exception e) {
                 logger.error(e.getMessage());

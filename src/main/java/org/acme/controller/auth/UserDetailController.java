@@ -6,7 +6,6 @@ import org.acme.base.dto.CheckDTO;
 import org.acme.constants.SecurityPath;
 import org.acme.model.Country;
 import org.acme.model.UserDetail;
-import org.acme.model.base.UserDetailBase;
 import org.acme.model.dto.UserDetailDTO;
 import org.acme.service.CountryService;
 import org.acme.service.UserDetailService;
@@ -22,7 +21,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import java.sql.SQLDataException;
 
-@Path(SecurityPath.AUTH_API_URL + "/" + UserDetailBase.PATH)
+@Path(SecurityPath.AUTH_API_URL + "/" + UserDetail.PATH)
 public class UserDetailController extends BaseController {
 
     @Inject

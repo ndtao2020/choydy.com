@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -15,9 +14,6 @@ import java.util.UUID;
 
 @MappedSuperclass
 public abstract class UserDetailBase extends BaseId<UUID> {
-
-    @Transient
-    public static final String PATH = "userDetail";
 
     @NotBlank
     @Column(length = 30)

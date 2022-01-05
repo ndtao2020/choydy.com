@@ -189,14 +189,9 @@ export default {
   computed: {
     ...mapGetters('auth', ['logged'])
   },
-  async mounted() {
-    await this.fetchPostById()
-    if (this.logged) {
-      await this.authLiked()
-    }
-    if (!this.isLiked) {
-      this.getAllLike()
-    }
+  mounted() {
+    this.fetchPostById()
+    this.getAllLike()
   },
   methods: {
     formatTime(value) {
@@ -259,9 +254,18 @@ export default {
     async getAllLike() {
       this.likeLoading = true
       try {
-        const data = await getAllLikeByPostId(this.postId)
-        if (data) {
-          this.likes = data
+        let liked = null
+        if (this.logged) {
+          liked = await checkLiked(this.postId)
+          if (liked) {
+            this.isLiked = liked[0]
+          }
+        }
+        if (!liked || !liked.length) {
+          const data = await getAllLikeByPostId(this.postId)
+          if (data) {
+            this.likes = data
+          }
         }
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -269,28 +273,6 @@ export default {
       } finally {
         this.likeLoading = false
       }
-    },
-    async authLiked() {
-      this.likeLoading = true
-      try {
-        const data = await checkLiked(this.postId)
-        if (data) {
-          this.isLiked = data[0]
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error)
-      } finally {
-        this.likeLoading = false
-      }
-    },
-    getTotalLike(likes) {
-      let total = 0
-      for (let index = 0; index < likes.length; index++) {
-        const element = likes[index]
-        total += element[1]
-      }
-      return total
     },
     async toggleLike(type) {
       if (!this.logged) {
@@ -314,6 +296,14 @@ export default {
         // eslint-disable-next-line no-console
         console.log(error)
       }
+    },
+    getTotalLike(likes) {
+      let total = 0
+      for (let index = 0; index < likes.length; index++) {
+        const element = likes[index]
+        total += element[1]
+      }
+      return total
     },
     // share
     fetchShare() {

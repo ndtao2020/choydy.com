@@ -11,10 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table
 public class UserDetail extends UserDetailBase {
+
+    @Transient
+    public static final String PATH = "userdetail";
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, optional = false)

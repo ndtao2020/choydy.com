@@ -1,8 +1,8 @@
 package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.acme.base.dto.RegisterDTO;
 import org.acme.model.base.UserBase;
+import org.acme.service.UserService;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,10 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(
-        name = "user_sys",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"username", "email"})
-)
+@Table(name = UserService.TABLE_NAME, uniqueConstraints = @UniqueConstraint(columnNames = {"username", "email"}))
 public class User extends UserBase {
 
     @Transient
@@ -66,16 +63,9 @@ public class User extends UserBase {
         super(id);
     }
 
-    public User(RegisterDTO registerDTO) {
-        this(registerDTO, null);
-    }
-
-    public User(RegisterDTO registerDTO, String avatar) {
-        super(registerDTO.getName(), registerDTO.getEmail(), false, registerDTO.getTimezone());
-        this.setAvatar(avatar);
-        this.username = registerDTO.getUsername();
-        this.password = registerDTO.getPassword();
-        this.enabled = true;
+    public User(UUID id, Boolean enabled) {
+        super(id);
+        this.enabled = enabled;
     }
 
     public String getUsername() {

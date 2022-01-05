@@ -26,16 +26,16 @@ public class UserSocialNetworkService extends BaseService<UserSocialNetwork, Use
         return data;
     }
 
-    public List<UserSocialNetwork> findByUserId(UUID userId) {
+    public List<?> findByUserId(UUID userId) {
         return getEm()
-                .createQuery("from " + getNameEntity(getDomainClass()) + " where user.id=?1", getDomainClass())
+                .createNativeQuery("SELECT social_network_id,avatar,email,phonenumber from " + UserSocialNetwork.PATH + " where user_id=?1")
                 .setParameter(1, userId)
                 .getResultList();
     }
 
-    public List<UserSocialNetwork> findByEmail(String email) {
+    public List<?> findByEmail(String email) {
         return getEm()
-                .createQuery("from " + getNameEntity(getDomainClass()) + " where email=?1", getDomainClass())
+                .createNativeQuery("SELECT social_network_id,CAST (user_id AS varchar) from " + UserSocialNetwork.PATH + " where email=?1")
                 .setParameter(1, email)
                 .getResultList();
     }

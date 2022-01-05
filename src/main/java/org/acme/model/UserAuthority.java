@@ -17,7 +17,7 @@ import java.util.UUID;
 public class UserAuthority extends BaseId<UUID> {
 
     @Transient
-    public static final String PATH = "userAuthority";
+    public static final String PATH = "userauthority";
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
