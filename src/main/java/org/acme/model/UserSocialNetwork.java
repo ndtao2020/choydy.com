@@ -1,35 +1,45 @@
 package org.acme.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.acme.base.BaseId;
-import org.acme.base.dto.SocialLoginDTO;
+import org.acme.constants.Social;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
-import java.util.UUID;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {User.PATH_ID, SocialNetwork.PATH_ID}))
-public class UserSocialNetwork extends BaseId<UUID> {
+@Table
+public class UserSocialNetwork implements Serializable {
 
     @Transient
     public static final String PATH = "usersocialnetwork";
+    @Serial
+    private static final long serialVersionUID = -78834L;
 
+    @Id
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = User.PATH_ID, nullable = false)
     private User user;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = SocialNetwork.PATH_ID, nullable = false)
-    private SocialNetwork socialNetwork;
+    @Id
+    @NotNull
+    @NotBlank
+    @Column(length = 150, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Social social;
 
     @Column(nullable = false)
     private String uid;
@@ -39,16 +49,7 @@ public class UserSocialNetwork extends BaseId<UUID> {
 
     private String phoneNumber;
 
-    private String avatar;
-
     public UserSocialNetwork() {
-    }
-
-    public UserSocialNetwork(SocialLoginDTO socialLoginDTO) {
-        this.uid = socialLoginDTO.getId();
-        this.email = socialLoginDTO.getEmail();
-        this.phoneNumber = socialLoginDTO.getPhoneNumber();
-        this.avatar = socialLoginDTO.getAvatar();
     }
 
     public User getUser() {
@@ -59,12 +60,12 @@ public class UserSocialNetwork extends BaseId<UUID> {
         this.user = user;
     }
 
-    public SocialNetwork getSocialNetwork() {
-        return socialNetwork;
+    public Social getSocial() {
+        return social;
     }
 
-    public void setSocialNetwork(SocialNetwork socialNetwork) {
-        this.socialNetwork = socialNetwork;
+    public void setSocial(Social social) {
+        this.social = social;
     }
 
     public String getUid() {
@@ -91,11 +92,16 @@ public class UserSocialNetwork extends BaseId<UUID> {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAvatar() {
-        return avatar;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserSocialNetwork that = (UserSocialNetwork) o;
+        return user.equals(that.user) && social == that.social && Objects.equals(uid, that.uid) && email.equals(that.email) && Objects.equals(phoneNumber, that.phoneNumber);
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    @Override
+    public int hashCode() {
+        return Objects.hash(user, social, uid, email, phoneNumber);
     }
 }

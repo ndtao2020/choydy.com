@@ -256,20 +256,20 @@ public class OAuthController {
     private User createUser(SocialLoginDTO loginDTO) throws NoSuchAlgorithmException {
         List<?> userSocialNetworks = userSocialNetworkService.findByEmail(loginDTO.getEmail());
         if (userSocialNetworks == null || userSocialNetworks.isEmpty()) {
-            loginDTO.setUsername(loginDTO.getEmail());
-            loginDTO.setPassword(passwordEncoder.encode(RandomUtil.random(20)));
-            return userService.createWithSocial(loginDTO);
+            try {
+                loginDTO.setUsername(loginDTO.getEmail());
+                loginDTO.setPassword(passwordEncoder.encode(RandomUtil.random(20)));
+                return userService.createWithSocial(loginDTO);
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         } else {
             try {
                 for (Object socialNetworks : userSocialNetworks) {
                     Object[] objects = (Object[]) socialNetworks;
-                    Long socialNetworkId = (Long) objects[0];
-                    UUID userId = UUID.fromString((String) objects[1]);
-                    if (Social.GOOGLE.equals(loginDTO.getSocial()) && socialNetworkId.equals(1L)) {
-                        return userService.getById(userId);
-                    }
-                    if (Social.FACEBOOK.equals(loginDTO.getSocial()) && socialNetworkId.equals(2L)) {
-                        return userService.getById(userId);
+                    Social social = Social.valueOf(objects[1].toString());
+                    if (loginDTO.getSocial().equals(social)) {
+                        return userService.getById(UUID.fromString(objects[0].toString()));
                     }
                 }
                 User user = userService.findByEmail(loginDTO.getEmail());

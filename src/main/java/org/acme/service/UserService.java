@@ -30,11 +30,6 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
     @Inject
     SessionFactory sessionFactory;
 
-    @Inject
-    UserDetailService userDetailService;
-    @Inject
-    UserSocialNetworkService userSocialNetworkService;
-
     protected UserService() {
         super(User.class, UserDTO.class, User.PATH, 2592000L);
     }
@@ -122,8 +117,7 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
                 .executeUpdate();
         // save detail
         getEm()
-                .createNativeQuery("INSERT INTO " + UserDetail.PATH + " (id,phonenumber,country_iso,user_id) VALUES(:id,:phonenumber,:country_iso,:user_id)")
-                .setParameter("id", userDetailService.generateId())
+                .createNativeQuery("INSERT INTO " + UserDetail.PATH + " (phonenumber,country_iso,user_id) VALUES(:phonenumber,:country_iso,:user_id)")
                 .setParameter("phonenumber", dto.getPhoneNumber())
                 .setParameter("country_iso", "VI")
                 .setParameter("user_id", userId)
@@ -147,16 +141,11 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
         UUID userId = this.create(dto, dto.getAvatar());
         // save SocialNetwork
         session
-                .createNativeQuery(
-                        "INSERT INTO " + UserSocialNetwork.PATH + " (id,avatar,email,phonenumber,uid,social_network_id,user_id)" +
-                                " VALUES(:id,:avatar,:email,:phonenumber,:uid,:social_network_id,:user_id)"
-                )
-                .setParameter("id", userSocialNetworkService.generateId())
-                .setParameter("avatar", dto.getAvatar())
+                .createNativeQuery("INSERT INTO " + UserSocialNetwork.PATH + " (email,phonenumber,uid,social,user_id) VALUES(:email,:phonenumber,:uid,:social,:user_id)")
                 .setParameter("email", dto.getEmail())
                 .setParameter("phonenumber", dto.getPhoneNumber())
                 .setParameter("uid", dto.getId())
-                .setParameter("social_network_id", dto.getSocial().equals(Social.GOOGLE) ? 1 : 2)
+                .setParameter("social", dto.getSocial().equals(Social.GOOGLE) ? 1 : 2)
                 .setParameter("user_id", userId)
                 .executeUpdate();
         // end
