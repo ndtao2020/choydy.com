@@ -28,6 +28,10 @@ public class SocialNetwork extends SocialNetworkBase {
     public SocialNetwork() {
     }
 
+    public SocialNetwork(Integer id) {
+        super(id);
+    }
+
     public String getClientId() {
         return clientId;
     }

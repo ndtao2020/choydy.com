@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 public abstract class BaseService<T extends BaseId<I>, D extends BaseId<I>, I> {
 
@@ -68,6 +69,18 @@ public abstract class BaseService<T extends BaseId<I>, D extends BaseId<I>, I> {
             dto.add(this.convertToDTO(pronunciation));
         }
         return dto;
+    }
+
+    public UUID generateId() {
+        UUID uuid = UUID.randomUUID();
+        List<?> list = getEm()
+                .createNativeQuery("select CAST (id AS varchar) from " + getTableName(domainClass) + " where id=?1")
+                .setParameter(1, uuid)
+                .getResultList();
+        if (list != null && !list.isEmpty()) {
+            return generateId();
+        }
+        return uuid;
     }
 
     public T getById(I id) {

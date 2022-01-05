@@ -8,8 +8,8 @@ import '@/assets/scss/index.scss'
 
 export default {
   name: 'App',
-  async created() {
-    await this.initDB()
+  created() {
+    this.initDB()
     setInterval(() => this.updateDatabase(), 30000)
   },
   methods: {

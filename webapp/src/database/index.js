@@ -12,19 +12,15 @@ export const openConnection = () =>
     const request = window.indexedDB.open('d39zbi81v', 2)
     request.onupgradeneeded = (event) => {
       const db = event.target.result
-      if (event.oldVersion <= 1) {
-        for (const property in config) {
-          const obj = config[property]
-          db.createObjectStore(obj.name, obj.options)
-        }
-        return
-      }
       // check new version
       if (event.oldVersion !== event.newVersion) {
         for (const property in config) {
           const obj = config[property]
-          if (event.newVersion === obj.version) {
+          try {
             db.createObjectStore(obj.name, obj.options)
+          } catch (err) {
+            // eslint-disable-next-line no-console
+            console.log(err)
           }
         }
       }
@@ -50,15 +46,20 @@ export const clearAllCollection = async () => {
     const current = new Date().getTime()
     for (const property in config) {
       const obj = config[property]
-      const list = await findAll(obj.name)
-      if (list) {
-        list.forEach(({ id, exp }) => {
-          if (exp < current) {
-            deleteData(obj.name, id)
-            // eslint-disable-next-line no-console
-            console.log('Deleted: ', obj.name, id)
-          }
-        })
+      try {
+        const list = await findAll(obj.name)
+        if (list) {
+          list.forEach(({ id, exp }) => {
+            if (exp < current) {
+              deleteData(obj.name, id)
+              // eslint-disable-next-line no-console
+              console.log('Deleted: ', obj.name, id)
+            }
+          })
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(err)
       }
     }
   } catch (error) {

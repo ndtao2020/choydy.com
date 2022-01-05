@@ -22,6 +22,10 @@ public abstract class SocialNetworkBase extends BaseId<Integer> {
     public SocialNetworkBase() {
     }
 
+    public SocialNetworkBase(Integer id) {
+        super(id);
+    }
+
     protected SocialNetworkBase(SocialNetworkBase socialNetworkBase) {
         super(socialNetworkBase.getId());
         this.name = socialNetworkBase.getName();
