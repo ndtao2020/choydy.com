@@ -1,6 +1,7 @@
 package org.acme.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
 import io.quarkus.security.UnauthorizedException;
@@ -16,7 +17,6 @@ import org.acme.base.dto.RegisterDTO;
 import org.acme.base.dto.ResetPassword;
 import org.acme.base.dto.SocialLoginDTO;
 import org.acme.base.dto.TokenDTO;
-import org.acme.base.encoder.BCryptPasswordEncoder;
 import org.acme.base.jwt.JwtUtil;
 import org.acme.constants.SecurityPath;
 import org.acme.constants.Social;
@@ -59,12 +59,9 @@ public class OAuthController {
     @Inject
     UserService userService;
     @Inject
-    BCryptPasswordEncoder passwordEncoder;
-    @Inject
     UserAuthorityService userAuthorityService;
     @Inject
     UserSocialNetworkService userSocialNetworkService;
-
     @Inject
     Mailer mailer;
     @Inject
@@ -78,7 +75,7 @@ public class OAuthController {
             throw new BadRequestException("Username and Password can not be empty !");
         }
         User user = userService.loadUserByUsername(loginDTO.getUsername());
-        if (user == null || !passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+        if (user == null || !BcryptUtil.matches(loginDTO.getPassword(), user.getPassword())) {
             throw new UnauthorizedException("User is not exist !");
         }
         return validate(context, user);
@@ -133,7 +130,7 @@ public class OAuthController {
         if (user != null) {
             throw new BadRequestException("The account already exist !");
         }
-        registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+        registerDTO.setPassword(BcryptUtil.bcryptHash(registerDTO.getPassword(), 10));
         User newUser = userService.createWithRegister(registerDTO);
         this.sendMailConfirm((ClientPrincipal) context.getUserPrincipal(), newUser.getId(), newUser.getName(), newUser.getEmail());
         return new UserDTO(newUser);
@@ -201,7 +198,7 @@ public class OAuthController {
             throw new BadRequestException("Password does not match !");
         }
         User user = this.findByToken(token);
-        user.setPassword(passwordEncoder.encode(resetPassword.getNewPassword()));
+        user.setPassword(BcryptUtil.bcryptHash(resetPassword.getNewPassword(), 10));
         userService.save(user);
         return new CheckDTO(true);
     }
@@ -253,12 +250,17 @@ public class OAuthController {
         }
     }
 
-    private User createUser(SocialLoginDTO loginDTO) throws NoSuchAlgorithmException {
-        List<?> userSocialNetworks = userSocialNetworkService.findByEmail(loginDTO.getEmail());
+    private User createUser(SocialLoginDTO loginDTO) {
+        List<?> userSocialNetworks = null;
+        try {
+            userSocialNetworks = userSocialNetworkService.findByEmail(loginDTO.getEmail());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         if (userSocialNetworks == null || userSocialNetworks.isEmpty()) {
             try {
                 loginDTO.setUsername(loginDTO.getEmail());
-                loginDTO.setPassword(passwordEncoder.encode(RandomUtil.random(20)));
+                loginDTO.setPassword(BcryptUtil.bcryptHash(RandomUtil.random(20), 10));
                 return userService.createWithSocial(loginDTO);
             } catch (Exception e) {
                 logger.error(e.getMessage());

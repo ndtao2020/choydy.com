@@ -2,7 +2,6 @@ package org.acme.utils;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Random;
 import java.util.UUID;
 
 public class RandomUtil {
@@ -14,7 +13,7 @@ public class RandomUtil {
     }
 
     public static String random(int count) throws NoSuchAlgorithmException {
-        Random random = SecureRandom.getInstanceStrong();
+        SecureRandom random = SecureRandom.getInstanceStrong();
         int rand = random.nextInt(ALPHA_NUMERIC_STRING.length()); // returns pseudo-random value between 0 and 50
         StringBuilder builder = new StringBuilder();
         while (count-- != 0) {
