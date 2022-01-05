@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @ApplicationScoped
 public class AuthorityService {
@@ -21,18 +20,6 @@ public class AuthorityService {
 
     public AuthorityDTO convertToDTO(Authority authority) {
         return new AuthorityDTO(authority);
-    }
-
-    public UUID generateId() {
-        UUID uuid = UUID.randomUUID();
-        List<?> data = em
-                .createNativeQuery("select CAST (id AS varchar) from " + UserAuthority.PATH + " where id=?1")
-                .setParameter(1, uuid)
-                .getResultList();
-        if (data != null && !data.isEmpty()) {
-            return generateId();
-        }
-        return uuid;
     }
 
     public List<AuthorityDTO> convertToDTO(List<Authority> authorities) {
