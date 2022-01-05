@@ -26,7 +26,6 @@ import org.acme.rest.GoogleService;
 import org.acme.service.UserAuthorityService;
 import org.acme.service.UserService;
 import org.acme.service.UserSocialNetworkService;
-import org.acme.utils.RandomUtil;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
@@ -273,8 +272,9 @@ public class OAuthController {
             try {
                 logger.info("Đã load vào createUser - createWithSocial");
                 loginDTO.setUsername(loginDTO.getEmail());
-                loginDTO.setPassword(BcryptUtil.bcryptHash(RandomUtil.random(20), 10));
                 logger.info("Đã load vào createUser - BcryptUtil.bcryptHash");
+                loginDTO.setPassword(BcryptUtil.bcryptHash(UUID.randomUUID().toString(), 10));
+                logger.info("Đã load xong createUser - BcryptUtil.bcryptHash");
                 return userService.createWithSocial(loginDTO);
             } catch (Exception e) {
                 logger.error(e.getMessage());
