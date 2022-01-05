@@ -7,11 +7,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 
-@Path("/")
+@Path("/tokeninfo")
 @RegisterRestClient
 public interface GoogleService {
 
     @GET
-    @Path("/tokeninfo")
     GoogleDTO checkGoogleToken(@QueryParam("id_token") String token);
 }
