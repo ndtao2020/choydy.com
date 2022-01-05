@@ -98,10 +98,19 @@ public class OAuthController {
                 throw new BadRequestException("Không thể xác thực với Google ! wrong email !");
             }
         }
-        User user = userService.loadUserByUsername(loginDTO.getEmail());
+        User user = null;
+        try {
+            logger.info("Đã load vào loadUserByUsername " + loginDTO.getEmail());
+            user = userService.loadUserByUsername(loginDTO.getEmail());
+            logger.info("Đã load xong loadUserByUsername " + loginDTO.getEmail());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         if (user == null) {
+            logger.info("Đã load vào validate " + loginDTO.getEmail());
             return validate(context, createUser(loginDTO));
         }
+        logger.info("Tài khoản đã tồn tại " + loginDTO.getEmail());
         return validate(context, user);
     }
 
@@ -253,19 +262,25 @@ public class OAuthController {
     private User createUser(SocialLoginDTO loginDTO) {
         List<?> userSocialNetworks = null;
         try {
+            logger.info("Đã load vào createUser - findByEmail " + loginDTO.getEmail());
             userSocialNetworks = userSocialNetworkService.findByEmail(loginDTO.getEmail());
+            logger.info("Đã load xong createUser - findByEmail " + loginDTO.getEmail());
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
+        logger.info("Đã load xong qua đây để kiểm tra null");
         if (userSocialNetworks == null || userSocialNetworks.isEmpty()) {
             try {
+                logger.info("Đã load vào createUser - createWithSocial");
                 loginDTO.setUsername(loginDTO.getEmail());
                 loginDTO.setPassword(BcryptUtil.bcryptHash(RandomUtil.random(20), 10));
+                logger.info("Đã load vào createUser - BcryptUtil.bcryptHash");
                 return userService.createWithSocial(loginDTO);
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }
         } else {
+            logger.info("Đã load xong mà này !");
             try {
                 for (Object socialNetworks : userSocialNetworks) {
                     Object[] objects = (Object[]) socialNetworks;
@@ -281,6 +296,7 @@ public class OAuthController {
                 logger.error(e.getMessage());
             }
         }
+        logger.info("Đã load xong mà sida");
         return null;
     }
 
