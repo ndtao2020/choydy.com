@@ -5,17 +5,14 @@ import org.acme.base.dto.SocialLoginDTO;
 import org.acme.base.service.BaseCacheService;
 import org.acme.constants.Role;
 import org.acme.constants.Social;
+import org.acme.model.Authority;
 import org.acme.model.User;
 import org.acme.model.UserAuthority;
 import org.acme.model.UserDetail;
 import org.acme.model.UserSocialNetwork;
 import org.acme.model.dto.UserDTO;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
@@ -27,11 +24,8 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
 
     public static final String TABLE_NAME = "user_sys";
 
-    @Inject
-    SessionFactory sessionFactory;
-
     protected UserService() {
-        super(User.class, UserDTO.class, User.PATH, 2592000L);
+        super(User.class, UserDTO.class, User.PATH, 604800L);
     }
 
     @Override
@@ -48,10 +42,9 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
                         .createNativeQuery("select name,avatar from " + TABLE_NAME + " where id=?1")
                         .setParameter(1, uuid)
                         .getSingleResult();
-                if (data == null) {
-                    throw new SQLDataException("Data does not exist with id !");
+                if (data != null) {
+                    return this.saveObjectById(uuid, data, false);
                 }
-                return this.saveObjectById(uuid, data, false);
             } catch (Exception e) {
                 getLog().error(e.getMessage());
             }
@@ -111,16 +104,16 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
                 .executeUpdate();
         // save Authority
         getEm()
-                .createNativeQuery("INSERT INTO " + UserAuthority.PATH + " (authority_id,user_id) VALUES(:authority_id,:user_id)")
-                .setParameter("authority_id", Role.USER.name())
-                .setParameter("user_id", userId)
+                .createNativeQuery("INSERT INTO " + UserAuthority.PATH + " (" + Authority.PATH_ID + "," + User.PATH_ID + ") VALUES(?1,?2)")
+                .setParameter(1, Role.USER.name())
+                .setParameter(2, userId)
                 .executeUpdate();
         // save detail
         getEm()
-                .createNativeQuery("INSERT INTO " + UserDetail.PATH + " (phonenumber,country_iso,user_id) VALUES(:phonenumber,:country_iso,:user_id)")
-                .setParameter("phonenumber", dto.getPhoneNumber())
-                .setParameter("country_iso", "VI")
-                .setParameter("user_id", userId)
+                .createNativeQuery("INSERT INTO " + UserDetail.PATH + " (phonenumber,country_iso," + User.PATH_ID + ") VALUES(?1,?2,?3)")
+                .setParameter(1, dto.getPhoneNumber())
+                .setParameter(2, "VI")
+                .setParameter(3, userId)
                 .executeUpdate();
         // return
         return userId;
@@ -128,29 +121,23 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
 
     @Transactional
     public User createWithRegister(RegisterDTO dto) {
-        // save user
-        UUID userId = this.create(dto, null);
         // return
-        return new User(userId, true);
+        return new User(this.create(dto, null), true);
     }
 
+    @Transactional
     public User createWithSocial(SocialLoginDTO dto) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
         // save user
         UUID userId = this.create(dto, dto.getAvatar());
         // save SocialNetwork
-        session
-                .createNativeQuery("INSERT INTO " + UserSocialNetwork.PATH + " (email,phonenumber,uid,social,user_id) VALUES(:email,:phonenumber,:uid,:social,:user_id)")
+        getEm()
+                .createNativeQuery("INSERT INTO " + UserSocialNetwork.PATH + " (email,phonenumber,uid,social," + User.PATH_ID + ") VALUES(:email,:phonenumber,:uid,:social,:user_id)")
                 .setParameter("email", dto.getEmail())
                 .setParameter("phonenumber", dto.getPhoneNumber())
                 .setParameter("uid", dto.getId())
                 .setParameter("social", dto.getSocial().equals(Social.GOOGLE) ? 1 : 2)
                 .setParameter("user_id", userId)
                 .executeUpdate();
-        // end
-        tx.commit();
-        session.close();
         // return
         return new User(userId, true);
     }

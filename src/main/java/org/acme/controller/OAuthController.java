@@ -1,7 +1,6 @@
 package org.acme.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
 import io.quarkus.security.UnauthorizedException;
@@ -17,6 +16,7 @@ import org.acme.base.dto.RegisterDTO;
 import org.acme.base.dto.ResetPassword;
 import org.acme.base.dto.SocialLoginDTO;
 import org.acme.base.dto.TokenDTO;
+import org.acme.base.encoder.BCryptPasswordEncoder;
 import org.acme.base.jwt.JwtUtil;
 import org.acme.constants.SecurityPath;
 import org.acme.constants.Social;
@@ -43,7 +43,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -54,15 +53,17 @@ public class OAuthController {
     private static final Logger logger = Logger.getLogger(OAuthController.class);
 
     @Inject
+    Mailer mailer;
+    @Inject
     JwtUtil jwtUtil;
     @Inject
     UserService userService;
     @Inject
+    BCryptPasswordEncoder passwordEncoder;
+    @Inject
     UserAuthorityService userAuthorityService;
     @Inject
     UserSocialNetworkService userSocialNetworkService;
-    @Inject
-    Mailer mailer;
     @Inject
     @RestClient
     GoogleService googleService;
@@ -74,15 +75,15 @@ public class OAuthController {
             throw new BadRequestException("Username and Password can not be empty !");
         }
         User user = userService.loadUserByUsername(loginDTO.getUsername());
-        if (user == null || !BcryptUtil.matches(loginDTO.getPassword(), user.getPassword())) {
+        if (user == null || !passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             throw new UnauthorizedException("User is not exist !");
         }
-        return validate(context, user);
+        return validate((ClientPrincipal) context.getUserPrincipal(), user);
     }
 
     @POST
     @Path("/social")
-    public Response loginBySocial(@Context SecurityContext context, @Valid SocialLoginDTO loginDTO) throws UnauthorizedException, BadRequestException, SQLException, NoSuchAlgorithmException {
+    public Response loginBySocial(@Context SecurityContext context, @Valid SocialLoginDTO loginDTO) throws UnauthorizedException, BadRequestException, SQLException {
         if (loginDTO.getSocial() == null || loginDTO.getEmail() == null || loginDTO.getCredential() == null) {
             throw new BadRequestException("Email and Access Token can not be empty !");
         }
@@ -97,20 +98,14 @@ public class OAuthController {
                 throw new BadRequestException("Không thể xác thực với Google ! wrong email !");
             }
         }
-        User user = null;
-        try {
-            logger.info("Đã load vào loadUserByUsername " + loginDTO.getEmail());
-            user = userService.loadUserByUsername(loginDTO.getEmail());
-            logger.info("Đã load xong loadUserByUsername " + loginDTO.getEmail());
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+        User user = userService.loadUserByUsername(loginDTO.getEmail());
+        ClientPrincipal principal = (ClientPrincipal) context.getUserPrincipal();
         if (user == null) {
             logger.info("Đã load vào validate " + loginDTO.getEmail());
-            return validate(context, createUser(loginDTO));
+            return validate(principal, createUser(principal, loginDTO));
         }
         logger.info("Tài khoản đã tồn tại " + loginDTO.getEmail());
-        return validate(context, user);
+        return validate(principal, user);
     }
 
     @POST
@@ -121,7 +116,8 @@ public class OAuthController {
         }
         try {
             JsonNode claims = jwtUtil.validate(token.getToken());
-            return validate(context, userService.getById(jwtUtil.getId(claims)));
+            ClientPrincipal principal = (ClientPrincipal) context.getUserPrincipal();
+            return validate(principal, userService.getById(jwtUtil.getId(claims)));
         } catch (Exception e) {
             throw new SecurityException(e.getMessage());
         }
@@ -138,9 +134,9 @@ public class OAuthController {
         if (user != null) {
             throw new BadRequestException("The account already exist !");
         }
-        registerDTO.setPassword(BcryptUtil.bcryptHash(registerDTO.getPassword(), 10));
+        registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         User newUser = userService.createWithRegister(registerDTO);
-        this.sendMailConfirm((ClientPrincipal) context.getUserPrincipal(), newUser.getId(), newUser.getName(), newUser.getEmail());
+        this.sendMailConfirm((ClientPrincipal) context.getUserPrincipal(), newUser.getId(), registerDTO.getName(), registerDTO.getEmail());
         return new UserDTO(newUser);
     }
 
@@ -206,12 +202,12 @@ public class OAuthController {
             throw new BadRequestException("Password does not match !");
         }
         User user = this.findByToken(token);
-        user.setPassword(BcryptUtil.bcryptHash(resetPassword.getNewPassword(), 10));
+        user.setPassword(passwordEncoder.encode(resetPassword.getNewPassword()));
         userService.save(user);
         return new CheckDTO(true);
     }
 
-    private Response validate(SecurityContext context, User user) {
+    private Response validate(ClientPrincipal principal, User user) {
         if (user == null) {
             throw new UnauthorizedException("Tài khoản không thể rỗng !");
         }
@@ -223,7 +219,6 @@ public class OAuthController {
         if (authorities == null) {
             throw new UnauthorizedException("Tài khoản của bạn hiện không có vai trò nào để đăng nhập !");
         }
-        ClientPrincipal principal = (ClientPrincipal) context.getUserPrincipal();
         JwtToken token = jwtUtil.builder(user.getId(), authorities, principal);
         return Response
                 .ok(token, MediaType.APPLICATION_JSON)
@@ -258,45 +253,40 @@ public class OAuthController {
         }
     }
 
-    private User createUser(SocialLoginDTO loginDTO) {
-        List<?> userSocialNetworks = null;
-        try {
-            logger.info("Đã load vào createUser - findByEmail " + loginDTO.getEmail());
-            userSocialNetworks = userSocialNetworkService.findByEmail(loginDTO.getEmail());
-            logger.info("Đã load xong createUser - findByEmail " + loginDTO.getEmail());
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+    private User createUser(ClientPrincipal authentication, SocialLoginDTO loginDTO) {
+        List<?> userSocialNetworks = userSocialNetworkService.findByEmail(loginDTO.getEmail());
         logger.info("Đã load xong qua đây để kiểm tra null");
         if (userSocialNetworks == null || userSocialNetworks.isEmpty()) {
             try {
-                logger.info("Đã load vào createUser - createWithSocial");
                 loginDTO.setUsername(loginDTO.getEmail());
-                logger.info("Đã load vào createUser - BcryptUtil.bcryptHash");
-                loginDTO.setPassword(BcryptUtil.bcryptHash(UUID.randomUUID().toString(), 10));
-                logger.info("Đã load xong createUser - BcryptUtil.bcryptHash");
-                return userService.createWithSocial(loginDTO);
+                logger.info("Đã load vào createUser - Bcrypt.bcryptHash");
+                loginDTO.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+                logger.info("Đã load xong createUser - Bcrypt.bcryptHash");
+                User user = userService.createWithSocial(loginDTO);
+                logger.info("Đã load vào sendMailConfirm");
+                this.sendMailConfirm(authentication, user.getId(), loginDTO.getName(), loginDTO.getEmail());
+                logger.info("Đã load xong sendMailConfirm");
+                return user;
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }
         } else {
             logger.info("Đã load xong mà này !");
             try {
+                UUID userId = null;
                 for (Object socialNetworks : userSocialNetworks) {
                     Object[] objects = (Object[]) socialNetworks;
-                    Social social = Social.valueOf(objects[1].toString());
-                    if (loginDTO.getSocial().equals(social)) {
-                        return userService.getById(UUID.fromString(objects[0].toString()));
+                    userId = UUID.fromString(objects[0].toString());
+                    if (loginDTO.getSocial().equals(Social.valueOf(objects[1].toString()))) {
+                        return userService.getById(userId);
                     }
                 }
-                User user = userService.findByEmail(loginDTO.getEmail());
-                userSocialNetworkService.create(loginDTO, user);
-                return user;
+                return userSocialNetworkService.create(loginDTO, userId);
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }
         }
-        logger.info("Đã load xong mà sida");
+        logger.info("Đã load xong mà sida !");
         return null;
     }
 

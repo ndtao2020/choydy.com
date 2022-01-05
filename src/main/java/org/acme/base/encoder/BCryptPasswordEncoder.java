@@ -1,8 +1,9 @@
 package org.acme.base.encoder;
 
+import javax.enterprise.context.Dependent;
 import java.nio.charset.StandardCharsets;
 
-//@Dependent
+@Dependent
 public class BCryptPasswordEncoder {
 
     private final BCrypt bCrypt = new BCrypt();

@@ -37,7 +37,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     FileStorageService fileStorageService;
 
     protected PostService() {
-        super(Post.class, PostDTO.class, Post.PATH, 2592000L);
+        super(Post.class, PostDTO.class, Post.PATH, 604800L);
     }
 
     @Override

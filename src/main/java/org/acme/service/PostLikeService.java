@@ -49,13 +49,10 @@ public class PostLikeService {
                 List<?> statistic = em.createNativeQuery("select type,count(type) from " + PostLike.PATH + " where " + Post.PATH_ID + "=?1 group by type")
                         .setParameter(1, UUID.fromString(postId))
                         .getResultList();
-                if (statistic == null) {
-                    return null;
+                if (statistic != null) {
+                    redisClient.hsetnx(PostLike.PATH, postId, mapper.writeValueAsString(statistic));
+                    redisClient.expire(PostLike.PATH, "86400");
                 }
-                // update cache
-                redisClient.hsetnx(PostLike.PATH, postId, mapper.writeValueAsString(statistic));
-                // return
-                return statistic;
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }

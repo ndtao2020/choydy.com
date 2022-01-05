@@ -32,13 +32,14 @@ public class UserSocialNetworkService {
     }
 
     @Transactional
-    public void create(SocialLoginDTO dto, User user) {
+    public User create(SocialLoginDTO dto, UUID userId) {
         em.createNativeQuery("INSERT INTO " + UserSocialNetwork.PATH + " (email,phonenumber,uid,social," + User.PATH_ID + ") VALUES(:email,:phonenumber,:uid,:social,:user_id)")
                 .setParameter("email", dto.getEmail())
                 .setParameter("phonenumber", dto.getPhoneNumber())
                 .setParameter("uid", dto.getId())
                 .setParameter("social", dto.getSocial().name())
-                .setParameter("user_id", user.getId())
+                .setParameter("user_id", userId)
                 .executeUpdate();
+        return new User(userId, true);
     }
 }

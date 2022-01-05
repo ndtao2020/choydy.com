@@ -15,6 +15,7 @@ public class Oauth2ClientService {
 
     private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
     private static final String regex = ",";
+    private static final String key = "client";
 
     @Inject
     EntityManager em;
@@ -24,7 +25,7 @@ public class Oauth2ClientService {
     public Object[] loadShortByClientId(String clientId) throws AuthenticationException {
         Object[] data = null;
         try {
-            Response r = redisClient.hget("client", clientId);
+            Response r = redisClient.hget(key, clientId);
             if (r != null) {
                 data = r.toString().split(regex);
             }
@@ -36,20 +37,19 @@ public class Oauth2ClientService {
                     .createNativeQuery("select secret,access,refresh,domain from " + Oauth2Client.PATH + " where id=?1")
                     .setParameter(1, clientId)
                     .getSingleResult();
-            if (result == null) {
-                throw new AuthenticationException("Id " + clientId + " is not exist !");
-            }
-            Object[] out = (Object[]) result;
-            try {
-                StringBuilder str = new StringBuilder();
-                for (Object o : out) {
-                    str.append(o).append(regex);
+            if (result != null) {
+                Object[] out = (Object[]) result;
+                try {
+                    StringBuilder str = new StringBuilder();
+                    for (Object o : out) {
+                        str.append(o).append(regex);
+                    }
+                    redisClient.hsetnx(key, clientId, str.substring(0, str.length() - regex.length()));
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
                 }
-                redisClient.hsetnx("client", clientId, str.substring(0, str.length() - regex.length()));
-            } catch (Exception e) {
-                logger.error(e.getMessage());
+                return out;
             }
-            return out;
         }
         return data;
     }

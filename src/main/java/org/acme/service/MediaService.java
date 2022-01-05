@@ -19,7 +19,7 @@ public class MediaService extends BaseCacheService<Media, MediaDTO, UUID> {
     PostService postService;
 
     protected MediaService() {
-        super(Media.class, MediaDTO.class, Media.PATH, 2592000L);
+        super(Media.class, MediaDTO.class, Media.PATH, 1209600L);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class MediaService extends BaseCacheService<Media, MediaDTO, UUID> {
         if (data == null) {
             UUID uuid = UUID.fromString(id);
             Object media = getEm()
-                    .createNativeQuery("select link from " + getTableName(getDomainClass()) + " where id=?1")
+                    .createNativeQuery("select link from " + Media.PATH + " where id=?1")
                     .setParameter(1, uuid)
                     .getSingleResult();
             if (media == null) {
@@ -53,7 +53,7 @@ public class MediaService extends BaseCacheService<Media, MediaDTO, UUID> {
             try {
                 UUID uuid = UUID.fromString(postId);
                 List<?> media = getEm()
-                        .createNativeQuery("select CAST (id AS varchar),type from " + getTableName(getDomainClass()) + " where " + Post.PATH_ID + "=?1")
+                        .createNativeQuery("select CAST (id AS varchar),type from " + Media.PATH + " where " + Post.PATH_ID + "=?1")
                         .setParameter(1, uuid)
                         .getResultList();
                 if (media == null) {
