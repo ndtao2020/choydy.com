@@ -10,6 +10,9 @@ import org.acme.model.UserAuthority;
 import org.acme.model.UserDetail;
 import org.acme.model.UserSocialNetwork;
 import org.acme.model.dto.UserDTO;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -25,11 +28,7 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
     public static final String TABLE_NAME = "user_sys";
 
     @Inject
-    AuthorityService authorityService;
-    @Inject
-    UserDetailService userDetailService;
-    @Inject
-    UserSocialNetworkService userSocialNetworkService;
+    SessionFactory sessionFactory;
 
     protected UserService() {
         super(User.class, UserDTO.class, User.PATH, 2592000L);
@@ -112,19 +111,13 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
                 .executeUpdate();
         // save Authority
         getEm()
-                .createNativeQuery(
-                        "INSERT INTO " + UserAuthority.PATH + " (id,authority_id,user_id) VALUES(:id,:authority_id,:user_id)"
-                )
-                .setParameter("id", authorityService.generateId())
+                .createNativeQuery("INSERT INTO " + UserAuthority.PATH + " (authority_id,user_id) VALUES(:authority_id,:user_id)")
                 .setParameter("authority_id", Role.USER.name())
                 .setParameter("user_id", userId)
                 .executeUpdate();
         // save detail
         getEm()
-                .createNativeQuery(
-                        "INSERT INTO " + UserDetail.PATH + " (id,phonenumber,country_iso,user_id) VALUES(:id,:phonenumber,:country_iso,:user_id)"
-                )
-                .setParameter("id", userDetailService.generateId())
+                .createNativeQuery("INSERT INTO " + UserDetail.PATH + " (phonenumber,country_iso,user_id) VALUES(:phonenumber,:country_iso,:user_id)")
                 .setParameter("phonenumber", dto.getPhoneNumber())
                 .setParameter("country_iso", "VI")
                 .setParameter("user_id", userId)
@@ -141,24 +134,23 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
         return new User(userId, true);
     }
 
-    @Transactional
     public User createWithSocial(SocialLoginDTO dto) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
         // save user
         UUID userId = this.create(dto, dto.getAvatar());
         // save SocialNetwork
-        getEm()
-                .createNativeQuery(
-                        "INSERT INTO " + UserSocialNetwork.PATH + " (id,avatar,email,phonenumber,uid,social_network_id,user_id)" +
-                                " VALUES(:id,:avatar,:email,:phonenumber,:uid,:social_network_id,:user_id)"
-                )
-                .setParameter("id", userSocialNetworkService.generateId())
-                .setParameter("avatar", dto.getAvatar())
+        session
+                .createNativeQuery("INSERT INTO " + UserSocialNetwork.PATH + " (email,phonenumber,uid,social,user_id) VALUES(:email,:phonenumber,:uid,:social,:user_id)")
                 .setParameter("email", dto.getEmail())
                 .setParameter("phonenumber", dto.getPhoneNumber())
                 .setParameter("uid", dto.getId())
-                .setParameter("social_network_id", dto.getSocial().equals(Social.GOOGLE) ? 1 : 2)
+                .setParameter("social", dto.getSocial().equals(Social.GOOGLE) ? 1 : 2)
                 .setParameter("user_id", userId)
                 .executeUpdate();
+        // end
+        tx.commit();
+        session.close();
         // return
         return new User(userId, true);
     }

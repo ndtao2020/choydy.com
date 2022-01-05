@@ -53,7 +53,8 @@ public class UserDetailController extends BaseController {
         userDetail.setCountry(country);
         try {
             // update cache
-            userDetailService.updateCache(principal.getId(), userDetailService.update(userDetail));
+            UserDetail userDetail1 = userDetailService.update(userDetail);
+            userDetailService.updateCache(principal.getId(), userDetail1);
             return new CheckDTO(true);
         } catch (Exception e) {
             return new CheckDTO(false);

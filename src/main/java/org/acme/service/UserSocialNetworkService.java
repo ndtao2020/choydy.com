@@ -1,50 +1,44 @@
 package org.acme.service;
 
 import org.acme.base.dto.SocialLoginDTO;
-import org.acme.base.service.BaseService;
 import org.acme.model.User;
 import org.acme.model.UserSocialNetwork;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class UserSocialNetworkService extends BaseService<UserSocialNetwork, UserSocialNetwork, UUID> {
+public class UserSocialNetworkService {
 
     @Inject
-    SocialNetworkService socialNetworkService;
-
-    protected UserSocialNetworkService() {
-        super(UserSocialNetwork.class, UserSocialNetwork.class);
-    }
-
-    @Override
-    public UserSocialNetwork convertToDTO(UserSocialNetwork data) {
-        return data;
-    }
+    EntityManager em;
 
     public List<?> findByUserId(UUID userId) {
-        return getEm()
-                .createNativeQuery("SELECT social_network_id,avatar,email,phonenumber from " + UserSocialNetwork.PATH + " where user_id=?1")
+        return em
+                .createNativeQuery("SELECT social,avatar,email,phonenumber from " + UserSocialNetwork.PATH + " where " + User.PATH_ID + "=?1")
                 .setParameter(1, userId)
                 .getResultList();
     }
 
     public List<?> findByEmail(String email) {
-        return getEm()
-                .createNativeQuery("SELECT social_network_id,CAST (user_id AS varchar) from " + UserSocialNetwork.PATH + " where email=?1")
+        return em
+                .createNativeQuery("SELECT CAST (" + User.PATH_ID + " AS varchar),social from " + UserSocialNetwork.PATH + " where email=?1")
                 .setParameter(1, email)
                 .getResultList();
     }
 
     @Transactional
     public void create(SocialLoginDTO dto, User user) {
-        UserSocialNetwork userSocialNetwork = new UserSocialNetwork(dto);
-        userSocialNetwork.setUser(user);
-        userSocialNetwork.setSocialNetwork(socialNetworkService.getByName(dto.getSocial()));
-        this.save(userSocialNetwork);
+        em.createNativeQuery("INSERT INTO " + UserSocialNetwork.PATH + " (email,phonenumber,uid,social," + User.PATH_ID + ") VALUES(:email,:phonenumber,:uid,:social,:user_id)")
+                .setParameter("email", dto.getEmail())
+                .setParameter("phonenumber", dto.getPhoneNumber())
+                .setParameter("uid", dto.getId())
+                .setParameter("social", dto.getSocial().name())
+                .setParameter("user_id", user.getId())
+                .executeUpdate();
     }
 }

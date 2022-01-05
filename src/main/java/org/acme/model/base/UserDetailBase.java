@@ -1,6 +1,5 @@
 package org.acme.model.base;
 
-import org.acme.base.BaseId;
 import org.acme.constants.Gender;
 
 import javax.persistence.Column;
@@ -10,10 +9,9 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @MappedSuperclass
-public abstract class UserDetailBase extends BaseId<UUID> {
+public abstract class UserDetailBase {
 
     @NotBlank
     @Column(length = 30)
@@ -40,7 +38,6 @@ public abstract class UserDetailBase extends BaseId<UUID> {
     }
 
     protected UserDetailBase(UserDetailBase userDetailBase) {
-        super(userDetailBase.getId());
         this.update(userDetailBase);
     }
 

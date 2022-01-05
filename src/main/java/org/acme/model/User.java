@@ -8,7 +8,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -16,7 +15,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -47,14 +45,6 @@ public class User extends UserBase {
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = User.PATH)
     private transient UserDetail userDetail;
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = User.PATH)
-    private transient List<UserAuthority> userAuthorities;
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = User.PATH)
-    private transient List<UserSocialNetwork> userSocialNetworks;
 
     public User() {
     }
@@ -98,21 +88,5 @@ public class User extends UserBase {
 
     public void setUserDetail(UserDetail userDetail) {
         this.userDetail = userDetail;
-    }
-
-    public List<UserAuthority> getUserAuthorities() {
-        return userAuthorities;
-    }
-
-    public void setUserAuthorities(List<UserAuthority> userAuthorities) {
-        this.userAuthorities = userAuthorities;
-    }
-
-    public List<UserSocialNetwork> getUserSocialNetworks() {
-        return userSocialNetworks;
-    }
-
-    public void setUserSocialNetworks(List<UserSocialNetwork> userSocialNetworks) {
-        this.userSocialNetworks = userSocialNetworks;
     }
 }

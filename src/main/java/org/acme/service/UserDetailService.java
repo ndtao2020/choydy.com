@@ -1,25 +1,23 @@
 package org.acme.service;
 
-import org.acme.base.service.BaseService;
 import org.acme.model.UserDetail;
 import org.acme.model.dto.UserDTO;
 import org.acme.model.dto.UserDetailDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.util.UUID;
 
 @ApplicationScoped
-public class UserDetailService extends BaseService<UserDetail, UserDetailDTO, UUID> {
+public class UserDetailService {
 
+    @Inject
+    EntityManager em;
     @Inject
     UserService userService;
 
-    protected UserDetailService() {
-        super(UserDetail.class, UserDetailDTO.class);
-    }
-
-    @Override
     public UserDetailDTO convertToDTO(UserDetail data) {
         UserDetailDTO userDetailDTO = new UserDetailDTO(data);
         userDetailDTO.setUserId(data.getUser().getId());
@@ -28,8 +26,8 @@ public class UserDetailService extends BaseService<UserDetail, UserDetailDTO, UU
     }
 
     public UserDetail getByUserId(UUID userId) {
-        return getEm()
-                .createQuery("from " + getTableName(getDomainClass()) + " where user.id=:i", UserDetail.class)
+        return em
+                .createQuery("from UserDetail where user.id=:i", UserDetail.class)
                 .setParameter("i", userId)
                 .getSingleResult();
     }
@@ -63,5 +61,10 @@ public class UserDetailService extends BaseService<UserDetail, UserDetailDTO, UU
         // set new cache
         userDTO.setDetail(this.convertToDTO(userDetail));
         userService.updateDTOById(userId, userDTO);
+    }
+
+    @Transactional
+    public UserDetail update(UserDetail userDetail) {
+        return em.merge(userDetail);
     }
 }
