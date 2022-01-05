@@ -1,11 +1,11 @@
 package org.acme;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.quarkus.elytron.security.common.BcryptUtil;
 import io.vertx.core.http.HttpServerRequest;
 import org.acme.base.CsrfUtil;
 import org.acme.base.auth.ClientAuthentication;
 import org.acme.base.auth.SessionAuthentication;
-import org.acme.base.encoder.BCryptPasswordEncoder;
 import org.acme.base.jwt.JwtUtil;
 import org.acme.constants.Role;
 import org.acme.constants.SecurityPath;
@@ -46,8 +46,6 @@ public class RequestFilter implements ContainerRequestFilter {
     CsrfUtil csrf;
     @Inject
     JwtUtil jwtUtil;
-    @Inject
-    BCryptPasswordEncoder passwordEncoder;
     @Inject
     Oauth2ClientService oauth2ClientService;
 
@@ -167,7 +165,7 @@ public class RequestFilter implements ContainerRequestFilter {
                 return;
             }
             Object[] r = oauth2ClientService.loadShortByClientId(t.substring(0, l));
-            if (!passwordEncoder.matches(t.substring(l + 1), r[0].toString())) {
+            if (!BcryptUtil.matches(t.substring(l + 1), r[0].toString())) {
                 logger.error("Authentication failed: secret is not matched !");
                 rc.abortWith(ACCESS_DENIED);
                 return;
