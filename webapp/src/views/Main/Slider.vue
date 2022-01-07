@@ -127,7 +127,7 @@ export default {
   width: 100%;
   display: flex;
   align-items: center;
-  height: 24px;
+  height: 20px;
   &--dragging {
     #{$this}__handle,
     #{$this}__fill {
@@ -145,13 +145,13 @@ export default {
     background-color: rgba(#fff, 0.2);
   }
   &__handle {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background-color: #fff;
     position: absolute;
     left: 0;
-    top: calc(50% - 7px);
+    top: calc(50% - 6px);
     z-index: 2;
   }
   &__fill {

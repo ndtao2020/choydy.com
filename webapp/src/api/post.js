@@ -7,8 +7,8 @@ const {
   post: { name, exp }
 } = configDB
 
-const getPosts = (page, size, catalogId, search) => {
-  let u = `${url}?p=${page}&s=${size}`
+const getPosts = (page, catalogId, search) => {
+  let u = `${url}?p=${page}`
   if (catalogId) {
     u += `&c=${catalogId}`
   }

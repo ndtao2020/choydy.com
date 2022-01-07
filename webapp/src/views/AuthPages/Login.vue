@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import Nprogress from 'nprogress'
+import { mapGetters, mapActions } from 'vuex'
 import { submit, loginBySocialNetwork } from '@/api/auth/login'
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from '@firebase/auth'
 

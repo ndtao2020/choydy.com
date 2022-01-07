@@ -25,8 +25,12 @@ public class ResponseFilter implements ContainerResponseFilter {
         // Check if cookie already exists
         if (!requestContext.getCookies().containsKey(RequestFilter.CSRF_COOKIE_NAME)) {
             // Issue a new token
-            responseContext.getHeaders()
-                    .add(HttpHeaders.SET_COOKIE, RequestFilter.CSRF_COOKIE_NAME + "=" + csrf.compact(request.remoteAddress().toString()) + ";Path=/;Secure;HttpOnly;SameSite=None");
+            responseContext
+                    .getHeaders()
+                    .add(HttpHeaders.SET_COOKIE,
+                            RequestFilter.CSRF_COOKIE_NAME + "=" + csrf.compact(request.remoteAddress().toString()) + ";" +
+                                    "Path=/;Secure;HttpOnly;SameSite=None"
+                    );
         }
     }
 }

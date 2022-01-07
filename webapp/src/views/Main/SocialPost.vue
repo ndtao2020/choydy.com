@@ -351,6 +351,7 @@ export default {
       setTimeout(() => {
         this.showCopiedLink = false
       }, 2000)
+      this.fetchShare()
     }
   }
 }

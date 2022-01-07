@@ -17,8 +17,6 @@ import { getPosts } from '@/api/post'
 import { getCatalogById } from '@/api/catalog'
 import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
-const size = 3
-
 export default {
   name: 'HomePage',
   components: {
@@ -30,6 +28,7 @@ export default {
     return {
       isLoaded: false,
       loading: false,
+      size: parseInt(process.env.VUE_APP_MAX_SIZE_FETCH) || 3,
       posts: [],
       page: 0,
       has: true,
@@ -47,8 +46,7 @@ export default {
     }
   },
   beforeMount() {
-    const { params } = this.$route
-    this.catalogId = params.id
+    this.catalogId = this.$route.params.id
     this.fetchData(0)
     this.setTitle()
   },
@@ -79,14 +77,14 @@ export default {
     async fetchData(page, plus) {
       this.loading = true
       try {
-        const data = await getPosts(page, size, this.catalogId)
+        const data = await getPosts(page, this.catalogId)
         if (data) {
           if (plus) {
             data.forEach((e) => this.posts.push(e))
           } else {
             this.posts = data
           }
-          if (data.length < size) {
+          if (data.length < this.size) {
             this.has = false
           }
         }

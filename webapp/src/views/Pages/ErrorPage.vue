@@ -11,9 +11,8 @@
     </div>
   </div>
 </template>
-<script>
-import { socialvue } from '../../config/pluginInit'
 
+<script>
 export default {
   name: 'ErrorPage',
   data() {
@@ -23,7 +22,6 @@ export default {
     }
   },
   mounted() {
-    socialvue.index()
     let body = document.querySelector('body')
     body.classList.add('iq-bg-primary')
   }
