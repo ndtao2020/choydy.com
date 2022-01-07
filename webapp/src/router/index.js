@@ -68,6 +68,16 @@ const router = new VueRouter({
         }
       ]
     },
+    {
+      path: '/privacy-policy',
+      name: 'privacy-policy',
+      component: () => import('@/views/Pages/PrivacyPolicy')
+    },
+    {
+      path: '/terms-and-conditions',
+      name: 'terms-and-conditions',
+      component: () => import('@/views/Pages/TermsOfService')
+    },
     { path: '/404', name: '404', component: () => import('@/views/Pages/ErrorPage') },
     { path: '*', redirect: '/404' }
   ]

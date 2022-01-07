@@ -130,6 +130,7 @@ export default {
       }
       if (entries[0].isIntersecting) {
         this.playVideo(video)
+        this.$emit('played')
       } else {
         this.pauseVideo(video)
       }

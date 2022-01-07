@@ -3,13 +3,13 @@
     <div class="user-post-data p-3">
       <div class="d-flex flex-wrap">
         <div class="media-support-user-img mr-3">
-          <b-img rounded="circle" fluid src="https://giay.store/assets/images/default-avatar.png" alt="" height="50" width="50" />
+          <b-img rounded="circle" fluid :src="user[1]" alt="" height="50" width="50" />
         </div>
         <div class="media-support-info mt-2">
           <h5 class="mb-0">
-            <b-link class="">Người dùng</b-link>
+            <b-link class="">{{ user[0] }}</b-link>
           </h5>
-          <p class="mb-0 text-secondary">{{ new Date() }}</p>
+          <p class="mb-0 text-secondary">{{ formatTime(new Date().getTime()) }}</p>
         </div>
       </div>
     </div>
@@ -84,6 +84,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { getUserById } from '@/api/user'
+import { dateDiff } from '@/moment'
+
 export default {
   name: 'SocialPost',
   props: {
@@ -92,7 +96,38 @@ export default {
     image: [Object, String],
     video: [Object, String]
   },
+  data() {
+    return {
+      loading: false,
+      user: []
+    }
+  },
+  computed: {
+    ...mapGetters('auth', ['logged', 'id'])
+  },
+  mounted() {
+    if (this.logged) {
+      this.fetchUserData()
+    }
+  },
   methods: {
+    async fetchUserData() {
+      this.loading = true
+      try {
+        this.user = await getUserById(this.id)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    formatTime(value) {
+      if (value) {
+        return dateDiff(value)
+      }
+      return ''
+    },
     onLoadedmetadata() {
       const { video } = this.$refs
       if (!video) {
