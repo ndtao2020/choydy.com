@@ -7,8 +7,8 @@ const {
   post: { name, exp }
 } = configDB
 
-const getPosts = (page, size, catalogId, search) => {
-  let u = `${url}?p=${page}&s=${size}`
+const getPosts = (page, catalogId, search) => {
+  let u = `${url}?p=${page}`
   if (catalogId) {
     u += `&c=${catalogId}`
   }
@@ -65,7 +65,22 @@ const findAllMediaByPostId = async (postId) => {
   } catch {}
   return media
 }
-// ======================================== Share
+// ======================================== View & Share
+const updateView = async (postId) => {
+  const post = await getPostById(postId)
+  if (!post) {
+    throw new Error('Post Id does not exist !')
+  }
+  try {
+    publicPost(`${url}/view?i=${postId}`)
+    post.count += 1
+    await updateData(name, exp, post)
+    // eslint-disable-next-line no-empty
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error)
+  }
+}
 const updateShare = async (postId) => {
   const post = await getPostById(postId)
   if (!post) {
@@ -82,4 +97,4 @@ const updateShare = async (postId) => {
   }
 }
 // export
-export { getPosts, getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateShare }
+export { getPosts, getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateView, updateShare }

@@ -2,7 +2,6 @@ import configDB from '@/database/base/config'
 import { searchData, saveData } from '@/database'
 import { publicGet, authGet, authPost, authPut, authDel } from '@/request'
 
-const url = `/post`
 const {
   postlike: { name, exp }
 } = configDB
@@ -21,7 +20,7 @@ const getAllLikeByPostId = async (id) => {
   }
   if (!postlike) {
     try {
-      const data = await publicGet(`${url}/like?i=${id}`)
+      const data = await publicGet(`/post/like?i=${id}`)
       await saveData(name, exp, { id, data })
       return data
       // eslint-disable-next-line no-empty

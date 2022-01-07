@@ -33,7 +33,7 @@
       <b-skeleton-img v-if="loading" height="500px" />
       <div v-for="(a, i) in media" v-else :key="i" class="d-flex post-media">
         <img v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'" class="mx-auto" :src="getURL(a)" height="500" width="500" />
-        <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :post-id="postId" :src="getURL(a)" :type="a[1]" />
+        <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :post-id="postId" :src="getURL(a)" :type="a[1]" @played="handlePlayed" />
       </div>
     </div>
     <div class="py-1 px-3">
@@ -159,7 +159,7 @@ import { dateDiff } from '@/moment'
 import { getUserById } from '@/api/user'
 import { getCatalogById } from '@/api/catalog'
 import { getAllLikeByPostId, checkLiked, createLike, updateLike, removeLike } from '@/api/postlike'
-import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateShare } from '@/api/post'
+import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateView, updateShare } from '@/api/post'
 import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
 export default {
@@ -305,6 +305,15 @@ export default {
       }
       return total
     },
+    // view
+    handlePlayed() {
+      try {
+        setTimeout(() => updateView(this.postId), 200)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      }
+    },
     // share
     fetchShare() {
       try {
@@ -351,6 +360,7 @@ export default {
       setTimeout(() => {
         this.showCopiedLink = false
       }, 2000)
+      this.fetchShare()
     }
   }
 }

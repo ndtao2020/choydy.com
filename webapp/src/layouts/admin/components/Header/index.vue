@@ -35,11 +35,11 @@
       >
         <template slot="button-content">
           <span class="avatar rounded-circle thumb-sm float-left mr-2">
-            <img class="rounded-circle" src="https://giay.store/assets/images/default-avatar.png" alt="..." />
+            <img class="rounded-circle" :src="user[1]" alt="..." />
           </span>
-          <span class="px-2">Admin</span>
-          <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge">9</span>
-          <i class="las la-angle-double-down px-2"></i>
+          <span class="px-2">{{ user[0] }}</span>
+          <!-- <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge">9</span>
+          <i class="las la-angle-double-down px-2"></i> -->
         </template>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown id="v-step-2" class="settingsDropdown d-sm-down-none" no-caret right>
@@ -56,17 +56,41 @@
 
 <script>
 import Nprogress from 'nprogress'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
+import { getUserById } from '@/api/user'
 import './index.scss'
 
 export default {
   name: 'AdminHeader',
+  data() {
+    return {
+      loading: false,
+      user: []
+    }
+  },
   computed: {
+    ...mapGetters('auth', ['logged', 'id']),
     ...mapState('layout', ['sidebarClose', 'sidebarStatic'])
+  },
+  mounted() {
+    if (this.logged) {
+      this.fetchUserData()
+    }
   },
   methods: {
     ...mapActions('auth', ['clearAuthentication']),
     ...mapActions('layout', ['toggleSidebar', 'switchSidebar', 'changeSidebarActive']),
+    async fetchUserData() {
+      this.loading = true
+      try {
+        this.user = await getUserById(this.id)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      } finally {
+        this.loading = false
+      }
+    },
     switchSidebarMethod() {
       if (!this.sidebarClose) {
         this.switchSidebar(true)

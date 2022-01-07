@@ -111,6 +111,27 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     }
 
     @Transactional
+    public void updateView(UUID postId) {
+        try {
+            // find by id
+            Post post = this.getById(postId);
+            post.setCount(post.getCount() + 1);
+            // update SQL
+            Post savedPost = this.update(post);
+            // update cache
+            PostDTO postDTO = this.findDTOById(postId);
+            if (postDTO == null) {
+                this.saveDTOById(postId, this.convertToDTO(savedPost));
+            } else {
+                postDTO.setCount(savedPost.getCount());
+                this.updateDTOById(postId, postDTO);
+            }
+        } catch (Exception e) {
+            this.getLog().error(e.getMessage());
+        }
+    }
+
+    @Transactional
     public void updateShare(UUID postId) {
         try {
             // find by id
@@ -147,10 +168,6 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         post.setCreated(System.currentTimeMillis());
         post.setUser(new User(userId));
         post.setCatalog(catalog);
-        // ======================================= phù phép
-//        post.setCount(ThreadLocalRandom.current().nextLong(100, 10000));
-//        post.setLikes(ThreadLocalRandom.current().nextLong(100, 5000));
-//        post.setShares(ThreadLocalRandom.current().nextLong(10, 500));
         // ======================================= phù phép
         // ======================================= phù phép
         post.setCount(0L);

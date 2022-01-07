@@ -24,10 +24,10 @@
             </a>
           </form>
         </div>
-        <b-navbar-toggle target="nav-collapse" class="mr-2">
+        <button class="navbar-toggler mr-2 collapsed" style="overflow-anchor: none" @click="showNavbar = !showNavbar">
           <img src="@/assets/icons/arrow-down.svg" height="20" width="20" />
-        </b-navbar-toggle>
-        <b-collapse id="nav-collapse" is-nav>
+        </button>
+        <div id="nav-collapse" :class="['navbar-collapse collapse', { show: showNavbar }]" :style="{ display: showNavbar ? undefined : 'none' }">
           <ul v-if="logged" class="navbar-list" style="cursor: pointer">
             <li>
               <a href="#" class="d-flex align-items-center">
@@ -39,12 +39,12 @@
           </ul>
           <ul v-else class="navbar-list">
             <li>
-              <a href="/login" class="search-toggle iq-waves-effect d-flex align-items-center">
+              <router-link to="/login" class="search-toggle iq-waves-effect d-flex align-items-center">
                 Đăng nhập <img class="ml-2" src="@/assets/icons/lock.svg" height="20" width="20" />
-              </a>
+              </router-link>
             </li>
           </ul>
-        </b-collapse>
+        </div>
       </nav>
     </div>
   </div>
@@ -54,18 +54,13 @@
 import Nprogress from 'nprogress'
 import { mapGetters, mapActions } from 'vuex'
 import { getUserById } from '@/api/user'
-import { BCollapse } from 'bootstrap-vue/src/components/collapse'
-import { BNavbarToggle } from 'bootstrap-vue/src/components/navbar'
 
 export default {
   name: 'MainNavBar',
-  components: {
-    BCollapse,
-    BNavbarToggle
-  },
   data() {
     return {
       loading: false,
+      showNavbar: false,
       user: []
     }
   },

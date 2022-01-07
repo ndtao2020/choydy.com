@@ -2,7 +2,9 @@
 FROM quay.io/quarkus/ubi-quarkus-mandrel:21.3.0.0-Final-java17 as builder
 # copy
 WORKDIR /app
+# environment
 ENV VUE_APP_PROXY=https://choydy.com
+ENV VUE_APP_MAX_SIZE_FETCH=3
 # copy
 COPY ./.mvn ./.mvn
 COPY ./src ./src

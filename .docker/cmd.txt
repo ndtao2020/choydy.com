@@ -38,11 +38,14 @@ Similarly, to close an opened port:
 
 To remove a rule, use delete followed by the rule:
 
-- sudo ufw delete deny 22
+- sudo ufw delete deny 22 && sudo ufw delete deny 22
 
 It is also possible to allow access from specific hosts or networks to a port. The following example allows SSH access from host 192.168.0.2 to any IP address on this host:
 
 - sudo ufw allow proto tcp from 192.168.0.2 to any port 22
+
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
 
 sudo ufw allow 5432/tcp
 sudo ufw allow 6379/tcp
@@ -50,7 +53,11 @@ sudo ufw allow 6379/tcp
 sudo ufw deny 5432/tcp && sudo ufw delete deny 5432/tcp
 sudo ufw deny 6379/tcp && sudo ufw delete deny 6379/tcp
 
+sudo ufw reload
+
 #######################################################################################################################
+
+sudo reboot
 
 # change password
 sudo passwd root

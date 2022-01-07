@@ -11,6 +11,7 @@ import org.acme.service.MediaService;
 import org.acme.service.PostLikeService;
 import org.acme.service.PostService;
 import org.acme.service.PostTagService;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
@@ -38,17 +39,21 @@ public class PostController extends BaseController {
     @Inject
     CommentService commentService;
 
+    private final int maxSize;
+
+    public PostController() {
+        Integer size = ConfigProvider.getConfig().getValue("vue.app.max.size.fetch", Integer.class);
+        maxSize = size == null ? 3 : size;
+    }
+
     // ========================= [POST] =========================
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<?> findAllPost(@QueryParam(PAGE_PARAM) Integer page, @QueryParam(SIZE_PARAM) Integer size, @QueryParam(SEARCH_PARAM) String search, @QueryParam("c") Long catalogId) {
-        List<?> list;
+    public List<?> findAllPost(@QueryParam(PAGE_PARAM) Integer page, @QueryParam(SEARCH_PARAM) String search, @QueryParam("c") Long catalogId) {
         if (catalogId == null) {
-            list = postService.search(page == null ? PAGE_DEFAULT : page, size == null ? SIZE_DEFAULT : size, search);
-        } else {
-            list = postService.search(page == null ? PAGE_DEFAULT : page, size == null ? SIZE_DEFAULT : size, catalogId, search);
+            return postService.search(page == null ? PAGE_DEFAULT : page, maxSize, search);
         }
-        return list;
+        return postService.search(page == null ? PAGE_DEFAULT : page, maxSize, catalogId, search);
     }
 
     @GET
@@ -56,6 +61,18 @@ public class PostController extends BaseController {
     @Produces(MediaType.APPLICATION_JSON)
     public Object postId(@QueryParam(ID_PARAM) String postId) throws SQLDataException {
         return postService.customFindObjectById(postId);
+    }
+
+    @POST
+    @Path("/view")
+    public void updateView(@QueryParam(ID_PARAM) UUID postId) {
+        postService.updateView(postId);
+    }
+
+    @POST
+    @Path("/share")
+    public void updateShare(@QueryParam(ID_PARAM) UUID postId) {
+        postService.updateShare(postId);
     }
 
     // ========================= [TAGS] =========================
@@ -72,13 +89,6 @@ public class PostController extends BaseController {
     @Produces(MediaType.APPLICATION_JSON)
     public List<?> findAllMediaByPostId(@QueryParam(ID_PARAM) String postId) throws SQLDataException {
         return mediaService.findByPostId(postId);
-    }
-
-    // ========================= [SHARE] =========================
-    @POST
-    @Path("/share")
-    public void updateShare(@QueryParam(ID_PARAM) UUID postId) {
-        postService.updateShare(postId);
     }
 
     // ========================= [LIKES] =========================

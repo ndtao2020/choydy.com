@@ -1,7 +1,10 @@
 <template>
   <div>
     <b-skeleton v-if="loading" width="85%" />
-    <span v-else>{{ name }}</span>
+    <div v-else class="d-flex">
+      <b-img rounded="circle" fluid :src="avatar" alt="" height="20" width="20" class="mr-2" />
+      <div>{{ name }}</div>
+    </div>
   </div>
 </template>
 
@@ -16,8 +19,8 @@ export default {
   data() {
     return {
       loading: false,
-      avatar: null,
-      name: null
+      name: null,
+      avatar: null
     }
   },
   mounted() {
@@ -29,8 +32,8 @@ export default {
       try {
         const data = await getUserById(this.id)
         if (data) {
-          this.avatar = data[1]
           this.name = data[0]
+          this.avatar = data[1]
         }
       } catch (e) {
         // eslint-disable-next-line no-console

@@ -130,6 +130,7 @@ export default {
       }
       if (entries[0].isIntersecting) {
         this.playVideo(video)
+        this.$emit('played')
       } else {
         this.pauseVideo(video)
       }
@@ -256,6 +257,7 @@ export default {
 .player {
   position: relative;
   width: 100%;
+  min-height: 350px;
   max-height: 500px;
   video {
     width: 100%;
