@@ -13,7 +13,6 @@
 // @import '~bootstrap-vue/src/variables';
 // @import '~bootstrap-vue/src/components/skeleton/skeleton';
 // custom
-@import 'typography';
 @import 'style';
 @import 'responsive';
 // custom
@@ -53,7 +52,6 @@ body {
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.12);
   cursor: wait;
-  -webkit-mask-image: radial-gradient(white, #000);
   mask-image: radial-gradient(white, #000);
 }
 .b-skeleton::before {
@@ -99,38 +97,31 @@ body {
   left: 0;
   z-index: 0;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  -webkit-animation: b-skeleton-animate-wave 1.75s linear infinite;
   animation: b-skeleton-animate-wave 1.75s linear infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .b-skeleton-animate-wave::after {
     background: 0 0;
-    -webkit-animation: none;
     animation: none;
   }
 }
 @-webkit-keyframes b-skeleton-animate-wave {
   from {
-    -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
   }
   to {
-    -webkit-transform: translateX(100%);
     transform: translateX(100%);
   }
 }
 @keyframes b-skeleton-animate-wave {
   from {
-    -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
   }
   to {
-    -webkit-transform: translateX(100%);
     transform: translateX(100%);
   }
 }
 .b-skeleton-animate-fade {
-  -webkit-animation: b-skeleton-animate-fade 875ms ease-in-out alternate infinite;
   animation: b-skeleton-animate-fade 875ms ease-in-out alternate infinite;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -156,32 +147,26 @@ body {
   }
 }
 .b-skeleton-animate-throb {
-  -webkit-animation: b-skeleton-animate-throb 875ms ease-in alternate infinite;
   animation: b-skeleton-animate-throb 875ms ease-in alternate infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .b-skeleton-animate-throb {
-    -webkit-animation: none;
     animation: none;
   }
 }
 @-webkit-keyframes b-skeleton-animate-throb {
   0% {
-    -webkit-transform: scale(1);
     transform: scale(1);
   }
   100% {
-    -webkit-transform: scale(0.975);
     transform: scale(0.975);
   }
 }
 @keyframes b-skeleton-animate-throb {
   0% {
-    -webkit-transform: scale(1);
     transform: scale(1);
   }
   100% {
-    -webkit-transform: scale(0.975);
     transform: scale(0.975);
   }
 }

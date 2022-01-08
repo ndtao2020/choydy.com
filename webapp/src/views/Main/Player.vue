@@ -257,7 +257,7 @@ export default {
 .player {
   position: relative;
   width: 100%;
-  min-height: 350px;
+  min-height: 250px;
   max-height: 500px;
   video {
     width: 100%;

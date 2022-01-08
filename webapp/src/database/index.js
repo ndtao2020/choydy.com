@@ -1,5 +1,5 @@
 import store from '@/store'
-import config from './base/config'
+import config from './config'
 
 export const openConnection = () =>
   new Promise((resolve, reject) => {
@@ -17,7 +17,7 @@ export const openConnection = () =>
         for (const property in config) {
           const obj = config[property]
           try {
-            db.createObjectStore(obj.name, obj.options)
+            db.createObjectStore(property, obj.options)
           } catch (err) {
             // eslint-disable-next-line no-console
             console.log(err)
@@ -45,15 +45,12 @@ export const clearAllCollection = async () => {
   try {
     const current = new Date().getTime()
     for (const property in config) {
-      const obj = config[property]
       try {
-        const list = await findAll(obj.name)
+        const list = await findAll(property)
         if (list) {
           list.forEach(({ id, exp }) => {
-            if (exp < current) {
-              deleteData(obj.name, id)
-              // eslint-disable-next-line no-console
-              console.log('Deleted: ', obj.name, id)
+            if (exp <= current) {
+              deleteData(property, id)
             }
           })
         }
@@ -89,11 +86,12 @@ export const searchData = (collectionName, id) =>
     }
   })
 
-export const saveData = (collectionName, exp, data) =>
+export const saveData = (collectionName, data) =>
   new Promise((resolve, reject) => {
     const database = store.getters['database/get']
     if (!database) return reject('DB has not been initialized !')
     const objectStore = database.transaction([collectionName], 'readwrite').objectStore(collectionName)
+    const exp = config[collectionName].exp || 60 * 60 * 24 * 1000
     const request = objectStore.add({ ...data, exp: exp + new Date().getTime() })
     request.onsuccess = function () {
       return resolve(data)
@@ -103,11 +101,12 @@ export const saveData = (collectionName, exp, data) =>
     }
   })
 
-export const updateData = (collectionName, exp, data) =>
+export const updateData = (collectionName, data) =>
   new Promise((resolve, reject) => {
     const database = store.getters['database/get']
     if (!database) return reject('db has not been initialized !')
     const objectStore = database.transaction([collectionName], 'readwrite').objectStore(collectionName)
+    const exp = config[collectionName].exp || 60 * 60 * 24 * 1000
     const request = objectStore.put({ ...data, exp: exp + new Date().getTime() })
     request.onsuccess = function () {
       return resolve(data)
