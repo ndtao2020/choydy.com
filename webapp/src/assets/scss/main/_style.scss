@@ -179,12 +179,6 @@ ul.media-story li.active img {
   color: var(--primary);
   text-decoration: none;
 }
-.iq-search-bar .searchbox .search-link {
-  position: absolute;
-  right: 15px;
-  top: 2px;
-  font-size: 16px;
-}
 /*---------------------------------------------------------------------
                              Top Menu
 -----------------------------------------------------------------------*/
@@ -279,9 +273,6 @@ ul.media-story li.active img {
     box-shadow: 0 0 0 15px rgba(0, 132, 255, 0);
   }
 }
-.navbar-list li .caption {
-  line-height: 16px;
-}
 .navbar-list li > .dropdown {
   line-height: 73px;
   cursor: pointer;
@@ -289,52 +280,23 @@ ul.media-story li.active img {
 .iq-search-bar {
   padding: 0 15px;
 }
-.iq-search-bar .searchbox {
-  width: 480px;
-  position: relative;
-}
 .iq-search-bar .search-input {
   width: 100%;
-  height: 40px;
-  padding: 5px 40px 5px 15px;
-  border-radius: 10px;
   border: none;
-  background: var(--white);
 }
 .iq-navbar-logo {
-  padding: 0;
-  width: auto;
-  position: relative;
-  background: var(--white);
   transition: all 0.3s ease-out 0s;
-  background: transparent;
-}
-.iq-navbar-logo a {
-  display: flex;
-  align-items: flex-start;
-}
-.iq-navbar-logo a span {
-  margin-left: 10px;
-  font-size: 28px;
-  font-family: 'Montserrat', sans-serif;
-  line-height: 45px;
-  color: var(--gray-dark);
-  flex: 1;
-  transition: all 0.3s ease-out 0s;
-}
-.iq-navbar-logo a:hover,
-.iq-navbar-logo a:focus {
-  text-decoration: none;
-}
-.iq-navbar-logo img {
-  height: 45px;
+  img {
+    height: 45px;
+  }
+  .short-logo {
+    display: none;
+  }
 }
 /*---------- Sidebar Logo --------------*/
 .iq-menu-bt {
   padding: 12px 7px;
-  margin: 0 15px;
-  border-radius: 12px;
-  transition: all 0.3s ease-out 0s;
+  margin: 0 7px;
 }
 .wrapper-menu {
   font-size: 20px;
@@ -377,12 +339,6 @@ ul.media-story li.active img {
   background-color: var(--white);
   opacity: 1;
   border-radius: 4px;
-}
-.iq-sub-dropdown .iq-card-icon {
-  width: 45px;
-  height: 45px;
-  line-height: 45px;
-  font-size: 22px;
 }
 /*---------------------------------------------------------------------
                               Content Page
