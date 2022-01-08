@@ -204,13 +204,6 @@ ul.media-story li.active img {
 .iq-top-navbar .navbar-collapse {
   flex-grow: unset;
 }
-.iq-top-navbar.fixed-header {
-  margin: 0;
-  right: 0;
-  width: calc(100% - 260px);
-  border-radius: 0;
-  transition: all 0.45s ease 0s;
-}
 .navbar-list {
   margin: 0;
   padding: 0;
@@ -281,7 +274,7 @@ ul.media-story li.active img {
   padding: 0 15px;
 }
 .iq-search-bar .search-input {
-  width: 100%;
+  width: 350px;
   border: none;
 }
 .iq-navbar-logo {

@@ -112,9 +112,7 @@ export default {
       return left + scrollLeft
     },
     getRelativeXPosition(e, target) {
-      const elOffsetX = this.offsetX(target)
-      // const elWidth = target.offsetWidth
-      return e.pageX - elOffsetX
+      return e.pageX - this.offsetX(target)
     }
   }
 }
@@ -127,7 +125,6 @@ export default {
   width: 100%;
   display: flex;
   align-items: center;
-  height: 20px;
   &--dragging {
     #{$this}__handle,
     #{$this}__fill {
@@ -158,7 +155,7 @@ export default {
     position: relative;
     height: 100%;
     width: 100%;
-    background-color: rgb(107, 200, 228);
+    background-color: rgb(74, 75, 75);
     z-index: 1;
     transform: scaleX(0);
   }

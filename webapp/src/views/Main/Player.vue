@@ -1,5 +1,5 @@
 <template>
-  <div ref="player" class="player">
+  <div class="player">
     <div class="player__sizer">
       <video
         ref="video"
@@ -100,39 +100,17 @@ export default {
       })
     }
   },
-  created() {
-    this.observer = new IntersectionObserver(this.onElementObserved, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.5
-    })
-  },
   mounted() {
     document.addEventListener('keyup', this.onDocumentKeyUp)
-    // screenfull.onchange(this.onFullscreenChange)
-    this.observer.observe(this.$refs.player)
   },
   beforeDestroy() {
-    this.observer.unobserve(this.$refs.player)
-    this.observer = null
+    document.removeEventListener('keyup', this.onDocumentKeyUp)
   },
   methods: {
     ...mapMutations('layout', ['changePlayerVolume', 'changePlayerIsMuted']),
     onDocumentKeyUp(e) {
       if (e.keyCode === 32) {
         this.togglePlay()
-      }
-    },
-    onElementObserved(entries) {
-      const { video } = this.$refs
-      if (!video) {
-        return
-      }
-      if (entries[0].isIntersecting) {
-        this.playVideo(video)
-        this.$emit('played')
-      } else {
-        this.pauseVideo(video)
       }
     },
     onVideoPlay() {
@@ -175,7 +153,6 @@ export default {
         video.muted = true
         localStorage.setItem('vol', 0)
       }
-      // video.volume = value
       this.changePlayerVolume(value)
       localStorage.setItem('vol', value)
     },
@@ -217,22 +194,33 @@ export default {
       this.changePlayerVolume(video.volume)
       this.changePlayerIsMuted(video.muted)
     },
-    toggleFullscreen() {
-      //   if (!screenfull.isEnabled) return
-      //   const { $el } = this
-      //   if (screenfull.element === $el) {
-      //     screenfull.exit()
-      //   } else {
-      //     screenfull.request($el)
-      //   }
+    playVideo(obj) {
+      let vid
+      if (obj) {
+        vid = obj
+      } else {
+        const { video } = this.$refs
+        if (!video) {
+          return
+        }
+        vid = video
+      }
+      vid.volume = this.playerVolume
+      vid.muted = this.playerIsMuted
+      vid.play()
     },
-    playVideo(video) {
-      video.volume = this.playerVolume
-      video.muted = this.playerIsMuted
-      video.play()
-    },
-    pauseVideo(video) {
-      video.pause()
+    pauseVideo(obj) {
+      let vid
+      if (obj) {
+        vid = obj
+      } else {
+        const { video } = this.$refs
+        if (!video) {
+          return
+        }
+        vid = video
+      }
+      vid.pause()
     },
     seek(time) {
       const { video } = this.$refs
