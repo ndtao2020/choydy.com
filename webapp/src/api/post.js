@@ -1,14 +1,10 @@
-import configDB from '@/database/base/config'
 import { publicGet, publicPost } from '@/request'
 import { searchData, saveData, updateData } from '@/database'
 
-const url = `/post`
-const {
-  post: { name, exp }
-} = configDB
+const dbName = `post`
 
 const getPosts = (page, catalogId, search) => {
-  let u = `${url}?p=${page}`
+  let u = `/${dbName}?p=${page}`
   if (catalogId) {
     u += `&c=${catalogId}`
   }
@@ -20,16 +16,16 @@ const getPosts = (page, catalogId, search) => {
 const getPostById = async (id) => {
   let post
   try {
-    post = await searchData(name, id)
+    post = await searchData(dbName, id)
   } catch (error) {
     post = null
     // eslint-disable-next-line no-console
     console.log(error)
   }
   if (!post) {
-    const data = await publicGet(`${url}/id?i=${id}`)
+    const data = await publicGet(`/${dbName}/id?i=${id}`)
     try {
-      await saveData(name, exp, data)
+      await saveData(dbName, data)
       // eslint-disable-next-line no-empty
     } catch {}
     return data
@@ -42,10 +38,10 @@ const findAllTagByPostId = async (postId) => {
   if (!post) {
     throw new Error('Post Id does not exist !')
   }
-  const tags = await publicGet(`/post/tag?i=${postId}`)
+  const tags = await publicGet(`/${dbName}/tag?i=${postId}`)
   post.tags = tags
   try {
-    await updateData(name, exp, post)
+    await updateData(dbName, post)
     // eslint-disable-next-line no-empty
   } catch {}
   return tags
@@ -57,10 +53,10 @@ const findAllMediaByPostId = async (postId) => {
   if (!post) {
     throw new Error('Post Id does not exist !')
   }
-  const media = await publicGet(`/post/media?i=${postId}`)
+  const media = await publicGet(`/${dbName}/media?i=${postId}`)
   post.media = media
   try {
-    await updateData(name, exp, post)
+    await updateData(dbName, post)
     // eslint-disable-next-line no-empty
   } catch {}
   return media
@@ -72,9 +68,9 @@ const updateView = async (postId) => {
     throw new Error('Post Id does not exist !')
   }
   try {
-    publicPost(`${url}/view?i=${postId}`)
+    publicPost(`/${dbName}/view?i=${postId}`)
     post.count += 1
-    await updateData(name, exp, post)
+    await updateData(dbName, post)
     // eslint-disable-next-line no-empty
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -87,9 +83,9 @@ const updateShare = async (postId) => {
     throw new Error('Post Id does not exist !')
   }
   try {
-    publicPost(`${url}/share?i=${postId}`)
+    publicPost(`/${dbName}/share?i=${postId}`)
     post.shares += 1
-    await updateData(name, exp, post)
+    await updateData(dbName, post)
     // eslint-disable-next-line no-empty
   } catch (error) {
     // eslint-disable-next-line no-console
