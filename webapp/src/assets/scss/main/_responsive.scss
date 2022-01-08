@@ -54,11 +54,6 @@
     width: calc(100vw - 163px);
   }
 }
-@media (max-width: 1699px) {
-  .iq-search-bar .search-input {
-    width: 350px;
-  }
-}
 @media (max-width: 1299px) {
   .content-page,
   body.sidebar-main .content-page {
@@ -70,10 +65,6 @@
     width: auto;
     left: 0;
     right: 0;
-  }
-  .iq-top-navbar.fixed-header {
-    width: 100%;
-    left: 0;
   }
   .iq-footer,
   body.sidebar-main .iq-footer {

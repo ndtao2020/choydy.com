@@ -1,5 +1,5 @@
 <template>
-  <div class="iq-card">
+  <div ref="post" class="iq-card">
     <div class="user-post-data p-3">
       <div class="media-support">
         <div class="d-flex">
@@ -33,7 +33,14 @@
       <b-skeleton-img v-if="loading" height="500px" />
       <div v-for="(a, i) in media" v-else :key="i" class="d-flex post-media">
         <img v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'" class="mx-auto" :src="getURL(a)" height="500" width="500" />
-        <Player v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'" :post-id="postId" :src="getURL(a)" :type="a[1]" @played="handlePlayed" />
+        <Player
+          v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'"
+          ref="player"
+          :post-id="postId"
+          :src="getURL(a)"
+          :type="a[1]"
+          @played="handlePlayed"
+        />
       </div>
     </div>
     <div class="py-1 px-3">
@@ -173,6 +180,7 @@ export default {
   },
   data() {
     return {
+      observer: null,
       loading: false,
       likeLoading: false,
       likes: [],
@@ -189,11 +197,36 @@ export default {
   computed: {
     ...mapGetters('auth', ['logged'])
   },
+  created() {
+    this.observer = new IntersectionObserver(this.onElementObserved, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5
+    })
+  },
   mounted() {
     this.fetchPostById()
     this.getAllLike()
+    this.observer.observe(this.$refs.post)
+  },
+  beforeDestroy() {
+    this.observer.unobserve(this.$refs.post)
+    this.observer = null
   },
   methods: {
+    onElementObserved(entries) {
+      const { player } = this.$refs
+      if (entries[0].isIntersecting) {
+        this.handlePlayed()
+        if (player) {
+          player[0].playVideo()
+        }
+      } else {
+        if (player) {
+          player[0].pauseVideo()
+        }
+      }
+    },
     formatTime(value) {
       if (value) {
         return dateDiff(value)
