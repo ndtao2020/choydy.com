@@ -84,7 +84,7 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
                 .getSingleResult();
     }
 
-    public UUID create(RegisterDTO dto, String avatar) {
+    public UUID create(RegisterDTO dto, String avatar, boolean enabled) {
         // save user
         UUID userId = this.generateId();
         getEm()
@@ -94,7 +94,7 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
                 )
                 .setParameter("id", userId)
                 .setParameter("avatar", avatar)
-                .setParameter("enabled", avatar != null)
+                .setParameter("enabled", enabled)
                 .setParameter("name", dto.getName())
                 .setParameter("password", dto.getPassword())
                 .setParameter("username", dto.getUsername())
@@ -122,13 +122,13 @@ public class UserService extends BaseCacheService<User, UserDTO, UUID> {
     @Transactional
     public User createWithRegister(RegisterDTO dto) {
         // return
-        return new User(this.create(dto, null), true);
+        return new User(this.create(dto, null, false), false);
     }
 
     @Transactional
     public User createWithSocial(SocialLoginDTO dto) {
         // save user
-        UUID userId = this.create(dto, dto.getAvatar());
+        UUID userId = this.create(dto, dto.getAvatar(), true);
         // save SocialNetwork
         getEm()
                 .createNativeQuery("INSERT INTO " + UserSocialNetwork.PATH + " (email,phonenumber,uid,social," + User.PATH_ID + ") VALUES(:email,:phonenumber,:uid,:social,:user_id)")

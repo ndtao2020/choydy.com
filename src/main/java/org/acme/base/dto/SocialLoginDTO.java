@@ -10,9 +10,6 @@ public class SocialLoginDTO extends RegisterDTO {
     private String id;
 
     @NotNull
-    private String providerId;
-
-    @NotNull
     private Social social;
 
     private String avatar;
@@ -28,14 +25,6 @@ public class SocialLoginDTO extends RegisterDTO {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getProviderId() {
-        return providerId;
-    }
-
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
     }
 
     public Social getSocial() {

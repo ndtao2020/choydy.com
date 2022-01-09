@@ -33,9 +33,12 @@ import java.util.Objects;
 public class RequestFilter implements ContainerRequestFilter {
 
     public static final String CSRF_COOKIE_NAME = "srf";
+    //    public static final String CSRF_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Secure-" : "") + "srf";
     public static final String TOKEN_COOKIE_NAME = "cid";
+    //    public static final String TOKEN_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Secure-" : "") + "cid";
+
     public static final String CHECK_SESSION = SecurityPath.AUTH_API_URL + "/est";
-    //    public static final String TOKEN_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Host-" : "") + "cid";
+
     private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
     private static final String AUTHORIZATION = "AUTHORIZATION";
     private static final ServerResponse ACCESS_DENIED = new ServerResponse("Access denied for this resource", 401, new Headers<>());
