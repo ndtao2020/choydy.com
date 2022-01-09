@@ -28,6 +28,7 @@ import java.util.UUID;
 @Path(SecurityPath.PUBLIC_API_URL + "/" + Post.PATH)
 public class PostController extends BaseController {
 
+    private final int maxSize;
     @Inject
     PostService postService;
     @Inject
@@ -38,8 +39,6 @@ public class PostController extends BaseController {
     PostLikeService postLikeService;
     @Inject
     CommentService commentService;
-
-    private final int maxSize;
 
     public PostController() {
         Integer size = ConfigProvider.getConfig().getValue("vue.app.max.size.fetch", Integer.class);

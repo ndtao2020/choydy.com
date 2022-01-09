@@ -27,10 +27,7 @@ public class ResponseFilter implements ContainerResponseFilter {
             // Issue a new token
             responseContext
                     .getHeaders()
-                    .add(HttpHeaders.SET_COOKIE,
-                            RequestFilter.CSRF_COOKIE_NAME + "=" + csrf.compact(request.remoteAddress().toString()) + ";" +
-                                    "Path=/;Secure;HttpOnly;SameSite=None"
-                    );
+                    .add(HttpHeaders.SET_COOKIE, RequestFilter.CSRF_COOKIE_NAME + "=" + csrf.compact(request.remoteAddress().toString()) + ";Path=/;Secure;HttpOnly;SameSite=None");
         }
     }
 }

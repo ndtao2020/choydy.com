@@ -3,7 +3,9 @@
     <div v-if="!logged" class="container">
       <h5 class="auth-logo">
         <i class="fa fa-circle text-primary"></i>
-        <img src="@/assets/images/logo.png" alt="logo" />
+        <router-link to="/">
+          <img src="@/assets/images/logo.png" alt="logo" />
+        </router-link>
         <i class="fa fa-circle text-danger"></i>
       </h5>
       <div class="widget-auth mx-auto">
@@ -21,11 +23,11 @@
           <button type="submit" class="btn auth-btn mb-3 btn-inverse btn-sm">Đăng nhập</button>
           <p class="widget-auth-info">Hoặc đăng nhập bởi</p>
           <div class="social-buttons">
-            <button type="button" class="btn social-button mb-2 btn-warning" @click="loginSocial('GOOGLE')">
+            <button type="button" class="btn social-button mb-2 btn-warning" @click="loginGoogleAuthProvider">
               <i class="social-icon social-google"></i>
               <p class="social-text">GOOGLE</p>
             </button>
-            <button type="button" class="btn social-button mb-2 btn-primary" @click="loginSocial('FACEBOOK')">
+            <button type="button" class="btn social-button mb-2 btn-primary" @click="loginFacebookAuthProvider">
               <i class="social-icon social-facebook"></i>
               <p class="social-text">FACEBOOK</p>
             </button>
@@ -51,6 +53,8 @@ export default {
     return {
       username: '',
       password: '',
+      google: 'GOOGLE',
+      facebook: 'FACEBOOK',
       loading: false,
       errorMessage: null
     }
@@ -96,7 +100,26 @@ export default {
         Nprogress.done()
       }
     },
-    async loginSocial(social) {
+    async applyCredential(social, credential, user) {
+      Nprogress.start()
+      this.loading = true
+      try {
+        const data = await loginBySocialNetwork(social, credential, user)
+        if (data && data.access_token) {
+          this.updateAuthentication(data.access_token)
+        }
+        // redirect
+        this.redirectPage()
+      } catch (err) {
+        this.errorMessage = 'Đăng nhập thất bại !'
+        // eslint-disable-next-line no-console
+        console.log(err)
+      } finally {
+        this.loading = false
+        Nprogress.done()
+      }
+    },
+    async loginGoogleAuthProvider() {
       if (this.loading) {
         return
       }
@@ -104,33 +127,41 @@ export default {
       this.loading = true
       try {
         // check provider
-        let provider = null
-        if (social === 'GOOGLE') {
-          provider = new GoogleAuthProvider()
-        }
-        if (social === 'FACEBOOK') {
-          provider = new FacebookAuthProvider()
-        }
-        // check provider
-        const result = await signInWithPopup(getAuth(), provider)
+        const result = await signInWithPopup(getAuth(), new GoogleAuthProvider())
         if (result) {
-          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-          let credential = null
-          if (social === 'GOOGLE') {
-            credential = GoogleAuthProvider.credentialFromResult(result)
-          }
-          if (social === 'FACEBOOK') {
-            credential = FacebookAuthProvider.credentialFromResult(result)
-          }
-          const data = await loginBySocialNetwork(social, credential, result.user)
-          if (data && data.access_token) {
-            this.updateAuthentication(data.access_token)
-          }
-          // redirect
-          this.redirectPage()
+          await this.applyCredential(this.google, GoogleAuthProvider.credentialFromResult(result), result.user)
         }
-      } catch (err) {
-        this.errorMessage = 'Đăng nhập thất bại !'
+      } catch (error) {
+        // Handle Errors here.
+        if (error.code === 'auth/account-exists-with-different-credential') {
+          await this.applyCredential(this.google, GoogleAuthProvider.credentialFromError(error))
+        } else {
+          this.errorMessage = 'Đăng nhập thất bại !'
+        }
+      } finally {
+        this.loading = false
+        Nprogress.done()
+      }
+    },
+    async loginFacebookAuthProvider() {
+      if (this.loading) {
+        return
+      }
+      Nprogress.start()
+      this.loading = true
+      try {
+        // check provider
+        const result = await signInWithPopup(getAuth(), new FacebookAuthProvider())
+        if (result) {
+          await this.applyCredential(this.facebook, FacebookAuthProvider.credentialFromResult(result), result.user)
+        }
+      } catch (error) {
+        // Handle Errors here.
+        if (error.code === 'auth/account-exists-with-different-credential') {
+          await this.applyCredential(this.facebook, FacebookAuthProvider.credentialFromError(error))
+        } else {
+          this.errorMessage = 'Đăng nhập thất bại !'
+        }
       } finally {
         this.loading = false
         Nprogress.done()

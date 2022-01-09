@@ -9,9 +9,6 @@ import javax.ws.rs.ext.Provider;
 public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundException> {
     @Override
     public Response toResponse(NotFoundException e) {
-        return HomeRoute.responseBuilder(
-                NotFoundExceptionMapper.class
-                        .getResourceAsStream(HomeRoute.TEMPLATE_DIR)
-        );
+        return HomeRoute.responseBuilder(NotFoundExceptionMapper.class.getResourceAsStream(HomeRoute.TEMPLATE_DIR));
     }
 }

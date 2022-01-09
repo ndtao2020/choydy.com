@@ -9,9 +9,11 @@ import org.acme.RequestFilter;
 import org.acme.base.auth.ClientPrincipal;
 import org.acme.base.dto.CheckDTO;
 import org.acme.base.dto.CredentialDTO;
+import org.acme.base.dto.FacebookDTO;
 import org.acme.base.dto.GoogleDTO;
 import org.acme.base.dto.JwtToken;
 import org.acme.base.dto.LoginDTO;
+import org.acme.base.dto.PictureDTO;
 import org.acme.base.dto.RegisterDTO;
 import org.acme.base.dto.ResetPassword;
 import org.acme.base.dto.SocialLoginDTO;
@@ -22,6 +24,7 @@ import org.acme.constants.SecurityPath;
 import org.acme.constants.Social;
 import org.acme.model.User;
 import org.acme.model.dto.UserDTO;
+import org.acme.rest.FacebookService;
 import org.acme.rest.GoogleService;
 import org.acme.service.UserAuthorityService;
 import org.acme.service.UserService;
@@ -64,9 +67,13 @@ public class OAuthController {
     UserAuthorityService userAuthorityService;
     @Inject
     UserSocialNetworkService userSocialNetworkService;
+
     @Inject
     @RestClient
     GoogleService googleService;
+    @Inject
+    @RestClient
+    FacebookService facebookService;
 
     @POST
     @Path("/login")
@@ -84,18 +91,61 @@ public class OAuthController {
     @POST
     @Path("/social")
     public Response loginBySocial(@Context SecurityContext context, @Valid SocialLoginDTO loginDTO) throws UnauthorizedException, BadRequestException, SQLException {
-        if (loginDTO.getSocial() == null || loginDTO.getEmail() == null || loginDTO.getCredential() == null) {
-            throw new BadRequestException("Email and Access Token can not be empty !");
+        if (loginDTO.getSocial() == null || loginDTO.getCredential() == null) {
+            throw new BadRequestException("Access Token can not be empty !");
         }
         CredentialDTO credentialDTO = loginDTO.getCredential();
         if (loginDTO.getSocial().equals(Social.GOOGLE)) {
             GoogleDTO googleDTO = googleService.checkGoogleToken(credentialDTO.getIdToken());
-            if (googleDTO == null) {
+            if (googleDTO == null || googleDTO.email == null || googleDTO.email.length() == 0) {
                 throw new BadRequestException("Không thể xác thực với Google !");
             }
             logger.info("Logged: " + googleDTO.email);
-            if (!loginDTO.getEmail().equals(googleDTO.email)) {
-                throw new BadRequestException("Không thể xác thực với Google ! wrong email !");
+            // update data
+            if (loginDTO.getName() == null) {
+                loginDTO.setEmail(googleDTO.email);
+            } else {
+                if (!loginDTO.getEmail().equals(googleDTO.email)) {
+                    throw new BadRequestException("Không thể xác thực với Google ! wrong email !");
+                }
+            }
+            if (loginDTO.getId() == null) {
+                loginDTO.setId(UUID.randomUUID().toString());
+            }
+            if (loginDTO.getName() == null) {
+                loginDTO.setName(googleDTO.name);
+            }
+            if (loginDTO.getAvatar() == null) {
+                loginDTO.setAvatar(googleDTO.picture);
+            }
+        }
+        if (loginDTO.getSocial().equals(Social.FACEBOOK)) {
+            FacebookDTO facebookDTO = facebookService.checkFacebookToken("id,name,email,picture{url}", credentialDTO.getAccessToken());
+            if (facebookDTO == null || facebookDTO.email == null || facebookDTO.email.length() == 0) {
+                throw new BadRequestException("Không thể xác thực với Facebook !");
+            }
+            logger.info("Logged: " + facebookDTO.email);
+            // update data
+            if (loginDTO.getEmail() == null) {
+                loginDTO.setEmail(facebookDTO.email);
+            } else {
+                if (!loginDTO.getEmail().equals(facebookDTO.email)) {
+                    throw new BadRequestException("Không thể xác thực với Facebook ! wrong email !");
+                }
+            }
+            if (loginDTO.getId() == null) {
+                loginDTO.setId(facebookDTO.id);
+            }
+            if (loginDTO.getName() == null) {
+                loginDTO.setName(facebookDTO.name);
+            }
+            if (loginDTO.getAvatar() == null) {
+                if (facebookDTO.picture != null) {
+                    PictureDTO pictureDTO = facebookDTO.picture;
+                    if (pictureDTO.data != null) {
+                        loginDTO.setAvatar(pictureDTO.data.get("url"));
+                    }
+                }
             }
         }
         User user = userService.loadUserByUsername(loginDTO.getEmail());
@@ -255,17 +305,12 @@ public class OAuthController {
 
     private User createUser(ClientPrincipal authentication, SocialLoginDTO loginDTO) {
         List<?> userSocialNetworks = userSocialNetworkService.findByEmail(loginDTO.getEmail());
-        logger.info("Đã load xong qua đây để kiểm tra null");
         if (userSocialNetworks == null || userSocialNetworks.isEmpty()) {
             try {
                 loginDTO.setUsername(loginDTO.getEmail());
-                logger.info("Đã load vào createUser - Bcrypt.bcryptHash");
                 loginDTO.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
-                logger.info("Đã load xong createUser - Bcrypt.bcryptHash");
                 User user = userService.createWithSocial(loginDTO);
-                logger.info("Đã load vào sendMailConfirm");
                 this.sendMailConfirm(authentication, user.getId(), loginDTO.getName(), loginDTO.getEmail());
-                logger.info("Đã load xong sendMailConfirm");
                 return user;
             } catch (Exception e) {
                 logger.error(e.getMessage());
