@@ -3,45 +3,23 @@
     <h1 class="page-title">Danh sách bài đã đăng</h1>
     <!-- Main table element -->
     <b-skeleton-table v-if="loading" :rows="10" :columns="4" :table-props="{ bordered: true, striped: true }" />
-    <b-table
-      v-else
-      :items="items"
-      :fields="fields"
-      :current-page="currentPage"
-      :per-page="perPage"
-      :filter="filter"
-      :filter-included-fields="filterOn"
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
-      :sort-direction="sortDirection"
-      stacked="md"
-      show-empty
-    >
+    <b-table v-else :items="items" :fields="fields" show-empty>
       <template #cell(likes)="row"><Likes :id="row.item.id" /></template>
       <template #cell(userId)="row"><User :id="row.item.userId" /></template>
       <template #cell(created)="row">{{ formatTime(row.value) }}</template>
       <template #cell(actions)="row">
         <b-button size="sm" variant="success">
-          <i class="las la-edit"></i>
+          <i class="las la-edit" />
         </b-button>
         <b-button size="sm" variant="warning" @click="row.toggleDetails">
-          <i class="las la-eye"></i>
+          <i class="las la-eye" />
         </b-button>
         <b-button size="sm" variant="danger" @click="deletePost(row.item.id)">
-          <i class="las la-trash"></i>
+          <i class="las la-trash" />
         </b-button>
       </template>
       <template #row-details="row">
-        <div class="d-flex">
-          <div class="mx-auto">
-            <h2>{{ row.item.title }}</h2>
-            <p>
-              {{ row.item.content }}
-            </p>
-            <b-button v-for="tag in row.item.tags" :key="tag" variant="link">#{{ tag }}</b-button>
-            <Media :id="row.item.id" :media="row.value" />
-          </div>
-        </div>
+        <social-post :post-id="row.item.id" />
       </template>
     </b-table>
     <b-row>
@@ -63,7 +41,7 @@
       </b-col>
       <b-col>
         <b-skeleton v-if="loading" type="input" />
-        <b-pagination-nav v-else v-model="currentPage" :total-rows="totalRows" :per-page="perPage" />
+        <b-pagination v-else :value="currentPage" :total-rows="totalRows" :per-page="perPage" align="fill" @change="changePagination" />
       </b-col>
     </b-row>
     <b-modal v-model="deleteModal" title="Bạn có muốn xóa bài đăng này ?">
@@ -80,10 +58,9 @@ export default {
   name: 'AdminPostList',
   components: {
     Widget: () => import('@/components/Widget'),
-    // Tag: () => import('./Tag'),
     Likes: () => import('./Likes'),
     User: () => import('./User'),
-    Media: () => import('./Media')
+    SocialPost: () => import('../../Main/SocialPost')
   },
   data() {
     return {
@@ -92,8 +69,6 @@ export default {
       fields: [
         { key: 'id', label: 'Mã', sortable: true, sortDirection: 'desc' },
         { key: 'title', label: 'Tiêu đề', sortable: true, sortDirection: 'desc' },
-        // { key: 'content', label: 'Nội dung', sortable: true, sortDirection: 'desc' },
-        // { key: 'tags', label: 'Tag', sortable: true, sortDirection: 'desc' },
         { key: 'count', label: 'Lượt xem', sortable: true, sortDirection: 'desc' },
         { key: 'likes', label: 'Lượt thích', sortable: true, sortDirection: 'desc' },
         { key: 'shares', label: 'Chia sẻ', sortable: true, sortDirection: 'desc' },
@@ -104,8 +79,8 @@ export default {
       loading: false,
       totalRows: 1,
       currentPage: 1,
-      perPage: 20,
-      pageOptions: [20, 30, 50, { value: 100, text: 'Show a lot' }],
+      perPage: 10,
+      pageOptions: [10, 20, 30, 50, { value: 100, text: 'Show a lot' }],
       sortBy: '',
       sortDesc: false,
       sortDirection: 'asc',
@@ -124,6 +99,22 @@ export default {
         if (data) {
           this.items = data.l
           this.totalRows = data.t
+        }
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log(e)
+      } finally {
+        this.loading = false
+      }
+    },
+    async changePagination(page) {
+      this.loading = true
+      try {
+        const data = await postList(page - 1, this.perPage)
+        if (data) {
+          this.items = data.l
+          this.totalRows = data.t
+          this.currentPage = page
         }
       } catch (e) {
         // eslint-disable-next-line no-console
