@@ -14,14 +14,12 @@
           </div>
         </div>
       </div>
-      <div class="iq-search-bar d-flex justify-content-between">
-        <!-- <form action="#" class="searchbox"> -->
+      <!-- <div class="iq-search-bar d-flex justify-content-between">
         <input type="text" class="text search-input" placeholder="Tìm kiếm..." />
         <a class="search-link" href="#">
           <img src="@/assets/icons/search.svg" height="25" width="25" />
         </a>
-        <!-- </form> -->
-      </div>
+      </div> -->
       <button class="navbar-toggler mr-1 collapsed" @click="showNavbar = !showNavbar">
         <img src="@/assets/icons/arrow-down.svg" height="20" width="20" />
       </button>

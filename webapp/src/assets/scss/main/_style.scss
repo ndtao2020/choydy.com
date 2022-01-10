@@ -272,10 +272,15 @@ ul.media-story li.active img {
 }
 .iq-search-bar {
   padding: 0 15px;
-}
-.iq-search-bar .search-input {
-  width: 350px;
-  border: none;
+  .search-input {
+    margin: auto;
+    height: 40px;
+    width: 350px;
+    border: none;
+  }
+  .search-input:focus-visible {
+    outline: auto 0px;
+  }
 }
 .iq-navbar-logo {
   transition: all 0.3s ease-out 0s;
