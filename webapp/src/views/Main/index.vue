@@ -4,7 +4,7 @@
       <b-skeleton animation="wave" width="85%"></b-skeleton>
       <b-skeleton animation="wave" width="55%"></b-skeleton>
       <b-skeleton animation="wave" width="70%"></b-skeleton>
-      <b-skeleton-img />
+      <b-skeleton-img height="500px" />
     </div>
     <social-post v-for="(id, index) in posts" v-else :key="index" :post-id="id" />
   </div>

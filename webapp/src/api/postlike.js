@@ -1,4 +1,4 @@
-import { searchData, saveData } from '@/database'
+import { searchData, saveData, deleteData } from '@/database'
 import { publicGet, authGet, authPost, authPut, authDel } from '@/request'
 
 const dbName = `postlike`
@@ -29,15 +29,19 @@ const getAllLikeByPostId = async (id) => {
 const checkLiked = (postId) => authGet(`/${dbName}?i=${postId}`)
 const createLike = async (postId, type) => {
   try {
-    authPost(`/${dbName}?i=${postId}&t=${type}`)
+    await authPost(`/${dbName}?i=${postId}&t=${type}`)
+    await deleteData(dbName, postId)
+    await getAllLikeByPostId(postId)
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error)
   }
 }
-const updateLike = (postId, type) => {
+const updateLike = async (postId, type) => {
   try {
-    authPut(`/${dbName}?i=${postId}&t=${type}`)
+    await authPut(`/${dbName}?i=${postId}&t=${type}`)
+    await deleteData(dbName, postId)
+    await getAllLikeByPostId(postId)
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error)
@@ -45,7 +49,9 @@ const updateLike = (postId, type) => {
 }
 const removeLike = async (postId) => {
   try {
-    authDel(`/${dbName}?i=${postId}`)
+    await authDel(`/${dbName}?i=${postId}`)
+    await deleteData(dbName, postId)
+    await getAllLikeByPostId(postId)
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error)

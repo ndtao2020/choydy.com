@@ -8,7 +8,7 @@
               <router-link to="/privacy-policy">Privacy Policy</router-link>
             </li>
             <li class="list-inline-item">
-              <router-link href="/terms-and-conditions">Terms of Use</router-link>
+              <router-link to="/terms-and-conditions">Terms of Use</router-link>
             </li>
           </ul>
         </div>

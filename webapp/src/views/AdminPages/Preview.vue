@@ -45,7 +45,7 @@
               <div class="like-data">
                 <div class="dropdown">
                   <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                    <img :src="require('@/assets/images/icon/01.png')" class="img-fluid" alt="" />
+                    <img :src="require('@/assets/images/icon/normal.png')" class="img-fluid" alt="" />
                   </span>
                   <div class="dropdown-menu" style="">
                     <a
@@ -56,7 +56,7 @@
                       data-original-title="Like"
                       @click="isLiked(!post.is_liked)"
                     >
-                      <img :src="require('@/assets/images/icon/01.png')" class="img-fluid" alt="" />
+                      <img :src="require('@/assets/images/icon/normal.png')" class="img-fluid" alt="" />
                     </a>
                   </div>
                 </div>

@@ -3,7 +3,7 @@
     <h1 class="page-title">Danh sách bài đã đăng</h1>
     <!-- Main table element -->
     <b-skeleton-table v-if="loading" :rows="10" :columns="4" :table-props="{ bordered: true, striped: true }" />
-    <b-table v-else :items="items" :fields="fields" show-empty>
+    <b-table v-else :items="items" :fields="fields" show-empty responsive>
       <template #cell(likes)="row"><Likes :id="row.item.id" /></template>
       <template #cell(userId)="row"><User :id="row.item.userId" /></template>
       <template #cell(created)="row">{{ formatTime(row.value) }}</template>
@@ -41,7 +41,7 @@
       </b-col>
       <b-col>
         <b-skeleton v-if="loading" type="input" />
-        <b-pagination v-else :value="currentPage" :total-rows="totalRows" :per-page="perPage" align="fill" @change="changePagination" />
+        <b-pagination v-else v-model="currentPage" :total-rows="totalRows" :per-page="perPage" align="fill" />
       </b-col>
     </b-row>
     <b-modal v-model="deleteModal" title="Bạn có muốn xóa bài đăng này ?">
@@ -88,6 +88,16 @@ export default {
       filterOn: []
     }
   },
+  watch: {
+    perPage: function (val) {
+      this.perPage = val
+      this.loadData()
+    },
+    currentPage: function (val) {
+      this.currentPage = val
+      this.loadData()
+    }
+  },
   mounted() {
     this.loadData()
   },
@@ -99,22 +109,6 @@ export default {
         if (data) {
           this.items = data.l
           this.totalRows = data.t
-        }
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e)
-      } finally {
-        this.loading = false
-      }
-    },
-    async changePagination(page) {
-      this.loading = true
-      try {
-        const data = await postList(page - 1, this.perPage)
-        if (data) {
-          this.items = data.l
-          this.totalRows = data.t
-          this.currentPage = page
         }
       } catch (e) {
         // eslint-disable-next-line no-console
@@ -144,7 +138,7 @@ export default {
       this.loading = true
       try {
         await deletePost(id)
-        this.loadData()
+        await this.loadData()
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log(e)
