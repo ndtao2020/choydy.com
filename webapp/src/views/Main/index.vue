@@ -45,8 +45,7 @@ export default {
         // fetch data
         this.onChangeRoute()
       },
-      deep: true,
-      immediate: true
+      deep: true
     }
   },
   beforeMount() {
