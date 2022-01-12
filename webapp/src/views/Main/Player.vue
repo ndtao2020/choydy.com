@@ -22,7 +22,11 @@
     </div>
     <div class="player__gradient" />
     <div v-show="isLoading || isWaiting" class="player__loader">
-      <img src="@/assets/images/logo.png" class="img-fluid" alt="logo" width="160" height="45" />
+      <!-- <img src="@/assets/images/logo.png" class="img-fluid" alt="logo" width="160" height="45" /> -->
+      <div class="spinner-grow text-primary" role="status" />
+      <div class="spinner-grow text-secondary" role="status" />
+      <div class="spinner-grow text-success" role="status" />
+      <div class="spinner-grow text-danger" role="status" />
     </div>
     <div class="d-flex player__controls py-2">
       <div class="ml-2" @click="togglePlay">

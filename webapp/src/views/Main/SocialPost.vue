@@ -1,5 +1,5 @@
 <template>
-  <div ref="post" class="iq-card">
+  <div class="iq-card">
     <div class="user-post-data p-3">
       <div class="media-support">
         <div class="d-flex">
@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="user-post">
+    <div ref="post" class="user-post">
       <div v-if="loading" class="mx-4 mb-3">
         <b-skeleton animation="wave" width="85%"></b-skeleton>
         <b-skeleton animation="wave" width="55%"></b-skeleton>
@@ -32,12 +32,13 @@
       <div class="mt-1" />
       <b-skeleton-img v-if="loading" height="500px" />
       <div v-for="(a, i) in media" v-else :key="i" class="d-flex post-media">
-        <img v-if="a[1] === 'image/jpeg' || a[1] === 'image/png' || a[1] === 'image/gif'" class="mx-auto" :src="getURL(a)" height="500" width="500" />
+        <img v-if="checkTypeImage(a[1])" class="mx-auto" :src="getURL(a)" height="500" width="500" />
         <Player
-          v-if="a[1] === 'video/mp4' || a[1] === 'video/webm'"
+          v-if="checkTypeVideo(a[1])"
           ref="player"
           :post-id="postId"
           :src="getURL(a)"
+          :poster="getThumbnailURL(a)"
           :type="a[1]"
           @played="handlePlayed"
         />
@@ -48,22 +49,24 @@
         <div class="d-flex">
           <div class="like-data">
             <div class="dropdown">
-              <span v-if="isLiked">
-                <img v-if="isLiked === 'normal'" src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
-                <img v-if="isLiked === 'heart'" src="@/assets/images/icon/02.png" alt="" height="24" width="24" />
-                <img v-if="isLiked === 'haha'" src="@/assets/images/icon/03.png" alt="" height="24" width="24" />
-                <img v-if="isLiked === 'angry'" src="@/assets/images/icon/04.png" alt="" height="24" width="24" />
-                <img v-if="isLiked === 'ask'" src="@/assets/images/icon/05.png" alt="" height="24" width="24" />
-                <img v-if="isLiked === 'sad'" src="@/assets/images/icon/06.png" alt="" height="24" width="24" />
-                <img v-if="isLiked === 'love'" src="@/assets/images/icon/07.png" alt="" height="24" width="24" />
+              <span v-if="displayAllLike && displayAllLike.length">
+                <img
+                  v-for="like in displayAllLike"
+                  :key="like[0]"
+                  :src="require(`@/assets/images/icon/${like[0]}.png`)"
+                  :class="{ 'liked-i': isLiked === like[0] }"
+                  alt=""
+                  height="20"
+                  width="20"
+                />
               </span>
               <span v-else>
-                <img src="@/assets/images/icon/01.png" alt="" height="24" width="24" />
+                <img src="@/assets/images/icon/normal.png" alt="" height="24" width="24" />
               </span>
-              <div class="dropdown-menu" style="">
+              <div class="dropdown-menu">
                 <img
                   :class="['ml-3 mr-2', { 'liked-icon': isLiked === 'normal' }]"
-                  src="@/assets/images/icon/01.png"
+                  src="@/assets/images/icon/normal.png"
                   alt=""
                   height="24"
                   width="24"
@@ -71,7 +74,7 @@
                 />
                 <img
                   :class="['mr-2', { 'liked-icon': isLiked === 'heart' }]"
-                  src="@/assets/images/icon/02.png"
+                  src="@/assets/images/icon/heart.png"
                   alt=""
                   height="24"
                   width="24"
@@ -79,7 +82,7 @@
                 />
                 <img
                   :class="['mr-2', { 'liked-icon': isLiked === 'haha' }]"
-                  src="@/assets/images/icon/03.png"
+                  src="@/assets/images/icon/haha.png"
                   alt=""
                   height="24"
                   width="24"
@@ -87,7 +90,7 @@
                 />
                 <img
                   :class="['mr-2', { 'liked-icon': isLiked === 'angry' }]"
-                  src="@/assets/images/icon/04.png"
+                  src="@/assets/images/icon/angry.png"
                   alt=""
                   height="24"
                   width="24"
@@ -95,7 +98,7 @@
                 />
                 <img
                   :class="['mr-2', { 'liked-icon': isLiked === 'ask' }]"
-                  src="@/assets/images/icon/05.png"
+                  src="@/assets/images/icon/ask.png"
                   alt=""
                   height="24"
                   width="24"
@@ -103,7 +106,7 @@
                 />
                 <img
                   :class="['mr-2', { 'liked-icon': isLiked === 'sad' }]"
-                  src="@/assets/images/icon/06.png"
+                  src="@/assets/images/icon/sad.png"
                   alt=""
                   height="24"
                   width="24"
@@ -111,7 +114,7 @@
                 />
                 <img
                   :class="{ 'liked-icon': isLiked === 'love' }"
-                  src="@/assets/images/icon/07.png"
+                  src="@/assets/images/icon/love.png"
                   alt=""
                   height="24"
                   width="24"
@@ -122,16 +125,16 @@
           </div>
           <div class="total-like-block ml-2">
             <div class="dropdown">
-              <span v-if="isLiked" class="text-success">Đã thích</span>
-              <span v-else>{{ likes ? getTotalLike(likes) : 0 }}</span>
+              <span class="mr-2">{{ getTotalLike }}</span>
+              <!-- <span v-if="isLiked">{{ isLiked }}</span> -->
             </div>
           </div>
         </div>
         <div class="ml-auto share-block d-flex">
-          <div class="mr-2 my-auto">{{ post.shares }}</div>
+          <div class="mr-2 my-auto">{{ getTotalShare }}</div>
           <div class="dropdown">
             <span>
-              <img src="@/assets/icons/share.svg" alt="" height="24" width="24" />
+              <img src="@/assets/icons/share.svg" alt="" height="20" width="20" />
             </span>
             <div class="dropdown-menu" style="">
               <div class="px-3 py-2" @click="shareFacebook">
@@ -164,9 +167,11 @@ import Player from './Player'
 import { mapGetters } from 'vuex'
 import { dateDiff } from '@/moment'
 import { getUserById } from '@/api/user'
+import { abbreviateNumber } from '@/utils'
 import { getCatalogById } from '@/api/catalog'
+import { IMAGE_TYPES, VIDEO_TYPES } from '@/constants'
 import { getAllLikeByPostId, checkLiked, createLike, updateLike, removeLike } from '@/api/postlike'
-import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateView, updateShare } from '@/api/post'
+import { getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, getThumbnailMediaLink, updateView, updateShare } from '@/api/post'
 import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
 export default {
@@ -183,7 +188,7 @@ export default {
       observer: null,
       loading: false,
       likeLoading: false,
-      likes: [],
+      likes: null,
       isLiked: null,
       showCopiedLink: false,
       post: {},
@@ -195,7 +200,36 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['logged'])
+    ...mapGetters('auth', ['logged']),
+    displayAllLike() {
+      if (this.likes && this.likes.length) {
+        const list = []
+        const length = this.likes.length
+        for (let index = 0; index < length; index++) {
+          const element = this.likes[index]
+          list.push(element)
+        }
+        return list
+      }
+      return null
+    },
+    getTotalLike() {
+      if (this.likes) {
+        let total = 0
+        for (let index = 0; index < this.likes.length; index++) {
+          const element = this.likes[index]
+          total += element[1]
+        }
+        return abbreviateNumber(total)
+      }
+      return 0
+    },
+    getTotalShare() {
+      if (this.post) {
+        return abbreviateNumber(this.post.shares || 0)
+      }
+      return 0
+    }
   },
   created() {
     this.observer = new IntersectionObserver(this.onElementObserved, {
@@ -210,8 +244,13 @@ export default {
     this.observer.observe(this.$refs.post)
   },
   beforeDestroy() {
-    this.observer.unobserve(this.$refs.post)
-    this.observer = null
+    try {
+      this.observer.unobserve(this.$refs.post)
+      this.observer = null
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err)
+    }
   },
   methods: {
     onElementObserved(entries) {
@@ -226,6 +265,12 @@ export default {
           player[0].pauseVideo()
         }
       }
+    },
+    checkTypeImage(type) {
+      return IMAGE_TYPES.some((x) => x === type)
+    },
+    checkTypeVideo(type) {
+      return VIDEO_TYPES.some((x) => x === type)
     },
     formatTime(value) {
       if (value) {
@@ -283,22 +328,23 @@ export default {
       const [id, type] = data
       return getMediaLink(id, type)
     },
+    getThumbnailURL(data) {
+      const [id, type] = data
+      return getThumbnailMediaLink(id, type)
+    },
     // like
     async getAllLike() {
       this.likeLoading = true
       try {
-        let liked = null
         if (this.logged) {
-          liked = await checkLiked(this.postId)
+          const liked = await checkLiked(this.postId)
           if (liked) {
             this.isLiked = liked[0]
           }
         }
-        if (!liked || !liked.length) {
-          const data = await getAllLikeByPostId(this.postId)
-          if (data) {
-            this.likes = data
-          }
+        const data = await getAllLikeByPostId(this.postId)
+        if (data) {
+          this.likes = data
         }
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -307,36 +353,123 @@ export default {
         this.likeLoading = false
       }
     },
-    async toggleLike(type) {
+    toggleLike(type) {
       if (!this.logged) {
         return this.$router.push({ name: 'login', query: { redirect: `/post/${this.postId}` } })
       }
       try {
         if (this.isLiked) {
-          if (this.isLiked[0] === type) {
-            this.isLiked = null
-            await removeLike(this.postId)
+          if (this.isLiked === type) {
+            this.handleRemoveLike(type)
           } else {
-            // update like
-            this.isLiked = type
-            await updateLike(this.postId, type)
+            this.handleUpdateLike(type)
           }
         } else {
-          this.isLiked = type
-          await createLike(this.postId, type)
+          this.handleCreateLike(type)
         }
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error)
       }
     },
-    getTotalLike(likes) {
-      let total = 0
-      for (let index = 0; index < likes.length; index++) {
-        const element = likes[index]
-        total += element[1]
+    async handleCreateLike(type) {
+      if (!this.logged) {
+        return this.$router.push({ name: 'login', query: { redirect: `/post/${this.postId}` } })
       }
-      return total
+      try {
+        this.isLiked = type
+        // update cache all like
+        const lk = [type, 1]
+        if (this.likes && this.likes.length) {
+          let notExist = true
+          const list = []
+          for (let index = 0; index < this.likes.length; index++) {
+            const element = this.likes[index]
+            if (element[0] === type) {
+              notExist = false
+              element[1] += 1
+            }
+            list.push(element)
+          }
+          if (notExist) {
+            list.push(lk)
+          }
+          this.likes = list
+        } else {
+          this.likes = [lk]
+        }
+        // fetch
+        await createLike(this.postId, type, this.likes)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      }
+    },
+    async handleUpdateLike(type) {
+      if (!this.logged) {
+        return this.$router.push({ name: 'login', query: { redirect: `/post/${this.postId}` } })
+      }
+      try {
+        // update cache all like
+        if (this.likes) {
+          const list = []
+          let notExist = true
+          // remove
+          for (let index = 0; index < this.likes.length; index++) {
+            const element = this.likes[index]
+            if (element[0] === this.isLiked) {
+              if (element[1] === 1) {
+                continue
+              }
+              element[1] -= 1
+            }
+            if (element[0] === type) {
+              notExist = false
+              element[1] += 1
+            }
+            list.push(element)
+          }
+          if (notExist) {
+            list.push([type, 1])
+          }
+          this.likes = list
+        }
+        // update like
+        this.isLiked = type
+        // fetch
+        await updateLike(this.postId, type, this.likes)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      }
+    },
+    async handleRemoveLike(type) {
+      if (!this.logged) {
+        return this.$router.push({ name: 'login', query: { redirect: `/post/${this.postId}` } })
+      }
+      try {
+        this.isLiked = null
+        // update cache all like
+        if (this.likes) {
+          const list = []
+          for (let index = 0; index < this.likes.length; index++) {
+            const element = this.likes[index]
+            if (element[0] === type) {
+              if (element[1] === 1) {
+                continue
+              }
+              element[1] -= 1
+            }
+            list.push(element)
+          }
+          this.likes = list
+        }
+        // fetch
+        await removeLike(this.postId, this.likes)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      }
     },
     // view
     handlePlayed() {
@@ -383,8 +516,8 @@ export default {
       this.fetchShare()
     },
     shareZalo() {
-      const data = { url: this.getShareURL() }
-      window.open(`https://sp.zalo.me/share?d=${Buffer.from(JSON.stringify(data)).toString('base64')}`, 'Chia sẻ Zalo', 'popup')
+      const data = Buffer.from(JSON.stringify({ url: this.getShareURL() })).toString('base64')
+      window.open(`https://sp.zalo.me/share?d=${data}`, 'Chia sẻ Zalo', 'popup')
       this.fetchShare()
     },
     copyLink() {

@@ -24,10 +24,12 @@ const getPostById = async (id) => {
   }
   if (!post) {
     const data = await publicGet(`/${dbName}/id?i=${id}`)
-    try {
-      await saveData(dbName, data)
-      // eslint-disable-next-line no-empty
-    } catch {}
+    if (data) {
+      try {
+        await saveData(dbName, data)
+        // eslint-disable-next-line no-empty
+      } catch {}
+    }
     return data
   }
   return post
@@ -48,6 +50,7 @@ const findAllTagByPostId = async (postId) => {
 }
 // ======================================== Media
 const getMediaLink = (id, type) => `/media/${id}?t=${type}`
+const getThumbnailMediaLink = (id, type) => `/media/c/${id}?t=${type}`
 const findAllMediaByPostId = async (postId) => {
   const post = await getPostById(postId)
   if (!post) {
@@ -93,4 +96,4 @@ const updateShare = async (postId) => {
   }
 }
 // export
-export { getPosts, getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, updateView, updateShare }
+export { getPosts, getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, getThumbnailMediaLink, updateView, updateShare }

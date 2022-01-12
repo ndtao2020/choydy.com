@@ -13,6 +13,20 @@ const getAllListTree = (roots, list, propertyId, propertyParent) => {
   })
 }
 
+export const abbreviateNumber = (num) => {
+  if (num < 1000) {
+    return num
+  }
+  let newValue = num
+  const suffixes = ['', 'K', 'M', 'B', 'T']
+  let suffixNum = 0
+  while (newValue >= 1000) {
+    newValue /= 1000
+    suffixNum++
+  }
+  return `${newValue.toPrecision(3)}${suffixes[suffixNum]}`
+}
+
 // Generate Tree
 export function generateTree(list, propertyId, propertyParent) {
   if (list != null) {

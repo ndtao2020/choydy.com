@@ -4,7 +4,7 @@
       <b-skeleton animation="wave" width="85%"></b-skeleton>
       <b-skeleton animation="wave" width="55%"></b-skeleton>
       <b-skeleton animation="wave" width="70%"></b-skeleton>
-      <b-skeleton-img />
+      <b-skeleton-img height="500px" />
     </div>
     <social-post v-for="(id, index) in posts" v-else :key="index" :post-id="id" />
   </div>
@@ -36,13 +36,17 @@ export default {
     }
   },
   watch: {
-    $route({ params }) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-      this.resetData()
-      // set up title
-      this.catalogId = params.id
-      // fetch data
-      this.onChangeRoute()
+    $route: {
+      handler: function ({ params }) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+        this.resetData()
+        // set up title
+        this.catalogId = params.id
+        // fetch data
+        this.onChangeRoute()
+      },
+      deep: true,
+      immediate: true
     }
   },
   beforeMount() {
