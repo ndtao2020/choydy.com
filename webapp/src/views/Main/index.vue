@@ -36,13 +36,17 @@ export default {
     }
   },
   watch: {
-    $route({ params }) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-      this.resetData()
-      // set up title
-      this.catalogId = params.id
-      // fetch data
-      this.onChangeRoute()
+    $route: {
+      handler: function ({ params }) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+        this.resetData()
+        // set up title
+        this.catalogId = params.id
+        // fetch data
+        this.onChangeRoute()
+      },
+      deep: true,
+      immediate: true
     }
   },
   beforeMount() {

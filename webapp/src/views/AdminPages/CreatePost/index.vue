@@ -59,7 +59,7 @@
             <b-form-group label="Đăng hình ảnh hoặc video (*)">
               <b-tabs v-model="tabIndex" content-class="mt-3">
                 <b-tab title="Nếu đăng hình ảnh" active>
-                  <b-form-file v-model="postImage" :state="Boolean(postImage)" accept="image/jpeg,image/png,image/gif" @change="changeImage">
+                  <b-form-file v-model="postImage" :state="Boolean(postImage)" :accept="IMAGE_TYPES.join()" @change="changeImage">
                     <template #placeholder>Chọn hình ảnh bạn cần hiển thị</template>
                     <template slot="file-name" slot-scope="{ names }">
                       <b-badge variant="dark">{{ names[0] }}</b-badge>
@@ -72,7 +72,7 @@
                     <b-form-file
                       v-model="postVideo"
                       :state="Boolean(postVideo)"
-                      accept="video/mp4,video/webm"
+                      :accept="VIDEO_TYPES.join()"
                       style="width: 200px"
                       @change="changeVideo"
                     >
@@ -115,6 +115,7 @@
 <script>
 import { getCatalogs } from '@/api/catalog'
 import { createPost } from '@/api/admin/post'
+import { IMAGE_TYPES, VIDEO_TYPES } from '@/constants'
 
 export default {
   name: 'AdminCreatePost',
@@ -132,6 +133,8 @@ export default {
   },
   data() {
     return {
+      IMAGE_TYPES,
+      VIDEO_TYPES,
       error: null,
       loading: false,
       catalogs: [],
