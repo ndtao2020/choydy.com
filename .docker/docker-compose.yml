@@ -68,6 +68,7 @@ services:
     ports:
       - 8080:8080
     volumes:
+      - ./key:/work/key
       - web_data:/work/upload
     networks:
       - redis
@@ -81,7 +82,7 @@ services:
       QUARKUS_UPLOAD_FOLDER: /work/upload
       QUARKUS_REDIS_HOSTS: redis://default:cFzNJk3g2o@redis:6379
       QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://postgres:5432/choydy
-      QUARKUS_KEYSTORE_PATH: /work/key/keystore.jks
+      QUARKUS_KEYSTORE_PATH: /work/key/key.jks
 
 #  nginx:
 #    image: nginx:1.21-alpine
