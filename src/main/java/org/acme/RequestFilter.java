@@ -33,9 +33,8 @@ import java.util.Objects;
 @PreMatching
 public class RequestFilter implements ContainerRequestFilter {
 
-    //    public static final String CSRF_COOKIE_NAME = "srf";
     public static final String CSRF_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Secure-" : "") + "srf";
-    public static final String TOKEN_COOKIE_NAME = "cid";
+    public static final String TOKEN_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Secure-" : "") + "cid";
 
     public static final String CHECK_SESSION = SecurityPath.AUTH_API_URL + "/est";
 
