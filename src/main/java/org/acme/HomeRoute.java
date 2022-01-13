@@ -57,42 +57,35 @@ public class HomeRoute {
     public static Response responseBuilder(Object entity) {
         return Response
                 .ok(entity, "text/html;charset=utf-8")
-                .header(HttpHeaders.CACHE_CONTROL, "public,immutable,max-age=1800")
+                .header(HttpHeaders.CACHE_CONTROL, "public,immutable,max-age=36000")
                 .build();
+    }
+
+    @GET
+    public Response home() throws SQLDataException {
+        return responseBuilder(HomeRoute.class.getResourceAsStream(HomeRoute.TEMPLATE_DIR));
     }
 
     @GET
     @Path(PATH_VERIFY_EMAIL)
     public Response verifyEmail(@QueryParam("t") String token) throws SQLDataException {
         if (token == null) {
-            return Response.ok()
-                    .status(Response.Status.MOVED_PERMANENTLY)
-                    .header(HttpHeaders.LOCATION, "/verify/failed")
-                    .build();
+            return Response.ok().status(Response.Status.MOVED_PERMANENTLY).header(HttpHeaders.LOCATION, "/verify/failed").build();
         }
         UUID id;
         try {
             id = jwtUtil.getId(jwtUtil.validate(token));
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return Response.ok()
-                    .status(Response.Status.MOVED_PERMANENTLY)
-                    .header(HttpHeaders.LOCATION, "/verify/failed")
-                    .build();
+            return Response.ok().status(Response.Status.MOVED_PERMANENTLY).header(HttpHeaders.LOCATION, "/verify/failed").build();
         }
         if (id == null) {
             logger.error("id == null");
-            return Response.ok()
-                    .status(Response.Status.MOVED_PERMANENTLY)
-                    .header(HttpHeaders.LOCATION, "/verify/failed")
-                    .build();
+            return Response.ok().status(Response.Status.MOVED_PERMANENTLY).header(HttpHeaders.LOCATION, "/verify/failed").build();
         }
         User user = userService.getById(id);
         if (Boolean.TRUE.equals(user.getActive())) {
-            return Response.ok()
-                    .status(Response.Status.MOVED_PERMANENTLY)
-                    .header(HttpHeaders.LOCATION, "/")
-                    .build();
+            return Response.ok().status(Response.Status.MOVED_PERMANENTLY).header(HttpHeaders.LOCATION, "/").build();
         }
         try {
             user.setActive(true);

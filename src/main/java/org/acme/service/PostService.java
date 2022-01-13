@@ -81,7 +81,6 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         if (search != null) {
             q += "where title like :s or content like :s ";
         }
-//        Query query = getEm().createNativeQuery("select CAST (id AS varchar) " + q + "order by random()");
         Query query = getEm().createNativeQuery("select CAST (id AS varchar) " + q + "order by created desc");
         if (search != null) {
             query.setParameter("s", "%" + search + "%");
@@ -100,6 +99,13 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
             query.setParameter("s", "%" + search + "%");
         }
         return query.setFirstResult(page * size).setMaxResults(size).getResultList();
+    }
+
+    public List<?> getAllRecommend(UUID postId) {
+        return getEm().createNativeQuery("select CAST (id AS varchar) from post where id not in (?1) order by random()")
+                .setParameter(1, postId)
+                .setMaxResults(8)
+                .getResultList();
     }
 
     public QueryPage searchDTOAndPagination(int page, int size, String search, String order, String... fields) {
@@ -168,8 +174,6 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
         post.setCreated(System.currentTimeMillis());
         post.setUser(new User(userId));
         post.setCatalog(catalog);
-        // ======================================= phù phép
-        // ======================================= phù phép
         post.setCount(0L);
         post.setShares(0L);
         // ======================================= phù phép

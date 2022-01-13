@@ -62,6 +62,12 @@ public class PostController extends BaseController {
         return postService.customFindObjectById(postId);
     }
 
+    @GET
+    @Path("/recommend")
+    public List<?> getRecommend(@QueryParam(ID_PARAM) UUID postId) {
+        return postService.getAllRecommend(postId);
+    }
+
     @POST
     @Path("/view")
     public void updateView(@QueryParam(ID_PARAM) UUID postId) {

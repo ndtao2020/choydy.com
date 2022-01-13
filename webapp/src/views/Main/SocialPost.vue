@@ -32,7 +32,7 @@
       <div class="mt-1" />
       <b-skeleton-img v-if="loading" height="500px" />
       <div v-for="(a, i) in media" v-else :key="i" class="d-flex post-media">
-        <img v-if="checkTypeImage(a[1])" class="mx-auto" :src="getURL(a)" height="500" width="500" />
+        <Ima v-if="checkTypeImage(a[1])" :src="getURL(a)" :alt="post.title" />
         <Player
           v-if="checkTypeVideo(a[1])"
           ref="player"
@@ -49,7 +49,7 @@
         <div class="d-flex">
           <div class="like-data">
             <div class="dropdown">
-              <span v-if="displayAllLike && displayAllLike.length">
+              <span v-if="displayAllLike && displayAllLike.length" @click="toggleLike('normal')">
                 <img
                   v-for="like in displayAllLike"
                   :key="like[0]"
@@ -60,7 +60,7 @@
                   width="20"
                 />
               </span>
-              <span v-else>
+              <span v-else @click="toggleLike('normal')">
                 <img src="@/assets/images/icon/normal.png" alt="" height="24" width="24" />
               </span>
               <div class="dropdown-menu">
@@ -163,6 +163,7 @@
 </template>
 
 <script>
+import Ima from './Image'
 import Player from './Player'
 import { mapGetters } from 'vuex'
 import { dateDiff } from '@/moment'
@@ -176,6 +177,7 @@ import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 
 export default {
   components: {
+    Ima,
     Player,
     BSkeleton,
     BSkeletonImg

@@ -41,18 +41,30 @@ export default {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
         this.resetData()
         // set up title
-        this.catalogId = params.id
+        try {
+          this.catalogId = parseInt(params.id)
+        } catch (error) {
+          window.location.replace('/')
+          return
+        }
         // fetch data
         this.onChangeRoute()
       },
+      immediate: true,
       deep: true
     }
   },
-  beforeMount() {
-    this.catalogId = this.$route.params.id
-    this.fetchData(0)
-    this.setTitle()
-  },
+  // beforeMount() {
+  //   console.log(this.$route)
+  //   try {
+  //     this.catalogId = parseInt(this.$route.params.id)
+  //   } catch (error) {
+  //     window.location.replace('/')
+  //     return
+  //   }
+  //   this.fetchData(0)
+  //   this.setTitle()
+  // },
   mounted() {
     window.addEventListener('scroll', this.onScroll)
   },
