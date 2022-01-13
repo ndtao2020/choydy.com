@@ -9,12 +9,16 @@
     <properties>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
         <maven.compiler.release>17</maven.compiler.release>
+        <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>2.6.1.Final</quarkus.platform.version>
+        <quarkus.platform.version>2.6.2.Final</quarkus.platform.version>
         <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
+        <com.github.eirslett.version>1.12.0</com.github.eirslett.version>
+        <frontend.node.version>v16.13.2</frontend.node.version>
+        <frontend.npm.version>8.3.0</frontend.npm.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -144,7 +148,7 @@
                     <plugin>
                         <groupId>com.github.eirslett</groupId>
                         <artifactId>frontend-maven-plugin</artifactId>
-                        <version>1.12.0</version>
+                        <version>${com.github.eirslett.version}</version>
                         <configuration>
                             <workingDirectory>${project.basedir}/webapp</workingDirectory>
                             <installDirectory>target</installDirectory>
@@ -156,8 +160,8 @@
                                     <goal>install-node-and-npm</goal>
                                 </goals>
                                 <configuration>
-                                    <nodeVersion>v16.13.1</nodeVersion>
-                                    <npmVersion>8.3.0</npmVersion>
+                                    <nodeVersion>${frontend.node.version}</nodeVersion>
+                                    <npmVersion>${frontend.npm.version}</npmVersion>
                                 </configuration>
                             </execution>
                             <execution>
@@ -183,7 +187,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-resources-plugin</artifactId>
-                        <version>3.2.0</version>
+                        <version>${maven.resources.plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>copy-statics-file</id>

@@ -1,4 +1,4 @@
-const exp = 60 * 60 * 24 * 1000
+const exp = 60 * 60 * 24 * 2 * 1000
 const options = {
   keyPath: 'id'
 }
@@ -22,7 +22,7 @@ const config = {
   },
   // ver 2
   postlike: {
-    exp: 60 * 60 * 1000,
+    exp: 60 * 60 * 2 * 1000,
     version: 2,
     options
   }
