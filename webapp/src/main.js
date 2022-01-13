@@ -38,7 +38,7 @@ const app = initializeApp({
   appId: '1:951491626953:web:ab29e2fb52e2c5ed9a4a18',
   measurementId: 'G-W5CF335BXX'
 })
-if (process.env.NODE_ENV === 'production') {
-  getAnalytics(app)
-  getPerformance(app)
-}
+// if (process.env.NODE_ENV === 'production') {
+getAnalytics(app)
+getPerformance(app)
+// }
