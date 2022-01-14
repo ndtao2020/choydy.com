@@ -21,7 +21,7 @@ const checkRole = (roles, userRole) => {
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: '/',
   routes: [
     {
       path: '/login',

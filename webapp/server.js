@@ -4,13 +4,13 @@ const express = require('express')
 const app = express()
 
 app.use(require('compression')())
-const source = path.join(__dirname, 'build')
+const source = path.join(__dirname, 'dist')
 app.get(
   '*',
   (req, res, next) => {
     res.setHeader(
       'Content-Security-Policy',
-      `default-src 'none';base-uri 'none';form-action 'self';frame-src 'self' *.firebaseapp.com;frame-ancestors 'self' *.firebaseapp.com;prefetch-src 'self';manifest-src;connect-src 'self' *.googleapis.com *.google-analytics.com;script-src 'self' 'nonce-a8pn6sziv2cvq1' 'unsafe-eval' *.jsdelivr.net *.googleapis.com *.google.com *.gstatic.com *.googletagmanager.com *.google-analytics.com;style-src 'self' 'unsafe-inline' *.googleapis.com *.jsdelivr.net;font-src * data:;img-src * data:;media-src *;object-src 'none'`
+      `default-src 'none';base-uri 'none';form-action 'self';frame-src 'self' *.firebaseapp.com;frame-ancestors 'self' *.firebaseapp.com;prefetch-src 'self';manifest-src;connect-src 'self' *.googleapis.com *.google-analytics.com;script-src 'self' 'nonce-a8pn6sziv2cvq1' 'unsafe-eval' choydy69.000webhostapp.com *.jsdelivr.net *.googleapis.com *.google.com *.gstatic.com *.googletagmanager.com *.google-analytics.com;style-src 'self' 'unsafe-inline' choydy69.000webhostapp.com *.googleapis.com *.jsdelivr.net;font-src * data:;img-src * data:;media-src *;object-src 'none'`
     )
     next()
   },
