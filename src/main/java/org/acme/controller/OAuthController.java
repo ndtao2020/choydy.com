@@ -100,7 +100,6 @@ public class OAuthController {
             if (googleDTO == null || googleDTO.email == null || googleDTO.email.length() == 0) {
                 throw new BadRequestException("Không thể xác thực với Google !");
             }
-            logger.info("Logged: " + googleDTO.email);
             // update data
             if (loginDTO.getName() == null) {
                 loginDTO.setEmail(googleDTO.email);
@@ -124,7 +123,6 @@ public class OAuthController {
             if (facebookDTO == null || facebookDTO.email == null || facebookDTO.email.length() == 0) {
                 throw new BadRequestException("Không thể xác thực với Facebook !");
             }
-            logger.info("Logged: " + facebookDTO.email);
             // update data
             if (loginDTO.getEmail() == null) {
                 loginDTO.setEmail(facebookDTO.email);
@@ -150,11 +148,11 @@ public class OAuthController {
         }
         User user = userService.loadUserByUsername(loginDTO.getEmail());
         ClientPrincipal principal = (ClientPrincipal) context.getUserPrincipal();
+        logger.info("Logged: " + loginDTO.getEmail());
         if (user == null) {
-            logger.info("Đã load vào validate " + loginDTO.getEmail());
+            logger.info("Không tồn tại với email " + loginDTO.getEmail());
             return validate(principal, createUser(principal, loginDTO));
         }
-        logger.info("Tài khoản đã tồn tại " + loginDTO.getEmail());
         return validate(principal, user);
     }
 

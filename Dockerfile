@@ -2,9 +2,24 @@
 FROM quay.io/quarkus/ubi-quarkus-mandrel:21.3.0.0-Final-java17 as builder
 # copy
 WORKDIR /app
+
+# ARG
+ARG BASE_URL
+ARG FTP_HOST_NAME
+ARG FTP_HOST_USER
+ARG FTP_HOST_PASS
+ARG FTP_HOST_FOLDER
+
 # environment
+ENV BASE_URL=${BASE_URL}
+ENV FTP_HOST_NAME=${FTP_HOST_NAME}
+ENV FTP_HOST_USER=${FTP_HOST_USER}
+ENV FTP_HOST_PASS=${FTP_HOST_PASS}
+ENV FTP_HOST_FOLDER=${FTP_HOST_FOLDER}
+
 ENV VUE_APP_PROXY=https://choydy.com
 ENV VUE_APP_MAX_SIZE_FETCH=3
+
 # copy
 COPY ./.mvn ./.mvn
 COPY ./src ./src

@@ -21,7 +21,7 @@ const checkRole = (roles, userRole) => {
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: '/',
   routes: [
     {
       path: '/login',
@@ -49,8 +49,8 @@ const router = new VueRouter({
           name: 'home',
           component: () => import('@/views/Main'),
           meta: {
-            title: 'Trang chủ',
-            description: 'Trang tin cập nhật những Meme hài hước, vui nhộn.'
+            adsense: true,
+            title: 'Trang chủ'
           }
         },
         {
@@ -58,13 +58,16 @@ const router = new VueRouter({
           name: 'home-catalog',
           component: () => import('@/views/Main'),
           meta: {
-            title: 'Danh mục'
+            adsense: true
           }
         },
         {
           path: 'post/:id',
           name: 'post-detail',
-          component: () => import('@/views/Main/Detail')
+          component: () => import('@/views/Main/Detail'),
+          meta: {
+            adsense: true
+          }
         }
       ]
     },

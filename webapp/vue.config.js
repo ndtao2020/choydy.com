@@ -3,7 +3,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  publicPath: isProd ? process.env.BASE_URL : '/',
+  publicPath: !isProd ? '/' : process.env.BASE_URL || '/',
   productionSourceMap: !isProd,
   css: {
     sourceMap: !isProd

@@ -13,6 +13,7 @@ const getPosts = (page, catalogId, search) => {
   }
   return publicGet(u)
 }
+const getRecommends = (id) => publicGet(`/${dbName}/recommend?i=${id}`)
 const getPostById = async (id) => {
   let post
   try {
@@ -96,4 +97,14 @@ const updateShare = async (postId) => {
   }
 }
 // export
-export { getPosts, getPostById, findAllTagByPostId, findAllMediaByPostId, getMediaLink, getThumbnailMediaLink, updateView, updateShare }
+export {
+  getPosts,
+  getRecommends,
+  getPostById,
+  findAllTagByPostId,
+  findAllMediaByPostId,
+  getMediaLink,
+  getThumbnailMediaLink,
+  updateView,
+  updateShare
+}

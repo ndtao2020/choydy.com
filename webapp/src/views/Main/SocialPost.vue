@@ -23,8 +23,8 @@
     </div>
     <div ref="post" class="user-post">
       <div v-if="loading" class="mx-4 mb-3">
-        <b-skeleton animation="wave" width="85%"></b-skeleton>
-        <b-skeleton animation="wave" width="55%"></b-skeleton>
+        <b-skeleton animation="wave" width="85%" />
+        <b-skeleton animation="wave" width="55%" />
       </div>
       <p v-if="!loading && post.content" class="pl-3">
         {{ post.content }}<button v-for="tag in tags" :key="tag" type="button" class="btn btn-link">#{{ tag }}</button>
@@ -149,7 +149,7 @@
                 <img class="mr-3" src="@/assets/icons/socials/zalo.png" alt="" height="30" width="30" />
                 <span>Chia sẻ Zalo</span>
               </div>
-              <div id="popover-button-sync" class="px-3 py-2" @click="copyLink">
+              <div class="px-3 py-2" @click="copyLink">
                 <img class="mr-3" src="@/assets/icons/socials/link.png" alt="" height="30" width="30" />
                 <span class="mr-3">Sao chép link</span>
                 <img v-if="showCopiedLink" src="@/assets/icons/success.svg" alt="" height="24" width="24" />

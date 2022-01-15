@@ -104,7 +104,7 @@ public class PostService extends BaseCacheService<Post, PostDTO, UUID> {
     public List<?> getAllRecommend(UUID postId) {
         return getEm().createNativeQuery("select CAST (id AS varchar) from post where id not in (?1) order by random()")
                 .setParameter(1, postId)
-                .setMaxResults(8)
+                .setMaxResults(6)
                 .getResultList();
     }
 
