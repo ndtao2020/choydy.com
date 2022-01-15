@@ -1,7 +1,8 @@
 <template>
   <div>
     <social-post :post-id="$route.params.id" />
-    <h5>Gợi ý dành cho bạn</h5>
+    <hr />
+    <h6>Gợi ý dành cho bạn</h6>
     <hr />
     <div class="row">
       <div v-for="recommend in recommends" :key="recommend" class="col-md-6">
@@ -12,7 +13,6 @@
 </template>
 
 <script>
-import Short from './Short'
 import SocialPost from './SocialPost'
 import { getRecommends } from '@/api/post'
 
@@ -20,7 +20,7 @@ export default {
   name: 'HomePage',
   components: {
     SocialPost,
-    Short
+    Short: () => import('./Short')
   },
   data() {
     return {

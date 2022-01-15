@@ -11,12 +11,12 @@
             <router-link
               v-for="catalog in root.children"
               :key="catalog.a0"
-              v-slot="{ href, navigate, isActive, isExactActive }"
+              v-slot="{ href, isActive, isExactActive }"
               :to="'/catalog/' + catalog.a0"
               custom
             >
               <li :class="[isActive && isExactActive && 'active']">
-                <a :href="href" :class="[isActive && isExactActive && 'active']" @click="navigate">
+                <a :href="href" :class="[isActive && isExactActive && 'active']">
                   <img :src="require(`@/assets/icons/smile/${catalog.a0 <= 50 ? catalog.a0 : 0}.svg`)" height="25" width="25" />
                   <span class="ml-2">{{ catalog.a1 }}</span>
                 </a>

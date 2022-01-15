@@ -35,9 +35,9 @@
         </ul>
         <ul v-else class="navbar-list">
           <li>
-            <router-link to="/login" class="search-toggle d-flex align-items-center">
+            <a href="/login" class="search-toggle d-flex align-items-center">
               Đăng nhập <img class="ml-2" src="@/assets/icons/lock.svg" height="20" width="20" />
-            </router-link>
+            </a>
           </li>
         </ul>
       </div>

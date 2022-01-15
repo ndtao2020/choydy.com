@@ -9,7 +9,15 @@ const createTag = (...obj) => {
 
 const changeTitle = (meta) => {
   if (!meta) return
-  const { title } = meta
+  const { title, adsense } = meta
+  // set up adsense
+  if (adsense) {
+    const script = document.createElement('script')
+    script.setAttribute('async', '')
+    script.setAttribute('src', 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5727937131697376')
+    script.setAttribute('crossorigin', 'anonymous')
+    document.head.appendChild(script)
+  }
   // set up title
   if (title) {
     // Turn the meta tag definitions into actual elements in the head.
@@ -21,35 +29,6 @@ const changeTitle = (meta) => {
     createTag(['property', 'og:title'], ['content', value])
     createTag(['property', 'twitter:title'], ['content', value])
   }
-  // set up description
-  // if (description) {
-  //   createTag(['name', 'description'], ['content', description])
-  //   createTag(['property', 'og:description'], ['content', description])
-  //   createTag(['property', 'twitter:description'], ['content', description])
-  // }
-  // // domain
-  // const domain = process.env.VUE_APP_PROXY
-  // // set image
-  // const img = image || '/img/logo/full-logo-share.png'
-  // createTag(['name', 'og:image'], ['content', domain + img])
-  // createTag(['name', 'twitter:image'], ['content', domain + img])
-  // // set url
-  // if (path) {
-  //   createTag(['name', 'og:url'], ['content', domain + path])
-  //   createTag(['name', 'twitter:url'], ['content', domain + path])
-  // }
-  // // set video
-  // if (video) {
-  //   createTag(['name', 'og:type'], ['content', 'video'])
-  //   createTag(['name', 'og:video'], ['content', domain + video])
-  //   createTag(['name', 'og:video:width'], ['content', '600'])
-  //   createTag(['name', 'og:video:height'], ['content', '500'])
-  //   createTag(['name', 'twitter:video'], ['content', domain + video])
-  // } else {
-  //   createTag(['name', 'og:type'], ['content', 'website'])
-  // }
-  // // others
-  // createTag(['name', 'twitter:card'], ['content', 'summary_large_image'])
 }
 
 export default changeTitle
