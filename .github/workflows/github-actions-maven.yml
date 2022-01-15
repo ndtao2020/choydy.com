@@ -53,6 +53,12 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/choydy-com
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+          build-args: |
+            BASE_URL=${{ secrets.BASE_URL }}
+            FTP_HOST_NAME=${{ secrets.FTP_HOST_NAME }}
+            FTP_HOST_USER=${{ secrets.FTP_HOST_USER }}
+            FTP_HOST_PASS=${{ secrets.FTP_HOST_PASS }}
+            FTP_HOST_FOLDER=${{ secrets.FTP_HOST_FOLDER }}
 
       - name: Verify
         run: echo ${{ steps.docker_build.outputs.digest }}
