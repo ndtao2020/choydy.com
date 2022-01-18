@@ -269,10 +269,10 @@ export default {
       }
     },
     checkTypeImage(type) {
-      return IMAGE_TYPES.some((x) => x === type)
+      return IMAGE_TYPES.includes(type)
     },
     checkTypeVideo(type) {
-      return VIDEO_TYPES.some((x) => x === type)
+      return VIDEO_TYPES.includes(type)
     },
     formatTime(value) {
       if (value) {
