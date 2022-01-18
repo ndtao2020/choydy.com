@@ -31,15 +31,7 @@
                     </li>
                   </ul>
                 </div>
-                <div>
-                  <img
-                    src="https://kinsta.com/wp-content/uploads/2020/06/half-page-1-1.png"
-                    class="img-fluid rounded"
-                    alt="Responsive image"
-                    width="100%"
-                    height="800"
-                  />
-                </div>
+                <div v-html="renderAD()"></div>
               </div>
             </div>
           </div>
@@ -51,6 +43,7 @@
 </template>
 
 <script>
+import { rend } from './rednerAD'
 import '@/assets/scss/main/main.scss'
 
 export default {
@@ -64,6 +57,9 @@ export default {
   methods: {
     openLink(link) {
       window.open(link, '_blank')
+    },
+    renderAD() {
+      return rend()
     }
   }
 }
