@@ -57,7 +57,7 @@ export default {
       return
     },
     checkTypeImage(type) {
-      return IMAGE_TYPES.some((x) => x === type)
+      return IMAGE_TYPES.includes(type)
     },
     getURL(data) {
       const [id, type] = data
