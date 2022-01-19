@@ -6,7 +6,19 @@
       <b-skeleton animation="wave" width="70%"></b-skeleton>
       <b-skeleton-img height="500px" />
     </div>
-    <social-post v-for="(id, index) in posts" v-else :key="index" :post-id="id" />
+    <template v-for="(data, index) in posts" v-else>
+      <ins
+        v-if="data[0]"
+        :key="index"
+        class="adsbygoogle"
+        style="display: block; text-align: center"
+        data-ad-layout="in-article"
+        data-ad-format="fluid"
+        data-ad-client="ca-pub-5727937131697376"
+        data-ad-slot="7602428355"
+      ></ins>
+      <social-post v-else :key="index" :post-id="data[1]" />
+    </template>
   </div>
 </template>
 
@@ -95,7 +107,9 @@ export default {
         const data = await getPosts(page, this.catalogId)
         if (data) {
           if (plus) {
-            data.forEach((e) => this.posts.push(e))
+            data.forEach((e) => this.posts.push([false, e]))
+            this.posts.push([true])
+            setTimeout(() => window.adsbygoogle.push({}), 200)
           } else {
             this.posts = data
           }
