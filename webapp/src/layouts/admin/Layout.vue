@@ -45,6 +45,19 @@ export default {
     this.handleWindowResize()
     window.addEventListener('resize', this.handleWindowResize)
   },
+  mounted() {
+    // propellerads.com
+    const propellerads = document.createElement('script')
+    propellerads.setAttribute('async', '')
+    propellerads.setAttribute('src', 'https://iclickcdn.com/tag.min.js')
+    propellerads.setAttribute('data-zone', '4803945')
+    document.body.appendChild(propellerads)
+    // adsterra.com
+    const adsterra = document.createElement('script')
+    adsterra.setAttribute('type', 'text/javascript')
+    adsterra.setAttribute('src', '//pl16933978.trustedcpmrevenue.com/00/12/2f/00122fa07403be8a174431b65f222f4c.js')
+    document.body.appendChild(adsterra)
+  },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleWindowResize)
   },

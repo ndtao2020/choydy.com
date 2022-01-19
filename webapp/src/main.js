@@ -28,13 +28,13 @@ import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { getPerformance } from 'firebase/performance'
 const app = initializeApp({
-  apiKey: 'AIzaSyD-W3th_NcH0k1cU4PSlz6QRs8R1uVtf1c',
-  authDomain: 'choydy-2fd83.firebaseapp.com',
-  projectId: 'choydy-2fd83',
-  storageBucket: 'choydy-2fd83.appspot.com',
-  messagingSenderId: '951491626953',
-  appId: '1:951491626953:web:ab29e2fb52e2c5ed9a4a18',
-  measurementId: 'G-W5CF335BXX'
+  apiKey: 'AIzaSyAwpLgkkQX3Xd3I_BpnTVSoh_GUOHvl6T0',
+  authDomain: 'choydy-af42b.firebaseapp.com',
+  projectId: 'choydy-af42b',
+  storageBucket: 'choydy-af42b.appspot.com',
+  messagingSenderId: '246592378948',
+  appId: '1:246592378948:web:3d5a30af2d7dc9ee494411',
+  measurementId: 'G-24R7TYP2CK'
 })
 if (process.env.NODE_ENV === 'production') {
   getAnalytics(app)
