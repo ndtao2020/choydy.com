@@ -2,7 +2,20 @@
   <div class="wrapper">
     <sidebar />
     <NavBar />
-    <right-sideBar />
+    <div class="right-sidebar-mini">
+      <div class="right-sidebar-panel p-0">
+        <div class="iq-card shadow-none">
+          <div class="p-0">
+            <ins
+              class="adsbygoogle"
+              style="display: inline-block; width: 260px; height: 900px"
+              data-ad-client="ca-pub-5727937131697376"
+              data-ad-slot="5910072739"
+            ></ins>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="content-page">
       <div class="container">
         <div class="row">
@@ -61,28 +74,20 @@
 
 <script>
 import '@/assets/scss/main/main.scss'
-import RightSideBar from './components/RightSideBar'
 
 export default {
   name: 'MainLayout',
   components: {
     Sidebar: () => import('./components/Sidebar'),
     NavBar: () => import('./components/Navbar'),
-    RightSideBar,
     Footer: () => import('./components/Footer')
   },
   mounted() {
-    // if (process.env.NODE_ENV === 'production') {
-    // // push all
-    // const scp = document.createElement('script')
-    // scp.text =
-    //   ';(adsbygoogle = window.adsbygoogle || []).push({});(adsbygoogle = window.adsbygoogle || []).push({});(adsbygoogle = window.adsbygoogle || []).push({})'
-    // document.body.appendChild(scp)
-    // window.adsbygoogle.push({})
-    window.adsbygoogle.push({})
-    window.adsbygoogle.push({})
-    window.adsbygoogle.push({})
-    // }
+    if (process.env.NODE_ENV === 'production') {
+      window.adsbygoogle.push({})
+      window.adsbygoogle.push({})
+      window.adsbygoogle.push({})
+    }
   },
   methods: {
     openLink(link) {
