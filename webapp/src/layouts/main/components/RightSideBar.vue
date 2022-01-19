@@ -2,7 +2,7 @@
   <div class="right-sidebar-mini">
     <div class="right-sidebar-panel p-0">
       <div class="iq-card shadow-none">
-        <div ref="adsterra2" class="p-0"></div>
+        <div ref="adsense" class="p-0"></div>
       </div>
     </div>
   </div>
@@ -12,16 +12,27 @@
 export default {
   name: 'MainRightSideBar',
   mounted() {
-    // adsterra.com
-    const { adsterra2 } = this.$refs
-    if (adsterra2) {
+    const { adsense } = this.$refs
+    // adsense
+    if (adsense) {
       const adst = document.createElement('script')
-      adst.setAttribute('type', 'text/javascript')
-      adst.setAttribute(
-        'src',
-        `http${location.protocol === 'https:' ? 's' : ''}://www.effectivedisplaycontent.com/3a19a2181b43f1ab7a819cc0aca3c235/invoke.js`
-      )
-      adsterra2.appendChild(adst)
+      adst.setAttribute('async', '')
+      adst.setAttribute('src', `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5727937131697376`)
+      adst.setAttribute('crossorigin', `anonymous`)
+      adsense.appendChild(adst)
+
+      const ins = document.createElement('ins')
+      ins.setAttribute('class', 'adsbygoogle')
+      ins.setAttribute('style', `display: block`)
+      ins.setAttribute('data-ad-format', `auto`)
+      ins.setAttribute('data-full-width-responsive', `true`)
+      ins.setAttribute('data-ad-client', `ca-pub-5727937131697376`)
+      ins.setAttribute('data-ad-slot', `7686420346`)
+      adsense.appendChild(ins)
+
+      const scp = document.createElement('script')
+      scp.text = ';(adsbygoogle = window.adsbygoogle || []).push({})'
+      adsense.appendChild(scp)
     }
   }
 }

@@ -54,20 +54,14 @@ export default {
     Footer: () => import('./components/Footer')
   },
   mounted() {
-    // propellerads.com
-    const propellerads = document.createElement('script')
-    propellerads.setAttribute('async', '')
-    propellerads.setAttribute('src', 'https://iclickcdn.com/tag.min.js')
-    propellerads.setAttribute('data-zone', '4803945')
-    document.body.appendChild(propellerads)
-    // // adsterra.com
+    // adsterra.com
     const { adsterra } = this.$refs
     if (adsterra) {
       const adst = document.createElement('script')
       adst.setAttribute('type', 'text/javascript')
       adst.setAttribute(
         'src',
-        `http${location.protocol === 'https:' ? 's' : ''}://www.effectivedisplaycontent.com/b7d0a2143b9125474911fb2855885302/invoke.js`
+        `http${location.protocol === 'https:' ? 's' : ''}://www.effectivedisplaycontent.com/3a19a2181b43f1ab7a819cc0aca3c235/invoke.js`
       )
       adsterra.appendChild(adst)
     }
