@@ -16,7 +16,9 @@ const changeTitle = (meta) => {
     script.setAttribute('async', '')
     script.setAttribute('src', 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5727937131697376')
     script.setAttribute('crossorigin', 'anonymous')
-    document.head.appendChild(script)
+    if (process.env.NODE_ENV === 'production') {
+      document.head.appendChild(script)
+    }
   }
   // set up title
   if (title) {

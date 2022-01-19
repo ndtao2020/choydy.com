@@ -3,9 +3,9 @@
     <div v-if="!logged" class="container">
       <h5 class="auth-logo">
         <i class="fa fa-circle text-primary"></i>
-        <router-link to="/">
+        <a href="/">
           <img src="@/assets/images/logo.png" alt="logo" />
-        </router-link>
+        </a>
         <i class="fa fa-circle text-danger"></i>
       </h5>
       <div class="widget-auth mx-auto">
@@ -37,7 +37,7 @@
         <router-link class="d-block text-center" to="login">Tạo tài khoản</router-link> -->
       </div>
     </div>
-    <footer class="auth-footer">2022 &copy; Meme hài hước - <a href="https://choydy.com">ChoyDy.com</a></footer>
+    <footer class="auth-footer">2022 &copy; Meme hài hước - <a href="//oackoubs.com/4/4803949">ChoyDy.com</a></footer>
   </div>
 </template>
 
@@ -65,7 +65,22 @@ export default {
   mounted() {
     if (this.logged) {
       this.$router.push('/')
+      return
     }
+    // adsterra.com
+    const adsterra = document.createElement('script')
+    adsterra.setAttribute('async', '')
+    adsterra.setAttribute('type', 'text/javascript')
+    adsterra.setAttribute('src', '//pl16933978.trustedcpmrevenue.com/00/12/2f/00122fa07403be8a174431b65f222f4c.js')
+    document.body.appendChild(adsterra)
+    // adcash.com
+    const adcash = document.createElement('script')
+    adcash.setAttribute('async', '')
+    adcash.setAttribute('type', 'text/javascript')
+    adcash.setAttribute('data-adel', 'atag')
+    adcash.setAttribute('src', '//acscdn.com/script/atg.js')
+    adcash.setAttribute('czid', 'sajx6isa')
+    document.body.appendChild(adcash)
   },
   methods: {
     ...mapActions('auth', ['setAuthentication']),

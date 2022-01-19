@@ -31,7 +31,7 @@
                     </li>
                   </ul>
                 </div>
-                <div v-html="renderAD()"></div>
+                <div ref="adsterra"></div>
               </div>
             </div>
           </div>
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import { rend } from './rednerAD'
 import '@/assets/scss/main/main.scss'
 
 export default {
@@ -54,12 +53,28 @@ export default {
     RightSideBar: () => import('./components/RightSideBar'),
     Footer: () => import('./components/Footer')
   },
+  mounted() {
+    // propellerads.com
+    const propellerads = document.createElement('script')
+    propellerads.setAttribute('async', '')
+    propellerads.setAttribute('src', 'https://iclickcdn.com/tag.min.js')
+    propellerads.setAttribute('data-zone', '4803945')
+    document.body.appendChild(propellerads)
+    // // adsterra.com
+    const { adsterra } = this.$refs
+    if (adsterra) {
+      const adst = document.createElement('script')
+      adst.setAttribute('type', 'text/javascript')
+      adst.setAttribute(
+        'src',
+        `http${location.protocol === 'https:' ? 's' : ''}://www.effectivedisplaycontent.com/b7d0a2143b9125474911fb2855885302/invoke.js`
+      )
+      adsterra.appendChild(adst)
+    }
+  },
   methods: {
     openLink(link) {
       window.open(link, '_blank')
-    },
-    renderAD() {
-      return rend()
     }
   }
 }
