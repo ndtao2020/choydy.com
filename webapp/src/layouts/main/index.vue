@@ -30,8 +30,25 @@
                       </div>
                     </li>
                   </ul>
+                  <ins
+                    class="adsbygoogle"
+                    style="display: block"
+                    data-ad-client="ca-pub-5727937131697376"
+                    data-ad-slot="7686420346"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"
+                  ></ins>
                 </div>
-                <div ref="adsterra"></div>
+                <div>
+                  <ins
+                    class="adsbygoogle"
+                    style="display: block"
+                    data-ad-client="ca-pub-5727937131697376"
+                    data-ad-slot="2856340463"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"
+                  ></ins>
+                </div>
               </div>
             </div>
           </div>
@@ -44,27 +61,28 @@
 
 <script>
 import '@/assets/scss/main/main.scss'
+import RightSideBar from './components/RightSideBar'
 
 export default {
   name: 'MainLayout',
   components: {
     Sidebar: () => import('./components/Sidebar'),
     NavBar: () => import('./components/Navbar'),
-    RightSideBar: () => import('./components/RightSideBar'),
+    RightSideBar,
     Footer: () => import('./components/Footer')
   },
   mounted() {
-    // adsterra.com
-    const { adsterra } = this.$refs
-    if (adsterra) {
-      const adst = document.createElement('script')
-      adst.setAttribute('type', 'text/javascript')
-      adst.setAttribute(
-        'src',
-        `http${location.protocol === 'https:' ? 's' : ''}://www.effectivedisplaycontent.com/3a19a2181b43f1ab7a819cc0aca3c235/invoke.js`
-      )
-      adsterra.appendChild(adst)
-    }
+    // if (process.env.NODE_ENV === 'production') {
+    // // push all
+    // const scp = document.createElement('script')
+    // scp.text =
+    //   ';(adsbygoogle = window.adsbygoogle || []).push({});(adsbygoogle = window.adsbygoogle || []).push({});(adsbygoogle = window.adsbygoogle || []).push({})'
+    // document.body.appendChild(scp)
+    // window.adsbygoogle.push({})
+    window.adsbygoogle.push({})
+    window.adsbygoogle.push({})
+    window.adsbygoogle.push({})
+    // }
   },
   methods: {
     openLink(link) {
