@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import SocialPost from './SocialPost'
 import seoMeta from '@/seo'
+import SocialPost from './SocialPost'
 import { getPosts } from '@/api/post'
 import { getCatalogById } from '@/api/catalog'
 import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
@@ -50,7 +50,6 @@ export default {
   watch: {
     $route: {
       handler: function ({ params }) {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
         this.resetData()
         // set up title
         try {
@@ -66,17 +65,6 @@ export default {
       deep: true
     }
   },
-  // beforeMount() {
-  //   console.log(this.$route)
-  //   try {
-  //     this.catalogId = parseInt(this.$route.params.id)
-  //   } catch (error) {
-  //     window.location.replace('/')
-  //     return
-  //   }
-  //   this.fetchData(0)
-  //   this.setTitle()
-  // },
   mounted() {
     window.addEventListener('scroll', this.onScroll)
   },
@@ -109,7 +97,7 @@ export default {
           if (plus) {
             data.forEach((e) => this.posts.push([false, e]))
             this.posts.push([true])
-            setTimeout(() => window.adsbygoogle.push({}), 200)
+            setTimeout(() => window.adsbygoogle.push({}), 150)
           } else {
             this.posts = data
           }
@@ -147,8 +135,7 @@ export default {
         await this.setTitle()
         await this.fetchData(this.page, true)
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error)
+        window.location.replace('/')
       }
     }
   }

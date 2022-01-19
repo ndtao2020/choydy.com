@@ -3,10 +3,10 @@
     <nav class="navbar navbar-expand-lg p-0">
       <div class="iq-navbar-logo d-flex justify-content-between">
         <div class="align-self-center">
-          <router-link to="/">
+          <a href="/">
             <img src="@/assets/images/logo.png" class="full-logo" alt="logo" width="160" height="45" @click="scrollTop" />
             <img src="@/assets/images/short.png" class="short-logo" alt="logo" width="35" height="35" @click="scrollTop" />
-          </router-link>
+          </a>
         </div>
         <div class="iq-menu-bt align-self-center">
           <div class="wrapper-menu" @click="miniSidebar">
