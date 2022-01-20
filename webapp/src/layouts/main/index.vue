@@ -43,6 +43,8 @@
                       </div>
                     </li>
                   </ul>
+                </div>
+                <div ref="adsbygoog" style="width: inherit" :class="{ 'sticky-banner': show }">
                   <ins
                     class="adsbygoogle"
                     style="display: block"
@@ -51,8 +53,6 @@
                     data-ad-format="auto"
                     data-full-width-responsive="true"
                   ></ins>
-                </div>
-                <div>
                   <ins
                     class="adsbygoogle"
                     style="display: block"
@@ -82,16 +82,57 @@ export default {
     NavBar: () => import('./components/Navbar'),
     Footer: () => import('./components/Footer')
   },
+  data() {
+    return {
+      observer: null,
+      show: false
+    }
+  },
+  created() {
+    this.observer = new IntersectionObserver(this.onElementObserved, {
+      root: null,
+      rootMargin: '0px',
+      threshold: this.buildThresholdList()
+    })
+  },
   mounted() {
     if (process.env.NODE_ENV === 'production') {
       window.adsbygoogle.push({})
       window.adsbygoogle.push({})
       window.adsbygoogle.push({})
     }
+    this.observer.observe(this.$refs.adsbygoog)
+    // envent
+    window.addEventListener('scroll', this.onScroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onScroll)
   },
   methods: {
     openLink(link) {
       window.open(link, '_blank')
+    },
+    onScroll() {
+      const scroll = document.documentElement.scrollTop
+      if (scroll === 0 || scroll <= 50) {
+        this.show = false
+        return
+      }
+    },
+    onElementObserved(entries) {
+      if (this.show === false && entries[0].intersectionRatio !== 1) {
+        this.show = true
+      }
+    },
+    buildThresholdList() {
+      let thresholds = []
+      let numSteps = 40
+      for (let i = 1.0; i <= numSteps; i++) {
+        let ratio = i / numSteps
+        thresholds.push(ratio)
+      }
+      thresholds.push(0)
+      return thresholds
     }
   }
 }

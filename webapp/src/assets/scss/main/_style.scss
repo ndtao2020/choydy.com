@@ -407,6 +407,13 @@ ul.media-story li.active img {
   height: 195px;
   width: 260px;
 }
+.sticky-banner {
+  position: fixed;
+  background: #fff;
+  z-index: 5;
+  top: 90px;
+  padding-top: 5px;
+}
 /*---------------------------------------------------------------------
 Footer
 -----------------------------------------------------------------------*/

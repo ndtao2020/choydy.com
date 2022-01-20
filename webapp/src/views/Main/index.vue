@@ -97,7 +97,9 @@ export default {
           if (plus) {
             data.forEach((e) => this.posts.push([false, e]))
             this.posts.push([true])
-            setTimeout(() => window.adsbygoogle.push({}), 150)
+            if (process.env.NODE_ENV === 'production') {
+              setTimeout(() => window.adsbygoogle.push({}), 100)
+            }
           } else {
             this.posts = data
           }
