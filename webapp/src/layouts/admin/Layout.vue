@@ -62,13 +62,6 @@ export default {
     adsterra.setAttribute('type', 'text/javascript')
     adsterra.setAttribute('src', '//pl16933978.trustedcpmrevenue.com/00/12/2f/00122fa07403be8a174431b65f222f4c.js')
     document.body.appendChild(adsterra)
-    // adcash.com
-    const adcash = document.createElement('script')
-    adcash.setAttribute('type', 'text/javascript')
-    adcash.setAttribute('data-adel', 'atag')
-    adcash.setAttribute('src', '//acscdn.com/script/atg.js')
-    adcash.setAttribute('czid', 'sajx6isa')
-    document.body.appendChild(adcash)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleWindowResize)
