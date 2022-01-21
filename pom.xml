@@ -14,11 +14,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>2.6.2.Final</quarkus.platform.version>
+        <quarkus.platform.version>2.6.3.Final</quarkus.platform.version>
         <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
         <com.github.eirslett.version>1.12.0</com.github.eirslett.version>
         <frontend.node.version>v16.13.2</frontend.node.version>
-        <frontend.npm.version>8.3.1</frontend.npm.version>
+        <frontend.npm.version>8.3.2</frontend.npm.version>
     </properties>
     <dependencyManagement>
         <dependencies>
