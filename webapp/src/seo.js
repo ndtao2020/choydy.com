@@ -1,3 +1,5 @@
+import { GOOGLE_AD_CLIENT } from '@/constants'
+
 const keyMeta = `fvxcfbl1bsi`
 
 const createTag = (...obj) => {
@@ -12,13 +14,16 @@ const changeTitle = (meta) => {
   const { title, adsense } = meta
   // set up adsense
   if (adsense) {
+    // script
     const script = document.createElement('script')
     script.setAttribute('async', '')
-    script.setAttribute('src', 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5727937131697376')
+    script.setAttribute('src', `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_AD_CLIENT}`)
     script.setAttribute('crossorigin', 'anonymous')
-    if (process.env.NODE_ENV === 'production') {
-      document.head.appendChild(script)
-    }
+    document.head.appendChild(script)
+    // content
+    // const script2 = document.createElement('script')
+    // script2.text = `(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"${GOOGLE_AD_CLIENT}",enable_page_level_ads:!0});`
+    // document.head.appendChild(script2)
   }
   // set up title
   if (title) {

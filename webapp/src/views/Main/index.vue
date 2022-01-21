@@ -7,16 +7,7 @@
       <b-skeleton-img height="500px" />
     </div>
     <template v-for="(data, index) in posts" v-else>
-      <ins
-        v-if="data[0]"
-        :key="index"
-        class="adsbygoogle"
-        style="display: block; text-align: center"
-        data-ad-layout="in-article"
-        data-ad-format="fluid"
-        data-ad-client="ca-pub-5727937131697376"
-        data-ad-slot="7602428355"
-      ></ins>
+      <Adsense v-if="data[0]" :key="index" />
       <social-post v-else :key="index" :post-id="data[1]" />
     </template>
   </div>
@@ -24,6 +15,7 @@
 
 <script>
 import seoMeta from '@/seo'
+import Adsense from './Adsense'
 import SocialPost from './SocialPost'
 import { getPosts } from '@/api/post'
 import { getCatalogById } from '@/api/catalog'
@@ -32,6 +24,7 @@ import { BSkeleton, BSkeletonImg } from 'bootstrap-vue/src/components/skeleton'
 export default {
   name: 'HomePage',
   components: {
+    Adsense,
     SocialPost,
     BSkeleton,
     BSkeletonImg
@@ -97,9 +90,6 @@ export default {
           if (plus) {
             data.forEach((e) => this.posts.push([false, e]))
             this.posts.push([true])
-            if (process.env.NODE_ENV === 'production') {
-              setTimeout(() => window.adsbygoogle.push({}), 100)
-            }
           } else {
             this.posts = data
           }
