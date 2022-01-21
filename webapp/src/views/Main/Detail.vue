@@ -1,14 +1,7 @@
 <template>
   <div>
     <social-post :post-id="$route.params.id" />
-    <ins
-      class="adsbygoogle"
-      style="display: block; text-align: center"
-      data-ad-layout="in-article"
-      data-ad-format="fluid"
-      data-ad-client="ca-pub-5727937131697376"
-      data-ad-slot="7602428355"
-    ></ins>
+    <Adsense />
     <hr />
     <h6>Gợi ý dành cho bạn</h6>
     <hr />
@@ -21,12 +14,14 @@
 </template>
 
 <script>
+import Adsense from './Adsense'
 import SocialPost from './SocialPost'
 import { getRecommends } from '@/api/post'
 
 export default {
-  name: 'HomePage',
+  name: 'DetailPage',
   components: {
+    Adsense,
     SocialPost,
     Short: () => import('./Short')
   },
@@ -44,9 +39,6 @@ export default {
       immediate: true,
       deep: true
     }
-  },
-  mounted() {
-    window.adsbygoogle.push({})
   },
   methods: {
     async fetchData(id) {

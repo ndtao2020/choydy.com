@@ -5,14 +5,7 @@
     <div class="right-sidebar-mini">
       <div class="right-sidebar-panel p-0">
         <div class="iq-card shadow-none">
-          <div class="p-0">
-            <ins
-              class="adsbygoogle"
-              style="display: inline-block; width: 260px; height: 900px"
-              data-ad-client="ca-pub-5727937131697376"
-              data-ad-slot="5910072739"
-            ></ins>
-          </div>
+          <div ref="adsbygoog1" class="p-0" />
         </div>
       </div>
     </div>
@@ -44,23 +37,9 @@
                     </li>
                   </ul>
                 </div>
-                <div ref="adsbygoog" style="width: inherit" :class="{ 'sticky-banner': show }">
-                  <ins
-                    class="adsbygoogle"
-                    style="display: block"
-                    data-ad-client="ca-pub-5727937131697376"
-                    data-ad-slot="7686420346"
-                    data-ad-format="auto"
-                    data-full-width-responsive="true"
-                  ></ins>
-                  <ins
-                    class="adsbygoogle"
-                    style="display: block"
-                    data-ad-client="ca-pub-5727937131697376"
-                    data-ad-slot="2856340463"
-                    data-ad-format="auto"
-                    data-full-width-responsive="true"
-                  ></ins>
+                <div ref="wrapads" style="width: inherit; max-width: 450px" :class="{ 'sticky-banner': show }">
+                  <div ref="adsbygoog2" />
+                  <div ref="adsbygoog3" />
                 </div>
               </div>
             </div>
@@ -73,6 +52,7 @@
 </template>
 
 <script>
+import { GOOGLE_AD_CLIENT } from '@/constants'
 import '@/assets/scss/main/main.scss'
 
 export default {
@@ -96,23 +76,88 @@ export default {
     })
   },
   mounted() {
-    if (process.env.NODE_ENV === 'production') {
-      window.adsbygoogle.push({})
-      window.adsbygoogle.push({})
-      window.adsbygoogle.push({})
+    const { adsbygoog1, wrapads, adsbygoog2, adsbygoog3 } = this.$refs
+    // if (process.env.NODE_ENV === 'production') {
+    // window.adsbygoogle.push({})
+    // window.adsbygoogle.push({})
+    // window.adsbygoogle.push({})
+    // ================ GG Adsense 1 ================
+    if (adsbygoog1) {
+      // script
+      const script = document.createElement('script')
+      script.setAttribute('async', '')
+      script.setAttribute('src', `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js`)
+      script.setAttribute('crossorigin', 'anonymous')
+      adsbygoog1.appendChild(script)
+      // ins
+      const ins = document.createElement('ins')
+      ins.setAttribute('class', 'adsbygoogle')
+      ins.setAttribute('style', `display: inline-block; width: 260px; height: 900px`)
+      ins.setAttribute('data-ad-client', GOOGLE_AD_CLIENT)
+      ins.setAttribute('data-ad-slot', '5910072739')
+      adsbygoog1.appendChild(ins)
+      // script2
+      const script2 = document.createElement('script')
+      script2.text = `(adsbygoogle = window.adsbygoogle || []).push({});`
+      adsbygoog1.appendChild(script2)
     }
-    this.observer.observe(this.$refs.adsbygoog)
+    // ================ GG Adsense 2 ================
+    if (adsbygoog2) {
+      // script
+      const script = document.createElement('script')
+      script.setAttribute('async', '')
+      script.setAttribute('src', `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js`)
+      script.setAttribute('crossorigin', 'anonymous')
+      adsbygoog2.appendChild(script)
+      // ins
+      const ins = document.createElement('ins')
+      ins.setAttribute('class', 'adsbygoogle')
+      ins.setAttribute('style', `display: block`)
+      ins.setAttribute('data-ad-client', GOOGLE_AD_CLIENT)
+      ins.setAttribute('data-ad-slot', '7686420346')
+      ins.setAttribute('data-ad-format', 'auto')
+      ins.setAttribute('data-full-width-responsive', 'true')
+      adsbygoog2.appendChild(ins)
+      // script2
+      const script2 = document.createElement('script')
+      script2.text = `(adsbygoogle = window.adsbygoogle || []).push({});`
+      adsbygoog2.appendChild(script2)
+    }
+    // ================ GG Adsense 3 ================
+    if (adsbygoog3) {
+      // script
+      const script = document.createElement('script')
+      script.setAttribute('async', '')
+      script.setAttribute('src', `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js`)
+      script.setAttribute('crossorigin', 'anonymous')
+      adsbygoog3.appendChild(script)
+      // ins
+      const ins = document.createElement('ins')
+      ins.setAttribute('class', 'adsbygoogle')
+      ins.setAttribute('style', `display: block`)
+      ins.setAttribute('data-ad-client', GOOGLE_AD_CLIENT)
+      ins.setAttribute('data-ad-slot', '2856340463')
+      ins.setAttribute('data-ad-format', 'auto')
+      ins.setAttribute('data-full-width-responsive', 'true')
+      adsbygoog3.appendChild(ins)
+      // script2
+      const script2 = document.createElement('script')
+      script2.text = `(adsbygoogle = window.adsbygoogle || []).push({});`
+      adsbygoog3.appendChild(script2)
+    }
+    // wrapads
+    this.observer.observe(wrapads)
     // envent
-    window.addEventListener('scroll', this.onScroll)
+    window.addEventListener('scroll', this.onHandleScroll)
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.onScroll)
+    window.removeEventListener('scroll', this.onHandleScroll)
   },
   methods: {
     openLink(link) {
       window.open(link, '_blank')
     },
-    onScroll() {
+    onHandleScroll() {
       const scroll = document.documentElement.scrollTop
       if (scroll === 0 || scroll <= 50) {
         this.show = false

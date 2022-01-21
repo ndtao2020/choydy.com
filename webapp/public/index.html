@@ -5,17 +5,35 @@
     <meta http-equiv="EXPIRES" content="0" />
     <meta http-equiv="REFRESH" content="1500" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
     <link rel="icon" href="<%= VUE_APP_PROXY %>/img/logo/favicon-16x16.png" />
     <!-- CDN -->
     <meta name="author" content="Nguyễn Đình Tạo" />
     <meta property="fb:app_id" content="624411178792829" />
-    <meta property="og:site_name" content="choydy.com" />
+    <meta property="og:site_name" content="ChoyDy.Com" />
     <meta property="og:locale" content="vi_VN" />
     <meta name="twitter:site" content="@ndtao2020" />
     <meta name="twitter:creator" content="@ndtao2020" />
+    <!-- prerender -->
+    <link rel="prerender" href="<%= VUE_APP_PROXY %>/img/logo/full-logo160.png" />
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://firebase.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <!-- prefetch -->
-    <link rel="dns-prefetch" href="//www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com/" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://firebase.googleapis.com" />
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+    <!-- DoubleClick -->
+    <link rel="dns-prefetch" href="https://ad.doubleclick.net" />
+    <link rel="dns-prefetch" href="https://googleads.g.doubleclick.net" />
+    <link rel="dns-prefetch" href="https://stats.g.doubleclick.net" />
+    <link rel="dns-prefetch" href="https://cm.g.doubleclick.net" />
     <!-- Meta Tags -->
     <meta bf9415284d71d />
     <!-- Meta Tags -->
@@ -49,7 +67,7 @@
       <p style="display: none">Trang tin cập nhật những Meme hài hước, vui nhộn.</p>
       <img
         style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto"
-        src="/img/logo/full-logo160.png"
+        src="<%= VUE_APP_PROXY %>/img/logo/full-logo160.png"
         alt="ChoyDy"
         width="160"
         height="45"
@@ -62,8 +80,7 @@
         "url": "<%= VUE_APP_PROXY %>",
         "logo": "<%= VUE_APP_PROXY %>/img/logo/full-logo160.png",
         "name": "ChoyDy.Com - Meme hài hước",
-        "image": "<%= VUE_APP_PROXY %>/img/logo/full-logo160.png",
-        "inLanguage": "vi-VN"
+        "image": "<%= VUE_APP_PROXY %>/img/logo/full-logo160.png"
       }
     </script>
   </body>
