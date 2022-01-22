@@ -1,6 +1,8 @@
 package org.acme.controller;
 
+import io.vertx.core.http.HttpServerRequest;
 import org.acme.base.BaseController;
+import org.acme.base.UserAgentInfo;
 import org.acme.constants.SecurityPath;
 import org.acme.model.Comment;
 import org.acme.model.Media;
@@ -20,6 +22,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.sql.SQLDataException;
 import java.util.List;
@@ -40,6 +43,9 @@ public class PostController extends BaseController {
     @Inject
     CommentService commentService;
 
+    @Context
+    HttpServerRequest request;
+
     public PostController() {
         Integer size = ConfigProvider.getConfig().getValue("vue.app.max.size.fetch", Integer.class);
         maxSize = size == null ? 3 : size;
@@ -59,7 +65,10 @@ public class PostController extends BaseController {
     @Path("/" + ID)
     @Produces(MediaType.APPLICATION_JSON)
     public Object postId(@QueryParam(ID_PARAM) String postId) throws SQLDataException {
-        return postService.customFindObjectById(postId);
+        if (UserAgentInfo.detectBrowser(request)) {
+            return postService.customFindObjectById(postId);
+        }
+        return null;
     }
 
     @GET

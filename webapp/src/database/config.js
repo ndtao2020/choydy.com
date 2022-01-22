@@ -1,4 +1,4 @@
-const exp = 60 * 60 * 24 * 2 * 1000
+const exp = 60 * 60 * 24 * 3 * 1000
 const options = {
   keyPath: 'id'
 }
@@ -11,12 +11,12 @@ const config = {
     options
   },
   user: {
-    exp,
+    exp: 60 * 60 * 24 * 7 * 1000,
     version: 1,
     options
   },
   catalog: {
-    exp,
+    exp: 60 * 60 * 24 * 7 * 1000,
     version: 1,
     options
   },

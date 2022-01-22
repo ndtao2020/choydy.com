@@ -27,8 +27,7 @@ public class CsrfUtil {
 
     private byte[] digest(String payload) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            return digest.digest(payload.getBytes(StandardCharsets.UTF_8));
+            return MessageDigest.getInstance("SHA-256").digest(payload.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -37,7 +36,7 @@ public class CsrfUtil {
     // Generating Secret Key using password and salt
     public String compact(String ip) {
         try {
-            long random = System.currentTimeMillis() + 604800016;
+            long random = System.currentTimeMillis() + 302400008;
             byte[] hash = digest(getChain(random, ip));
             return random + "." + Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
         } catch (Exception e) {
