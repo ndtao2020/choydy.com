@@ -99,12 +99,6 @@ export default {
     }
   },
   mounted() {
-    // propellerads.com
-    const propellerads = document.createElement('script')
-    propellerads.setAttribute('async', '')
-    propellerads.setAttribute('src', 'https://iclickcdn.com/tag.min.js')
-    propellerads.setAttribute('data-zone', '4803945')
-    document.body.appendChild(propellerads)
     // adsterra.com
     const adsterra = document.createElement('script')
     adsterra.setAttribute('type', 'text/javascript')
