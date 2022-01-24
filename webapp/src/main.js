@@ -26,7 +26,6 @@ store.dispatch('auth/loadsession').then(async (data) => {
 // Initialize Firebase
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
-import { getPerformance } from 'firebase/performance'
 const app = initializeApp({
   apiKey: 'AIzaSyD-W3th_NcH0k1cU4PSlz6QRs8R1uVtf1c',
   authDomain: 'choydy-2fd83.firebaseapp.com',
@@ -38,5 +37,4 @@ const app = initializeApp({
 })
 if (process.env.NODE_ENV === 'production') {
   getAnalytics(app)
-  getPerformance(app)
 }
