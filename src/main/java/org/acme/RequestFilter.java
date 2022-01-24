@@ -20,14 +20,10 @@ import javax.security.sasl.AuthenticationException;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.ext.Provider;
-import java.io.IOException;
 import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
@@ -35,14 +31,15 @@ import java.util.Objects;
 
 @Provider
 @PreMatching
-public class RequestFilter implements ContainerRequestFilter, ContainerResponseFilter {
+public class RequestFilter implements ContainerRequestFilter {
 
+    public static final String CSRF_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Secure-" : "") + "srf";
     public static final String TOKEN_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Secure-" : "") + "cid";
+
     public static final String CHECK_SESSION = SecurityPath.AUTH_API_URL + "/est";
 
-    private static final Logger logger = Logger.getLogger(RequestFilter.class);
+    private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
     private static final String AUTHORIZATION = "AUTHORIZATION";
-    private static final String CSRF_COOKIE_NAME = (LaunchMode.current().equals(LaunchMode.NORMAL) ? "__Secure-" : "") + "srf";
     private static final ServerResponse ACCESS_DENIED = new ServerResponse("Access denied for this resource", 401, new Headers<>());
 
     @Context
@@ -91,16 +88,6 @@ public class RequestFilter implements ContainerRequestFilter, ContainerResponseF
             this.bearerAuth(requestContext, Role.EDITOR);
         } else if (path.startsWith(SecurityPath.AUTH_API_URL)) {
             this.bearerAuth(requestContext, null);
-        }
-    }
-
-    @Override
-    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
-        // Check if cookie already exists
-        if (!requestContext.getCookies().containsKey(CSRF_COOKIE_NAME)) {
-            // Issue a new token
-            responseContext.getHeaders()
-                    .add(HttpHeaders.SET_COOKIE, CSRF_COOKIE_NAME + "=" + csrf.compact(request.remoteAddress().toString()) + ";Path=/;Secure;HttpOnly;SameSite=None");
         }
     }
 
