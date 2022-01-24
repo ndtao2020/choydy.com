@@ -7,7 +7,6 @@ import org.acme.model.Post;
 import org.acme.model.User;
 import org.acme.model.dto.PostDTO;
 import org.acme.service.MediaService;
-import org.acme.service.Oauth2ClientService;
 import org.acme.service.PostService;
 import org.acme.service.PostTagService;
 import org.acme.service.UserService;
@@ -34,12 +33,13 @@ public class HomeRoute {
 
     public static final String TEMPLATE_DIR = "/META-INF/resources/index.html";
     public static final String PATH_VERIFY_EMAIL = "/verify/email";
+
+    private static final Logger logger = Logger.getLogger(HomeRoute.class);
     private static final String S_META = "<meta bf9415284d71d>";
     private static final String E_META = "<meta e4e8ca427bd17>";
     private static final String PATH_POST = "/" + Post.PATH;
     private static final String PATH_MEDIA = "/" + Media.PATH;
     private static final String PATH_MEDIA_CAPTURE = PATH_MEDIA + "/c";
-    private static final Logger logger = Logger.getLogger(Oauth2ClientService.class);
 
     @Inject
     JwtUtil jwtUtil;
@@ -57,7 +57,7 @@ public class HomeRoute {
     public static Response responseBuilder(Object entity) {
         return Response
                 .ok(entity, "text/html;charset=utf-8")
-                .header(HttpHeaders.CACHE_CONTROL, "public,immutable,max-age=36000")
+                .header(HttpHeaders.CACHE_CONTROL, "public,immutable,max-age=18000")
                 .build();
     }
 
