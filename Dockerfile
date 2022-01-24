@@ -19,6 +19,8 @@ ENV FTP_HOST_FOLDER=${FTP_HOST_FOLDER}
 
 ENV VUE_APP_PROXY=https://choydy.com
 ENV VUE_APP_MAX_SIZE_FETCH=3
+ENV VUE_APP_MAX_TITLE=ChoyDy.Com - Meme hài hước
+ENV VUE_APP_MAX_DESCRIPTION=Trang tin cập nhật những Meme hài hước, vui nhộn.
 
 # copy
 COPY ./.mvn ./.mvn
