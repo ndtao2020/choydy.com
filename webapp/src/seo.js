@@ -16,7 +16,7 @@ const changeTitle = (meta) => {
   if (adsense) {
     // script
     const script = document.createElement('script')
-    script.setAttribute('async', '')
+    // script.setAttribute('async', '')
     script.setAttribute('src', `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_AD_CLIENT}`)
     script.setAttribute('crossorigin', 'anonymous')
     document.head.appendChild(script)

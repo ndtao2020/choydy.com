@@ -3,30 +3,28 @@ import config from './config'
 
 export const openConnection = () =>
   new Promise((resolve, reject) => {
-    if (typeof window === 'undefined') {
-      return
-    }
-    if (!('indexedDB' in window)) {
-      reject("This browser doesn't support IndexedDB")
-    }
-    const request = window.indexedDB.open('d39zbi81v', 2)
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result
-      // check new version
-      if (event.oldVersion !== event.newVersion) {
-        for (const property in config) {
-          const obj = config[property]
-          try {
-            db.createObjectStore(property, obj.options)
-          } catch (err) {
-            // eslint-disable-next-line no-console
-            console.log(err)
+    try {
+      const request = window.indexedDB.open('d39zbi81v', 2)
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result
+        // check new version
+        if (event.oldVersion !== event.newVersion) {
+          for (const property in config) {
+            const obj = config[property]
+            try {
+              db.createObjectStore(property, obj.options)
+            } catch (err) {
+              // eslint-disable-next-line no-console
+              console.log(err)
+            }
           }
         }
       }
+      request.onsuccess = (event) => resolve(event.target.result)
+      request.onerror = () => reject(request.error)
+    } catch (error) {
+      reject(error)
     }
-    request.onsuccess = (event) => resolve(event.target.result)
-    request.onerror = () => reject(request.error)
   })
 
 export const findAll = (collectionName) =>
