@@ -19,11 +19,9 @@
   <!-- preconnect -->
   <link rel="preconnect" href="//www.google-analytics.com" />
   <link rel="preconnect" href="//firebase.googleapis.com" />
-  <link rel="preconnect" href="//firebaselogging-pa.googleapis.com" />
   <!-- prefetch -->
   <link rel="dns-prefetch" href="//www.google-analytics.com" />
   <link rel="dns-prefetch" href="//firebase.googleapis.com" />
-  <link rel="dns-prefetch" href="//firebaselogging-pa.googleapis.com" />
   <!-- Meta Tags -->
   <meta bf9415284d71d />
   <!-- Meta Tags -->
@@ -55,43 +53,15 @@
   <div id="app">
     <h2 style="display: none">ChoyDy.Com - Meme hài hước</h2>
     <p style="display: none">Trang tin cập nhật những Meme hài hước, vui nhộn.</p>
-    <img style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto"
-      src="<%= VUE_APP_PROXY %>/img/logo/full-logo160.png" alt="ChoyDy" width="160" height="45" />
+    <img style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto" src="<%= VUE_APP_PROXY %>/img/logo/full-logo160.png" alt="ChoyDy" width="160" height="45" />
+    <script>(function(){document.addEventListener('error',function(e){window.location.reload();});}())</script>
   </div>
-  <!-- <script>
-    (function () {
-      var pagead2 = document.createElement('script');
-      pagead2.async = true
-      pagead2.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5727937131697376';
-      pagead2.crossOrigin = 'anonymous'
-      document.head.appendChild(pagead2);
-    }())
-  </script> -->
-  <!-- Load the UMD version of the "base" bundle. -->
-  <script>
-    (function () {
-      var vitals = document.createElement('script');
-      vitals.src = 'https://unpkg.com/web-vitals/dist/web-vitals.base.iife.js';
-      vitals.onload = function () {
-        var sendToAnalytics = function (metric) {
-          // Replace with whatever serialization method you prefer.
-          // Note: JSON.stringify will likely include more data than you need.
-          var body = JSON.stringify(metric); // Use `navigator.sendBeacon()` if available, falling back to `fetch()`.
-          navigator.sendBeacon && navigator.sendBeacon('/analytics', body) || fetch('/analytics', { body: body, method: 'POST', keepalive: true });
-        }
-        // When loading `web-vitals` using a classic script, all the public
-        // methods can be found on the `webVitals` global namespace.
-        webVitals.getCLS(sendToAnalytics);
-        webVitals.getFID(sendToAnalytics);
-        webVitals.getLCP(sendToAnalytics);
-      }
-      document.head.appendChild(vitals);
-    }())
-  </script>
   <!-- Load the schema -->
   <script type="application/ld+json">
     {"@context":"http://schema.org","@type":"CreativeWork","url":"<%= VUE_APP_PROXY %>","logo":"<%= VUE_APP_PROXY %>/img/logo/full-logo160.png","name":"ChoyDy.Com - Meme hài hước","image":"<%= VUE_APP_PROXY %>/img/logo/full-logo160.png"}
   </script>
+  <!-- Load the UMD version of the "base" bundle. -->
+  <script>(function(){var vitals=document.createElement("script");vitals.async=!0,vitals.src="//unpkg.com/web-vitals/dist/web-vitals.base.iife.js",vitals.onload=function(){var a=function(a){var t=JSON.stringify(a);navigator.sendBeacon&&navigator.sendBeacon("/analytics",t)||fetch("/analytics",{body:t,method:"POST",keepalive:!0})};webVitals.getCLS(a),webVitals.getFID(a),webVitals.getLCP(a)},document.head.appendChild(vitals);}())</script>
 </body>
 
 </html>
