@@ -13,7 +13,7 @@
   "dependencies": {
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.21.2",
-    "firebase": "^9.6.4",
+    "firebase": "^9.6.6",
     "nprogress": "^0.2.0",
     "vue": "^2.6.14",
     "vue-emoji-picker": "^1.0.3",
@@ -22,7 +22,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.16.5",
+    "@babel/eslint-parser": "^7.17.0",
     "@vue/cli-plugin-babel": "^4.5.15",
     "@vue/cli-plugin-eslint": "^4.5.15",
     "@vue/cli-plugin-router": "^4.5.15",
@@ -34,10 +34,10 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^8.3.0",
+    "eslint-plugin-vue": "^8.4.1",
     "ftp-deploy": "^2.4.1",
     "prettier": "^2.5.1",
-    "sass": "^1.49.0",
+    "sass": "^1.49.7",
     "sass-loader": "^10.2.1",
     "terser-webpack-plugin": "^4.2.3",
     "vue-eslint-parser": "^8.2.0",
