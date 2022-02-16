@@ -1,5 +1,5 @@
 # --------------> The build image
-FROM quay.io/quarkus/ubi-quarkus-mandrel:21.3.0.0-Final-java17 as builder
+FROM quay.io/quarkus/ubi-quarkus-mandrel:22.0.0.2-Final-java17 as builder
 # copy
 WORKDIR /app
 
