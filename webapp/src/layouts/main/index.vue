@@ -19,7 +19,7 @@
               </div>
               <div class="col-lg-4 main-banner">
                 <div class="iq-card">
-                  <h4 slot="title" class="card-title p-3">Mạng xã hội</h4>
+                  <h4 class="card-title p-3">Mạng xã hội</h4>
                   <ul class="media-story m-0 px-3 pb-1">
                     <li class="d-flex align-items-center active mb-4" @click="openLink('https://www.facebook.com/choydycom')">
                       <img src="@/assets/images/facebook/avatar.jpg" alt="story-img" width="60" height="60" />

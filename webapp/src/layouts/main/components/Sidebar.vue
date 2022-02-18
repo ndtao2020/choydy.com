@@ -3,8 +3,8 @@
     <div id="sidebar-scrollbar" class="mt-2">
       <nav class="iq-sidebar-menu">
         <ul class="iq-menu">
-          <template v-for="root in catalogs">
-            <div :key="root.a0" class="d-flex menu-root my-2">
+          <template v-for="root in catalogs" :key="root.a0">
+            <div class="d-flex menu-root my-2">
               <span class="mx-auto menu-root-text text-secondary">{{ root.a1 }}</span>
               <hr class="my-auto menu-root-break" />
             </div>

@@ -6,9 +6,9 @@
       <b-skeleton animation="wave" width="70%"></b-skeleton>
       <b-skeleton-img height="500px" />
     </div>
-    <template v-for="(data, index) in posts" v-else>
-      <Adsense v-if="data[0]" :key="index" />
-      <social-post v-else :key="index" :post-id="data[1]" />
+    <template v-for="(data, index) in posts" v-else :key="index">
+      <Adsense v-if="data[0]" />
+      <social-post v-else :post-id="data[1]" />
     </template>
   </div>
 </template>

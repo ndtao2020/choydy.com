@@ -1,12 +1,9 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Nprogress from 'nprogress'
 import store from '@/store'
 import seo from '@/seo'
 // routes
 import adminChildRoutes from './admin'
-
-Vue.use(VueRouter)
 
 // Nprogress.configure({ showSpinner: false })
 
@@ -19,8 +16,9 @@ const checkRole = (roles, userRole) => {
   return false
 }
 
-const router = new VueRouter({
+const router = createRouter({
   mode: 'history',
+  history: createWebHashHistory(process.env.BASE_URL),
   base: '/',
   routes: [
     {
@@ -81,8 +79,8 @@ const router = new VueRouter({
       name: 'terms-and-conditions',
       component: () => import('@/views/Pages/TermsOfService')
     },
-    { path: '/404', name: '404', component: () => import('@/views/Pages/ErrorPage') },
-    { path: '*', redirect: '/404' }
+    { path: '/404', name: '404', component: () => import('@/views/Pages/ErrorPage') }
+    // { path: '*', redirect: '/404' }
   ]
 })
 

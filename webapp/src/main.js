@@ -1,21 +1,15 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-// import i18n from './i18n'
 
-Vue.config.productionTip = false
+// Vue.config.productionTip = false
 
 store.dispatch('auth/loadsession').then(async (data) => {
   if (data) {
     await store.commit('auth/setsession', data)
   }
-  new Vue({
-    router,
-    store,
-    // i18n,
-    render: (h) => h(App)
-  }).$mount('#app')
+  createApp(App).use(router).use(store).mount('#app')
 })
 
 // TODO: Add SDKs for Firebase products that you want to use

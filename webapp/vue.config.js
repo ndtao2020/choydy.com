@@ -13,8 +13,8 @@ module.exports = {
     hot: true,
     open: true,
     compress: true,
-    overlay: true,
-    clientLogLevel: 'warning',
+    // overlay: true,
+    // clientLogLevel: 'warning',
     port: parseInt(process.env.PORT, 10) || 3001,
     proxy: {
       '^/api': {
