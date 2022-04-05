@@ -13,17 +13,13 @@ const changeTitle = (meta) => {
   if (!meta) return
   const { title, adsense } = meta
   // set up adsense
-  if (adsense) {
+  if (adsense && process.env.NODE_ENV === 'production') {
     // script
     const script = document.createElement('script')
-    // script.setAttribute('async', '')
+    script.setAttribute('async', '')
     script.setAttribute('src', `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_AD_CLIENT}`)
     script.setAttribute('crossorigin', 'anonymous')
     document.head.appendChild(script)
-    // content
-    // const script2 = document.createElement('script')
-    // script2.text = `(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"${GOOGLE_AD_CLIENT}",enable_page_level_ads:!0});`
-    // document.head.appendChild(script2)
   }
   // set up title
   if (title) {

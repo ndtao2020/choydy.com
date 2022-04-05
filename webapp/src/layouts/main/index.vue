@@ -82,7 +82,7 @@ export default {
     // window.adsbygoogle.push({})
     // window.adsbygoogle.push({})
     // ================ GG Adsense 1 ================
-    if (adsbygoog1) {
+    if (adsbygoog1 && process.env.NODE_ENV === 'production') {
       // script
       const script = document.createElement('script')
       script.setAttribute('async', '')
@@ -102,7 +102,7 @@ export default {
       adsbygoog1.appendChild(script2)
     }
     // ================ GG Adsense 2 ================
-    if (adsbygoog2) {
+    if (adsbygoog2 && process.env.NODE_ENV === 'production') {
       // script
       const script = document.createElement('script')
       script.setAttribute('async', '')
@@ -124,7 +124,7 @@ export default {
       adsbygoog2.appendChild(script2)
     }
     // ================ GG Adsense 3 ================
-    if (adsbygoog3) {
+    if (adsbygoog3 && process.env.NODE_ENV === 'production') {
       // script
       const script = document.createElement('script')
       script.setAttribute('async', '')

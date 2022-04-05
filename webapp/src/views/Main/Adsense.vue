@@ -10,7 +10,7 @@ export default {
   mounted() {
     const { adsbygoog } = this.$refs
     // ================ GG Adsense 1 ================
-    if (adsbygoog) {
+    if (adsbygoog && process.env.NODE_ENV === 'production') {
       // script
       const script = document.createElement('script')
       script.setAttribute('async', '')

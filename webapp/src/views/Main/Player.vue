@@ -13,7 +13,7 @@
         @timeupdate="onVideoTimeUpdate"
         @progress="onVideoProgress"
         @loadstart="isLoading = true"
-        @loadeddata="isLoading = false"
+        @loadeddata="onLoadedData"
         @waiting="isWaiting = true"
         @canplay="isWaiting = false"
       >
@@ -121,6 +121,19 @@ export default {
     },
     onVideoPause() {
       this.isPlaying = false
+    },
+    onLoadedData() {
+      this.isLoading = false
+      try {
+        caches
+          .open('video')
+          .then((zzzz) => zzzz.add(this.src))
+          // eslint-disable-next-line no-console
+          .catch((err) => console.log(err))
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(err)
+      }
     },
     onVideoLoadedMetaData() {
       const { video } = this.$refs
