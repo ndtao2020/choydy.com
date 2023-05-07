@@ -1,56 +1,29 @@
-# code-with-quarkus Project
+# Choydy.com Project
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+![Home Page 2](./webapp/public/img/logo/full-logo-share-1.png)
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+Tìm kiếm một cách thú vị để giải trí cho bản thân, bạn bè và gia đình? Choydy.com có tất cả! Trang web của chúng tôi là điểm đến cuối cùng cho các video hài hước, meme, hình ảnh troll, v.v. Chúng tôi có mọi thứ bạn cần để cười sảng khoái và làm cho ngày của bạn tươi sáng hơn một chút. Hãy vứt bỏ những lo lắng của bạn và để chúng tôi chỉ cho bạn cách làm cho mọi khoảnh khắc đều có giá trị với Choydy.com!
 
-## Running the application in dev mode
+Hãy sẵn sàng để cười thật to với Choydy! Trang web của chúng tôi là điểm đến cuối cùng cho những video hài hước, meme và hình ảnh troll hay nhất. Quên cuộn qua vô số nội dung chất lượng thấp. Với Choydy, bạn có thể tìm thấy những video và hình ảnh hài hước nhất một cách nhanh chóng và dễ dàng. Hãy sẵn sàng tham gia cuộc vui trên Choydy.com!
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
-```
+![Home Page](./.img/Screenshot-main.png)
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+![Home Page 2](./.img/Screenshot-main-2.png)
 
-## Packaging and running the application
+## Tính năng tương tác với icon
 
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+![Home Page 2](./.img/Untitled.jpg)
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+## Đăng nhập thông qua các mạng xã hội
 
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
+![Home Page 2](./.img/Screenshot%202023-05-07%20100348.png)
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+## Tính năng chia sẻ lên các mạng xã hội
 
-## Creating a native executable
+Sẵn sàng đưa trò chơi truyền thông xã hội của bạn lên một tầm cao mới? Choydy.com luôn sẵn sàng trợ giúp! Tính năng chia sẻ mang tính cách mạng của chúng tôi cho phép bạn dễ dàng đăng nội dung từ các trang web yêu thích trực tiếp lên mạng xã hội của mình. Không còn phải nhập URL thủ công hoặc lưu hình ảnh theo cách thủ công - Choydy.com sẽ tự động làm điều đó cho bạn! Ngừng lãng phí thời gian và tối đa hóa phạm vi tiếp cận của bạn trên phương tiện truyền thông xã hội với Choydy.com ngay hôm nay!
 
-You can create a native executable using: 
-```shell script
-./mvnw package -Pnative
-```
+![Home Page 2](./.img/Screenshot-share.jpg)
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
+## Gợi ý các video liên quan
 
-You can then execute your native executable with: `./target/code-with-quarkus-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Provided Code
-
-### RESTEasy JAX-RS
-
-Easily start your RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
+![Home Page 2](./.img/Screenshot%202023-05-07%20100056.png)
